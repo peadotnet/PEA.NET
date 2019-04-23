@@ -4,6 +4,6 @@ namespace Pea.Core
 {
     public interface IPopulation
     {
-        List<IEntity> Entities { get; }
+        IList<IEntity> Entities { get; }
     }
 }

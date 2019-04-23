@@ -2,7 +2,7 @@
 
 namespace Pea.Core
 {
-    public interface IFitnessComparer<TF> : IComparer<IFitness<TF>>
+    public interface IFitnessComparer<TF> : IComparer<IFitness<TF>> where TF: IFitness
     {
 
     }

@@ -4,7 +4,7 @@ namespace Pea.Core
 {
     public class SystemRandom : IRandom
     {
-        readonly Random _random;
+        private readonly Random _random;
 
         public SystemRandom()
         {

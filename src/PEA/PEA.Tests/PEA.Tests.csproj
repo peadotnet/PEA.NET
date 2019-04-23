@@ -9,7 +9,7 @@
     <ProjectGuid>{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PEA.Tests</RootNamespace>
+    <RootNamespace>Pea.Tests</RootNamespace>
     <AssemblyName>PEA.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -70,7 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTests\RandomTests.cs" />
-    <Compile Include="GenotypeTests\SortedSubsetGenotypeTests.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetChromosomeTests.cs" />
+    <Compile Include="CoreTests\StochasticProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

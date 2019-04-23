@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using FluentAssertions;
 using Pea.Core;
 using Xunit;
-using FluentAssertions;
 
-namespace PGA.NET.Tests.CoreTests
+namespace Pea.Tests.CoreTests
 {
     public class RandomTests
     {

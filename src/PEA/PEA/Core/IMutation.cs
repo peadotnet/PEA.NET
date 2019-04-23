@@ -1,7 +1,7 @@
 ﻿namespace Pea.Core
 {
-    public interface IMutation<TG>
+    public interface IMutation<TC> where TC: IChromosome
     {
-        IEntity<TG> Mutate(IEntity<TG> entity);
+        TC Mutate(TC chromosome);
     }
 }

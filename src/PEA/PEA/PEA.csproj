@@ -7,12 +7,13 @@
 
   <ItemGroup>
     <Folder Include="Algorithm\" />
+    <Folder Include="Chromosome\Implementation\PositionValuePair\" />
     <Folder Include="Config\" />
     <Folder Include="Fitness\" />
-    <Folder Include="Genotype\Implementation\BitVector\" />
-    <Folder Include="Genotype\Implementation\IntegerVector\" />
-    <Folder Include="Genotype\Implementation\DoubleVector\" />
-    <Folder Include="Genotype\Implementation\Permutation\" />
+    <Folder Include="Chromosome\Implementation\BitVector\" />
+    <Folder Include="Chromosome\Implementation\IntegerVector\" />
+    <Folder Include="Chromosome\Implementation\DoubleVector\" />
+    <Folder Include="Chromosome\Implementation\Permutation\" />
     <Folder Include="Util\" />
     <Folder Include="Topology\" />
     <Folder Include="StopCriteria\" />

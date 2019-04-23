@@ -2,8 +2,8 @@
 
 namespace Pea.Core
 {
-    public interface ICrossover<TG>
+    public interface ICrossover<TC> where TC: IChromosome
     {
-        IList<IEntity<TG>> Cross(IList<IEntity<TG>> parents);
+        IList<TC> Cross(IList<TC> parents);
     }
 }

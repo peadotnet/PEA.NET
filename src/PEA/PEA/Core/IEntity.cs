@@ -5,7 +5,7 @@
 
     }
 
-    public interface IEntity<TG> : IEntity
+    public interface IEntity<TG> : IEntity where TG: IGenotype
     {
         TG Genotype { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Pea.Core
 {
@@ -7,16 +8,12 @@ namespace Pea.Core
         public int[] IntValues { get; set; }
         public double[] DoubleValues { get; set; }
 
-        int _index = 0;
-
-        public PredeterminedRandom(params int[] intValues)
-        {
-            IntValues = intValues;
-        }
+        private int _index = 0;
 
         public PredeterminedRandom(params double[] doubleValues)
         {
             DoubleValues = doubleValues;
+            IntValues = doubleValues.Select(Convert.ToInt32).ToArray();
         }
 
         public int GetInt(int minValue, int maxValue)
