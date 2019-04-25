@@ -1,9 +1,19 @@
 ﻿using System;
+using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetOperatorBase
     {
+        protected readonly IRandom Random;
+        protected readonly ParameterSet ParameterSet;
+
+        public SortedSubsetOperatorBase(IRandom random, ParameterSet parameterSet)
+        {
+            Random = random;
+            ParameterSet = parameterSet;
+        }
+
         /// <summary>
         /// Returns the position inside the given section where the gene value can be inserted to.
         /// </summary>

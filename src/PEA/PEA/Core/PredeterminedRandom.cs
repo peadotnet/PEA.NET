@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Pea.Core
 {
-    public class PredeterminedRandom : IRandom
+    public class PredeterminedRandom : RandomBase, IRandom
     {
         public int[] IntValues { get; set; }
         public double[] DoubleValues { get; set; }
@@ -16,19 +16,21 @@ namespace Pea.Core
             IntValues = doubleValues.Select(Convert.ToInt32).ToArray();
         }
 
-        public int GetInt(int minValue, int maxValue)
+        public override int GetInt(int minValue, int upperBound)
         {
+            if (minValue == upperBound) return minValue;
+
             int value = IntValues[_index++ % IntValues.Length];
-            value = value % (maxValue - minValue + 1);
+            value = value % (upperBound - minValue);
             return value + minValue;
         }
 
-        public double GetDouble(double minValue, double maxValue)
+        public override double GetDouble(double minValue, double upperBound)
         {
-            if (Math.Abs(minValue - maxValue) < double.Epsilon) return minValue;
+            if (Math.Abs(minValue - upperBound) < double.Epsilon) return minValue;
 
             double value = DoubleValues[_index++ % DoubleValues.Length];
-            var divider = maxValue - minValue;
+            var divider = upperBound - minValue;
 
             value = value - Math.Floor(value / divider) * divider + minValue;
             return value;

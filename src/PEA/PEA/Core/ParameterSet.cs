@@ -5,23 +5,23 @@ namespace Pea.Core
 {
     public class ParameterSet
     {
-        private Dictionary<string, float> Parameters { get; } = new Dictionary<string, float>();
+        private Dictionary<string, double> Parameters { get; } = new Dictionary<string, double>();
 
         public ParameterSet() { }
 
-        public ParameterSet(Dictionary<string, float> parameters) : this()
+        public ParameterSet(Dictionary<string, double> parameters) : this()
         {
             Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
-        public float GetValue(string parameterKey)
+        public double GetValue(string parameterKey)
         {
             if (!Parameters.ContainsKey(parameterKey)) throw new ArgumentException(nameof(parameterKey));
 
             return Parameters[parameterKey];
         }
 
-        public void SetValue(string parameterKey, float newValue)
+        public void SetValue(string parameterKey, double newValue)
         {
             if (!Parameters.ContainsKey(parameterKey))
             {

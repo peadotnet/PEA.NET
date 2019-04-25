@@ -69,6 +69,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChromosomeTests\SortedSubsetMutationTests.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTestData.cs" />
     <Compile Include="CoreTests\RandomTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetChromosomeTests.cs" />
     <Compile Include="CoreTests\StochasticProviderTests.cs" />

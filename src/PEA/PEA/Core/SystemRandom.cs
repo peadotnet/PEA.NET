@@ -2,7 +2,7 @@
 
 namespace Pea.Core
 {
-    public class SystemRandom : IRandom
+    public class SystemRandom : RandomBase, IRandom
     {
         private readonly Random _random;
 
@@ -11,14 +11,14 @@ namespace Pea.Core
             _random = new Random(Convert.ToInt32(DateTime.Now.TimeOfDay.TotalMilliseconds));
         }
 
-        public double GetDouble(double minValue, double maxValue)
+        public override double GetDouble(double minValue, double upperBound)
         {
-            return _random.NextDouble() * (maxValue - minValue) + minValue;
+            return _random.NextDouble() * (upperBound - minValue) + minValue;
         }
 
-        public int GetInt(int minValue, int maxValue)
+        public override int GetInt(int minValue, int upperBound)
         {
-            return _random.Next(minValue, maxValue);
+            return _random.Next(minValue, upperBound);
         }
     }
 }

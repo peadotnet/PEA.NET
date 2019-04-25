@@ -2,9 +2,11 @@
 {
     public interface IRandom
     {
-        int GetInt(int minValue, int maxValue);
+        int GetInt(int minValue, int upperBound);
 
-        double GetDouble(double minValue, double maxValue);
+        int GetIntWithTabu(int minValue, int upperBound, int tabu);
+
+        double GetDouble(double minValue, double upperBound);
     }
 }
 

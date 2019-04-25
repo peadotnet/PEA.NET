@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Pea.Core;
 using Xunit;
@@ -53,6 +54,14 @@ namespace Pea.Tests.CoreTests
         {
             var random = new SystemRandom();
             TestRandomGetDouble(random, minValue, maxValue);
+        }
+
+        [Fact]
+        public void GivenRandom_WhenGetIntWithTabu_ThenShouldReturnDifferent()
+        {
+            var random = new PredeterminedRandom(10, 10, 25, 30);
+            var result = random.GetIntWithTabu(0, 50, 10);
+            result.Should().Be(25);
         }
 
         private void TestRandomGetInt(IRandom random, int minValue, int maxValue)
