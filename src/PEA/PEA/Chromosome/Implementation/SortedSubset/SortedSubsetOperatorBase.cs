@@ -1,17 +1,38 @@
 ﻿using System;
+using System.Linq;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetOperatorBase
     {
-        protected readonly IRandom Random;
-        protected readonly ParameterSet ParameterSet;
+        public ICollisionDetector CollisionDetector { get; set; }
 
-        public SortedSubsetOperatorBase(IRandom random, ParameterSet parameterSet)
+        protected readonly IRandom Random;
+        protected readonly IParameterSet ParameterSet;
+
+        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet)
         {
             Random = random;
             ParameterSet = parameterSet;
+            CollisionDetector = AllRightCollisionDetector.Instance;
+        }
+
+        public GeneRegion GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
+        {
+            var sourceSectionIndex = Random.GetInt(0, chromosome.Sections.Length);
+            var sourcePosition = Random.GetInt(0, chromosome.Sections[sourceSectionIndex].Length);
+            var length = Random.GetInt(1, chromosome.Sections[sourceSectionIndex].Length - sourcePosition);
+
+            var source = new GeneRegion(sourceSectionIndex, sourcePosition, length);
+            return source;
+        }
+
+        public GeneRegion GetConflictedSectionAndPosition(SortedSubsetChromosome chromosome)
+        {
+            var conflicted = Random.GetInt(0, chromosome.ConflictList.Count);
+            var source = chromosome.ConflictList[conflicted];
+            return source;
         }
 
         /// <summary>
@@ -175,6 +196,15 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             }
 
             chromosome.Sections = temp;
+        }
+
+        public bool ConflictShouldBeEliminated(SortedSubsetChromosome chromosome)
+        {
+            if (!chromosome.ConflictList.Any()) return false;
+
+            var reducingConflictPossibility = ParameterSet.GetValue(ParameterNames.ConflictReducingPossibility);
+            var rnd = Random.GetDouble(0, 1);
+            return (rnd < reducingConflictPossibility);
         }
     }
 }

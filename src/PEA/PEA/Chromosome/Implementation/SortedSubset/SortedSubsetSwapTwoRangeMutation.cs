@@ -4,7 +4,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetSwapTwoRangeMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
     {
-        public SortedSubsetSwapTwoRangeMutation(IRandom random, ParameterSet parameterSet) : base(random, parameterSet)
+        public SortedSubsetSwapTwoRangeMutation(IRandom random, IParameterSet parameterSet) : base(random, parameterSet)
         {
         }
 

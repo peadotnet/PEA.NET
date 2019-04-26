@@ -10,15 +10,15 @@ namespace Pea.Tests.ChromosomeTests
     public class SortedSubsetMutationTests
     {
         [Fact]
-        public void GivenChromosome_WithOneSection_WhenReplaceOneGene_ThenShouldBeUnchanged()
+        public void GivenChromosome_WithOneSection_WhenReplaceOneGene_ThenShouldReturnNull()
         {
             var random = new SystemRandom();
             var parameterSet = new ParameterSet();
             var chromosome = new SortedSubsetChromosome(new List<ICollection<int>>() {new int[] {1, 2, 3, 4, 5, 6}});
-            var mutation = new SortedSubsetReplaceGeneMutation(random, parameterSet);
+            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
             var result = mutation.Mutate(chromosome);
 
-            result.Sections[0].Should().BeEquivalentTo(new int[] {1, 2, 3, 4, 5, 6});
+            result.Should().BeNull();
         }
 
         [Fact]
@@ -28,8 +28,8 @@ namespace Pea.Tests.ChromosomeTests
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
             var chromosome = SortedSubsetTestData.CreateChromosome();
-            chromosome.ConflictList.Add(new KeyValuePair<int, int>(0, 1));
-            var mutation = new SortedSubsetReplaceGeneMutation(random, parameterSet);
+            chromosome.ConflictList.Add(new GeneRegion(0, 1, 1));
+            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
 
             var result = mutation.Mutate(chromosome);
 
@@ -45,8 +45,8 @@ namespace Pea.Tests.ChromosomeTests
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
             var chromosome = SortedSubsetTestData.CreateChromosome();
-            chromosome.ConflictList.Add(new KeyValuePair<int, int>(0, 1));
-            var mutation = new SortedSubsetReplaceGeneMutation(random, parameterSet);
+            chromosome.ConflictList.Add(new GeneRegion(0, 1, 1));
+            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
 
             var result = mutation.Mutate(chromosome);
 
@@ -61,7 +61,7 @@ namespace Pea.Tests.ChromosomeTests
             var random = new PredeterminedRandom(1, 2, 1, 2); //possibility, sourceSection, sourcePosition, wrongTargetSection, goodTargetSection
             var parameterSet = new ParameterSet();
             var chromosome = SortedSubsetTestData.CreateChromosome();
-            var mutation = new SortedSubsetReplaceGeneMutation(random, parameterSet);
+            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
 
             var result = mutation.Mutate(chromosome);
 

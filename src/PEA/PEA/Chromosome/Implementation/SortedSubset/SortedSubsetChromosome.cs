@@ -6,15 +6,19 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetChromosome : IChromosome, IDeepCloneable<SortedSubsetChromosome>
     {
+        public int TotalCount { get; }
+
         public int[][] Sections { get; set; }
 
-        public List<KeyValuePair<int, int>> ConflictList { get; } = new List<KeyValuePair<int, int>>();
+        public List<GeneRegion> ConflictList { get; } = new List<GeneRegion>();
 
         private SortedSubsetChromosome() { }
 
         public SortedSubsetChromosome(ICollection<ICollection<int>> sections) : this()
         {
             if (sections == null) throw new ArgumentNullException(nameof(sections));
+
+            TotalCount = 0;
 
             Sections = new int[sections.Count][];
 
@@ -23,9 +27,12 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             {
                 if (section == null) throw new ArgumentNullException(nameof(sections) + "[" + cIdx + "]");
 
+                TotalCount += section.Count;
+
                 Sections[cIdx] = new int[section.Count];
                 section.CopyTo(Sections[cIdx], 0);
                 cIdx++;
+
             }
         }
 

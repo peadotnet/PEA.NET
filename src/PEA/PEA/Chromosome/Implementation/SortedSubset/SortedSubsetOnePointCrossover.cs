@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetOnePointCrossover : SortedSubsetOperatorBase, ICrossover<SortedSubsetChromosome>
     {
-        public SortedSubsetOnePointCrossover(IRandom random, ParameterSet parameterSet) : base(random, parameterSet)
+        public SortedSubsetOnePointCrossover(IRandom random, IParameterSet parameterSet) : base(random, parameterSet)
         {
         }
 

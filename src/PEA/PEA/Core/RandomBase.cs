@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pea.Core
+﻿namespace Pea.Core
 {
     public abstract class RandomBase : IRandom
     {
@@ -20,6 +16,5 @@ namespace Pea.Core
 
             return result;
         }
-
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Pea.Core
 {
-    public class ParameterSet
+    public class ParameterSet : IParameterSet
     {
         private Dictionary<string, double> Parameters { get; } = new Dictionary<string, double>();
 

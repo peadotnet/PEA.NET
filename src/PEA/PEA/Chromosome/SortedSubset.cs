@@ -9,7 +9,7 @@ namespace Pea.Chromosome
         private readonly List<ICrossover<SortedSubsetChromosome>> _crossovers;
         private readonly List<IMutation<SortedSubsetChromosome>> _mutations;
 
-        public SortedSubset(IRandom random, ParameterSet parameterSet)
+        public SortedSubset(IRandom random, IParameterSet parameterSet)
         {
             _crossovers = new List<ICrossover<SortedSubsetChromosome>>()
             {
@@ -21,8 +21,7 @@ namespace Pea.Chromosome
             {
                 new SortedSubsetCreateNewSectionMutation(random, parameterSet),
                 new SortedSubsetEliminateSectionMutation(random, parameterSet),
-                new SortedSubsetReplaceGeneMutation(random, parameterSet),
-                new SortedSubsetReplaceRangeMutation(random, parameterSet),
+                new SortedSubsetReplaceOneGeneMutation(random, parameterSet),
                 new SortedSubsetSwapThreeRangeMutation(random, parameterSet),
                 new SortedSubsetSwapTwoRangeMutation(random, parameterSet)
             };

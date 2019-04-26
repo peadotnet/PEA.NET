@@ -4,7 +4,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetEliminateSectionMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
     {
-        public SortedSubsetEliminateSectionMutation(IRandom random, ParameterSet parameterSet) : base(random,parameterSet)
+        public SortedSubsetEliminateSectionMutation(IRandom random, IParameterSet parameterSet) : base(random,parameterSet)
         {
         }
 
