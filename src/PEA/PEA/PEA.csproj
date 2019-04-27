@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Algorithm\" />
     <Folder Include="Chromosome\Implementation\PositionValuePair\" />
     <Folder Include="Config\" />
     <Folder Include="Fitness\" />

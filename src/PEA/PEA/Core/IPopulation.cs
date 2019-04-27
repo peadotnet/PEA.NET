@@ -4,6 +4,9 @@ namespace Pea.Core
 {
     public interface IPopulation
     {
-        IList<IEntity> Entities { get; }
+        int MaxNumberOfEntities { get; set; }
+        int MinNumberOfEntities { get; set; }
+        IList<IEntity> Entities { get; set; }
+        void Add(IEntity entity);
     }
 }

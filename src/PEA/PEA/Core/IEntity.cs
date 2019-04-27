@@ -2,12 +2,11 @@
 {
     public interface IEntity
     {
+        IGenotype Genotype { get; set; }
 
-    }
+        IPhenotype Phenotype { get; set; }
 
-    public interface IEntity<TG> : IEntity where TG: IGenotype
-    {
-        TG Genotype { get; set; }
+        IFitness Fitness { get; set; }
     }
 }
 

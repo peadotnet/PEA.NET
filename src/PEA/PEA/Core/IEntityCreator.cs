@@ -1,7 +1,12 @@
 ﻿namespace Pea.Core
 {
-    public interface IEntityCreator<TG> where TG: IGenotype
+    public interface IEntityCreator
     {
-        IEntity<TG> Create();
+        IEntity CreateEntity();
+    }
+
+    public interface IEntityCreator<TG> : IEntityCreator 
+        where TG: IGenotype
+    {
     }
 }
