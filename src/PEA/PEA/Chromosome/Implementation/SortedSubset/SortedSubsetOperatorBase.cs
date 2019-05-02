@@ -18,6 +18,13 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             CollisionDetector = AllRightCollisionDetector.Instance;
         }
 
+        public GeneRegion GetSourceSectionAndPosition(SortedSubsetChromosome chromosome)
+        {
+            return ConflictShouldBeEliminated(chromosome)
+                ? GetConflictedSectionAndPosition(chromosome)
+                : GetRandomSectionAndPosition(chromosome);
+        }
+
         public GeneRegion GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             var sourceSectionIndex = Random.GetInt(0, chromosome.Sections.Length);
@@ -120,6 +127,19 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return result;
         }
 
+        public bool ReplaceOneGeneToRandomSection(SortedSubsetChromosome chromosome, GenePosition source)
+        {
+            var geneValue = chromosome.Sections[source.Section][source.Position];
+            var targetSectionIndex = Random.GetIntWithTabu(0, chromosome.Sections.Length, source.Section);
+
+            var targetPos = FindNewGenePosition(chromosome, targetSectionIndex, geneValue);
+            var success = InsertGenes(chromosome, targetSectionIndex, targetPos, chromosome.Sections[source.Section], source.Position, 1);
+
+            if (success) DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
+
+            return success;
+        }
+
         /// <summary>
         /// Insert one gene into a chromosome section and position inside it
         /// </summary>
@@ -127,7 +147,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// <param name="sectionIndex">The index of the section</param>
         /// <param name="insertPosition">The position inside the section</param>
         /// <param name="genesToInsert">The array of genes to insert</param>
-        public void InsertGenes(SortedSubsetChromosome chromosome, int sectionIndex, int insertPosition, int[] genesToInsert, int firstGeneIndex, int count)
+        public bool InsertGenes(SortedSubsetChromosome chromosome, int sectionIndex, int insertPosition, int[] genesToInsert, int firstGeneIndex, int count)
         {
             int[] section = chromosome.Sections[sectionIndex];
             int[] temp = new int[section.Length + count];
@@ -148,6 +168,9 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             }
 
             chromosome.Sections[sectionIndex] = temp;
+
+            //TODO: collision detection
+            return false;
         }
 
         /// <summary>

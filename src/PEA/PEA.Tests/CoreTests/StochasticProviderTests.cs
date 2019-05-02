@@ -11,7 +11,7 @@ namespace Pea.Tests.CoreTests
         {
             var distribution = new StochasticProvider<string>(new PredeterminedRandom(20));
 
-            var result = distribution.ChooseOne();
+            var result = distribution.GetOne();
 
             result.Should().BeNullOrEmpty();
         }
@@ -24,8 +24,8 @@ namespace Pea.Tests.CoreTests
                 .Add("First", 50)
                 .Add("Second", 40);
 
-            distribution.ChooseOne().Should().Be("Second");
-            distribution.ChooseOne().Should().Be("First");
+            distribution.GetOne().Should().Be("Second");
+            distribution.GetOne().Should().Be("First");
         }
     }
 }

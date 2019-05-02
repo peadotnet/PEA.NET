@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Pea.Core
 {
-    public class StochasticProvider<T> : IStochasticProvider<T>
+    public class StochasticProvider<T> : IProvider<T>
     {
         private readonly IRandom _random;
         private readonly SortedList<double, T> _intervals = new SortedList<double, T>();
@@ -15,7 +15,7 @@ namespace Pea.Core
             _random = random;
         }
 
-        public T ChooseOne()
+        public T GetOne()
         {
             if (!_intervals.Any()) return default(T);
 
@@ -28,7 +28,7 @@ namespace Pea.Core
             throw new ApplicationException();
         }
 
-        public IStochasticProvider<T> Add(T item, double probability)
+        public IProvider<T> Add(T item, double probability)
         {
             _max = _max + probability;
             _intervals.Add(_max, item);

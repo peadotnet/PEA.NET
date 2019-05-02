@@ -7,7 +7,7 @@ namespace Pea.Algorithm
     {
         public StochasticProvider<IEntityCreator> EntityCreators { get; set; }
         public StochasticProvider<ISelection> Selectors { get; set; }
-        public IPhenotypeDecoder fenotypeDecoder { get; set; }
+        public IPhenotypeDecoder phenotypeDecoder { get; set; }
         public IFitnessCalculator fitnessCalculator { get; set; }
         public IPopulation Population { get; set; }
         public IEntityCrossover EntityCrossover { get; set; }
@@ -20,7 +20,7 @@ namespace Pea.Algorithm
 
         protected IEntity CreateEntity()
         {
-            var entityCreator = EntityCreators.ChooseOne();
+            var entityCreator = EntityCreators.GetOne();
             var entity = entityCreator.CreateEntity();
             return entity;
         }
@@ -29,7 +29,7 @@ namespace Pea.Algorithm
         {
             foreach (IEntity entity in entities)
             {
-                entity.Phenotype = fenotypeDecoder.Decode(entity.Genotype);
+                entity.Phenotype = phenotypeDecoder.Decode(entity.Genotype);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Pea.Algorithm
 
         protected IList<IEntity> SelectParents(IList<IEntity> entities)
         {
-            var selector = Selectors.ChooseOne();
+            var selector = Selectors.GetOne();
             var parents = selector.Select(entities);
             return parents;
         }
@@ -63,7 +63,7 @@ namespace Pea.Algorithm
 
         protected IList<IEntity> Replace(IList<IEntity> target, IList<IEntity> children)
         {
-            var replacement = Replacements.ChooseOne();
+            var replacement = Replacements.GetOne();
             var result = replacement.Replace(target, children);
             return result;
         }

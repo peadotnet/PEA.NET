@@ -5,7 +5,7 @@
         StochasticProvider<IEntityCreator> EntityCreators { get; set; }
         StochasticProvider<ISelection> Selectors { get; set; }
         StochasticProvider<IReplacement> Replacements { get; set; }
-        IPhenotypeDecoder fenotypeDecoder { get; set; }
+        IPhenotypeDecoder phenotypeDecoder { get; set; }
         IFitnessCalculator fitnessCalculator { get; set; }
         IPopulation Population { get; set; }
         IEntityCrossover EntityCrossover { get; set; }

@@ -8,7 +8,6 @@
   <ItemGroup>
     <Folder Include="Chromosome\Implementation\PositionValuePair\" />
     <Folder Include="Config\" />
-    <Folder Include="Fitness\" />
     <Folder Include="Chromosome\Implementation\BitVector\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
     <Folder Include="Chromosome\Implementation\DoubleVector\" />
@@ -16,7 +15,6 @@
     <Folder Include="Util\" />
     <Folder Include="Topology\" />
     <Folder Include="StopCriteria\" />
-    <Folder Include="Selection\" />
     <Folder Include="Replacement\" />
     <Folder Include="Population\" />
   </ItemGroup>

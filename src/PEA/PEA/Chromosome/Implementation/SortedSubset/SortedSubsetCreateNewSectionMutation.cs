@@ -16,8 +16,13 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             var numberOfGenesToReplace = GetNumberOfGenesToChange(chromosome);
             chromosome = IncrementNumberOfSections(chromosome, numberOfGenesToReplace);
 
+            for (int i = 0; i < numberOfGenesToReplace; i++)
+            {
+                GenePosition source = GetSourceSectionAndPosition(chromosome);
+                ReplaceOneGeneToRandomSection(chromosome, source);
+            }
             //TODO: folyt köv innen
-
+            
             return chromosome;
         }
 

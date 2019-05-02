@@ -6,7 +6,6 @@ namespace Pea.Algorithm
     {
         public override void InitPopulation()
         {
-            //TODO: max entity count parameter
             for (int i = 0; i < Population.MaxNumberOfEntities; i++)
             {
                 var entity = CreateEntity();

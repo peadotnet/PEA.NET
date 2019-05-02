@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pea.Chromosome
+﻿namespace Pea.Chromosome
 {
     public static class ParameterNames
     {
