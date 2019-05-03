@@ -1,4 +1,5 @@
-﻿using Pea.Core;
+﻿using System.Collections.Generic;
+using Pea.Core;
 
 namespace Pea.Fitness.Implementation.MultiObjective
 {
@@ -14,6 +15,31 @@ namespace Pea.Fitness.Implementation.MultiObjective
             if (Dominates(x, y)) return 1;
             if (Dominates(y, x)) return -1;
             return 0;
+        }
+
+        public IList<IEntity> MergeToBests(IList<IEntity> bests, IEntity entity)
+        {
+            bool hasToBeAdded = true;
+
+            for (int i = bests.Count-1; i >= 0; i--)
+            {
+                switch (Compare(bests[i].Fitness, entity.Fitness))
+                {
+                    case -1:
+                        hasToBeAdded = false;
+                        break;
+                    case 1:
+                        bests.RemoveAt(i);
+                        break;
+                }
+            }
+
+            if (hasToBeAdded)
+            {
+                bests.Add(entity);
+            }
+
+            return bests;
         }
 
         private bool Dominates(IFitness<double[]> x, IFitness<double[]> y)

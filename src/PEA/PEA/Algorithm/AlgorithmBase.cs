@@ -1,26 +1,26 @@
-﻿using Pea.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Pea.Core;
+using Pea.Island;
 
 namespace Pea.Algorithm
 {
     public abstract class AlgorithmBase : IAlgorithm
     {
-        public StochasticProvider<IEntityCreator> EntityCreators { get; set; }
-        public StochasticProvider<ISelection> Selectors { get; set; }
-        public IPhenotypeDecoder phenotypeDecoder { get; set; }
-        public IFitnessCalculator fitnessCalculator { get; set; }
+        public IEngine Engine { get; }
         public IPopulation Population { get; set; }
-        public IEntityCrossover EntityCrossover { get; set; }
-        public IEntityMutation EntityMutation { get; set; }
-        public StochasticProvider<IReplacement> Replacements { get; set; }
 
         public abstract void InitPopulation();
-
         public abstract void RunOnce();
+
+        protected AlgorithmBase(IPopulation population, IslandEngine engine)
+        {
+            Population = population;
+            Engine = engine;
+        }
 
         protected IEntity CreateEntity()
         {
-            var entityCreator = EntityCreators.GetOne();
+            var entityCreator = Engine.EntityCreators.GetOne();
             var entity = entityCreator.CreateEntity();
             return entity;
         }
@@ -29,7 +29,7 @@ namespace Pea.Algorithm
         {
             foreach (IEntity entity in entities)
             {
-                entity.Phenotype = phenotypeDecoder.Decode(entity.Genotype);
+                entity.Phenotype = Engine.PhenotypeDecoder.Decode(entity.Genotype);
             }
         }
 
@@ -37,33 +37,40 @@ namespace Pea.Algorithm
         {
             foreach (IEntity entity in entities)
             {
-                entity.Fitness = fitnessCalculator.CalculateFitness(entity.Phenotype);
-                //TODO: implement Population.Best
+                entity.Fitness = Engine.FitnessCalculator.CalculateFitness(entity.Phenotype);
+            }
+        }
+
+        protected void MergeToBests(IList<IEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Population.Bests = Engine.FitnessComparer.MergeToBests(Population.Bests, entity);
             }
         }
 
         protected IList<IEntity> SelectParents(IList<IEntity> entities)
         {
-            var selector = Selectors.GetOne();
+            var selector = Engine.Selectors.GetOne();
             var parents = selector.Select(entities);
             return parents;
         }
 
         protected IList<IEntity> Crossover(IList<IEntity> parents)
         {
-            var children = EntityCrossover.Cross(parents);
+            var children = Engine.EntityCrossover.Cross(parents);
             return children;
         }
 
         protected IList<IEntity> Mutate(IList<IEntity> children)
         {
-            children = EntityMutation.Mutate(children);
+            children = Engine.EntityMutation.Mutate(children);
             return children;
         }
 
         protected IList<IEntity> Replace(IList<IEntity> target, IList<IEntity> children)
         {
-            var replacement = Replacements.GetOne();
+            var replacement = Engine.Replacements.GetOne();
             var result = replacement.Replace(target, children);
             return result;
         }
