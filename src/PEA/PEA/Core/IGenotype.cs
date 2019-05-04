@@ -4,6 +4,6 @@ namespace Pea.Core
 {
     public interface IGenotype
     {
-        IEnumerable<IChromosome> Chromosomes { get; }
+        IDictionary<string, IChromosome> Chromosomes { get; }
     }
 }
