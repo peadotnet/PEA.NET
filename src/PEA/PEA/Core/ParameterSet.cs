@@ -21,6 +21,13 @@ namespace Pea.Core
             return Parameters[parameterKey];
         }
 
+        public int GetInt(string parameterKey)
+        {
+            if (!Parameters.ContainsKey(parameterKey)) throw new ArgumentException(nameof(parameterKey));
+
+            return Convert.ToInt32(Parameters[parameterKey]);
+        }
+
         public void SetValue(string parameterKey, double newValue)
         {
             if (!Parameters.ContainsKey(parameterKey))

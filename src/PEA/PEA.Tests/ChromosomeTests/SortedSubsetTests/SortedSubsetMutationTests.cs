@@ -5,7 +5,7 @@ using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
 using Xunit;
 
-namespace Pea.Tests.ChromosomeTests
+namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 {
     public class SortedSubsetMutationTests
     {
@@ -15,7 +15,8 @@ namespace Pea.Tests.ChromosomeTests
             var random = new SystemRandom();
             var parameterSet = new ParameterSet();
             var chromosome = new SortedSubsetChromosome(new List<ICollection<int>>() {new int[] {1, 2, 3, 4, 5, 6}});
-            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
+            var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
+
             var result = mutation.Mutate(chromosome);
 
             result.Should().BeNull();
@@ -29,7 +30,7 @@ namespace Pea.Tests.ChromosomeTests
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
             var chromosome = SortedSubsetTestData.CreateChromosome();
             chromosome.ConflictList.Add(new GeneRegion(0, 1, 1));
-            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
+            var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
 
             var result = mutation.Mutate(chromosome);
 
@@ -46,7 +47,7 @@ namespace Pea.Tests.ChromosomeTests
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
             var chromosome = SortedSubsetTestData.CreateChromosome();
             chromosome.ConflictList.Add(new GeneRegion(0, 1, 1));
-            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
+            var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
 
             var result = mutation.Mutate(chromosome);
 
@@ -61,7 +62,7 @@ namespace Pea.Tests.ChromosomeTests
             var random = new PredeterminedRandom(1, 2, 1, 2); //possibility, sourceSection, sourcePosition, wrongTargetSection, goodTargetSection
             var parameterSet = new ParameterSet();
             var chromosome = SortedSubsetTestData.CreateChromosome();
-            var mutation = new SortedSubsetReplaceOneGeneMutation(random, parameterSet);
+            var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
 
             var result = mutation.Mutate(chromosome);
 

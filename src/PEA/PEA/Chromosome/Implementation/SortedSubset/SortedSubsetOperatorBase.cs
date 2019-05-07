@@ -6,16 +6,16 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetOperatorBase
     {
-        public ICollisionDetector CollisionDetector { get; set; }
+        public IConflictDetector ConflictDetector { get; set; }
 
         protected readonly IRandom Random;
         protected readonly IParameterSet ParameterSet;
 
-        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet)
+        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
         {
             Random = random;
             ParameterSet = parameterSet;
-            CollisionDetector = AllRightCollisionDetector.Instance;
+            ConflictDetector = conflictDetector ?? AllRightConflictDetector.Instance;
         }
 
         public GeneRegion GetSourceSectionAndPosition(SortedSubsetChromosome chromosome)
@@ -45,14 +45,11 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// <summary>
         /// Returns the position inside the given section where the gene value can be inserted to.
         /// </summary>
-        /// <param name="chromosome">The multi-section chromosome which the operator works within</param>
-        /// <param name="sectionIndex">The index of the section</param>
-        /// <param name="geneValue">The value of the gene to be insert</param>
+        /// <param name="section">The gene section which the gene is intended to insert into</param>
+        /// <param name="geneValue">The value of the gene to be inserted</param>
         /// <returns>The position inside the section</returns>
-        public int FindNewGenePosition(SortedSubsetChromosome chromosome, int sectionIndex, int geneValue)
+        public int FindNewGenePosition(int[] section, int geneValue)
         {
-            var section = chromosome.Sections[sectionIndex];
-
             int first = 0;
             int last = section.Length - 1;
 
@@ -85,6 +82,24 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 last--;
 
             return last;
+        }
+
+        public bool ConflictDetectedWithLeftNeighbor(int[] targetSection, int targetPositionIndex, int? geneValue)
+        {
+            if (!geneValue.HasValue) return false;
+            if (targetPositionIndex == 0) return false;
+
+            var leftNeighborGeneValue = targetSection[targetPositionIndex - 1];
+            return ConflictDetector.ConflictDetected(leftNeighborGeneValue, geneValue.Value);
+        }
+
+        public bool ConflictDetectedWithRightNeighbor(int[] targetSection, int targetPositionIndex, int? geneValue)
+        {
+            if (!geneValue.HasValue) return false;
+            if (targetPositionIndex == targetSection.Length) return false;
+
+            var rightNeighborGeneValue = targetSection[targetPositionIndex];
+            return ConflictDetector.ConflictDetected(geneValue.Value, rightNeighborGeneValue);
         }
 
         /// <summary>
@@ -131,8 +146,9 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         {
             var geneValue = chromosome.Sections[source.Section][source.Position];
             var targetSectionIndex = Random.GetIntWithTabu(0, chromosome.Sections.Length, source.Section);
+            var targetSection = chromosome.Sections[targetSectionIndex];
 
-            var targetPos = FindNewGenePosition(chromosome, targetSectionIndex, geneValue);
+            var targetPos = FindNewGenePosition(targetSection, geneValue);
             var success = InsertGenes(chromosome, targetSectionIndex, targetPos, chromosome.Sections[source.Section], source.Position, 1);
 
             if (success) DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
@@ -170,7 +186,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             chromosome.Sections[sectionIndex] = temp;
 
             //TODO: collision detection
-            return false;
+            return true;
         }
 
         /// <summary>

@@ -78,10 +78,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChromosomeTests\SortedSubsetMutationTests.cs" />
-    <Compile Include="ChromosomeTests\SortedSubsetTestData.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTests\PredeterminedConflictDetector.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetCrossoverTests.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetMutationTests.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetOperatorBaseTests.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetTestData.cs" />
     <Compile Include="CoreTests\RandomTests.cs" />
-    <Compile Include="ChromosomeTests\SortedSubsetChromosomeTests.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetChromosomeTests.cs" />
     <Compile Include="CoreTests\StochasticProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -13,17 +13,17 @@ namespace Pea.Chromosome
         {
             _crossovers = new List<ICrossover<SortedSubsetChromosome>>()
             {
-                new SortedSubsetTwoPointCrossover(random, parameterSet),
-                new SortedSubsetOnePointCrossover(random, parameterSet)
+                new TwoPointCrossover(random, parameterSet, null),
+                new OnePointCrossover(random, parameterSet, null)
             };
 
             _mutations = new List<IMutation<SortedSubsetChromosome>>()
             {
-                new SortedSubsetCreateNewSectionMutation(random, parameterSet),
-                new SortedSubsetEliminateSectionMutation(random, parameterSet),
-                new SortedSubsetReplaceOneGeneMutation(random, parameterSet),
-                new SortedSubsetSwapThreeRangeMutation(random, parameterSet),
-                new SortedSubsetSwapTwoRangeMutation(random, parameterSet)
+                new CreateNewSectionMutation(random, parameterSet, null),
+                new EliminateSectionMutation(random, parameterSet, null),
+                new ReplaceOneGeneMutation(random, parameterSet, null),
+                new SwapThreeRangeMutation(random, parameterSet, null),
+                new SwapTwoRangeMutation(random, parameterSet, null)
             };
         }
 

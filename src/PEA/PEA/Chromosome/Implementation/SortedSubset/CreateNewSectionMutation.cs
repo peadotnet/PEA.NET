@@ -3,9 +3,10 @@ using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
-    public class SortedSubsetCreateNewSectionMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
+    public class CreateNewSectionMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
     {
-        public SortedSubsetCreateNewSectionMutation(IRandom random, IParameterSet parameterSet) : base(random, parameterSet)
+        public CreateNewSectionMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
+            : base(random, parameterSet, conflictDetector)
         {
         }
 

@@ -3,9 +3,10 @@ using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
-    public class SortedSubsetReplaceOneGeneMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
+    public class ReplaceOneGeneMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
     {
-        public SortedSubsetReplaceOneGeneMutation(IRandom random, IParameterSet parameterSet) : base(random, parameterSet)
+        public ReplaceOneGeneMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
+            : base(random, parameterSet, conflictDetector)
         {
         }
 

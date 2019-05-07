@@ -1,46 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
 using Xunit;
 
-namespace Pea.Tests.ChromosomeTests
+namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 {
-    public class SortedSubsetChromosomeTests
+    public class SortedSubsetOperatorBaseTests
     {
-        [Fact]
-        public void WhenCreateSortedSubsetChromosome_WithNull_ThenShouldThrow()
-        {
-            Action act = () => new SortedSubsetChromosome(null);
-            act.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void WhenCreateSortedSubsetChromosome_WithNullNested_ThenShouldThrow()
-        {
-            Action act = () => new SortedSubsetChromosome(new int[][]
-            {
-                new int[] { 1, 2 },
-                null
-            });
-            act.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void GivenSortedSubsetChromosome_WhenDeepClone_ThenShouldBeEquivalent()
-        {
-            var chromosome = new SortedSubsetChromosome(new int[][]
-            {
-                new int[] { 1, 2 },
-                new int[] { 3,4,5}
-            });
-
-            var clone = chromosome.DeepClone();
-
-            clone.Sections.Should().BeEquivalentTo(chromosome.Sections);
-        }
-
         [Theory]
         [InlineData(0, 0, 0)]
         [InlineData(0, 1, 0)]
@@ -60,8 +32,9 @@ namespace Pea.Tests.ChromosomeTests
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet);
-            var result = operatorBase.FindNewGenePosition(chromosome, sectionIndex, geneValue);
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
+            var section = chromosome.Sections[sectionIndex];
+            var result = operatorBase.FindNewGenePosition(section, geneValue);
             result.Should().Be(expected);
         }
 
@@ -84,8 +57,10 @@ namespace Pea.Tests.ChromosomeTests
             var genesToInsert = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet);
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
+
             var result = operatorBase.CountInsertableGenes(chromosome, sectionIndex, insertPosition, genesToInsert, firstGeneIndex);
+
             result.Should().Be(expected);
         }
 
@@ -99,8 +74,10 @@ namespace Pea.Tests.ChromosomeTests
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet);
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
+
             var result = operatorBase.GetGenes(chromosome, sectionIndex, position, count);
+
             result.Should().BeEquivalentTo(expected);
         }
 
@@ -119,7 +96,7 @@ namespace Pea.Tests.ChromosomeTests
             var clone = chromosome.DeepClone();
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet);
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
             operatorBase.InsertGenes(chromosome, sectionIndex, insertPosition, geneValuesToInsert, firstGeneIndex, count);
 
             chromosome.Sections[sectionIndex].Length.Should().Be(clone.Sections[sectionIndex].Length + count);
@@ -140,7 +117,7 @@ namespace Pea.Tests.ChromosomeTests
 
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet);
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
 
             operatorBase.DeleteGenesFromSection(chromosome, sectionIndex, position, count);
 
@@ -162,16 +139,16 @@ namespace Pea.Tests.ChromosomeTests
 
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet);
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
 
             operatorBase.DeleteSection(chromosome, sectionIndex);
+
             chromosome.Sections.GetLength(0).Should().Be(2);
             if (sectionIndex < clone.Sections.GetLength(0) - 1)
             {
                 chromosome.Sections[sectionIndex].Should().BeEquivalentTo(clone.Sections[sectionIndex + 1]);
             }
         }
-
 
     }
 }
