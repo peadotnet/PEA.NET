@@ -18,24 +18,24 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             ConflictDetector = conflictDetector ?? AllRightConflictDetector.Instance;
         }
 
-        public GeneRegion GetSourceSectionAndPosition(SortedSubsetChromosome chromosome)
+        public GeneRange GetSourceSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             return ConflictShouldBeEliminated(chromosome)
                 ? GetConflictedSectionAndPosition(chromosome)
                 : GetRandomSectionAndPosition(chromosome);
         }
 
-        public GeneRegion GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
+        public GeneRange GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             var sourceSectionIndex = Random.GetInt(0, chromosome.Sections.Length);
             var sourcePosition = Random.GetInt(0, chromosome.Sections[sourceSectionIndex].Length);
             var length = Random.GetInt(1, chromosome.Sections[sourceSectionIndex].Length - sourcePosition);
 
-            var source = new GeneRegion(sourceSectionIndex, sourcePosition, length);
+            var source = new GeneRange(sourceSectionIndex, sourcePosition, length);
             return source;
         }
 
-        public GeneRegion GetConflictedSectionAndPosition(SortedSubsetChromosome chromosome)
+        public GeneRange GetConflictedSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             var conflicted = Random.GetInt(0, chromosome.ConflictList.Count);
             var source = chromosome.ConflictList[conflicted];
@@ -126,6 +126,11 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return count;
         }
 
+        public int GetGeneValue(SortedSubsetChromosome chromosome, GenePosition genePosition)
+        {
+            return chromosome.Sections[genePosition.Section][genePosition.Position];
+        }
+
         /// <summary>
         /// Returns the gene values from a chromosome section
         /// </summary>
@@ -149,6 +154,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             var targetSection = chromosome.Sections[targetSectionIndex];
 
             var targetPos = FindNewGenePosition(targetSection, geneValue);
+
+            //TODO: conflict check, fail retry
             var success = InsertGenes(chromosome, targetSectionIndex, targetPos, chromosome.Sections[source.Section], source.Position, 1);
 
             if (success) DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);

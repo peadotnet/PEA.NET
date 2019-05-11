@@ -10,7 +10,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public int[][] Sections { get; set; }
 
-        public List<GeneRegion> ConflictList { get; } = new List<GeneRegion>();
+        public List<GeneRange> ConflictList { get; } = new List<GeneRange>();
 
         private SortedSubsetChromosome() { }
 

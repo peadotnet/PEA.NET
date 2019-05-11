@@ -15,9 +15,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             if (chromosome == null) throw new ArgumentNullException();
             if (chromosome.Sections.Length < 2) return null;
 
-            var source = GetSourceSectionAndPosition(chromosome);
-            ReplaceOneGeneToRandomSection(chromosome, source);
+            int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
+            while (true)
+            {
+                var source = GetSourceSectionAndPosition(chromosome);
+                bool success = ReplaceOneGeneToRandomSection(chromosome, source);
 
+                if (success || retryCount-- < 0) break;
+            }
             return chromosome;
         }
     }

@@ -29,7 +29,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
             var chromosome = SortedSubsetTestData.CreateChromosome();
-            chromosome.ConflictList.Add(new GeneRegion(0, 1, 1));
+            chromosome.ConflictList.Add(new GeneRange(0, 1, 1));
             var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
 
             var result = mutation.Mutate(chromosome);
@@ -46,7 +46,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
             var chromosome = SortedSubsetTestData.CreateChromosome();
-            chromosome.ConflictList.Add(new GeneRegion(0, 1, 1));
+            chromosome.ConflictList.Add(new GeneRange(0, 1, 1));
             var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
 
             var result = mutation.Mutate(chromosome);
