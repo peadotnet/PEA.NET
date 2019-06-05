@@ -10,6 +10,10 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return Compare(x as IFitness<double[]>, y as IFitness<double[]>);
         }
 
+        /// <summary>
+        /// Compare two multiobjective fitness value nondominated pareto way
+        /// </summary>
+        /// <returns>1 if y dominates x, -1 if x dominates y, 0 otherwise</returns>
         public int Compare(IFitness<double[]> x, IFitness<double[]> y)
         {
             if (Dominates(x, y)) return 1;
@@ -42,6 +46,10 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return bests;
         }
 
+        /// <summary>
+        /// Indicates whether the multiobjective fitness y dominates x
+        /// </summary>
+        /// <returns>True if y dominates x, false otherwise</returns>
         private bool Dominates(IFitness<double[]> x, IFitness<double[]> y)
         {
             var dominates = false;
