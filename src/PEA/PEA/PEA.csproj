@@ -12,9 +12,9 @@
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
     <Folder Include="Chromosome\Implementation\DoubleVector\" />
     <Folder Include="Chromosome\Implementation\Permutation\" />
-    <Folder Include="Util\" />
     <Folder Include="Topology\" />
     <Folder Include="Replacement\" />
+    <Folder Include="Util\" />
   </ItemGroup>
 
   <ItemGroup>

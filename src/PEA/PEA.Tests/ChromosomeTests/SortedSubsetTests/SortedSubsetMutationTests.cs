@@ -28,6 +28,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var random = new PredeterminedRandom(0.5, 3, 1); //possibility, conflictIndex, targetSection
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
+            parameterSet.SetValue(ParameterNames.FailedMutationRetryCount, 0);
             var chromosome = SortedSubsetTestData.CreateChromosome();
             chromosome.ConflictList.Add(new GeneRange(0, 1, 1));
             var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
@@ -45,6 +46,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var random = new PredeterminedRandom(0.7, 1, 2, 1, 2); //possibility, sourceSection, sourcePosition, wrongTargetSection, goodTargetSection
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.ConflictReducingPossibility, 0.6);
+            parameterSet.SetValue(ParameterNames.FailedMutationRetryCount, 0);
             var chromosome = SortedSubsetTestData.CreateChromosome();
             chromosome.ConflictList.Add(new GeneRange(0, 1, 1));
             var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
@@ -61,6 +63,8 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         {
             var random = new PredeterminedRandom(1, 2, 1, 2); //possibility, sourceSection, sourcePosition, wrongTargetSection, goodTargetSection
             var parameterSet = new ParameterSet();
+            parameterSet.SetValue(ParameterNames.FailedMutationRetryCount, 0);
+
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var mutation = new ReplaceOneGeneMutation(random, parameterSet, AllRightConflictDetector.Instance);
 

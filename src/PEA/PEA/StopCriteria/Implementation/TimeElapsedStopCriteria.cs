@@ -6,17 +6,17 @@ namespace Pea.StopCriteria.Implementation
 {
     public class TimeOutStopCriteria : IStopCriteria
     {
-        public int TimeoutSeconds { get; }
+        public int TimeoutMilliseconds { get; }
         public Stopwatch StopWatch { get; private set; } = null;
 
         public TimeOutStopCriteria()
         {
-            TimeoutSeconds = 600;
+            TimeoutMilliseconds = 600000;
         }
 
-        public TimeOutStopCriteria(int timeoutSeconds)
+        public TimeOutStopCriteria(int timeoutMilliseconds)
         {
-            TimeoutSeconds = timeoutSeconds;
+            TimeoutMilliseconds = timeoutMilliseconds;
         }
 
         public StopDecision MakeDecision(IEngine engine, IPopulation population)
@@ -27,7 +27,7 @@ namespace Pea.StopCriteria.Implementation
                 return new StopDecision(false);
             }
 
-            if (StopWatch.ElapsedMilliseconds > 1000 * TimeoutSeconds)
+            if (StopWatch.ElapsedMilliseconds > 1000 * TimeoutMilliseconds)
             {
                 return new StopDecision(false);
             }

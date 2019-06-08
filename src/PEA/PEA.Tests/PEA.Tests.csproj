@@ -87,6 +87,7 @@
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetChromosomeTests.cs" />
     <Compile Include="CoreTests\StochasticProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StopCriteriaTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
