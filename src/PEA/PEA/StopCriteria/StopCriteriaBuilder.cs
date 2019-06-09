@@ -49,11 +49,35 @@ namespace Pea.StopCriteria
             return this;
         }
 
+        public StopCriteriaBuilder Or(Func<StopCriteriaBuilder, StopCriteriaBuilder> nested)
+        {
+            if (CurrentOperator != CriteriaOperatorTypes.None || Criteria == null) throw new InvalidOperationException();
+
+            var build = StopCriteriaBuilder.StopWhen();
+            var nestedBuild = nested(build);
+            CurrentOperator = CriteriaOperatorTypes.Or;
+            Criteria = Compose(Criteria, nestedBuild.Criteria);
+            CurrentOperator = CriteriaOperatorTypes.None;
+            return this;
+        }
+
         public StopCriteriaBuilder And()
         {
             if (CurrentOperator != CriteriaOperatorTypes.None || Criteria == null) throw new InvalidOperationException();
 
             CurrentOperator = CriteriaOperatorTypes.And;
+            return this;
+        }
+
+        public StopCriteriaBuilder And(Func<StopCriteriaBuilder, StopCriteriaBuilder> nested)
+        {
+            if (CurrentOperator != CriteriaOperatorTypes.None || Criteria == null) throw new InvalidOperationException();
+
+            var build = StopCriteriaBuilder.StopWhen();
+            var nestedBuild = nested(build);
+            CurrentOperator = CriteriaOperatorTypes.And;
+            Criteria = Compose(Criteria, nestedBuild.Criteria);
+            CurrentOperator = CriteriaOperatorTypes.None;
             return this;
         }
 

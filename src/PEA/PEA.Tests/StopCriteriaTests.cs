@@ -35,8 +35,8 @@ namespace Pea.Tests
         {
             var fitness = Substitute.For<IFitness>();
 
-            var builder = StopCriteriaBuilder.StopWhen()
-                .TimeoutElapsed(100000)
+            var builder = StopCriteriaBuilder
+                .StopWhen().TimeoutElapsed(100000)
                 .And().FitnessLimitExceeded(fitness)
                 .Or().TimeoutElapsed(600000);
 
@@ -47,6 +47,29 @@ namespace Pea.Tests
             resultOr.Criteria2.Should().BeOfType<TimeOutStopCriteria>();
             resultOr.Criteria1.Should().BeOfType<AndStopCriteria>();
             var resultAnd = resultOr.Criteria1 as AndStopCriteria;
+            resultAnd.Criteria1.Should().BeOfType<TimeOutStopCriteria>();
+            resultAnd.Criteria2.Should().BeOfType<FitnessLimitExceededStopCriteria>();
+        }
+
+        [Fact]
+        public void StopCriteriaBuilder_BuildComplexWithParenthesis_ShouldReturnTree()
+        {
+            var fitness = Substitute.For<IFitness>();
+
+            var builder = StopCriteriaBuilder
+                .StopWhen().TimeoutElapsed(600000)
+                .Or(s =>
+                    s.TimeoutElapsed(100000)
+                    .And().FitnessLimitExceeded(fitness)
+                );
+
+            var result = builder.Build();
+
+            result.Should().BeOfType<OrStopCriteria>();
+            var resultOr = result as OrStopCriteria;
+            resultOr.Criteria1.Should().BeOfType<TimeOutStopCriteria>();
+            resultOr.Criteria2.Should().BeOfType<AndStopCriteria>();
+            var resultAnd = resultOr.Criteria2 as AndStopCriteria;
             resultAnd.Criteria1.Should().BeOfType<TimeOutStopCriteria>();
             resultAnd.Criteria2.Should().BeOfType<FitnessLimitExceededStopCriteria>();
         }
