@@ -68,11 +68,10 @@ namespace Pea.Algorithm
             return children;
         }
 
-        protected IList<IEntity> Replace(IList<IEntity> target, IList<IEntity> children)
+        protected void Reinsert(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
         {
-            var replacement = Engine.Replacements.GetOne();
-            var result = replacement.Replace(target, children);
-            return result;
+            var replacement = Engine.Reinsertions.GetOne();
+            replacement.Reinsert(targetPopulation, offspring, parents, sourcePopulation);
         }
     }
 }

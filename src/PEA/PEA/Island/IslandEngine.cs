@@ -11,7 +11,7 @@ namespace Pea.Island
         public IFitnessComparer FitnessComparer { get; set; }
         public IEntityCrossover EntityCrossover { get; set; }
         public IEntityMutation EntityMutation { get; set; }
-        public IProvider<IReplacement> Replacements { get; set; }
+        public IProvider<IReinsertion> Reinsertions { get; set; }
 
         private IAlgorithm Algorithm { get; set; }
 

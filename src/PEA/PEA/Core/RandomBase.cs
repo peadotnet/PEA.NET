@@ -1,4 +1,8 @@
-﻿namespace Pea.Core
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Pea.Core
 {
     public abstract class RandomBase : IRandom
     {
@@ -15,6 +19,30 @@
             }
 
             return result;
+        }
+
+        public virtual IList<int> GetUniqueInts(int minValue, int upperBound, int count)
+        {
+            var diff = upperBound - minValue;
+
+            if (diff < count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+
+            var ints = new List<int>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var value = GetInt(minValue, upperBound);
+                while (ints.Contains(value))
+                {
+                    value = GetInt(minValue, upperBound);
+                }
+                ints.Add(value);
+            }
+
+            return ints;
         }
     }
 }

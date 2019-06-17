@@ -30,7 +30,7 @@ namespace Pea.Algorithm
             DecodePhenotypes(children);
             AssessFitness(children);
             MergeToBests(children);
-            Population.Entities = Replace(Population.Entities, children);
+            Reinsert(Population.Entities, children, parents, Population.Entities);
         }
     }
 }

@@ -8,7 +8,7 @@
         IFitnessCalculator FitnessCalculator { get; set; }
         IFitnessComparer FitnessComparer { get; set; }
         IPhenotypeDecoder PhenotypeDecoder { get; set; }
-        IProvider<IReplacement> Replacements { get; set; }
+        IProvider<IReinsertion> Reinsertions { get; set; }
         IProvider<ISelection> Selectors { get; set; }
 
         void Init();

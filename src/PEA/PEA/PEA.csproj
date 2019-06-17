@@ -13,7 +13,6 @@
     <Folder Include="Chromosome\Implementation\DoubleVector\" />
     <Folder Include="Chromosome\Implementation\Permutation\" />
     <Folder Include="Topology\" />
-    <Folder Include="Replacement\" />
     <Folder Include="Util\" />
   </ItemGroup>
 
