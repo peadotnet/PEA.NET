@@ -9,9 +9,14 @@ namespace Pea.Core
 
         public ParameterSet() { }
 
-        public ParameterSet(Dictionary<string, double> parameters) : this()
+        public ParameterSet(IEnumerable<KeyValuePair<string, double>> parameters) : this()
         {
-            Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            foreach (var parameter in parameters)
+            {
+                SetValue(parameter.Key, parameter.Value);
+            }
         }
 
         public double GetValue(string parameterKey)

@@ -2,7 +2,12 @@
 
 namespace Pea.Core
 {
-    public interface ICrossover<TC> where TC: IChromosome
+    public interface ICrossover
+    {
+        IList<IChromosome> Cross(IList<IChromosome> parents);
+    }
+
+    public interface ICrossover<TC> : ICrossover where TC: IChromosome
     {
         IList<TC> Cross(IList<TC> parents);
     }

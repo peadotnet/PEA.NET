@@ -1,6 +1,8 @@
-﻿namespace Pea.Core
+﻿using System;
+
+namespace Pea.Core
 {
-    public interface IEntity
+    public interface IEntity : ICloneable
     {
         IGenotype Genotype { get; set; }
 

@@ -9,9 +9,9 @@
         IFitnessComparer FitnessComparer { get; set; }
         IPhenotypeDecoder PhenotypeDecoder { get; set; }
         IProvider<IReinsertion> Reinsertions { get; set; }
-        IProvider<ISelection> Selectors { get; set; }
+        IProvider<ISelection> Selections { get; set; }
+        IStopCriteria StopCriteria { get; set; }
 
-        void Init();
         bool RunOnce();
     }
 }

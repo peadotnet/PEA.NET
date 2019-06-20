@@ -4,22 +4,14 @@ using Pea.Core;
 
 namespace Pea.Selection
 {
-    public class TournamentSelection : ISelection
+    public class TournamentSelection : SelectionBase
     {
-        private IRandom Random { get; }
-
-        private IFitnessComparer FitnessComparer { get; }
-
-        private IParameterSet ParameterSet { get; }
-
         public TournamentSelection(IRandom random, IFitnessComparer fitnessComparer, IParameterSet parameterSet)
+            : base(random, fitnessComparer, parameterSet)
         {
-            Random = random;
-            FitnessComparer = fitnessComparer;
-            ParameterSet = parameterSet;
         }
 
-        public IList<IEntity> Select(IList<IEntity> entities)
+        public override IList<IEntity> Select(IList<IEntity> entities)
         {
             IList<IEntity> result = new List<IEntity>();
             var size = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));

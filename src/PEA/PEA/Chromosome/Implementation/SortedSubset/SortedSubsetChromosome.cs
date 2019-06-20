@@ -20,6 +20,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
             TotalCount = 0;
 
+            //TODO: clone conflictList
+
             Sections = new int[sections.Count][];
 
             var cIdx = 0;

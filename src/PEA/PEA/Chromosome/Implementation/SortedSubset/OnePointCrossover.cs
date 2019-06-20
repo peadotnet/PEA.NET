@@ -4,14 +4,14 @@ using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
-    public class OnePointCrossover : SortedSubsetOperatorBase, ICrossover<SortedSubsetChromosome>
+    public class OnePointCrossover : SortedSubsetCrossoverBase
     {
         public OnePointCrossover(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
             : base(random, parameterSet, conflictDetector)
         {
         }
 
-        public IList<SortedSubsetChromosome> Cross(IList<SortedSubsetChromosome> parents)
+        public override IList<SortedSubsetChromosome> Cross(IList<SortedSubsetChromosome> parents)
         {
             var children = new List<SortedSubsetChromosome>();
 

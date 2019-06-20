@@ -3,14 +3,14 @@ using System;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
-    public class ReplaceRangeMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
+    public class ReplaceRangeMutation : SortedSubsetMutationBase
     {
         public ReplaceRangeMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
             : base(random, parameterSet, conflictDetector)
         {
         }
 
-        public SortedSubsetChromosome Mutate(SortedSubsetChromosome chromosome)
+        public override SortedSubsetChromosome Mutate(SortedSubsetChromosome chromosome)
         {
             if (chromosome == null) throw new ArgumentNullException();
             if (chromosome.Sections.Length < 2) return null;

@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Core;
+using Pea.Island;
 
 namespace Pea.ActorModel.Actors
 {
@@ -8,9 +9,9 @@ namespace Pea.ActorModel.Actors
     {
         private IEngine Engine { get; }
 
-        public IslandActor(IEngine engine)
+        public IslandActor(PeaSettings settings)
         {
-            Engine = engine;
+            Engine = IslandEngineFactory.Create(settings);
             Receive<Continue>(m => RunOneStep());
         }
 
@@ -21,6 +22,12 @@ namespace Pea.ActorModel.Actors
             {
                 Self.Tell(Continue.Instance);
             }
+        }
+
+        public static Props CreateProps(PeaSettings settings)
+        {
+            var props = Props.Create(() => new IslandActor(settings));
+            return props;
         }
     }
 }

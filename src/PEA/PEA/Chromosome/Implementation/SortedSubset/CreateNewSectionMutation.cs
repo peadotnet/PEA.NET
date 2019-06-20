@@ -3,14 +3,14 @@ using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
-    public class CreateNewSectionMutation : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
+    public class CreateNewSectionMutation : SortedSubsetMutationBase
     {
         public CreateNewSectionMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
             : base(random, parameterSet, conflictDetector)
         {
         }
 
-        public SortedSubsetChromosome Mutate(SortedSubsetChromosome chromosome)
+        public override SortedSubsetChromosome Mutate(SortedSubsetChromosome chromosome)
         {
             if (chromosome == null) throw new ArgumentNullException();
 

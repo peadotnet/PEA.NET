@@ -39,12 +39,12 @@ namespace Pea.Chromosome
             return this;
         }
 
-        public IEnumerable<ICrossover<SortedSubsetChromosome>> GetCrossovers()
+        public IEnumerable<ICrossover> GetCrossovers()
         {
             return _crossovers;
         }
 
-        public IEnumerable<IMutation<SortedSubsetChromosome>> GetMutations()
+        public IEnumerable<IMutation> GetMutations()
         {
             return _mutations;
         }

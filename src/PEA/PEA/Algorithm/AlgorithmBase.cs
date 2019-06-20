@@ -51,7 +51,7 @@ namespace Pea.Algorithm
 
         protected IList<IEntity> SelectParents(IList<IEntity> entities)
         {
-            var selector = Engine.Selectors.GetOne();
+            var selector = Engine.Selections.GetOne();
             var parents = selector.Select(entities);
             return parents;
         }
