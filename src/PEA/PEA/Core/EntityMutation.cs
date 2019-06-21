@@ -13,7 +13,7 @@ namespace Pea.Core
             foreach (var factory in chromosomeFactories)
             {
                 var mutations = factory.Value.GetMutations();
-                var mutationProvider = CreateProvider(mutations.Count(), random);
+                var mutationProvider = ProviderFactory.Create<IMutation>(mutations.Count(), random);
                 foreach (var mutation in mutations)
                 {
                     mutationProvider.Add(mutation, 1.0);
@@ -23,16 +23,15 @@ namespace Pea.Core
             }
         }
 
-        public IProvider<IMutation> CreateProvider(int count, IRandom random)
-        {
-            if (count < 2) return new SimpleProvider<IMutation>();
-
-            return new StochasticProvider<IMutation>(random);
-        }
-
         public IList<IEntity> Mutate(IList<IEntity> entities)
         {
-            throw new NotImplementedException();
+            var result = new List<IEntity>();
+            foreach (var entity in entities)
+            {
+                result.Add(MutateEntity(entity));
+            }
+
+            return result;
         }
 
         public IEntity MutateEntity(IEntity entity)

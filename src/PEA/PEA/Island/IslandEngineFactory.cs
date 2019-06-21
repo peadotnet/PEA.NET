@@ -22,7 +22,7 @@ namespace Pea.Island
             engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
             engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
             engine.EntityMutation = new EntityMutation(settings.Chromosomes, random);
-            //TODO: engine.EntityCrossover 
+            engine.EntityCrossover = new EntityCrossover(settings.Chromosomes, random);
 
             //TODO: engine.StopCriteria json builder
 
