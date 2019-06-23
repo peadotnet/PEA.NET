@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Pea.Core;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pea.Core
+namespace Pea.Entity.Implementation.MultiChromosome
 {
     public class EntityMutation : IEntityMutation
     {

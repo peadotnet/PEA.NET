@@ -1,4 +1,6 @@
-﻿namespace Pea.Core
+﻿using Pea.Core;
+
+namespace Pea.Entity.Implementation.MultiChromosome
 {
     public class Entity : IEntity
     {
