@@ -1,6 +1,6 @@
 ﻿namespace Pea.Core
 {
-    interface IAlgorithm
+    public interface IAlgorithm
     {
         IEngine Engine { get; }
         IPopulation Population { get; set; }

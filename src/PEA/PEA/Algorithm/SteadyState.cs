@@ -5,7 +5,8 @@ namespace Pea.Algorithm
 {
     public class SteadyState : AlgorithmBase
     {
-        public SteadyState(IPopulation population, IslandEngine engine) : base(population, engine)
+        public SteadyState(IPopulation population, IEngine engine, 
+            DecodePhenotypesDelegate decodePhenotypes, AssessFitnessDelegate assessFitness) : base(population, engine, decodePhenotypes, assessFitness)
         {
         }
 

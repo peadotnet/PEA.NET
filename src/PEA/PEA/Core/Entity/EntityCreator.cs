@@ -1,7 +1,6 @@
-﻿using Pea.Core;
-using System;
+﻿using System;
 
-namespace Pea.Entity.Implementation.MultiChromosome
+namespace Pea.Core.Entity
 {
     public class EntityCreator<TG> : IEntityCreator<TG>
         where TG : IGenotype, new()

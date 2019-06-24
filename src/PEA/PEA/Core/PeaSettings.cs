@@ -5,6 +5,8 @@ namespace Pea.Core
 {
     public class PeaSettings
     {
+        public Type Algorithm { get; set; }
+
         public IList<KeyValuePair<string, IChromosomeFactory>> Chromosomes { get; set; } =
             new List<KeyValuePair<string, IChromosomeFactory>>();
 

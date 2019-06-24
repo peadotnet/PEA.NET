@@ -1,9 +1,8 @@
-﻿using Pea.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pea.Entity.Implementation.MultiChromosome
+namespace Pea.Core.Entity
 {
     public class EntityCrossover : IEntityCrossover
     {
