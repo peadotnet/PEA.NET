@@ -8,6 +8,10 @@ namespace Pea.Fitness
         private int _numberOfObjectives { get; }
         private static readonly NonDominatedParetoComparer FitnessComparer = new NonDominatedParetoComparer();
 
+        public ParetoMultiobjective() : this(1)
+        {
+        }
+
         public ParetoMultiobjective(int numberOfObjectives)
         {
             _numberOfObjectives = numberOfObjectives;

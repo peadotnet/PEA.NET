@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pea.Core;
-using Pea.Island;
 
-namespace Pea.Algorithm
+namespace Pea.Algorithm.Implementation
 {
     public abstract class AlgorithmBase : IAlgorithm
     {

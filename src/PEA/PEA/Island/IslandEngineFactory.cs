@@ -18,8 +18,7 @@ namespace Pea.Island
 
             engine.FitnessComparer = fitnessComparer;
             //TODO: engine.EntityCreators = CreateEntityCreators(settings, random);
-            //TODO: engine.PhenotypeDecoder
-            //TODO: engine.FitnessEvaluator
+
             engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
             engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
             engine.EntityMutation = new EntityMutation(settings.Chromosomes, random);
@@ -33,10 +32,10 @@ namespace Pea.Island
         public static IProvider<IEntityCreator> CreateEntityCreators(PeaSettings settings, IRandom random)
         {
             var creatorProvider = CreateProvider<IEntityCreator>(settings.EntityCreators.Count, random);
-            foreach (var creatorType in settings.EntityCreators)
+            foreach (var creator in settings.EntityCreators)
             {
-                var creator = (IEntityCreator)Activator.CreateInstance(creatorType.Key);
-                creatorProvider.Add(creator, creatorType.Value);
+                var creatorInstance = (IEntityCreator)Activator.CreateInstance(creator.ValueType);
+                creatorProvider.Add(creatorInstance, 1.0);
             }
 
             return creatorProvider;
@@ -49,8 +48,8 @@ namespace Pea.Island
 
             foreach (var selectionType in settings.Selectors)
             {
-                var selection = (ISelection)Activator.CreateInstance(selectionType.Key, BindingFlags.Default, null, selectionParameters );
-                selectionProvider.Add(selection, selectionType.Value);
+                var selectionInstance = (ISelection)Activator.CreateInstance(selectionType.ValueType, BindingFlags.Default, null, selectionParameters );
+                selectionProvider.Add(selectionInstance, 1.0);
             }
 
             return selectionProvider;
@@ -61,10 +60,10 @@ namespace Pea.Island
             var reinsertionProvider = CreateProvider<IReinsertion>(settings.Reinsertions.Count, random);
             var reinsertionParameters = new object[] { random, fitnessComparer, parameterSet };
 
-            foreach (var reinsertionType in settings.Reinsertions)
+            foreach (var reinsertion in settings.Reinsertions)
             {
-                var reinsertion = (IReinsertion)Activator.CreateInstance(reinsertionType.Key, BindingFlags.Default, null, reinsertionParameters);
-                reinsertionProvider.Add(reinsertion, reinsertionType.Value);
+                var reinsertionInstance = (IReinsertion)Activator.CreateInstance(reinsertion.ValueType, BindingFlags.Default, null, reinsertionParameters);
+                reinsertionProvider.Add(reinsertionInstance, 1.0);
             }
 
             return reinsertionProvider;

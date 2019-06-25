@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Pea.Core.Settings;
 
 namespace Pea.Core
 {
@@ -17,42 +16,59 @@ namespace Pea.Core
             return new PeaSystem();
         }
 
-        public void AddChromosome(string name, IChromosomeFactory chromosome)
+        public PeaSystem WithAlgorithm<TA>() where TA : IAlgorithmFactory
         {
-            Settings.Chromosomes.Add(new KeyValuePair<string, IChromosomeFactory>(name, chromosome));
+            Settings.Algorithm = typeof(TA);
+            return this;
         }
 
-        public void WithCreator(IEntityCreator creator, double probability = 1.0)
+        public PeaSystem AddChromosome<TCH>(string name) where TCH : IChromosomeFactory
         {
-            Settings.EntityCreators.Add(new KeyValuePair<Type, double>(creator.GetType(), probability));
+            Settings.Chromosomes.Add(new PeaSettingsNamedType(name, typeof(TCH)));
+            return this;
         }
 
-        public void AddSelection(ISelection selection, double probability = 1.0)
+        public PeaSystem WithCreator<TEC>(params string[] chromosomeNames) where TEC : IEntityCreator
         {
-            Settings.Selectors.Add(new KeyValuePair<Type, double>(selection.GetType(), probability));
+            Settings.EntityCreators.Add(new PeaSettingsNamedType(chromosomeNames, typeof(TEC)));
+            return this;
         }
 
-        public void AddReinsertion(IReinsertion reinsertion, double probability = 1.0)
+        public PeaSystem AddSelection<TS>(double probability = 1.0) where TS: ISelection
         {
-            Settings.Reinsertions.Add(new KeyValuePair<Type, double>(reinsertion.GetType(), probability));
+            Settings.Selectors.Add(new PeaSettingsTypeProbability(typeof(TS), probability));
+            return this;
         }
 
-        public void WithPhenotypeDecoder(IPhenotypeDecoder phenotypeDecoder)
+        public PeaSystem AddReinsertion<TR>(double probability = 1.0)
         {
-            Settings.PhenotypeDecoder = phenotypeDecoder.GetType();
+            Settings.Reinsertions.Add(new PeaSettingsTypeProbability(typeof(TR), probability));
+            return this;
         }
 
-        public void WithFitness(IFitnessFactory fitness)
+        public PeaSystem WithPhenotypeDecoder<TPD>() where TPD: IPhenotypeDecoder
         {
-            Settings.Fitness = fitness.GetType();
+            Settings.PhenotypeDecoder = typeof(TPD);
+            return this;
         }
 
-        public void SetParameter(string name, double value)
+        public PeaSystem WithFitnessEvaluator<TFE>() where TFE : IFitnessEvaluator
         {
-            Settings.ParameterSet.Add(new KeyValuePair<string, double>(name, value));
+            Settings.FitnessEvaluator = typeof(TFE);
+            return this;
         }
 
+        public PeaSystem WithFitness<TF>() where TF: IFitnessFactory
+        {
+            Settings.Fitness = typeof(TF);
+            return this;
+        }
 
+        public PeaSystem SetParameter(string name, double value)
+        {
+            Settings.ParameterSet.Add(new PeaSettingsNamedValue(name, value));
+            return this;
+        }
 
         public void Start()
         {

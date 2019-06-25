@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pea.Core.Settings;
 
 namespace Pea.Core
 {
@@ -9,13 +10,13 @@ namespace Pea.Core
 
         public ParameterSet() { }
 
-        public ParameterSet(IEnumerable<KeyValuePair<string, double>> parameters) : this()
+        public ParameterSet(IEnumerable<PeaSettingsNamedValue> parameters) : this()
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             foreach (var parameter in parameters)
             {
-                SetValue(parameter.Key, parameter.Value);
+                SetValue(parameter.Name, parameter.Value);
             }
         }
 

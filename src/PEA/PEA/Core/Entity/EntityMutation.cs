@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Pea.Core.Settings;
 
 namespace Pea.Core.Entity
 {
@@ -7,18 +9,19 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<IMutation>> MutationProviders { get; } = new Dictionary<string, IProvider<IMutation>>();
 
-        public EntityMutation(IList<KeyValuePair<string, IChromosomeFactory>> chromosomeFactories, IRandom random)
+        public EntityMutation(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random)
         {
             foreach (var factory in chromosomeFactories)
             {
-                var mutations = factory.Value.GetMutations();
+                var factoryInstance = Activator.CreateInstance(factory.ValueType) as IChromosomeFactory;
+                var mutations = factoryInstance.GetMutations();
                 var mutationProvider = ProviderFactory.Create<IMutation>(mutations.Count(), random);
                 foreach (var mutation in mutations)
                 {
                     mutationProvider.Add(mutation, 1.0);
                 }
 
-                MutationProviders.Add(factory.Key, mutationProvider);
+                MutationProviders.Add(factory.Names[0], mutationProvider);
             }
         }
 
