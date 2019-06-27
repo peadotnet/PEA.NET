@@ -30,7 +30,8 @@ namespace Pea.Core
 
         public PeaSystem WithCreator<TEC>(params string[] chromosomeNames) where TEC : IEntityCreator
         {
-            Settings.EntityCreators.Add(new PeaSettingsNamedType(chromosomeNames, typeof(TEC)));
+            var multiKey = new MultiKey(chromosomeNames);
+            Settings.EntityCreators.Add(new PeaSettingsNamedType(multiKey, typeof(TEC)));
             return this;
         }
 
@@ -46,15 +47,9 @@ namespace Pea.Core
             return this;
         }
 
-        public PeaSystem WithPhenotypeDecoder<TPD>() where TPD: IPhenotypeDecoder
+        public PeaSystem WithEvaluation<TFE>() where TFE : IEvaluation
         {
-            Settings.PhenotypeDecoder = typeof(TPD);
-            return this;
-        }
-
-        public PeaSystem WithFitnessEvaluator<TFE>() where TFE : IFitnessEvaluator
-        {
-            Settings.FitnessEvaluator = typeof(TFE);
+            Settings.Evaluation = typeof(TFE);
             return this;
         }
 

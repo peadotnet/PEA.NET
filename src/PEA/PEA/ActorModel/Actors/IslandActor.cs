@@ -13,18 +13,23 @@ namespace Pea.ActorModel.Actors
 
         private IAlgorithm Algorithm { get; }
 
-        private IActorRef FitnessEvaluator { get; set; }
-
-        private IActorRef PhenotypeDecoder { get; set; }
+        private IActorRef Evaluator { get; set; }
 
         public IslandActor(PeaSettings settings)
         {
             Engine = IslandEngineFactory.Create(settings);
 
             var algorithmFactory = (IAlgorithmFactory)Activator.CreateInstance(settings.Algorithm);
-            Algorithm = algorithmFactory.GetAlgorithm(null, Engine, DecodePhenotype, AssessFitness);
+            Algorithm = algorithmFactory.GetAlgorithm(Engine, Evaluate);
+            Engine.Algorithm = Algorithm;
 
+            Receive<InitEvaluator>(m => InitEvaluator(m));
             Receive<Continue>(m => RunOneStep());
+        }
+
+        private void InitEvaluator(InitEvaluator m)
+        {
+            Evaluator.Tell(m);
         }
 
         public void RunOneStep()
@@ -36,16 +41,10 @@ namespace Pea.ActorModel.Actors
             }
         }
 
-        public IList<IEntity> DecodePhenotype(IList<IEntity> entityList)
+        public IList<IEntity> Evaluate(IList<IEntity> entityList)
         {
-            var decodedEntities = PhenotypeDecoder.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
-            return decodedEntities;
-        }
-
-        public IList<IEntity> AssessFitness(IList<IEntity> entityList)
-        {
-            var assessedEntities = FitnessEvaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
-            return assessedEntities;
+            var evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
+            return evaluatedEntities;
         }
 
         public static Props CreateProps(PeaSettings settings)

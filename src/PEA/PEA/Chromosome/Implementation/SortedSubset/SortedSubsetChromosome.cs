@@ -43,5 +43,10 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             var clone = new SortedSubsetChromosome(this.Sections);
             return clone;
         }
+
+        IChromosome IDeepCloneable<IChromosome>.DeepClone()
+        {
+            return DeepClone();
+        }
     }
 }

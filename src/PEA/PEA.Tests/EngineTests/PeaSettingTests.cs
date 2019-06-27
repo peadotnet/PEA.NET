@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using FluentAssertions;
 using Pea.Core;
 using Pea.Fitness.Implementation.MultiObjective;
@@ -9,23 +10,26 @@ namespace Pea.Tests.EngineTests
 {
     public class PeaSettingTests
     {
-        public class testEvaluator : IFitnessEvaluator
+        public class testEvaluation : IEvaluation
         {
-            public IList<IEntity> AssessFitness(IList<IEntity> entityList)
+            public void Init(IEvaluationInitData initData)
             {
-                return new List<IEntity>();
-            }
-        }
-
-        public class testDecoder : IPhenotypeDecoder
-        {
-            public void Init(IPhenotypeDecoderInitData initData)
-            {
+                throw new System.NotImplementedException();
             }
 
-            public IPhenotype Decode(IGenotype genotype)
+            public IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
             {
-                return null;
+                throw new System.NotImplementedException();
+            }
+
+            public IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IEntity AssessFitness(IEntity entity)
+            {
+                throw new System.NotImplementedException();
             }
         }
 
@@ -35,11 +39,10 @@ namespace Pea.Tests.EngineTests
             var system = PeaSystem.Create()
                 .WithAlgorithm<Algorithm.SteadyState>()
                 .AddChromosome<Chromosome.SortedSubset>("TransitServices")
-                .WithPhenotypeDecoder<testDecoder>()
                 .WithFitness<Fitness.ParetoMultiobjective>()
-                .WithFitnessEvaluator<testEvaluator>()
                 .AddSelection<Selection.TournamentSelection>()
-                .AddReinsertion<Reinsertion.ReplaceParentsReinsertion>();
+                .AddReinsertion<Reinsertion.ReplaceParentsReinsertion>()
+                .WithEvaluation<testEvaluation>();
 
             system.Settings.Random = typeof(SystemRandom);
 

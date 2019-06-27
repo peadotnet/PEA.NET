@@ -29,6 +29,6 @@ namespace Pea.Core
 
         public Type Fitness { get; set; }
         public Type PhenotypeDecoder { get; set; }
-        public Type FitnessEvaluator { get; set; }
+        public Type Evaluation { get; set; }
     }
 }

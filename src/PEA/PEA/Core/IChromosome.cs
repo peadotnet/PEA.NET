@@ -1,6 +1,6 @@
 ﻿namespace Pea.Core
 {
-    public interface IChromosome
+    public interface IChromosome : IDeepCloneable<IChromosome>
     {
     }
 }

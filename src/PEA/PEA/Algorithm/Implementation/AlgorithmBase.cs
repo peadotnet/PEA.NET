@@ -5,8 +5,7 @@ namespace Pea.Algorithm.Implementation
 {
     public abstract class AlgorithmBase : IAlgorithm
     {
-        public delegate IList<IEntity> DecodePhenotypesDelegate(IList<IEntity> entityList);
-        public delegate IList<IEntity> AssessFitnessDelegate(IList<IEntity> entityList);
+        public delegate IList<IEntity> EvaluationDelegate(IList<IEntity> entityList);
 
         public IEngine Engine { get; }
         public IPopulation Population { get; set; }
@@ -14,17 +13,13 @@ namespace Pea.Algorithm.Implementation
         public abstract void InitPopulation();
         public abstract void RunOnce();
 
-        private DecodePhenotypesDelegate _decodePhenotypes;
-        private AssessFitnessDelegate _assessFitness;
+        private EvaluationDelegate _evaluate;
 
 
-        protected AlgorithmBase(IPopulation population, IEngine engine, 
-            DecodePhenotypesDelegate decodePhenotypes, AssessFitnessDelegate assessFitness)
+        protected AlgorithmBase(IEngine engine, EvaluationDelegate evaluate)
         {
-            Population = population;
             Engine = engine;
-            _decodePhenotypes = decodePhenotypes;
-            _assessFitness = assessFitness;
+            _evaluate = evaluate;
         }
 
         protected IEntity CreateEntity()
@@ -34,18 +29,9 @@ namespace Pea.Algorithm.Implementation
             return entity;
         }
 
-        protected void DecodePhenotypes(IList<IEntity> entities)
+        protected void Evaluate(IList<IEntity> entities)
         {
-            _decodePhenotypes(entities);
-            //foreach (IEntity entity in entities)
-            //{
-            //    entity.Phenotype = Engine.PhenotypeDecoder.Decode(entity.Genotype);
-            //}
-        }
-
-        protected void AssessFitness(IList<IEntity> entities)
-        {
-            _assessFitness(entities);
+            _evaluate(entities);
             //foreach (IEntity entity in entities)
             //{
             //    entity.Fitness = Engine.FitnessCalculator.CalculateFitness(entity.Phenotype);

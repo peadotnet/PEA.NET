@@ -1,44 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Akka.Actor;
 using Akka.Routing;
+using Pea.ActorModel.Messages;
 using Pea.Core;
 
 namespace Pea.ActorModel.Actors
 {
-    public class PhenotypeSupervisorActor : ReceiveActor, IWithUnboundedStash
+    public class EvaluationSupervisorActor : ReceiveActor, IWithUnboundedStash
     {
         public IStash Stash { get; set; }
 
         public IList<IEntity> EntityList { get; private set; }
 
         public int EntityProcessingCount { get; private set; }
+        public ParameterSet Parameters { get; }
 
         public IActorRef RequestSender { get; private set; }
-        public IActorRef PhenotypeDecoders { get; private set; }
+        public IActorRef FitnessEvaluators { get; private set; }
 
         public PeaSettings Settings { get; }
 
-        public PhenotypeSupervisorActor(PeaSettings settings)
+        public EvaluationSupervisorActor(PeaSettings settings)
         {
             Settings = settings;
-        }
-
-        protected override void PreStart()
-        {
-            ParameterSet parameterSet = new ParameterSet(Settings.ParameterSet);
-            var evaluatorsCount = parameterSet.GetInt(Island.ParameterNames.PhenotypeDecodersCount);
-
-            var props = PhenotypeDecoderActor.CreateProps(Settings)
-                .WithRouter(new RoundRobinPool(evaluatorsCount));
-
-            PhenotypeDecoders = Context.ActorOf(props, "PhenotypeDecoders");
-
-            base.PreStart();
+            Parameters = new ParameterSet(Settings.ParameterSet);
+            Become(Idle);
         }
 
         void Idle()
         {
+            Receive<InitEvaluator>(m => InitEvaluator(m));
             Receive<IList<IEntity>>(l => StartProcessing(l));
+        }
+
+        private void InitEvaluator(InitEvaluator m)
+        {
+            var evaluatorsCount = Parameters.GetInt(Island.ParameterNames.FitnessEvaluatorsCount);
+            var props = EvaluationWorkerActor.CreateProps(Settings, m.InitData)
+                .WithRouter(new RoundRobinPool(evaluatorsCount));
+
+            FitnessEvaluators = Context.ActorOf(props, "FitnessEvaluators");
         }
 
         void Processing()
@@ -47,23 +49,23 @@ namespace Pea.ActorModel.Actors
             Receive<IEntity>(e => Collect(e));
         }
 
-        public void StartProcessing(IList<IEntity> entityList)
+        private void StartProcessing(IList<IEntity> entityList)
         {
             RequestSender = Sender;
             EntityList = entityList;
             EntityProcessingCount = 0;
-            for (int i = 0; i < entityList.Count; i++)
+            for (int i=0; i < entityList.Count; i++)
             {
                 var entity = entityList[i];
                 entity.IndexOfList = i;
-                PhenotypeDecoders.Tell(entity);
+                FitnessEvaluators.Tell(entity);
                 EntityProcessingCount++;
             }
 
             Become(Processing);
         }
 
-        public void Collect(IEntity entity)
+        private void Collect(IEntity entity)
         {
             var index = entity.IndexOfList;
             EntityList[index] = entity;

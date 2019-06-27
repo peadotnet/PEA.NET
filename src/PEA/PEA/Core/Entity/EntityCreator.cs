@@ -2,8 +2,7 @@
 
 namespace Pea.Core.Entity
 {
-    public class EntityCreator<TG> : IEntityCreator<TG>
-        where TG : IGenotype, new()
+    public class EntityCreator : IEntityCreator
     {
         public IEntity CreateEntity()
         {

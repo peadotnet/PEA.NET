@@ -9,11 +9,11 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<IMutation>> MutationProviders { get; } = new Dictionary<string, IProvider<IMutation>>();
 
-        public EntityMutation(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random)
+        public EntityMutation(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random, ParameterSet parameterSet)
         {
             foreach (var factory in chromosomeFactories)
             {
-                var factoryInstance = Activator.CreateInstance(factory.ValueType) as IChromosomeFactory;
+                var factoryInstance = Activator.CreateInstance(factory.ValueType, random, parameterSet) as IChromosomeFactory;
                 var mutations = factoryInstance.GetMutations();
                 var mutationProvider = ProviderFactory.Create<IMutation>(mutations.Count(), random);
                 foreach (var mutation in mutations)
@@ -21,7 +21,7 @@ namespace Pea.Core.Entity
                     mutationProvider.Add(mutation, 1.0);
                 }
 
-                MutationProviders.Add(factory.Names[0], mutationProvider);
+                MutationProviders.Add(factory.Keys[0], mutationProvider);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Pea.Core.Entity
         {
             var mutatedEntity = (IEntity)entity.Clone();
 
-            foreach (var chromosome in entity.Genotype.Chromosomes)
+            foreach (var chromosome in entity.Chromosomes)
             {
                 if (MutationProviders.ContainsKey(chromosome.Key))
                 {
@@ -49,7 +49,7 @@ namespace Pea.Core.Entity
 
                     var mutatedChromosome = mutation.Mutate(chromosome.Value);
 
-                    mutatedEntity.Genotype.Chromosomes[chromosome.Key] = mutatedChromosome;
+                    mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
                 }
             }
 

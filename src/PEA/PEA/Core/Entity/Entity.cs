@@ -1,20 +1,29 @@
-﻿namespace Pea.Core.Entity
+﻿using System.Collections.Generic;
+
+namespace Pea.Core.Entity
 {
     public class Entity : IEntity
     {
         public int IndexOfList { get; set; }
-        public IGenotype Genotype { get; set; }
-        public IPhenotype Phenotype { get; set; }
+        public MultiKey OriginIslandKey { get; set; }
+        public IDictionary<string, IChromosome> Chromosomes { get; } = new Dictionary<string, IChromosome>();
         public IFitness Fitness { get; set; }
 
         public object Clone()
         {
-            return new Entity()
+            var clone = new Entity()
             {
-                Genotype = this.Genotype,
-                Phenotype = this.Phenotype,
+                IndexOfList = this.IndexOfList,
+                OriginIslandKey = this.OriginIslandKey,
                 Fitness = this.Fitness
             };
+
+            foreach (var key in Chromosomes.Keys)
+            {
+                clone.Chromosomes.Add(key, this.Chromosomes[key].DeepClone());
+            }
+
+            return clone;
         }
     }
 }

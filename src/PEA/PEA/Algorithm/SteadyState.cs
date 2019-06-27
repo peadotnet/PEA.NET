@@ -5,10 +5,10 @@ namespace Pea.Algorithm
 {
     public class SteadyState : IAlgorithmFactory
     {
-        public IAlgorithm GetAlgorithm(IPopulation population, IEngine engine, AlgorithmBase.DecodePhenotypesDelegate decodePhenotypes,
-            AlgorithmBase.AssessFitnessDelegate assessFitness)
+        public IAlgorithm GetAlgorithm(IEngine engine,
+            AlgorithmBase.EvaluationDelegate evaluation)
         {
-            return new SteadyStateAlgorithm(population, engine, decodePhenotypes, assessFitness);
+            return new SteadyStateAlgorithm(engine, evaluation);
         }
     }
 }

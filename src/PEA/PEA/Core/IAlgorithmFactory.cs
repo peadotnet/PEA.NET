@@ -1,13 +1,9 @@
-﻿using Pea.Algorithm;
-using Pea.Algorithm.Implementation;
-using Pea.Island;
+﻿using Pea.Algorithm.Implementation;
 
 namespace Pea.Core
 {
     public interface IAlgorithmFactory
     {
-        IAlgorithm GetAlgorithm(IPopulation population, IEngine engine,
-            AlgorithmBase.DecodePhenotypesDelegate decodePhenotypes,
-            AlgorithmBase.AssessFitnessDelegate assessFitness);
+        IAlgorithm GetAlgorithm(IEngine engine, AlgorithmBase.EvaluationDelegate evaluation);
     }
 }

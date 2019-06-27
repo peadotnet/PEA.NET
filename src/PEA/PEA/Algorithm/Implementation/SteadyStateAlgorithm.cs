@@ -4,21 +4,22 @@ namespace Pea.Algorithm.Implementation
 {
     public class SteadyStateAlgorithm : AlgorithmBase
     {
-        public SteadyStateAlgorithm(IPopulation population, IEngine engine, 
-            DecodePhenotypesDelegate decodePhenotypes, AssessFitnessDelegate assessFitness) : base(population, engine, decodePhenotypes, assessFitness)
+        public SteadyStateAlgorithm(IEngine engine, EvaluationDelegate evaluation) : base(engine, evaluation)
         {
         }
 
         public override void InitPopulation()
         {
+            Population = new Population.Population();
+
+            var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.MaxNumberOfEntities);
             for (int i = 0; i < Population.MaxNumberOfEntities; i++)
             {
                 var entity = CreateEntity();
                 Population.Add(entity);
             }
 
-            DecodePhenotypes(Population.Entities);
-            AssessFitness(Population.Entities);
+            Evaluate(Population.Entities);
             MergeToBests(Population.Entities);
         }
 
@@ -27,8 +28,8 @@ namespace Pea.Algorithm.Implementation
             var parents = SelectParents(Population.Entities);
             var children = Crossover(parents);
             children = Mutate(children);
-            DecodePhenotypes(children);
-            AssessFitness(children);
+            Evaluate(children);
+            //TODO: Reduction (children) ?
             MergeToBests(children);
             Reinsert(Population.Entities, children, parents, Population.Entities);
         }

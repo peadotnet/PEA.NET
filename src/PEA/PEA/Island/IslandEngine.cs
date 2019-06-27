@@ -5,14 +5,14 @@ namespace Pea.Island
 {
     public class IslandEngine : IEngine
     {
-        private IAlgorithm Algorithm { get; set; }
+        public IAlgorithm Algorithm { get; set; }
 
         //public ParameterSet ParameterSet { get; set; }
 
+        public PeaSettings Settings { get; set; }
+        public ParameterSet Parameters { get; set; }
         public IProvider<IEntityCreator> EntityCreators { get; set; }
         public IProvider<ISelection> Selections { get; set; }
-        public IPhenotypeDecoder PhenotypeDecoder { get; set; }
-        public IFitnessCalculator FitnessCalculator { get; set; }
         public IFitnessComparer FitnessComparer { get; set; }
         public IEntityCrossover EntityCrossover { get; set; }
         public IEntityMutation EntityMutation { get; set; }

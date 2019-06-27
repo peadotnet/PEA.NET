@@ -4,18 +4,18 @@ namespace Pea.Core.Settings
 {
     public class PeaSettingsNamedType
     {
-        public string[] Names { get; }
+        public MultiKey Keys { get; }
         public Type ValueType { get; }
 
-        public PeaSettingsNamedType(string[] names, Type valueType)
+        public PeaSettingsNamedType(MultiKey keys, Type valueType)
         {
-            Names = names;
+            Keys = keys;
             ValueType = valueType;
         }
 
-        public PeaSettingsNamedType(string name, Type valueType)
+        public PeaSettingsNamedType(string key, Type valueType)
         {
-            Names = new string[] {name};
+            Keys = new MultiKey(key);
             ValueType = valueType;
         }
     }

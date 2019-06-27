@@ -7,13 +7,13 @@ namespace Pea.Core.Entity
 {
     public class EntityCrossover : IEntityCrossover
     {
-        public Dictionary<string, IProvider<ICrossover>> CrossoverProviders { get; }
+        public Dictionary<string, IProvider<ICrossover>> CrossoverProviders { get; } = new Dictionary<string, IProvider<ICrossover>>();
 
-        public EntityCrossover(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random)
+        public EntityCrossover(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random, ParameterSet parameters)
         {
             foreach (var factory in chromosomeFactories)
             {
-                var factoryInstance = Activator.CreateInstance(factory.ValueType) as IChromosomeFactory;
+                var factoryInstance = Activator.CreateInstance(factory.ValueType, random, parameters) as IChromosomeFactory;
                 var crossovers = factoryInstance.GetCrossovers();
                 var mutationProvider = ProviderFactory.Create<ICrossover>(crossovers.Count(), random);
                 foreach (var crossover in crossovers)
@@ -21,7 +21,7 @@ namespace Pea.Core.Entity
                     mutationProvider.Add(crossover, 1.0);
                 }
 
-                CrossoverProviders.Add(factory.Names[0], mutationProvider);
+                CrossoverProviders.Add(factory.Keys[0], mutationProvider);
             }
         }
 
@@ -32,10 +32,12 @@ namespace Pea.Core.Entity
             var child1 = (IEntity)parents[0].Clone();
             var child2 = (IEntity)parents[1].Clone();
 
-            foreach (var chromosomeName in parents[0].Genotype.Chromosomes.Keys)
+            //TODO: operation with more than 2 parent / child entities
+
+            foreach (var chromosomeName in parents[0].Chromosomes.Keys)
             {
-                var parent1Chromosome = parents[0].Genotype.Chromosomes[chromosomeName];
-                var parent2Chromosome = parents[1].Genotype.Chromosomes[chromosomeName];
+                var parent1Chromosome = parents[0].Chromosomes[chromosomeName];
+                var parent2Chromosome = parents[1].Chromosomes[chromosomeName];
                 var parentChromosomes = new List<IChromosome>()
                 {
                     parent1Chromosome,
@@ -49,8 +51,8 @@ namespace Pea.Core.Entity
 
                     var mutatedChromosomes = crossover.Cross(parentChromosomes);
 
-                    child1.Genotype.Chromosomes[chromosomeName] = mutatedChromosomes[0];
-                    child2.Genotype.Chromosomes[chromosomeName] = mutatedChromosomes[1];
+                    child1.Chromosomes[chromosomeName] = mutatedChromosomes[0];
+                    child2.Chromosomes[chromosomeName] = mutatedChromosomes[1];
                 }
             }
 
