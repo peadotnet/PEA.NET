@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA", "PEA\PEA.csproj", "{2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PEA.Tests", "PEA.Tests\PEA.Tests.csproj", "{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{72CB01DA-EFAE-4568-B682-1957A92811C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PEA_TSP_Example", "PEA_TSP_Example\PEA_TSP_Example.csproj", "{F00CBE80-79F6-4AA6-B711-969D15E66AA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F00CBE80-79F6-4AA6-B711-969D15E66AA2} = {72CB01DA-EFAE-4568-B682-1957A92811C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7142636-D420-4680-93EB-80DBA2B1B4F0}

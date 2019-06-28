@@ -2,11 +2,8 @@
 
 namespace Pea.Core.Entity
 {
-    public class EntityCreator : IEntityCreator
+    public abstract class EntityCreator : IEntityCreator
     {
-        public IEntity CreateEntity()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract IEntity CreateEntity();
     }
 }
