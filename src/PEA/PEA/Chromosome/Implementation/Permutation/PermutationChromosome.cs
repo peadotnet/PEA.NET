@@ -7,6 +7,7 @@ namespace Pea.Chromosome.Implementation.Permutation
     {
         public int[] Genes { get; set; }
 
+        public List<GeneRange> ConflictList = new List<GeneRange>();
         public PermutationChromosome() { }
 
         public PermutationChromosome(ICollection<int> genes)

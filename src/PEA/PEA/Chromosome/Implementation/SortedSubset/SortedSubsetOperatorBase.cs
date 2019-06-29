@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
@@ -246,9 +245,9 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public bool ConflictShouldBeEliminated(SortedSubsetChromosome chromosome)
         {
-            if (!chromosome.ConflictList.Any()) return false;
+            if (chromosome.ConflictList.Count == 0) return false;
 
-            var reducingConflictPossibility = ParameterSet.GetValue(ParameterNames.ConflictReducingPossibility);
+            var reducingConflictPossibility = ParameterSet.GetValue(ParameterNames.ConflictReducingProbability);
             var rnd = Random.GetDouble(0, 1);
             return (rnd < reducingConflictPossibility);
         }
