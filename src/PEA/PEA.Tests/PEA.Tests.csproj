@@ -78,7 +78,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChromosomeTests\SortedSubsetTests\PredeterminedConflictDetector.cs" />
+    <Compile Include="ChromosomeTests\PermutationTests\PermutationCrossoverTests.cs" />
+    <Compile Include="ChromosomeTests\PermutationTests\PermutationMutationTests.cs" />
+    <Compile Include="ChromosomeTests\PermutationTests\PermutationOperatorBaseTests.cs" />
+    <Compile Include="ChromosomeTests\PermutationTests\PermutationTestData.cs" />
+    <Compile Include="ChromosomeTests\PredeterminedConflictDetector.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetCrossoverTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetMutationTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetOperatorBaseTests.cs" />
@@ -107,7 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActorTests\" />
-    <Folder Include="ChromosomeTests\PermutationTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

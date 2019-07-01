@@ -13,65 +13,71 @@ namespace Pea.Chromosome.Implementation.Permutation
 
         public override IList<PermutationChromosome> Cross(IList<PermutationChromosome> parents)
         {
+            //TODO: ConflictDetection, repeat, 
+            var result = new List<PermutationChromosome>();
+
             var swapRange = GetSourceRange(parents[0]);
 
-            var parent1Genes = parents[0].Genes;
-            var parent2Genes = parents[1].Genes;
-            var length = parent1Genes.Length;
-
-            var child1Genes = new int[length];
-            var child2Genes = new int[length];
-
-            Dictionary<int, int> swap1 = new Dictionary<int, int>();
-            Dictionary<int, int> swap2 = new Dictionary<int, int>();
-            for (int pos = swapRange.Position; pos < swapRange.Position + swapRange.Length; pos++)
-            {
-                swap1.Add(parent2Genes[pos], pos);
-                swap2.Add(parent1Genes[pos], pos);
-            }
-
-            if (swapRange.Position > 0)
-            {
-                CopyWithDuplicationElimination(swapRange, parent1Genes, child1Genes, swap1, 0, swapRange.Position);
-                CopyWithDuplicationElimination(swapRange, parent2Genes, child2Genes, swap2, 0, swapRange.Position);
-            }
-
-            Array.Copy(parent1Genes, swapRange.Position, child2Genes, swapRange.Position, swapRange.Length);
-            Array.Copy(parent2Genes, swapRange.Position, child1Genes, swapRange.Position, swapRange.Length);
-
-            int swapEnd = swapRange.Position + swapRange.Length;
-            if (swapEnd  < parent1Genes.Length)
-            {
-                CopyWithDuplicationElimination(swapRange, parent1Genes, child1Genes, swap1, swapEnd, length - swapEnd);
-                CopyWithDuplicationElimination(swapRange, parent2Genes, child2Genes, swap2, swapEnd, length - swapEnd);
-            }
-
+            int[] child1Genes = CrossoverGenes(parents[0].Genes, parents[1].Genes, swapRange);
             var child1 = new PermutationChromosome(child1Genes);
-            var child2 = new PermutationChromosome(child2Genes);
+            result.Add(child1);
 
-            var result = new List<PermutationChromosome>()
-            {
-                child1,
-                child2
-            };
+            int[] child2Genes = CrossoverGenes(parents[1].Genes, parents[0].Genes, swapRange);
+            var child2 = new PermutationChromosome(child2Genes);
+            result.Add(child2);
+
             return result;
         }
 
-        private static void CopyWithDuplicationElimination(GeneRange swapRange, int[] parent2Genes, int[] child1Genes, Dictionary<int, int> swap1, int begin, int end)
+        public int[] CrossoverGenes(int[] parent1Genes, int[] parent2Genes, GeneRange swapRange)
+        {
+            var length = parent1Genes.Length;
+            var childGenes = new int[length];
+
+            var swapRegionGeneMap = GenerateGeneMap(parent1Genes, swapRange);
+
+            if (swapRange.Position > 0)
+            {
+                CopyWithDuplicationElimination(parent2Genes, childGenes, swapRegionGeneMap, 0, swapRange.Position);
+            }
+
+            Array.Copy(parent1Genes, swapRange.Position, childGenes, swapRange.Position, swapRange.Length);
+
+            int swapEnd = swapRange.Position + swapRange.Length;
+            if (swapEnd < parent2Genes.Length)
+            {
+                CopyWithDuplicationElimination(parent2Genes, childGenes, swapRegionGeneMap, swapEnd, length);
+            }
+
+            return childGenes;
+        }
+
+        public Dictionary<int, int> GenerateGeneMap(int[] parent2Genes, GeneRange swapRange)
+        {
+            var swapRegionGeneMap = new Dictionary<int, int>();
+            for (int pos = swapRange.Position; pos < swapRange.Position + swapRange.Length; pos++)
+            {
+                swapRegionGeneMap.Add(parent2Genes[pos], pos);
+            }
+
+            return swapRegionGeneMap;
+        }
+
+        public void CopyWithDuplicationElimination(int[] parentGenes, int[] childGenes, Dictionary<int, int> geneMap, int begin, int end)
         {
             for (int pos = begin; pos < end; pos++)
             {
-                int geneValue1 = GetUniqueGeneValue(parent2Genes, swap1, pos);
-                child1Genes[pos] = geneValue1;
+                int geneValue = GetUniqueGeneValue(parentGenes, geneMap, pos);
+                childGenes[pos] = geneValue;
             }
         }
 
-        private static int GetUniqueGeneValue(int[] parent2Genes, Dictionary<int, int> swap1, int pos)
+        public int GetUniqueGeneValue(int[] genes, Dictionary<int, int> geneMap, int position)
         {
-            var geneValue = parent2Genes[pos];
-            while (swap1.ContainsKey(geneValue))
+            var geneValue = genes[position];
+            while (geneMap.ContainsKey(geneValue))
             {
-                geneValue = parent2Genes[swap1[geneValue]];
+                geneValue = genes[geneMap[geneValue]];
             }
 
             return geneValue;

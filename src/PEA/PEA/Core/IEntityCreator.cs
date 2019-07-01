@@ -2,6 +2,7 @@
 {
     public interface IEntityCreator
     {
+        void Init(IEvaluationInitData initData);
         IEntity CreateEntity();
     }
 }

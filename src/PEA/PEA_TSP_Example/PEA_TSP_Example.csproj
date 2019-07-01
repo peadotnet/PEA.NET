@@ -5,4 +5,16 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Berlin52.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Berlin52.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PEA\PEA.csproj" />
+  </ItemGroup>
+
 </Project>

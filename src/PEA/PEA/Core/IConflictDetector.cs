@@ -1,4 +1,4 @@
-﻿namespace Pea.Chromosome.Implementation.SortedSubset
+﻿namespace Pea.Core
 {
     public interface IConflictDetector
     {

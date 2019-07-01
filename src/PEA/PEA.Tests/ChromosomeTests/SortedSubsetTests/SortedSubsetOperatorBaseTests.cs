@@ -27,7 +27,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         [InlineData(2, 3, 1)]
         [InlineData(2, 9, 1)]
         [InlineData(2, 10, 2)]
-        public void GivenSortedSubsetOperatorBase_WhenFindNewPosition_ThenReturns(int sectionIndex, int geneValue, int expected)
+        public void SortedSubsetOperatorBase_FindNewPosition_ReturnsPosition(int sectionIndex, int geneValue, int expected)
         {
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();

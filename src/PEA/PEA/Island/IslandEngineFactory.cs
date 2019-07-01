@@ -20,6 +20,7 @@ namespace Pea.Island
             engine.Parameters = parameterSet;
             engine.FitnessComparer = fitnessComparer;
             //TODO: engine.EntityCreators = CreateEntityCreators(settings, random);
+            engine.EntityCreators = new SimpleProvider<IEntityCreator>();
 
             engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
             engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
@@ -27,6 +28,7 @@ namespace Pea.Island
             engine.EntityCrossover = new EntityCrossover(settings.Chromosomes, random, parameterSet);
 
             //TODO: engine.StopCriteria json builder
+            engine.StopCriteria = settings.StopCriteria;
 
             return engine;
         }
