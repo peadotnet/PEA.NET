@@ -5,6 +5,7 @@
         PeaSettings Settings { get; }
         ParameterSet Parameters { get; }
 
+        IRandom Random { get; set; }
         IAlgorithm Algorithm { get; set; }
         IProvider<IEntityCreator> EntityCreators { get; }
         IEntityCrossover EntityCrossover { get; }
@@ -14,6 +15,7 @@
         IProvider<ISelection> Selections { get; }
         IStopCriteria StopCriteria { get; }
 
-        bool RunOnce();
+        void Init();
+        StopDecision RunOnce();
     }
 }

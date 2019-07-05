@@ -1,9 +1,8 @@
 ﻿using System;
 using Akka.Actor;
-using Pea.ActorModel.Messages;
 using Pea.Core;
 
-namespace Pea.ActorModel.Actors
+namespace Pea.Akka.Actors
 {
     public class EvaluationWorkerActor : ReceiveActor
     {
@@ -11,11 +10,14 @@ namespace Pea.ActorModel.Actors
 
         private IEvaluation Calculator { get; }
 
+        private IEvaluationInitData EvaluationData { get; }
+
         public EvaluationWorkerActor(PeaSettings settings, IEvaluationInitData initData)
         {
             Settings = settings;
-            Calculator = (IEvaluation)Activator.CreateInstance(settings.Fitness);
-            Calculator.Init(initData);
+            EvaluationData = initData;
+            //Calculator = (IEvaluation)Activator.CreateInstance(settings.Fitness);
+            //Calculator.Init(initData);
         }
 
         public static Props CreateProps(PeaSettings settings, IEvaluationInitData initData)

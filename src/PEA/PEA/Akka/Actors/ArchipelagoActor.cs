@@ -3,7 +3,7 @@ using Akka.Actor;
 using Pea.Core;
 using Pea.Island;
 
-namespace Pea.ActorModel.Actors
+namespace Pea.Akka.Actors
 {
     public class ArchipelagoActor : ReceiveActor
     {

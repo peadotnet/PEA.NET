@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Fitness.Implementation.MultiObjective
@@ -27,6 +28,12 @@ namespace Pea.Fitness.Implementation.MultiObjective
 
             for (int i = bests.Count-1; i >= 0; i--)
             {
+                if (bests[i].Fitness.IsEquivalent(entity.Fitness))
+                {
+                    hasToBeAdded = false;
+                    break;
+                }
+
                 switch (Compare(bests[i].Fitness, entity.Fitness))
                 {
                     case -1:
@@ -40,6 +47,9 @@ namespace Pea.Fitness.Implementation.MultiObjective
 
             if (hasToBeAdded)
             {
+                var timeString = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." +
+                                 DateTime.Now.Millisecond;
+                Console.WriteLine(timeString + " " + entity.ToString());
                 bests.Add(entity);
             }
 

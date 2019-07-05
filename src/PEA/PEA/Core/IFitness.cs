@@ -3,6 +3,7 @@
     public interface IFitness
     {
         bool IsValid { get; set; }
+        bool IsEquivalent(IFitness other);
     }
 
     public interface IFitness<TF> : IFitness

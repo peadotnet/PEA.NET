@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Akka.Actor;
 using Akka.Routing;
 using Pea.ActorModel.Messages;
 using Pea.Core;
 
-namespace Pea.ActorModel.Actors
+namespace Pea.Akka.Actors
 {
     public class EvaluationSupervisorActor : ReceiveActor, IWithUnboundedStash
     {
@@ -76,6 +75,11 @@ namespace Pea.ActorModel.Actors
                 Stash.UnstashAll();
                 Become(Idle);
             }
+        }
+
+        public static Props CreateProps(PeaSettings settings)
+        {
+            return Props.Create(() => new EvaluationSupervisorActor(settings));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Pea.Core.Settings;
+﻿using Pea.Akka;
+using Pea.Core.Settings;
 
 namespace Pea.Core
 {
@@ -65,8 +66,10 @@ namespace Pea.Core
             return this;
         }
 
-        public void Start()
+        public async void Start(IEvaluationInitData initData)
         {
+            AkkaSystemProvider provider = new AkkaSystemProvider();
+            await provider.Start(Settings, initData);
 
         }
     }

@@ -7,6 +7,6 @@
 
     public interface IMutation<TC> : IMutation where TC: IChromosome
     {
-        TC Mutate(TC chromosome);
+        new IChromosome Mutate(IChromosome chromosome);
     }
 }

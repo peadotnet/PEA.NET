@@ -1,6 +1,6 @@
 ﻿using Akka.Actor;
 
-namespace Pea.ActorModel.Actors
+namespace Pea.Akka.Actors
 {
     public class FitnessCalculatorActor : ReceiveActor
     {

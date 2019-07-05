@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Composition;
+using System.Globalization;
 using Pea.Core;
 
 namespace PEA_TSP_Example
 {
+    [Export(typeof(IEntity))]
     public class TSPEntity : IEntity
     {
         public int IndexOfList { get; set; }
@@ -10,6 +13,7 @@ namespace PEA_TSP_Example
         public IDictionary<string, IChromosome> Chromosomes { get; } = new Dictionary<string, IChromosome>();
         public List<SpatialPoint> Phenotype = new List<SpatialPoint>();
         public IFitness Fitness { get; set; }
+        public double TotalDistance { get; set; }
 
         public object Clone()
         {
@@ -24,6 +28,11 @@ namespace PEA_TSP_Example
             }
 
             return clone;
+        }
+
+        public override string ToString()
+        {
+            return "Distance: " + TotalDistance.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

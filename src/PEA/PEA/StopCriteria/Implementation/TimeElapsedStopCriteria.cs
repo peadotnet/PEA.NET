@@ -27,7 +27,7 @@ namespace Pea.StopCriteria.Implementation
                 return new StopDecision(false);
             }
 
-            if (StopWatch.ElapsedMilliseconds > 1000 * TimeoutMilliseconds)
+            if (StopWatch.ElapsedMilliseconds < TimeoutMilliseconds)
             {
                 return new StopDecision(false);
             }

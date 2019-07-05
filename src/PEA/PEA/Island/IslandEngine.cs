@@ -8,6 +8,7 @@ namespace Pea.Island
         public IAlgorithm Algorithm { get; set; }
 
         //public ParameterSet ParameterSet { get; set; }
+        public IRandom Random { get; set; }
 
         public PeaSettings Settings { get; set; }
         public ParameterSet Parameters { get; set; }
@@ -27,15 +28,13 @@ namespace Pea.Island
         public void Init()
         {
             Algorithm.InitPopulation();
+            
         }
 
-        public bool RunOnce()
+        public StopDecision RunOnce()
         {
             Algorithm.RunOnce();
-            //TODO: StopCriteria
-            return true;
+            return StopCriteria.MakeDecision(this, Algorithm.Population);
         }
-
-
     }
 }

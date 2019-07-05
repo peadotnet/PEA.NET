@@ -19,7 +19,7 @@ namespace Pea.Chromosome.Implementation.Permutation
         {
             var thisEnd = this.Position + this.Length;
             var otherEnd = other.Position + other.Length;
-            return thisEnd <= other.Position || otherEnd <= this.Position; 
+            return thisEnd < other.Position || otherEnd < this.Position; 
         }
     }
 }

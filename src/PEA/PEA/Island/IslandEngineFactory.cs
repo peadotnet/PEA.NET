@@ -16,11 +16,12 @@ namespace Pea.Island
 
             var engine = new IslandEngine();
 
+            engine.Random = random;
             engine.Settings = settings;
             engine.Parameters = parameterSet;
             engine.FitnessComparer = fitnessComparer;
-            //TODO: engine.EntityCreators = CreateEntityCreators(settings, random);
-            engine.EntityCreators = new SimpleProvider<IEntityCreator>();
+            engine.EntityCreators = CreateEntityCreators(settings, random);
+            //engine.EntityCreators = new SimpleProvider<IEntityCreator>();
 
             engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
             engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
@@ -38,7 +39,12 @@ namespace Pea.Island
             var creatorProvider = CreateProvider<IEntityCreator>(settings.EntityCreators.Count, random);
             foreach (var creator in settings.EntityCreators)
             {
-                var creatorInstance = (IEntityCreator)Activator.CreateInstance(creator.ValueType);
+                var creatorType = creator.ValueType;
+                var assembly = creatorType.Assembly;
+                var loadedAssembly = Assembly.Load(assembly.FullName);
+                var typeClass = loadedAssembly.GetType(creatorType.FullName);
+
+                var creatorInstance = (IEntityCreator)Activator.CreateInstance(typeClass);
                 creatorProvider.Add(creatorInstance, 1.0);
             }
 

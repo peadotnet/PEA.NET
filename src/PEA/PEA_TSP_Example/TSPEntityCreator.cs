@@ -7,7 +7,7 @@ namespace PEA_TSP_Example
 {
     public class TSPEntityCreator : IEntityCreator
     {
-        private int Count { get; set; }
+        private int Count { get; set; } = 52;
 
         public void Init(IEvaluationInitData initData)
         {

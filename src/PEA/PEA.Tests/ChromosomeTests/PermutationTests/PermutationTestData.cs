@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using Pea.Chromosome.Implementation.Permutation;
+using Pea.Core;
 
 namespace Pea.Tests.ChromosomeTests.PermutationTests
 {
     public class PermutationTestData
     {
-        public static IList<PermutationChromosome> CreateTestChromosomes()
+        public static IList<IChromosome> CreateTestChromosomes()
         {
             var chromosome1 = CreateTestChromosome1();
             var chromosome2 = CreateTestChromosome2();
 
-            var result = new List<PermutationChromosome>() { chromosome1, chromosome2 };
+            var result = new List<IChromosome>() { chromosome1, chromosome2 };
             return result;
         }
 

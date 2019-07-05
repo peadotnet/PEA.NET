@@ -61,7 +61,12 @@ namespace Pea.Algorithm.Implementation
 
         protected IList<IEntity> Mutate(IList<IEntity> children)
         {
-            children = Engine.EntityMutation.Mutate(children);
+            var mutationProbability = Engine.Parameters.GetValue(ParameterNames.MutationProbability);
+            var rnd = Engine.Random.GetDouble(0, 1);
+            if (rnd < mutationProbability)
+            {
+                children = Engine.EntityMutation.Mutate(children);
+            }
             return children;
         }
 

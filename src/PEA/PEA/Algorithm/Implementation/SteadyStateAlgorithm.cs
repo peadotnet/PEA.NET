@@ -13,7 +13,7 @@ namespace Pea.Algorithm.Implementation
             Population = new Population.Population();
 
             var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.MaxNumberOfEntities);
-            for (int i = 0; i < Population.MaxNumberOfEntities; i++)
+            for (int i = 0; i < maxNumberOfEntities; i++)
             {
                 var entity = CreateEntity();
                 Population.Add(entity);

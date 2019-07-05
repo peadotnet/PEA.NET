@@ -11,18 +11,21 @@ namespace Pea.Chromosome.Implementation.Permutation
 
         }
 
-        public override IList<PermutationChromosome> Cross(IList<PermutationChromosome> parents)
+        public override IList<IChromosome> Cross(IList<IChromosome> parents)
         {
             //TODO: ConflictDetection, repeat, 
-            var result = new List<PermutationChromosome>();
+            var result = new List<IChromosome>();
 
-            var swapRange = GetSourceRange(parents[0]);
+            var parent1 = parents[0] as PermutationChromosome;
+            var parent2 = parents[1] as PermutationChromosome;
 
-            int[] child1Genes = CrossoverGenes(parents[0].Genes, parents[1].Genes, swapRange);
+            var swapRange = GetSourceRange(parent1);
+
+            int[] child1Genes = CrossoverGenes(parent1.Genes, parent2.Genes, swapRange);
             var child1 = new PermutationChromosome(child1Genes);
             result.Add(child1);
 
-            int[] child2Genes = CrossoverGenes(parents[1].Genes, parents[0].Genes, swapRange);
+            int[] child2Genes = CrossoverGenes(parent2.Genes, parent1.Genes, swapRange);
             var child2 = new PermutationChromosome(child2Genes);
             result.Add(child2);
 

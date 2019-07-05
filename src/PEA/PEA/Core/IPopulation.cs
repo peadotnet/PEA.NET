@@ -7,7 +7,7 @@ namespace Pea.Core
         IList<IEntity> Bests { get; set; }
         int MaxNumberOfEntities { get; set; }
         int MinNumberOfEntities { get; set; }
-        IList<IEntity> Entities { get; set; }
+        IList<IEntity> Entities { get; }
         void Add(IEntity entity);
     }
 }

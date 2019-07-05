@@ -21,9 +21,9 @@ namespace Pea.Tests.ChromosomeTests.PermutationTests
             var crossover = new PMXCrossover(random, parameterSet, null);
             var chromosomes = PermutationTestData.CreateTestChromosomes();
             var range = new GeneRange(3, 4);
-            var geneMap = crossover.GenerateGeneMap(chromosomes[0].Genes, range);
+            var geneMap = crossover.GenerateGeneMap(((PermutationChromosome)chromosomes[0]).Genes, range);
 
-            var result = crossover.GetUniqueGeneValue(chromosomes[1].Genes, geneMap, position);
+            var result = crossover.GetUniqueGeneValue(((PermutationChromosome)chromosomes[1]).Genes, geneMap, position);
 
             result.Should().Be(expected);
         }
@@ -38,11 +38,11 @@ namespace Pea.Tests.ChromosomeTests.PermutationTests
             var crossover = new PMXCrossover(random, parameterSet, null);
             var chromosomes = PermutationTestData.CreateTestChromosomes();
             var range = new GeneRange(3, 3);
-            var geneMap = crossover.GenerateGeneMap(chromosomes[0].Genes, range);
-            var childGenes = new int[chromosomes[0].Genes.Length];
+            var geneMap = crossover.GenerateGeneMap(((PermutationChromosome)chromosomes[0]).Genes, range);
+            var childGenes = new int[((PermutationChromosome)chromosomes[0]).Genes.Length];
 
             var length = end - begin;
-            crossover.CopyWithDuplicationElimination(chromosomes[1].Genes, childGenes, geneMap, begin, end);
+            crossover.CopyWithDuplicationElimination(((PermutationChromosome)chromosomes[1]).Genes, childGenes, geneMap, begin, end);
             var result = new int[length];
             Array.Copy(childGenes, begin, result, 0, length);
 
@@ -62,7 +62,7 @@ namespace Pea.Tests.ChromosomeTests.PermutationTests
             var children = crossover.Cross(parents);
 
             children.Count.Should().Be(2);
-            children[0].Genes.Should().BeEquivalentTo(expected);
+            ((PermutationChromosome)children[0]).Genes.Should().BeEquivalentTo(expected);
         }
     }
 }
