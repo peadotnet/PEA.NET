@@ -5,12 +5,14 @@ using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
 using Pea.Core;
-using Pea.Island;
+using Pea.Core.Island;
 
 namespace Pea.Akka.Actors
 {
     public class IslandActor : ReceiveActor
     {
+        private MultiKey IslandKey { get; }
+
         private IEngine Engine { get; }
 
         private IAlgorithm Algorithm { get; }
@@ -19,22 +21,17 @@ namespace Pea.Akka.Actors
 
         private IActorRef Starter { get; set; }
 
-        private IEvaluation Evaluation { get; }
-
         public IslandActor(PeaSettings settings)
         {
             Engine = IslandEngineFactory.Create(settings);
+
+            IslandKey = settings.Chromosomes[0].Keys; //TODO: multiple island topology
 
             var algorithmFactory = (IAlgorithmFactory)Activator.CreateInstance(settings.Algorithm);
             Algorithm = algorithmFactory.GetAlgorithm(Engine, Evaluate);
             Engine.Algorithm = Algorithm;
 
-            Evaluator = Context.ActorOf(EvaluationSupervisorActor.CreateProps(settings));
-
-            var assembly = settings.Evaluation.Assembly;
-            var loadedAssembly = Assembly.Load(assembly.FullName);
-            var typeClass = loadedAssembly.GetType(settings.Evaluation.FullName);
-            Evaluation = (IEvaluation)Activator.CreateInstance(typeClass);
+            Evaluator = Context.ActorOf(EvaluationSupervisorActor.CreateProps(IslandKey, settings));
 
             Receive<InitEvaluator>(m => InitEvaluator(m));
             Receive<Continue>(m => RunOneStep());
@@ -49,7 +46,6 @@ namespace Pea.Akka.Actors
         private void InitEvaluator(InitEvaluator m)
         {
             Starter = Sender;
-            Evaluation.Init(m.InitData);
             Evaluator.Tell(m);
             Engine.Init();
             Self.Tell(Continue.Instance);
@@ -71,21 +67,21 @@ namespace Pea.Akka.Actors
 
         public IList<IEntity> Evaluate(IList<IEntity> entityList)
         {
-            var result = new List<IEntity>();
-            foreach (var entity in entityList)
-            {
-                var key = new MultiKey("TSP");
-                var entityWithKey = new Dictionary<MultiKey, IEntity>();
-                entityWithKey.Add(key, entity);
+            //var result = new List<IEntity>();
+            //foreach (var entity in entityList)
+            //{
+            //    var key = new MultiKey("TSP");
+            //    var entityWithKey = new Dictionary<MultiKey, IEntity>();
+            //    entityWithKey.Add(key, entity);
 
-                var decodedEntity = Evaluation.Decode(key, entityWithKey);
-                result.Add(decodedEntity);
-            }
+            //    var decodedEntity = Evaluation.Decode(key, entityWithKey);
+            //    result.Add(decodedEntity);
+            //}
 
-            return result;
+            //return result;
 
-            //var evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
-            //return evaluatedEntities;
+            var evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
+            return evaluatedEntities;
         }
 
         public static Props CreateProps(PeaSettings settings)

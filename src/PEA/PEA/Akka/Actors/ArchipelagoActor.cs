@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Akka.Actor;
 using Pea.Core;
-using Pea.Island;
+using Pea.Core.Island;
 
 namespace Pea.Akka.Actors
 {

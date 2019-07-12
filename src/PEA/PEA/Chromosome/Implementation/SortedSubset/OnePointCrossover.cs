@@ -66,15 +66,24 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return children;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sectionForLeft"></param>
+        /// <param name="leftEndPosition"></param>
+        /// <param name="sectionForRight"></param>
+        /// <param name="rightStartPosition"></param>
+        /// <param name="childConflicted"></param>
+        /// <returns></returns>
         public int[] MergeSections(int[] sectionForLeft, int leftEndPosition, int[] sectionForRight, int rightStartPosition, ref bool childConflicted)
         {
             if (childConflicted) return null;
 
-            int? geneValue0 = (rightStartPosition < sectionForRight.Length)
+            int? geneValue = (rightStartPosition < sectionForRight.Length)
                 ? sectionForRight[rightStartPosition] as int?
                 : null;
 
-            if (ConflictDetectedWithLeftNeighbor(sectionForLeft, leftEndPosition, geneValue0))
+            if (ConflictDetectedWithLeftNeighbor(sectionForLeft, leftEndPosition, geneValue))
                 childConflicted = true;
 
             if (childConflicted) return null;

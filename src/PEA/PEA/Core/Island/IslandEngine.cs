@@ -1,7 +1,4 @@
-﻿using System;
-using Pea.Core;
-
-namespace Pea.Island
+﻿namespace Pea.Core.Island
 {
     public class IslandEngine : IEngine
     {

@@ -1,9 +1,7 @@
-﻿using Pea.Core;
-using System;
-using System.Reflection;
+﻿using System;
 using Pea.Core.Entity;
 
-namespace Pea.Island
+namespace Pea.Core.Island
 {
     public static class IslandEngineFactory
     {
@@ -21,14 +19,10 @@ namespace Pea.Island
             engine.Parameters = parameterSet;
             engine.FitnessComparer = fitnessComparer;
             engine.EntityCreators = CreateEntityCreators(settings, random);
-            //engine.EntityCreators = new SimpleProvider<IEntityCreator>();
-
             engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
             engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
             engine.EntityMutation = new EntityMutation(settings.Chromosomes, random, parameterSet);
             engine.EntityCrossover = new EntityCrossover(settings.Chromosomes, random, parameterSet);
-
-            //TODO: engine.StopCriteria json builder
             engine.StopCriteria = settings.StopCriteria;
 
             return engine;
@@ -39,12 +33,7 @@ namespace Pea.Island
             var creatorProvider = CreateProvider<IEntityCreator>(settings.EntityCreators.Count, random);
             foreach (var creator in settings.EntityCreators)
             {
-                var creatorType = creator.ValueType;
-                var assembly = creatorType.Assembly;
-                var loadedAssembly = Assembly.Load(assembly.FullName);
-                var typeClass = loadedAssembly.GetType(creatorType.FullName);
-
-                var creatorInstance = (IEntityCreator)Activator.CreateInstance(typeClass);
+                var creatorInstance = (IEntityCreator)TypeLoader.CreateInstance(creator.ValueType);
                 creatorProvider.Add(creatorInstance, 1.0);
             }
 

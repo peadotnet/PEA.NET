@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using Pea.Core;
+using Pea.Core.Island;
 using Pea.Fitness.Implementation.MultiObjective;
-using Pea.Island;
 using Xunit;
 
 namespace Pea.Tests.EngineTests

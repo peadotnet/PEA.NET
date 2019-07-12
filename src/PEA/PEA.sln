@@ -9,9 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PEA.Tests", "PEA.Tests\PEA.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{72CB01DA-EFAE-4568-B682-1957A92811C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PEA_TSP_Example", "PEA_TSP_Example\PEA_TSP_Example.csproj", "{F00CBE80-79F6-4AA6-B711-969D15E66AA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA_TSP_Example", "PEA_TSP_Example\PEA_TSP_Example.csproj", "{F00CBE80-79F6-4AA6-B711-969D15E66AA2}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

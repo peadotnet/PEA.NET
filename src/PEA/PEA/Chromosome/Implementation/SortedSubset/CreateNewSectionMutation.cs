@@ -22,6 +22,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 GenePosition source = GetSourceSectionAndPosition(chromosome);
                 ReplaceOneGeneToRandomSection(chromosome, source);
             }
+
             //TODO: folyt köv innen
             
             return chromosome;

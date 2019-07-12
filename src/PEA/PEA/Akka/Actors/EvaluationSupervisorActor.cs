@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Akka.Actor;
 using Akka.Routing;
 using Pea.ActorModel.Messages;
 using Pea.Core;
+using Pea.Core.Island;
 
 namespace Pea.Akka.Actors
 {
@@ -12,16 +14,20 @@ namespace Pea.Akka.Actors
 
         public IList<IEntity> EntityList { get; private set; }
 
+        public MultiKey IslandKey { get; }
+
         public int EntityProcessingCount { get; private set; }
         public ParameterSet Parameters { get; }
 
         public IActorRef RequestSender { get; private set; }
-        public IActorRef FitnessEvaluators { get; private set; }
+        public IActorRef EvaluationRouter { get; private set; }
+        public IActorRef[] EvaluationWorkers { get; private set; }
 
         public PeaSettings Settings { get; }
 
-        public EvaluationSupervisorActor(PeaSettings settings)
+        public EvaluationSupervisorActor(MultiKey islandKey, PeaSettings settings)
         {
+            IslandKey = islandKey;
             Settings = settings;
             Parameters = new ParameterSet(Settings.ParameterSet);
             Become(Idle);
@@ -33,13 +39,29 @@ namespace Pea.Akka.Actors
             Receive<IList<IEntity>>(l => StartProcessing(l));
         }
 
-        private void InitEvaluator(InitEvaluator m)
+        public void InitEvaluator(InitEvaluator m)
         {
-            var evaluatorsCount = Parameters.GetInt(Island.ParameterNames.FitnessEvaluatorsCount);
-            var props = EvaluationWorkerActor.CreateProps(Settings, m.InitData)
-                .WithRouter(new RoundRobinPool(evaluatorsCount));
+            var props = EvaluationWorkerActor.CreateProps(IslandKey, Settings, m.InitData);
+            var evaluatorsCount = Parameters.GetInt(ParameterNames.EvaluatorsCount);
+            EvaluationWorkers = CreateWorkers(props, evaluatorsCount);
 
-            FitnessEvaluators = Context.ActorOf(props, "FitnessEvaluators");
+            var paths = EvaluationWorkers.Select(w => w.Path.ToString());
+            var routerProps = Props.Empty.WithRouter(new RoundRobinGroup(paths));
+
+            EvaluationRouter = Context.ActorOf(routerProps, "Evaluators");
+        }
+
+        public IActorRef[] CreateWorkers(Props props, int count)
+        {
+            var workers = new IActorRef[count];
+            for (int i = 0; i < count; i++)
+            {
+                string name = $"Evaluator_{i}";
+                var worker = Context.ActorOf(props, name);
+                workers[i] = worker;
+            }
+
+            return workers;
         }
 
         void Processing()
@@ -57,7 +79,7 @@ namespace Pea.Akka.Actors
             {
                 var entity = entityList[i];
                 entity.IndexOfList = i;
-                FitnessEvaluators.Tell(entity);
+                EvaluationRouter.Tell(entity);
                 EntityProcessingCount++;
             }
 
@@ -77,9 +99,9 @@ namespace Pea.Akka.Actors
             }
         }
 
-        public static Props CreateProps(PeaSettings settings)
+        public static Props CreateProps(MultiKey islandKey, PeaSettings settings)
         {
-            return Props.Create(() => new EvaluationSupervisorActor(settings));
+            return Props.Create(() => new EvaluationSupervisorActor(islandKey, settings));
         }
     }
 }

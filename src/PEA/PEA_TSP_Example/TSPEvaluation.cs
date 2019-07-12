@@ -11,6 +11,9 @@ namespace PEA_TSP_Example
     {
         public static readonly MultiKey Key = new MultiKey("TSP");
 
+        public object counterLock = new object();
+        public static int EntityCount = 0;
+
         List<SpatialPoint> TSPPoints;
 
         public void Init(IEvaluationInitData initData)
@@ -41,6 +44,8 @@ namespace PEA_TSP_Example
             fitness.Value[0] = -1 * totalDistance;
             entity.Fitness = fitness;
             entity.TotalDistance = totalDistance;
+
+            EntityCount++;
 
             return entity;
         }

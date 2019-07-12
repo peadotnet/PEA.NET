@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using Pea.Algorithm;
 using Pea.Core;
+using Pea.Core.Island;
 using Pea.Fitness.Implementation.MultiObjective;
-using Pea.Island;
 using Pea.StopCriteria;
+using ParameterNames = Pea.Core.Island.ParameterNames;
 
 namespace PEA_TSP_Example
 {
@@ -31,23 +32,19 @@ namespace PEA_TSP_Example
                 .WithCreator<TSPEntityCreator>()
                 .WithEvaluation<TSPEvaluation>()
 
-                .SetParameter(Pea.Algorithm.ParameterNames.MaxNumberOfEntities, 1000)
-                .SetParameter(Pea.Algorithm.ParameterNames.MutationProbability, 0.9)
-                .SetParameter(Pea.Chromosome.ParameterNames.ConflictReducingProbability, 0.5)
-                .SetParameter(Pea.Chromosome.ParameterNames.FailedCrossoverRetryCount, 1)
-                .SetParameter(Pea.Chromosome.ParameterNames.FailedMutationRetryCount, 2)
-                .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 4)
-                .SetParameter(Pea.Island.ParameterNames.ArchipelagosCount, 1)
-                .SetParameter(Pea.Island.ParameterNames.IslandsCount, 4)
-                .SetParameter(Pea.Island.ParameterNames.PhenotypeDecodersCount, 2)
-                .SetParameter(Pea.Island.ParameterNames.FitnessEvaluatorsCount, 2);
+                .SetParameter(Pea.Algorithm.ParameterNames.MaxNumberOfEntities, 250)
+                .SetParameter(Pea.Algorithm.ParameterNames.MutationProbability, 0.7)
+                .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
+                .SetParameter(ParameterNames.ArchipelagosCount, 1)
+                .SetParameter(ParameterNames.IslandsCount, 1)
+                .SetParameter(ParameterNames.EvaluatorsCount, 2);
 
-            system.Settings.Random = typeof(SystemRandom);
+            system.Settings.Random = typeof(FastRandom);
 
             var fitnessLimit = new MultiObjectiveFitness(1) { Value = { [0] = -7545 } };
             system.Settings.StopCriteria = StopCriteriaBuilder
                 .StopWhen().FitnessLimitExceeded(fitnessLimit)
-                .Or().TimeoutElapsed(300000)
+                //.Or().TimeoutElapsed(180000)
                 .Build();
 
             Evaluation = new TSPEvaluation();
@@ -64,7 +61,16 @@ namespace PEA_TSP_Example
             islandEngine.Algorithm = algorithm;
 
 
-            Task.Run(() => system.Start(initData)).GetAwaiter().GetResult();
+            Stopwatch sw = Stopwatch.StartNew();
+
+            system.Start(initData).GetAwaiter().GetResult();
+
+            var result = AsyncUtil.RunSync(() => system.Start(initData));
+
+            foreach (var reason in result.StopReasons)
+            {
+                Console.WriteLine(reason);
+            }
 
             //algorithm.InitPopulation();
             //var c = 0;
@@ -79,6 +85,12 @@ namespace PEA_TSP_Example
             //    }
             //    c++;
             //}
+
+            sw.Stop();
+            var elapsed = sw.ElapsedMilliseconds;
+            var entities = TSPEvaluation.EntityCount;
+            var speed = entities / elapsed;
+            Console.WriteLine($"Elapsed: {elapsed} Entities: {entities} ({speed} ent./ms)");
 
             Console.ReadLine();
 

@@ -3,7 +3,7 @@ using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
 using Pea.Core;
-using Pea.Island;
+using Pea.Core.Island;
 
 namespace Pea.Akka.Actors
 {
@@ -19,13 +19,19 @@ namespace Pea.Akka.Actors
             Receive<CreateSystem>(m => CreateSystem(m.Settings));
             Receive<CreatedSuccessfully>(m=> CountCreatedIslands());
             Receive<InitEvaluator>(m => InitArchipelagos(m));
+            Receive<PeaResult>(m => SendResultBack(m));
+        }
+
+        private void SendResultBack(PeaResult result)
+        {
+            _starter.Tell(result);
         }
 
         private void InitArchipelagos(InitEvaluator initMessage)
         {
             for (int i = 0; i < Archipelagos.Count; i++)
             {
-                Archipelagos[i].Tell(initMessage);
+                Archipelagos[i].Tell(initMessage, Sender);
             }
         }
 

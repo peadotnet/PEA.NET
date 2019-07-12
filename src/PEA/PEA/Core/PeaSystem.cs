@@ -1,4 +1,6 @@
-﻿using Pea.Akka;
+﻿using System.Threading.Tasks;
+using Pea.Akka;
+using Pea.Akka.Messages;
 using Pea.Core.Settings;
 
 namespace Pea.Core
@@ -66,11 +68,11 @@ namespace Pea.Core
             return this;
         }
 
-        public async void Start(IEvaluationInitData initData)
+        public async Task<PeaResult> Start(IEvaluationInitData initData)
         {
             AkkaSystemProvider provider = new AkkaSystemProvider();
-            await provider.Start(Settings, initData);
-
+            PeaResult result = await provider.Start(Settings, initData);
+            return result;
         }
     }
 }

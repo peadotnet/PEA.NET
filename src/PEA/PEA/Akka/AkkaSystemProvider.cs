@@ -16,17 +16,19 @@ namespace Pea.Akka
         public AkkaSystemProvider()
         {
             var configString = @"akka {  
-                    stdout-loglevel = DEBUG
-                    loglevel = DEBUG
-                    log-config-on-start = on        
+                    stdout-loglevel = ERROR
+                    loglevel = ERROR
+                    log-config-on-start = on
                     actor {
                         debug {  
-                            receive = on 
-                            autoreceive = on
-                            lifecycle = on
-                            event-stream = on
-                            unhandled = on
+                            receive = off
+                            autoreceive = off
+                            lifecycle = off
+                            event-stream = off
+                            unhandled = off
                         }
+                        serialize-creators = off
+                        serialize-messages = off
                         provider = Akka.Actor.LocalActorRefProvider
                         guardian-supervisor-strategy = Akka.Actor.DefaultSupervisorStrategy
                     }
@@ -37,13 +39,15 @@ namespace Pea.Akka
             SystemActor = System.ActorOf(PeaSystemActor.CreateProps());
         }
 
-        public async Task Start(PeaSettings settings, IEvaluationInitData initData)
+        public async Task<PeaResult> Start(PeaSettings settings, IEvaluationInitData initData)
         {
             var response = await SystemActor.Ask(new CreateSystem(settings));
-            if (response is CreatedSuccessfully)
-            {
-                var result = await SystemActor.Ask(new InitEvaluator(initData));
-            }
+            //if (response is CreatedSuccessfully)
+            //{
+            var result = await SystemActor.Ask(new InitEvaluator(initData));
+            //}
+
+            return result as PeaResult;
         }
     }
 }

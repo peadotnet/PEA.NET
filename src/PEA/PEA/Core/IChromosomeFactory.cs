@@ -2,10 +2,10 @@
 
 namespace Pea.Core
 {
-    public interface IChromosomeFactory
+    public interface IChromosomeFactory : IEngineModifier
     {
-        IEnumerable<IMutation> GetMutations();
         IEnumerable<ICrossover> GetCrossovers();
+        IEnumerable<IMutation> GetMutations();
     }
 
     public interface IChromosomeFactory<TC> : IChromosomeFactory where TC: IChromosome

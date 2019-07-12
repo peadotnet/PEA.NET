@@ -48,5 +48,14 @@ namespace Pea.Chromosome
         {
             return _mutations;
         }
+
+        public IEngine Apply(IEngine engine)
+        {
+            engine.Parameters.SetValue(ParameterNames.ConflictReducingProbability, 0.5);
+            engine.Parameters.SetValue(ParameterNames.FailedCrossoverRetryCount, 1);
+            engine.Parameters.SetValue(ParameterNames.FailedMutationRetryCount, 2);
+            return engine;
+
+        }
     }
 }
