@@ -12,6 +12,10 @@ namespace Pea.Tests.ChromosomeTests
             _results = results;
         }
 
+        public void Init(IEvaluationInitData initData)
+        {
+        }
+
         public bool ConflictDetected(int first, int second)
         {
             bool result = _results[_index];

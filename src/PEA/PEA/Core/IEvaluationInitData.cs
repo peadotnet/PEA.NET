@@ -2,5 +2,6 @@
 {
     public interface IEvaluationInitData
     {
+        void Build();
     }
 }

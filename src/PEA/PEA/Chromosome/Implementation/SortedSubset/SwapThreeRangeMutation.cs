@@ -1,4 +1,5 @@
-﻿using Pea.Core;
+﻿using System;
+using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
@@ -11,7 +12,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public override SortedSubsetChromosome Mutate(SortedSubsetChromosome entity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

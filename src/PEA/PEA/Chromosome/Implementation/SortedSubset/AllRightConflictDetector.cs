@@ -8,6 +8,10 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         {
         }
 
+        public void Init(IEvaluationInitData initData)
+        {
+        }
+
         public bool ConflictDetected(int first, int second)
         {
             return false;

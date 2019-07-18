@@ -17,6 +17,11 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             ConflictDetector = conflictDetector ?? AllRightConflictDetector.Instance;
         }
 
+        /// <summary>
+        /// Returns a new position from the conflict-list or randomly
+        /// </summary>
+        /// <param name="chromosome"></param>
+        /// <returns></returns>
         public GeneRange GetSourceSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             return ConflictShouldBeEliminated(chromosome)
@@ -24,6 +29,11 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 : GetRandomSectionAndPosition(chromosome);
         }
 
+        /// <summary>
+        /// Returns a new random position
+        /// </summary>
+        /// <param name="chromosome"></param>
+        /// <returns></returns>
         public GeneRange GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             var sourceSectionIndex = Random.GetInt(0, chromosome.Sections.Length);
@@ -34,6 +44,11 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return source;
         }
 
+        /// <summary>
+        /// Returns a new position randomly choosen from the conflict-list
+        /// </summary>
+        /// <param name="chromosome"></param>
+        /// <returns></returns>
         public GeneRange GetConflictedSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             var conflicted = Random.GetInt(0, chromosome.ConflictList.Count);
@@ -83,6 +98,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return last;
         }
 
+        /// <summary>
+        /// Indicates whether the given value gets into conflict with the value
+        /// on the left of the target position
+        /// </summary>
+        /// <param name="targetSection"></param>
+        /// <param name="targetPositionIndex"></param>
+        /// <param name="geneValue"></param>
+        /// <returns></returns>
         public bool ConflictDetectedWithLeftNeighbor(int[] targetSection, int targetPositionIndex, int? geneValue)
         {
             if (!geneValue.HasValue) return false;
@@ -92,6 +115,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return ConflictDetector.ConflictDetected(leftNeighborGeneValue, geneValue.Value);
         }
 
+        /// <summary>
+        /// Indicates whether the given value gets into conflict with the value
+        /// on the right of the target position
+        /// </summary>
+        /// <param name="targetSection"></param>
+        /// <param name="targetPositionIndex"></param>
+        /// <param name="geneValue"></param>
+        /// <returns></returns>
         public bool ConflictDetectedWithRightNeighbor(int[] targetSection, int targetPositionIndex, int? geneValue)
         {
             if (!geneValue.HasValue) return false;
@@ -146,21 +177,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return result;
         }
 
-        public bool ReplaceOneGeneToRandomSection(SortedSubsetChromosome chromosome, GenePosition source)
-        {
-            var geneValue = chromosome.Sections[source.Section][source.Position];
-            var targetSectionIndex = Random.GetIntWithTabu(0, chromosome.Sections.Length, source.Section);
-            var targetSection = chromosome.Sections[targetSectionIndex];
 
-            var targetPos = FindNewGenePosition(targetSection, geneValue);
-
-            //TODO: conflict check, fail retry
-            var success = InsertGenes(chromosome, targetSectionIndex, targetPos, chromosome.Sections[source.Section], source.Position, 1);
-
-            if (success) DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
-
-            return success;
-        }
 
         /// <summary>
         /// Insert one gene into a chromosome section and position inside it
@@ -243,6 +260,11 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             chromosome.Sections = temp;
         }
 
+        /// <summary>
+        /// Make a (mostly random) decision on the using of the conflict list
+        /// </summary>
+        /// <param name="chromosome"></param>
+        /// <returns></returns>
         public bool ConflictShouldBeEliminated(SortedSubsetChromosome chromosome)
         {
             if (chromosome.ConflictList.Count == 0) return false;
