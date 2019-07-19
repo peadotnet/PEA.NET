@@ -25,7 +25,7 @@ namespace PEA_TSP_Example
         private int[] ShuffleRange(int start, int count)
         {
             int[] shuffled = Enumerable.Range(start, count).ToArray();
-            Random rng = new Random();
+            Random rng = new Random(DateTime.Now.Millisecond);
             for (int i = shuffled.Length - 1; i > -1; i--)
             {
                 int j = rng.Next(i);

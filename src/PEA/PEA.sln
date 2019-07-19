@@ -9,12 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PEA.Tests", "PEA.Tests\PEA.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{72CB01DA-EFAE-4568-B682-1957A92811C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA_TSP_Example", "PEA_TSP_Example\PEA_TSP_Example.csproj", "{F00CBE80-79F6-4AA6-B711-969D15E66AA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA_TSP_Example", "Examples\PEA_TSP_Example\PEA_TSP_Example.csproj", "{58A421E4-B2D3-4027-9C45-BA5AEEBCAED6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA_VehicleScheduling_Example", "Examples\PEA_VehicleScheduling_Example\PEA_VehicleScheduling_Example.csproj", "{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -28,18 +27,26 @@ Global
 		{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CAD2EB3-96F9-41A5-9D47-71B206F056B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F00CBE80-79F6-4AA6-B711-969D15E66AA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A421E4-B2D3-4027-9C45-BA5AEEBCAED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A421E4-B2D3-4027-9C45-BA5AEEBCAED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A421E4-B2D3-4027-9C45-BA5AEEBCAED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A421E4-B2D3-4027-9C45-BA5AEEBCAED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F00CBE80-79F6-4AA6-B711-969D15E66AA2} = {72CB01DA-EFAE-4568-B682-1957A92811C2}
+		{58A421E4-B2D3-4027-9C45-BA5AEEBCAED6} = {72CB01DA-EFAE-4568-B682-1957A92811C2}
+		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867} = {72CB01DA-EFAE-4568-B682-1957A92811C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7142636-D420-4680-93EB-80DBA2B1B4F0}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

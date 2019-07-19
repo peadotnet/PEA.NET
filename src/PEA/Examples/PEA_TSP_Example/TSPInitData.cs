@@ -11,5 +11,9 @@ namespace PEA_TSP_Example
         {
             TSPPoints = tspPoints;
         }
+
+        public void Build()
+        {
+        }
     }
 }

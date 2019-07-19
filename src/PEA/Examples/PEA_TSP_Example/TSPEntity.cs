@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Composition;
 using System.Globalization;
 using Pea.Core;
 
 namespace PEA_TSP_Example
 {
-    [Export(typeof(IEntity))]
     public class TSPEntity : IEntity
     {
         public int IndexOfList { get; set; }

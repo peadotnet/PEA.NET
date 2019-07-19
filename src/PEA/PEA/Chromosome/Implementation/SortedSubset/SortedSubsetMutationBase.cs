@@ -19,6 +19,12 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return Mutate(sortedSubsetChromosome);
         }
 
+        /// <summary>
+        /// Inserts one gene value into a randomly choosen section and deletes it from its original position
+        /// </summary>
+        /// <param name="chromosome"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public bool ReplaceOneGeneToRandomSection(SortedSubsetChromosome chromosome, GenePosition source)
         {
             var geneValue = chromosome.Sections[source.Section][source.Position];
@@ -34,6 +40,5 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
             return success;
         }
-
     }
 }
