@@ -11,17 +11,20 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         {
         }
 
-        public override IList<SortedSubsetChromosome> Cross(IList<SortedSubsetChromosome> parents)
+        public override IList<IChromosome> Cross(IList<IChromosome> parents)
         {
-            var children = new List<SortedSubsetChromosome>();
+            var children = new List<IChromosome>();
 
-            var sectionsCount = parents[0].Sections.Length > parents[1].Sections.Length 
-                ? parents[0].Sections.Length 
-                : parents[1].Sections.Length;
+            var parent1 = parents[0] as SortedSubsetChromosome;
+            var parent2 = parents[1] as SortedSubsetChromosome;
 
-            var totalCount = parents[0].TotalCount > parents[1].TotalCount 
-                ? parents[0].TotalCount 
-                : parents[1].TotalCount;
+            var sectionsCount = parent1.Sections.Length > parent2.Sections.Length 
+                ? parent1.Sections.Length 
+                : parent2.Sections.Length;
+
+            var totalCount = parent1.TotalCount > parent2.TotalCount 
+                ? parent1.TotalCount 
+                : parent2.TotalCount;
 
             var child0 = new int[sectionsCount][];
             var child1 = new int[sectionsCount][];
@@ -35,10 +38,10 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
                 for (int sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
                 {
-                    var section0 = parents[0].Sections[sectionIndex];
+                    var section0 = parent1.Sections[sectionIndex];
                     var position0 = FindNewGenePosition(section0, crossoverPosition);
 
-                    var section1 = parents[1].Sections[sectionIndex];
+                    var section1 = parent2.Sections[sectionIndex];
                     var position1 = FindNewGenePosition(section1, crossoverPosition);
 
                     var child0Section = MergeSections(section0, position0, section1, position1, ref child0Conflicted);

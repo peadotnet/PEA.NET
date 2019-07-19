@@ -9,4 +9,13 @@
     <ProjectReference Include="..\..\PEA\PEA.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\Distances_Szeged.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Trips_Szeged.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

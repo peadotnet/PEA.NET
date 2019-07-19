@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace PEA_VehicleScheduling_Example
@@ -12,17 +13,24 @@ namespace PEA_VehicleScheduling_Example
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
+                    var line = reader.ReadLine();
+
                     while (!reader.EndOfStream)
                     {
-                        var line = reader.ReadLine();
+                        line = reader.ReadLine();
                         var fields = line.Split(',');
-                        var distance = new Distance(fields[0], fields[1], double.Parse(fields[2]), double.Parse(fields[3]));
+                        var distance = new Distance(fields[0], fields[1], Parse(fields[2]), Parse(fields[3]));
                         distances.Add(distance);
                     }
                 }
             }
 
             return distances;
+        }
+
+        public static double Parse(string valueString)
+        {
+            return double.Parse(valueString, CultureInfo.InvariantCulture);
         }
     }
 }

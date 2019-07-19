@@ -11,14 +11,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         {
         }
 
-        public abstract IList<SortedSubsetChromosome> Cross(IList<SortedSubsetChromosome> parents);
+        public abstract IList<IChromosome> Cross(IList<IChromosome> parents);
 
-        public virtual IList<IChromosome> Cross(IList<IChromosome> parents)
-        {
-            var sortedSubsetParents = parents as IList<SortedSubsetChromosome>;
-            if (sortedSubsetParents == null) throw new ArgumentException(nameof(parents));
+        //public virtual IList<IChromosome> Cross(IList<IChromosome> parents)
+        //{
+        //    var sortedSubsetParents = parents as IList<SortedSubsetChromosome>;
+        //    if (sortedSubsetParents == null) throw new ArgumentException(nameof(parents));
 
-            return Cross(sortedSubsetParents) as IList<IChromosome>;
-        }
+        //    return Cross(sortedSubsetParents) as IList<IChromosome>;
+        //}
     }
 }

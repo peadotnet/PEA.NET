@@ -29,7 +29,7 @@ namespace PEA_VehicleScheduling_Example
             if (AlreadyBuilt) return;
 
             Trips = TripList.ToArray();
-            Array.Sort(Trips, new SortByArrivalThenDepartureComparer());
+            Array.Sort<Trip>(Trips, new SortByArrivalThenDepartureComparer());
 
             int stopsCounter = 0;
             foreach (var trip in TripList)

@@ -8,7 +8,7 @@ namespace PEA_VehicleScheduling_Example
     {
         public int IndexOfList { get; set; }
         public MultiKey OriginIslandKey { get; private set; }
-        public IDictionary<string, IChromosome> Chromosomes { get; }
+        public IDictionary<string, IChromosome> Chromosomes { get; } = new Dictionary<string, IChromosome>();
         public IFitness Fitness { get; set; }
 
         public int VehiclesCount = 0;

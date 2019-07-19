@@ -38,12 +38,15 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var results = crossover.Cross(chromosomes);
 
-            results[0].Sections[0].Should().BeEquivalentTo(new int[] { 1, 4, 9 });
-            results[0].Sections[1].Should().BeEquivalentTo(new int[] { 3, 5, 7 });
-            results[0].Sections[2].Should().BeEquivalentTo(new int[] { 2, 6, 8 });
-            results[1].Sections[0].Should().BeEquivalentTo(new int[] { 3, 4, 5, 7 });
-            results[1].Sections[1].Should().BeEquivalentTo(new int[] { 2, 6, 8 });
-            results[1].Sections[2].Should().BeEquivalentTo(new int[] { 1, 9 });
+            var result1 = results[0] as SortedSubsetChromosome;
+            var result2 = results[1] as SortedSubsetChromosome;
+
+            result1.Sections[0].Should().BeEquivalentTo(new int[] { 1, 4, 9 });
+            result1.Sections[1].Should().BeEquivalentTo(new int[] { 3, 5, 7 });
+            result1.Sections[2].Should().BeEquivalentTo(new int[] { 2, 6, 8 });
+            result2.Sections[0].Should().BeEquivalentTo(new int[] { 3, 4, 5, 7 });
+            result2.Sections[1].Should().BeEquivalentTo(new int[] { 2, 6, 8 });
+            result2.Sections[2].Should().BeEquivalentTo(new int[] { 1, 9 });
         }
 
         [Fact]
@@ -58,10 +61,13 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var results = crossover.Cross(chromosomes);
 
+            var result1 = results[0] as SortedSubsetChromosome;
+            var result2 = results[1] as SortedSubsetChromosome;
+
             results.Count.Should().Be(1);
-            results[0].Sections[0].Should().BeEquivalentTo(new int[] { 3, 4, 5, 7 });
-            results[0].Sections[1].Should().BeEquivalentTo(new int[] { 2, 6, 8 });
-            results[0].Sections[2].Should().BeEquivalentTo(new int[] { 1, 9 });
+            result1.Sections[0].Should().BeEquivalentTo(new int[] { 3, 4, 5, 7 });
+            result1.Sections[1].Should().BeEquivalentTo(new int[] { 2, 6, 8 });
+            result1.Sections[2].Should().BeEquivalentTo(new int[] { 1, 9 });
         }
 
         [Fact]
@@ -93,12 +99,15 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var results = crossover.Cross(chromosomes);
 
-            results[0].Sections[0].Should().BeEquivalentTo(new int[] { 1, 4, 5, 9 });
-            results[0].Sections[1].Should().BeEquivalentTo(new int[] { 3, 6, 7 });
-            results[0].Sections[2].Should().BeEquivalentTo(new int[] { 2, 8 });
-            results[1].Sections[0].Should().BeEquivalentTo(new int[] { 3, 4, 7 });
-            results[1].Sections[1].Should().BeEquivalentTo(new int[] { 2, 5, 8 });
-            results[1].Sections[2].Should().BeEquivalentTo(new int[] { 1, 6, 9 });
+            var result1 = results[0] as SortedSubsetChromosome;
+            var result2 = results[1] as SortedSubsetChromosome;
+
+            result1.Sections[0].Should().BeEquivalentTo(new int[] { 1, 4, 5, 9 });
+            result1.Sections[1].Should().BeEquivalentTo(new int[] { 3, 6, 7 });
+            result1.Sections[2].Should().BeEquivalentTo(new int[] { 2, 8 });
+            result2.Sections[0].Should().BeEquivalentTo(new int[] { 3, 4, 7 });
+            result2.Sections[1].Should().BeEquivalentTo(new int[] { 2, 5, 8 });
+            result2.Sections[2].Should().BeEquivalentTo(new int[] { 1, 6, 9 });
         }
     }
 }

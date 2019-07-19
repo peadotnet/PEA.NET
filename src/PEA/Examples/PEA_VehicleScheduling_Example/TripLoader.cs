@@ -14,9 +14,11 @@ namespace PEA_VehicleScheduling_Example
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
+                    var line = reader.ReadLine();
+
                     while (!reader.EndOfStream)
                     {
-                        var line = reader.ReadLine();
+                        line = reader.ReadLine();
                         var fields = line.Split(',');
                         var trip = new Trip(fields[0], fields[1], Int32.Parse(fields[2]), fields[3], Int32.Parse(fields[4]), fields[5], fields[6]);
                         trips.Add(trip);

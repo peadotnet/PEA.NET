@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pea.Chromosome.Implementation.SortedSubset;
+using Pea.Core;
 
 namespace Pea.Tests.ChromosomeTests
 {
@@ -37,9 +38,9 @@ namespace Pea.Tests.ChromosomeTests
             return chromosome;
         }
 
-        public static IList<SortedSubsetChromosome> CreateChromosomes()
+        public static IList<IChromosome> CreateChromosomes()
         {
-            return new List<SortedSubsetChromosome>()
+            return new List<IChromosome>()
             {
                 CreateChromosome(),
                 CreateOtherChromosome()

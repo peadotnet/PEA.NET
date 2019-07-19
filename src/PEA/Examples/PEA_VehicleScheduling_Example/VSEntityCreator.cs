@@ -36,7 +36,7 @@ namespace PEA_VehicleScheduling_Example
                 {
                     var previousIndex = indices[s][indices[s].Count - 1];
 
-                    if (!ConflictDetector.ConflictDetected(i, previousIndex))
+                    if (!ConflictDetector.ConflictDetected(previousIndex, i))
                     {
                         fitVehicles.Add(s);
                     }

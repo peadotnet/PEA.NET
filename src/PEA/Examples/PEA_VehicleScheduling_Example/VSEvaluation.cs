@@ -9,6 +9,8 @@ namespace PEA_VehicleScheduling_Example
     {
         public static readonly MultiKey Key = new MultiKey("VehicleScheduling");
 
+        public static int EntityCount = 0;
+
         public VSInitData InitData { get; private set; }
 
         public IConflictDetector ConflictDetector { get; private set; }
@@ -23,6 +25,8 @@ namespace PEA_VehicleScheduling_Example
 
         public IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
         {
+            EntityCount++;
+
             bool hardConflict = false;
             var entity = entities[Key] as VehicleSchedulingEntity;
             var chromosome = entity.Chromosomes[Key[0]] as SortedSubsetChromosome;
@@ -57,9 +61,9 @@ namespace PEA_VehicleScheduling_Example
             if (hardConflict) return null;
 
             MultiObjectiveFitness fitness = new MultiObjectiveFitness(3);
-            fitness.Value[0] = 1 / entity.TotalDeadMileage;
-            fitness.Value[1] = 1 / entity.VehiclesCount;
-            fitness.Value[2] = 1 / entity.CrewCount;
+            fitness.Value[0] = 1 /(1 + entity.TotalDeadMileage);
+            fitness.Value[1] = 1 / (1 + (double)entity.VehiclesCount);
+            fitness.Value[2] = 1 / (1 + (double)entity.CrewCount);
 
             entity.Fitness = fitness;
 
