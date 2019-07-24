@@ -18,7 +18,7 @@
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
     <Folder Include="Chromosome\Implementation\DoubleVector\" />
     <Folder Include="Topology\" />
-    <Folder Include="Util\" />
+    <Folder Include="Util\Types\" />
   </ItemGroup>
 
   <ItemGroup>

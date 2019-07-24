@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
@@ -16,18 +17,35 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
             var numberOfGenesToReplace = GetNumberOfGenesToChange(chromosome);
             chromosome = IncrementNumberOfSections(chromosome, numberOfGenesToReplace);
+            var targetSection = chromosome.Sections.Length - 1;
+            var target = chromosome.Sections[targetSection];
+
+            int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
 
             for (int i = 0; i < numberOfGenesToReplace; i++)
             {
-                GenePosition source = GetSourceSectionAndPosition(chromosome);
-                ReplaceOneGeneToRandomSection(chromosome, source);
+                bool replaced = false;
+                var replaceCount = retryCount;
+                while (true)
+                {
+                    GenePosition source = GetSourceSectionAndPosition(chromosome);
+                    var geneValue = chromosome.Sections[source.Section][source.Position];
+                    var targetPos = FindNewGenePosition(target, geneValue);
+                    if (!ConflictDetectedWithLeftNeighbor(target, targetPos, geneValue)
+                        && ConflictDetectedWithRightNeighbor(target, targetPos, geneValue))
+                    {
+                        InsertGenes(chromosome, targetSection, targetPos, chromosome.Sections[source.Section], source.Position, 1);
+                        DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
+                        replaced = true;
+                    }
+
+                    if (replaced || replaceCount-- < 0) break;
+                }
             }
 
-            //TODO: folyt köv innen
-            
+            CleanOutSections(chromosome);
             return chromosome;
         }
-
 
         private int GetNumberOfGenesToChange(SortedSubsetChromosome chromosome)
         {

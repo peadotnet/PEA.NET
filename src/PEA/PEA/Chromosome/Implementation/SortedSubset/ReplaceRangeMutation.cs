@@ -48,6 +48,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
                 if (position > source.Position || retryCount-- < 0) break;
             }
+
+            CleanOutSections(chromosome);
             return chromosome;
         }
     }

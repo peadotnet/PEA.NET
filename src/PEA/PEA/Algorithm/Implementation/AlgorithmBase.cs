@@ -29,9 +29,9 @@ namespace Pea.Algorithm.Implementation
             return entity;
         }
 
-        protected void Evaluate(IList<IEntity> entities)
+        protected IList<IEntity> Evaluate(IList<IEntity> entities)
         {
-            _evaluate(entities);
+            return _evaluate(entities);
             //foreach (IEntity entity in entities)
             //{
             //    entity.Fitness = Engine.FitnessCalculator.CalculateFitness(entity.Phenotype);
@@ -56,6 +56,7 @@ namespace Pea.Algorithm.Implementation
         protected IList<IEntity> Crossover(IList<IEntity> parents)
         {
             var children = Engine.EntityCrossover.Cross(parents);
+
             return children;
         }
 

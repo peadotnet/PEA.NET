@@ -15,6 +15,8 @@ namespace PEA_VehicleScheduling_Example
 
         public IConflictDetector ConflictDetector { get; private set; }
 
+        //TODO: abstract constructor with conflictdetector
+
         public void Init(IEvaluationInitData initData)
         {
             InitData = (VSInitData)initData;
@@ -27,7 +29,6 @@ namespace PEA_VehicleScheduling_Example
         {
             EntityCount++;
 
-            bool hardConflict = false;
             var entity = entities[Key] as VehicleSchedulingEntity;
             var chromosome = entity.Chromosomes[Key[0]] as SortedSubsetChromosome;
 
@@ -40,25 +41,23 @@ namespace PEA_VehicleScheduling_Example
                 {
                     if (ConflictDetector.ConflictDetected(chromosome.Sections[s][p], chromosome.Sections[s][p + 1]))
                     {
-                        return null;
+                        return null;    //hard conflict
                     }
 
                     var trip1 = InitData.Trips[chromosome.Sections[s][p]];
                     var trip2 = InitData.Trips[chromosome.Sections[s][p + 1]];
 
-                    double duration = InitData.GetDuration(trip1.LastStopId, trip2.FirstStopId);
+                    //double duration = InitData.GetDuration(trip1.LastStopId, trip2.FirstStopId);
                     double distance = InitData.GetDistance(trip1.LastStopId, trip2.FirstStopId);
 
-                    if (trip1.DepartureTime + duration > trip2.ArrivalTime)
-                    {
-                        hardConflict = true;
-                    }
+                    //if (trip1.DepartureTime + duration > trip2.ArrivalTime)
+                    //{
+                    //    hardConflict = true;
+                    //}
 
                     entity.TotalDeadMileage += distance;
                 }
             }
-
-            if (hardConflict) return null;
 
             MultiObjectiveFitness fitness = new MultiObjectiveFitness(3);
             fitness.Value[0] = 1 /(1 + entity.TotalDeadMileage);

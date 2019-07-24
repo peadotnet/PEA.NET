@@ -23,6 +23,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
                 if (success || retryCount-- < 0) break;
             }
+
+            CleanOutSections(chromosome);
             return chromosome;
         }
     }

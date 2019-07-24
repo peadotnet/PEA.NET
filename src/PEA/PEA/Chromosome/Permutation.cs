@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
+using IConflictDetector = Pea.Chromosome.Implementation.Permutation.IConflictDetector;
 
 namespace Pea.Chromosome
 {
@@ -9,18 +10,18 @@ namespace Pea.Chromosome
         private readonly List<ICrossover<PermutationChromosome>> _crossovers;
         private readonly List<IMutation<PermutationChromosome>> _mutations;
 
-        public Permutation(IRandom random, IParameterSet parameterSet)
+        public Permutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector)
         {
             _crossovers = new List<ICrossover<PermutationChromosome>>()
             {
-                new PMXCrossover(random, parameterSet, null)
+                new PMXCrossover(random, parameterSet, conflictDetector)
             };
 
             _mutations = new List<IMutation<PermutationChromosome>>()
             {
-                new RelocateRangeMutation(random, parameterSet, null),
-                new InverseRangeMutation(random, parameterSet, null),
-                new SwapTwoRangeMutation(random, parameterSet, null)
+                new RelocateRangeMutation(random, parameterSet, conflictDetector),
+                new InverseRangeMutation(random, parameterSet, conflictDetector),
+                new SwapTwoRangeMutation(random, parameterSet, conflictDetector)
             };
         }
 

@@ -25,6 +25,7 @@ namespace PEA_VehicleScheduling_Example
             var system = PeaSystem.Create()
                 .WithAlgorithm<Algorithm.SteadyState>()
                 .AddChromosome<Pea.Chromosome.SortedSubset>("VehicleScheduling")
+                .WithConflictDetector<VSConflictDetector>()
                 .WithCreator<VSEntityCreator>()
                 .WithEvaluation<VSEvaluation>()
 
@@ -73,6 +74,8 @@ namespace PEA_VehicleScheduling_Example
             //    Console.WriteLine(reason);
             //}
 
+            initData.Build();
+            islandEngine.ConflictDetector.Init(initData);
             algorithm.InitPopulation();
             var c = 0;
             while (true)
@@ -106,7 +109,13 @@ namespace PEA_VehicleScheduling_Example
                 var entityWithKey = new Dictionary<MultiKey, IEntity>();
                 entityWithKey.Add(VSEvaluation.Key, entity);
                 var decodedEntity = Evaluation.Decode(VSEvaluation.Key, entityWithKey);
-                result.Add(decodedEntity);
+                if (decodedEntity != null) result.Add(decodedEntity);
+
+                if (entity.Fitness == null)
+                {
+                    int fuck = VSEvaluation.EntityCount;
+                }
+
             }
 
             return result;

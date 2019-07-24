@@ -150,5 +150,37 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             }
         }
 
+        [Theory]
+        [InlineData(0, 2)]
+        [InlineData(1, 3)]
+        [InlineData(1, 4)]
+        [InlineData(0, 4)]
+        public void SortedSubsetOperatorBase_CleanOutSections_DeleteSectionsWith0Length(int sectionIndex1, int sectionIndex2)
+        {
+            var originalChromosome = SortedSubsetTestData.CreateChromosome();
+            var sections = new int[originalChromosome.Sections.Length + 2][];
+            var sourceIndex = 0;
+            for (int targetIndex = 0; targetIndex < sections.Length; targetIndex++)
+            {
+                if (targetIndex != sectionIndex1 && targetIndex != sectionIndex2)
+                {
+                    sections[targetIndex] = originalChromosome.Sections[sourceIndex];
+                    sourceIndex++;
+                }
+                else
+                {
+                    sections[targetIndex] = new int[0];
+                }
+            }
+            var testChromosome = new SortedSubsetChromosome(sections);
+
+            var random = Substitute.For<IRandom>();
+            var parameterSet = new ParameterSet();
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
+
+            operatorBase.CleanOutSections(testChromosome);
+
+            testChromosome.Sections.Should().BeEquivalentTo(originalChromosome.Sections);
+        }
     }
 }

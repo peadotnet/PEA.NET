@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
@@ -10,7 +11,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         protected readonly IRandom Random;
         protected readonly IParameterSet ParameterSet;
 
-        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
+        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector)
         {
             Random = random;
             ParameterSet = parameterSet;
@@ -36,7 +37,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// <returns></returns>
         public GeneRange GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
         {
-            var sourceSectionIndex = Random.GetInt(0, chromosome.Sections.Length);
+            var sectionLength = 0;
+            var sourceSectionIndex = 0;
+            while (sectionLength == 0)
+            {
+                sourceSectionIndex = Random.GetInt(0, chromosome.Sections.Length);
+                sectionLength = chromosome.Sections[sourceSectionIndex].Length;
+            }
+
             var sourcePosition = Random.GetInt(0, chromosome.Sections[sourceSectionIndex].Length);
             var length = Random.GetInt(1, chromosome.Sections[sourceSectionIndex].Length - sourcePosition);
 
@@ -64,6 +72,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// <returns>The position inside the section</returns>
         public int FindNewGenePosition(int[] section, int geneValue)
         {
+            if (section.Length == 0) return 0;
+
             int first = 0;
             int last = section.Length - 1;
 
@@ -244,17 +254,59 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// <param name="sectionIndex">The index of the section to be deleted</param>
         public void DeleteSection(SortedSubsetChromosome chromosome, int sectionIndex)
         {
-            int[][] section = chromosome.Sections;
-            int[][] temp = new int[section.Length - 1][];
+            //TODO: simlpy move the sections?
+            int[][] sections = chromosome.Sections;
+            int[][] temp = new int[sections.Length - 1][];
 
             if (sectionIndex > 0)
             {
-                Array.Copy(section, 0, temp, 0, sectionIndex);
+                Array.Copy(sections, 0, temp, 0, sectionIndex);
             }
 
-            if (sectionIndex < section.Length)
+            if (sectionIndex < sections.Length)
             {
-                Array.Copy(section, sectionIndex + 1, temp, sectionIndex, section.Length - sectionIndex - 1);
+                Array.Copy(sections, sectionIndex + 1, temp, sectionIndex, sections.Length - sectionIndex - 1);
+            }
+
+            chromosome.Sections = temp;
+        }
+
+        /// <summary>
+        /// Deletes all the sections with length of 0
+        /// </summary>
+        /// <param name="chromosome">The multi-section chromosome which the operator works within</param>
+        public void CleanOutSections(SortedSubsetChromosome chromosome)
+        {
+            //TODO: simlpy move the sections?
+            int[][] sections = chromosome.Sections;
+
+            var sectionsToDeleteCount = 0;
+            foreach (var section in sections)
+            {
+                if (section.Length == 0) sectionsToDeleteCount++;
+            }
+
+            if (sectionsToDeleteCount == 0) return;
+
+            int[][] temp = new int[sections.Length - sectionsToDeleteCount][];
+
+            int sourceStart = 0;
+            int targetStart = 0;
+            for (int s = 0; s < sections.Length; s++)
+            {
+                if (sections[s].Length == 0)
+                {
+                    if (sourceStart < s)
+                    {
+                        Array.Copy(sections, sourceStart, temp, targetStart, s - sourceStart);
+                        targetStart += s - sourceStart;
+                    }
+                    sourceStart = s + 1;
+                }
+            }
+            if (sourceStart < sections.Length)
+            {
+                Array.Copy(sections, sourceStart, temp, targetStart, sections.Length - sourceStart);
             }
 
             chromosome.Sections = temp;

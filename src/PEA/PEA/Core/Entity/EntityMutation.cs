@@ -9,11 +9,11 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<IMutation>> MutationProviders { get; } = new Dictionary<string, IProvider<IMutation>>();
 
-        public EntityMutation(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random, ParameterSet parameterSet)
+        public EntityMutation(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random, ParameterSet parameterSet, IConflictDetector conflictDetector)
         {
             foreach (var factory in chromosomeFactories)
             {
-                var factoryInstance = Activator.CreateInstance(factory.ValueType, random, parameterSet) as IChromosomeFactory;
+                var factoryInstance = Activator.CreateInstance(factory.ValueType, random, parameterSet, conflictDetector) as IChromosomeFactory;
                 var mutations = factoryInstance.GetMutations();
                 var mutationProvider = ProviderFactory.Create<IMutation>(mutations.Count(), random);
                 foreach (var mutation in mutations)

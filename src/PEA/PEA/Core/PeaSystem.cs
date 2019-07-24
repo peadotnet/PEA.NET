@@ -31,6 +31,12 @@ namespace Pea.Core
             return this;
         }
 
+        public PeaSystem WithConflictDetector<CD>() where CD : IConflictDetector
+        {
+            Settings.ConflictDetector = typeof(CD);
+            return this;
+        }
+
         public PeaSystem WithCreator<TEC>(params string[] chromosomeNames) where TEC : IEntityCreator
         {
             var multiKey = new MultiKey(chromosomeNames);

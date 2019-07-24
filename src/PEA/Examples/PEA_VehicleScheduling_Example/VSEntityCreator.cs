@@ -13,6 +13,8 @@ namespace PEA_VehicleScheduling_Example
 
         public IConflictDetector ConflictDetector { get; private set; }
 
+        //TODO: abstract constructor with conflictdetector
+
         public void Init(IEvaluationInitData initData)
         {
             InitData = (VSInitData)initData;
@@ -59,6 +61,12 @@ namespace PEA_VehicleScheduling_Example
             {
                 geneSections[s] = indices[s].ToArray();
             }
+
+            if (geneSections[geneSections.Length - 1] == null)
+            {
+                int fuck = 1;
+            }
+
 
             var chromosome = new SortedSubsetChromosome(geneSections);
 

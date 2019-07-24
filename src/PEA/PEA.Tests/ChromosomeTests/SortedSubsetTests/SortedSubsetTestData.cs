@@ -8,32 +8,32 @@ namespace Pea.Tests.ChromosomeTests
     {
         public static SortedSubsetChromosome CreateChromosome()
         {
-            var chromosome1 = new int[] { 1, 4, 5, 7 };
-            var chromosome2 = new int[] { 3, 6, 8 };
-            var chromosome3 = new int[] { 2, 9 };
+            var section1 = new int[] { 1, 4, 5, 7 };
+            var section2 = new int[] { 3, 6, 8 };
+            var section3 = new int[] { 2, 9 };
 
-            var chromosomes = new int[][]
+            var sections = new int[][]
             {
-                chromosome1, chromosome2, chromosome3
+                section1, section2, section3
             };
 
-            var chromosome = new SortedSubsetChromosome(chromosomes);
+            var chromosome = new SortedSubsetChromosome(sections);
 
             return chromosome;
         }
 
         public static SortedSubsetChromosome CreateOtherChromosome()
         {
-            var chromosome1 = new int[] { 3, 4, 9 };
-            var chromosome2 = new int[] { 2, 5, 7 }; 
-            var chromosome3 = new int[] { 1, 6, 8 }; 
+            var section1 = new int[] { 3, 4, 9 };
+            var section2 = new int[] { 2, 5, 7 }; 
+            var section3 = new int[] { 1, 6, 8 }; 
 
-            var chromosomes = new int[][]
+            var sections = new int[][]
             {
-                chromosome1, chromosome2, chromosome3
+                section1, section2, section3
             };
 
-            var chromosome = new SortedSubsetChromosome(chromosomes);
+            var chromosome = new SortedSubsetChromosome(sections);
 
             return chromosome;
         }

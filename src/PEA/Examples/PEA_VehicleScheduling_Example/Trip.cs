@@ -13,10 +13,10 @@
         public Trip(string tripId, string firstStopId, int arrivalTime, string lastStopId, int departureTime,
             string vehicleId = null, string crewId = null)
         {
-            TripId = tripId;
-            FirstStopId = firstStopId;
+            TripId = tripId.Trim();
+            FirstStopId = firstStopId.Trim();
             ArrivalTime = arrivalTime;
-            LastStopId = lastStopId;
+            LastStopId = lastStopId.Trim();
             DepartureTime = departureTime;
             VehicleId = vehicleId;
             CrewId = crewId;

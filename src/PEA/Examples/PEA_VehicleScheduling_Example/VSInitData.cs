@@ -52,7 +52,10 @@ namespace PEA_VehicleScheduling_Example
 
             foreach (var distance in Distances)
             {
-                if (!StopIds.ContainsKey(distance.Stop1Id) || !StopIds.ContainsKey(distance.Stop2Id)) continue;
+                if (!StopIds.ContainsKey(distance.Stop1Id) || !StopIds.ContainsKey(distance.Stop2Id))
+                {
+                    continue;
+                }
 
                 var id1 = StopIds[distance.Stop1Id];
                 var id2 = StopIds[distance.Stop2Id];

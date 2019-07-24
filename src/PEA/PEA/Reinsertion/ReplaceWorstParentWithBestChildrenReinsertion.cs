@@ -16,6 +16,8 @@ namespace Pea.Reinsertion
         {
             //TODO: FitnessComparer.SelectWorst, SelectBest
 
+            if (offspring.Count == 0) return;
+
             IEntity entity;
             if (FitnessComparer.Compare(parents[0].Fitness, parents[1].Fitness) > 0)
             {
@@ -28,13 +30,11 @@ namespace Pea.Reinsertion
 
             RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>() { entity });
 
-            if (FitnessComparer.Compare(offspring[0].Fitness, offspring[1].Fitness) > 0)
+            entity = offspring[0];
+
+            if (offspring.Count > 1 && FitnessComparer.Compare(offspring[0].Fitness, offspring[1].Fitness) > 0)
             {
                 entity = offspring[1];
-            }
-            else
-            {
-                entity = offspring[0];
             }
 
             AddEntitiesToPopulation(targetPopulation, new List<IEntity>() { entity });

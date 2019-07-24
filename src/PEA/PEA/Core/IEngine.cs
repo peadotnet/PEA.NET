@@ -15,7 +15,7 @@
         IProvider<ISelection> Selections { get; }
         IStopCriteria StopCriteria { get; }
 
-        void Init();
+        void Init(IEvaluationInitData initData);
         StopDecision RunOnce();
     }
 }

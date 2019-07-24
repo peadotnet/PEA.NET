@@ -46,13 +46,15 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
                 for (int sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
                 {
-                    var section0 = parent1.Sections[sectionIndex];
-                    var position0left = FindNewGenePosition(section0, crossoverPointLeft);
-                    var position0right = FindNewGenePosition(section0, crossoverPointRight);
+                    bool section0Exists = (parent1.Sections.Length > sectionIndex);
+                    var section0 = section0Exists ? parent1.Sections[sectionIndex] : new int[0];
+                    var position0left = section0Exists ? FindNewGenePosition(section0, crossoverPointLeft) : 0;
+                    var position0right = section0Exists ? FindNewGenePosition(section0, crossoverPointRight) : 0;
 
-                    var section1 = parent2.Sections[sectionIndex];
-                    var position1left = FindNewGenePosition(section1, crossoverPointLeft);
-                    var position1right = FindNewGenePosition(section1, crossoverPointRight);
+                    bool section1Exists = (parent2.Sections.Length > sectionIndex);
+                    var section1 = section1Exists ? parent2.Sections[sectionIndex] : new int[0];
+                    var position1left = section1Exists ? FindNewGenePosition(section1, crossoverPointLeft) : 0;
+                    var position1right = section1Exists ? FindNewGenePosition(section1, crossoverPointRight) : 0;
 
                     var child0Section = MergeSections(section0, position0left, position0right, section1, position1left, position1right, ref child0Conflicted);
                     child0[sectionIndex] = child0Section;
@@ -73,8 +75,19 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 child1Conflicted = false;
             }
 
-            if (!child0Conflicted) children.Add(new SortedSubsetChromosome(child0));
-            if (!child1Conflicted) children.Add(new SortedSubsetChromosome(child1));
+            if (!child0Conflicted)
+            {
+                var child0Chromosome = new SortedSubsetChromosome(child0);
+                CleanOutSections(child0Chromosome);
+                children.Add(child0Chromosome);
+            }
+
+            if (!child1Conflicted)
+            {
+                var child1Chromosome = new SortedSubsetChromosome(child1);
+                CleanOutSections(child1Chromosome);
+                children.Add(child1Chromosome);
+            }
 
             return children;
         }
@@ -82,14 +95,22 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         public int[] MergeSections(int[] sectionForOuter, int outerStartPosition, int outerEndPosition, int[] sectionForInner, int innerStartPosition, int innerEndPosition, ref bool childConflicted)
         {
             if (childConflicted) return null;
+            int? geneValue0 = null;
+            int? geneValue1 = null;
 
-            int? geneValue0 = (innerStartPosition < sectionForInner.Length)
-                ? sectionForInner[innerStartPosition] as int?
-                : null;
+            if (innerStartPosition < sectionForInner.Length)
+            {
+                geneValue0 = sectionForInner[innerStartPosition];
+            }
 
-            int? geneValue1 = (innerEndPosition < sectionForInner.Length)
-                ? sectionForInner[innerStartPosition]
-                : sectionForInner[sectionForInner.Length-1];
+            if (innerEndPosition < sectionForInner.Length)
+            {
+                geneValue1 = sectionForInner[innerStartPosition];
+            }
+            else if (sectionForInner.Length > 0)
+            {
+                geneValue1 = sectionForInner[sectionForInner.Length - 1];
+            }
 
             if (!geneValue0.HasValue) geneValue1 = null;
 

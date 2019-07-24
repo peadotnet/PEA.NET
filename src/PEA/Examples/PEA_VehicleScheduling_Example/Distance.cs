@@ -9,8 +9,8 @@
 
         public Distance(string stop1Id, string stop2Id, double distanceKm, double duration)
         {
-            Stop1Id = stop1Id;
-            Stop2Id = stop2Id;
+            Stop1Id = stop1Id.Trim();
+            Stop2Id = stop2Id.Trim();
             DistanceKm = distanceKm;
             Duration = duration;
         }

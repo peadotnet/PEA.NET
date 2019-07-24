@@ -18,7 +18,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             var parent1 = parents[0] as SortedSubsetChromosome;
             var parent2 = parents[1] as SortedSubsetChromosome;
 
-            var sectionsCount = parent1.Sections.Length > parent2.Sections.Length 
+            var sectionsCount = parent1.Sections.Length > parent2.Sections.Length
                 ? parent1.Sections.Length 
                 : parent2.Sections.Length;
 
@@ -38,11 +38,13 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
                 for (int sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
                 {
-                    var section0 = parent1.Sections[sectionIndex];
-                    var position0 = FindNewGenePosition(section0, crossoverPosition);
+                    bool section0Exists = (parent1.Sections.Length > sectionIndex);
+                    var section0 = section0Exists ? parent1.Sections[sectionIndex] : new int[0];
+                    var position0 = section0Exists ? FindNewGenePosition(section0, crossoverPosition) : 0;
 
-                    var section1 = parent2.Sections[sectionIndex];
-                    var position1 = FindNewGenePosition(section1, crossoverPosition);
+                    bool section1Exists = (parent2.Sections.Length > sectionIndex);
+                    var section1 = section1Exists ? parent2.Sections[sectionIndex] : new int[0];
+                    var position1 = section1Exists ? FindNewGenePosition(section1, crossoverPosition) : 0;
 
                     var child0Section = MergeSections(section0, position0, section1, position1, ref child0Conflicted);
                     child0[sectionIndex] = child0Section;
@@ -63,8 +65,19 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 child1Conflicted = false;
             }
 
-            if (!child0Conflicted) children.Add(new SortedSubsetChromosome(child0));
-            if (!child1Conflicted) children.Add(new SortedSubsetChromosome(child1));
+            if (!child0Conflicted)
+            {
+                var child0Chromosome = new SortedSubsetChromosome(child0);
+                CleanOutSections(child0Chromosome);
+                children.Add(child0Chromosome);
+            }
+
+            if (!child1Conflicted)
+            {
+                var child1Chromosome = new SortedSubsetChromosome(child1);
+                CleanOutSections(child1Chromosome);
+                children.Add(child1Chromosome);
+            }
 
             return children;
         }

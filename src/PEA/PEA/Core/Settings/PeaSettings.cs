@@ -27,6 +27,7 @@ namespace Pea.Core
 
         public IStopCriteria StopCriteria { get; set; }
 
+        public Type ConflictDetector { get; set; }
         public Type Fitness { get; set; }
         public Type PhenotypeDecoder { get; set; }
         public Type Evaluation { get; set; }

@@ -9,6 +9,7 @@
 
         public PeaSettings Settings { get; set; }
         public ParameterSet Parameters { get; set; }
+        public IConflictDetector ConflictDetector { get; set; }
         public IProvider<IEntityCreator> EntityCreators { get; set; }
         public IProvider<ISelection> Selections { get; set; }
         public IFitnessComparer FitnessComparer { get; set; }
@@ -22,10 +23,11 @@
 
         }
 
-        public void Init()
+        public void Init(IEvaluationInitData initData)
         {
+            initData.Build();
+            ConflictDetector.Init(initData);
             Algorithm.InitPopulation();
-            
         }
 
         public StopDecision RunOnce()

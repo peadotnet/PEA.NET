@@ -17,15 +17,22 @@ namespace Pea.Core.Island
             engine.Random = random;
             engine.Settings = settings;
             engine.Parameters = parameterSet;
+            engine.ConflictDetector = CreateConflictDetector(settings);
             engine.FitnessComparer = fitnessComparer;
             engine.EntityCreators = CreateEntityCreators(settings, random);
             engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
             engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
-            engine.EntityMutation = new EntityMutation(settings.Chromosomes, random, parameterSet);
-            engine.EntityCrossover = new EntityCrossover(settings.Chromosomes, random, parameterSet);
+            engine.EntityMutation = new EntityMutation(settings.Chromosomes, random, parameterSet, engine.ConflictDetector);
+            engine.EntityCrossover = new EntityCrossover(settings.Chromosomes, random, parameterSet, engine.ConflictDetector);
             engine.StopCriteria = settings.StopCriteria;
 
             return engine;
+        }
+
+        private static IConflictDetector CreateConflictDetector(PeaSettings settings)
+        {
+            var detectorInstance = (IConflictDetector)Activator.CreateInstance(settings.ConflictDetector);
+            return detectorInstance;
         }
 
         public static IProvider<IEntityCreator> CreateEntityCreators(PeaSettings settings, IRandom random)

@@ -47,7 +47,7 @@ namespace Pea.Akka.Actors
         {
             Starter = Sender;
             Evaluator.Tell(m);
-            Engine.Init();
+            Engine.Init(m.InitData);
             Self.Tell(Continue.Instance);
         }
 

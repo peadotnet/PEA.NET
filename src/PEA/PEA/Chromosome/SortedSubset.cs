@@ -4,26 +4,30 @@ using Pea.Core;
 
 namespace Pea.Chromosome
 {
-    public class SortedSubset : IChromosomeFactory<SortedSubsetChromosome>
+    public class SortedSubset : ChromosomeFactory, IChromosomeFactory<SortedSubsetChromosome>
     {
+        private IConflictDetector ConflictDetector { get; }
+
         private readonly List<ICrossover<SortedSubsetChromosome>> _crossovers;
         private readonly List<IMutation<SortedSubsetChromosome>> _mutations;
 
-        public SortedSubset(IRandom random, IParameterSet parameterSet)
+        public SortedSubset(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
         {
+            ConflictDetector = conflictDetector;
+
             _crossovers = new List<ICrossover<SortedSubsetChromosome>>()
             {
-                new TwoPointCrossover(random, parameterSet, null),
-                new OnePointCrossover(random, parameterSet, null)
+                new TwoPointCrossover(random, parameterSet, conflictDetector),
+                new OnePointCrossover(random, parameterSet, conflictDetector)
             };
 
             _mutations = new List<IMutation<SortedSubsetChromosome>>()
             {
-                new CreateNewSectionMutation(random, parameterSet, null),
-                new EliminateSectionMutation(random, parameterSet, null),
-                new ReplaceOneGeneMutation(random, parameterSet, null),
-                new SwapThreeRangeMutation(random, parameterSet, null),
-                new SwapTwoRangeMutation(random, parameterSet, null)
+                new CreateNewSectionMutation(random, parameterSet, conflictDetector),
+                new EliminateSectionMutation(random, parameterSet, conflictDetector),
+                new ReplaceOneGeneMutation(random, parameterSet, conflictDetector),
+                //new SwapThreeRangeMutation(random, parameterSet, null),
+                //new SwapTwoRangeMutation(random, parameterSet, null)
             };
         }
 
@@ -49,13 +53,12 @@ namespace Pea.Chromosome
             return _mutations;
         }
 
-        public IEngine Apply(IEngine engine)
+        public override IEngine Apply(IEngine engine)
         {
             engine.Parameters.SetValue(ParameterNames.ConflictReducingProbability, 0.5);
-            engine.Parameters.SetValue(ParameterNames.FailedCrossoverRetryCount, 1);
-            engine.Parameters.SetValue(ParameterNames.FailedMutationRetryCount, 2);
+            engine.Parameters.SetValue(ParameterNames.FailedCrossoverRetryCount, 3);
+            engine.Parameters.SetValue(ParameterNames.FailedMutationRetryCount, 3);
             return engine;
-
         }
     }
 }

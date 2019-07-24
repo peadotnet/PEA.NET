@@ -28,7 +28,7 @@ namespace Pea.Algorithm.Implementation
             var parents = SelectParents(Population.Entities);
             var children = Crossover(parents);
             children = Mutate(children);
-            Evaluate(children);
+            children = Evaluate(children);
             //TODO: Reduction (children) ?
             MergeToBests(children);
             Reinsert(Population.Entities, children, parents, Population.Entities);
