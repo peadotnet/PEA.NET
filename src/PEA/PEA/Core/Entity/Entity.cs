@@ -8,6 +8,8 @@ namespace Pea.Core.Entity
         public MultiKey OriginIslandKey { get; set; }
         public IDictionary<string, IChromosome> Chromosomes { get; } = new Dictionary<string, IChromosome>();
         public IFitness Fitness { get; set; }
+        public Dictionary<string, string> LastCrossOvers { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> LastMutations { get; } = new Dictionary<string, string>();
 
         public object Clone()
         {

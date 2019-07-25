@@ -50,6 +50,7 @@ namespace Pea.Core.Entity
                     var mutatedChromosome = mutation.Mutate(chromosome.Value);
 
                     mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
+                    mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);
                 }
             }
 

@@ -9,6 +9,8 @@ namespace Pea.Core
         MultiKey OriginIslandKey { get; }
         IDictionary<string, IChromosome> Chromosomes { get; }
         IFitness Fitness { get; set; }
+        Dictionary<string, string> LastCrossOvers { get; }
+        Dictionary<string, string> LastMutations { get; }
     }
 }
 

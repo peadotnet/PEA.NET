@@ -48,19 +48,21 @@ namespace Pea.Core.Entity
                     var provider = CrossoverProviders[chromosomeName];
                     var crossover = provider.GetOne();
 
-                    var mutatedChromosomes = crossover.Cross(parentChromosomes);
+                    var crossoveredChromosomes = crossover.Cross(parentChromosomes);
 
-                    if (mutatedChromosomes.Count > 0)
+                    if (crossoveredChromosomes.Count > 0)
                     {
                         var child1 = (IEntity)parents[0].Clone();
-                        child1.Chromosomes[chromosomeName] = mutatedChromosomes[0];
+                        child1.Chromosomes[chromosomeName] = crossoveredChromosomes[0];
+                        child1.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
                         children.Add(child1);
                     }
 
-                    if (mutatedChromosomes.Count > 1)
+                    if (crossoveredChromosomes.Count > 1)
                     {
                         var child2 = (IEntity)parents[1].Clone();
-                        child2.Chromosomes[chromosomeName] = mutatedChromosomes[1];
+                        child2.Chromosomes[chromosomeName] = crossoveredChromosomes[1];
+                        child2.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
                         children.Add(child2);
                     }
                 }

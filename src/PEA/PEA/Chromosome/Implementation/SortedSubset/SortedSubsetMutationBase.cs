@@ -35,8 +35,13 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             var targetPos = FindNewGenePosition(targetSection, geneValue);
 
             //TODO: conflict check, fail retry
-            var success = InsertGenes(chromosome, targetSectionIndex, targetPos, chromosome.Sections[source.Section], source.Position, 1);
+            if (ConflictDetectedWithLeftNeighbor(chromosome.Sections[targetSectionIndex], targetPos, geneValue)
+                || (ConflictDetectedWithRightNeighbor(chromosome.Sections[targetSectionIndex], targetPos, geneValue)))
+            {
+                return false;
+            }
 
+            var success = InsertGenes(chromosome, targetSectionIndex, targetPos, chromosome.Sections[source.Section], source.Position, 1);
             if (success) DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
 
             return success;

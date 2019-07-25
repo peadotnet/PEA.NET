@@ -60,7 +60,7 @@ namespace PEA_VehicleScheduling_Example
                 var id1 = StopIds[distance.Stop1Id];
                 var id2 = StopIds[distance.Stop2Id];
 
-                DurationMatrix[id1, id2] = distance.Duration;
+                DurationMatrix[id1, id2] = distance.Duration * 2;
                 DistanceMatrix[id1, id2] = distance.DistanceKm;
             }
 

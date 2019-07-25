@@ -10,6 +10,8 @@ namespace PEA_VehicleScheduling_Example
         public MultiKey OriginIslandKey { get; private set; }
         public IDictionary<string, IChromosome> Chromosomes { get; } = new Dictionary<string, IChromosome>();
         public IFitness Fitness { get; set; }
+        public Dictionary<string, string> LastCrossOvers { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> LastMutations { get; } = new Dictionary<string, string>();
 
         public int VehiclesCount = 0;
         public int CrewCount = 0;

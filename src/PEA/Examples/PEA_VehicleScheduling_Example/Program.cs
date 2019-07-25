@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Pea.Core;
-using Pea.Core.Island;
-using Pea.Fitness.Implementation.MultiObjective;
 using Pea.StopCriteria;
 using Algorithm = Pea.Algorithm;
 using Island = Pea.Core.Island;
@@ -33,20 +31,20 @@ namespace PEA_VehicleScheduling_Example
                 .AddSelection<Pea.Selection.TournamentSelection>()
                 .AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
 
-                .SetParameter(Pea.Algorithm.ParameterNames.MaxNumberOfEntities, 250)
-                .SetParameter(Pea.Algorithm.ParameterNames.MutationProbability, 0.7)
+                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 250)
+                .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
                 .SetParameter(Island.ParameterNames.ArchipelagosCount, 1)
                 .SetParameter(Island.ParameterNames.IslandsCount, 1)
                 .SetParameter(Island.ParameterNames.EvaluatorsCount, 2)
                 .SetParameter(Chromosome.ParameterNames.ConflictReducingProbability, 0.5)
-                .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 2)
-                .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 2);
+                .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 5)
+                .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 5);
                 
             system.Settings.Random = typeof(FastRandom);
 
             system.Settings.StopCriteria = StopCriteriaBuilder
-                .StopWhen().TimeoutElapsed(180000)
+                .StopWhen().TimeoutElapsed(300000)
                 .Build();
 
             Evaluation = new VSEvaluation();
@@ -55,7 +53,7 @@ namespace PEA_VehicleScheduling_Example
             var creator = new VSEntityCreator();
             creator.Init(initData);
 
-            var islandEngine = IslandEngineFactory.Create(system.Settings);
+            var islandEngine = Island.IslandEngineFactory.Create(system.Settings);
             islandEngine.EntityCreators.Add(creator, 1);
 
             var algorithmFactory = new Algorithm.SteadyState();
@@ -110,12 +108,6 @@ namespace PEA_VehicleScheduling_Example
                 entityWithKey.Add(VSEvaluation.Key, entity);
                 var decodedEntity = Evaluation.Decode(VSEvaluation.Key, entityWithKey);
                 if (decodedEntity != null) result.Add(decodedEntity);
-
-                if (entity.Fitness == null)
-                {
-                    int fuck = VSEvaluation.EntityCount;
-                }
-
             }
 
             return result;

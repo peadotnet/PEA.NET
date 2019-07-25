@@ -62,12 +62,6 @@ namespace PEA_VehicleScheduling_Example
                 geneSections[s] = indices[s].ToArray();
             }
 
-            if (geneSections[geneSections.Length - 1] == null)
-            {
-                int fuck = 1;
-            }
-
-
             var chromosome = new SortedSubsetChromosome(geneSections);
 
             var entity = new VehicleSchedulingEntity();
