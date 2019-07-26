@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NSubstitute;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
@@ -27,7 +22,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         [InlineData(2, 3, 1)]
         [InlineData(2, 9, 1)]
         [InlineData(2, 10, 2)]
-        public void SortedSubsetOperatorBase_FindNewPosition_ReturnsPosition(int sectionIndex, int geneValue, int expected)
+        public void SubsetOperatorBase_FindNewPosition_ReturnPosition(int sectionIndex, int geneValue, int expected)
         {
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();
@@ -51,7 +46,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         [InlineData(2, 1, 0, 9)]
         [InlineData(2, 1, 6, 3)]
         [InlineData(2, 2, 10, 2)]
-        public void GivenSortedSubsetOperatorBase_WhenCountInsertableGenes_ThenReturns(int sectionIndex, int insertPosition, int firstGeneIndex, int expected)
+        public void SortedSubsetOperatorBase_CountInsertableGenes_Return(int sectionIndex, int insertPosition, int firstGeneIndex, int expected)
         {
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var genesToInsert = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
@@ -69,7 +64,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         [InlineData(0, 2, 2, new int[] { 5, 7 })]
         [InlineData(1, 0, 2, new int[] { 3, 6 })]
         [InlineData(2, 0, 2, new int[] { 2, 9 })]
-        public void GivenSortedSubsetOperatorBase_WhenGetGenes_ThenReturns(int sectionIndex, int position, int count, int[] expected)
+        public void SortedSubsetOperatorBase_GetGenes_Return(int sectionIndex, int position, int count, int[] expected)
         {
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();
@@ -82,13 +77,31 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         }
 
         [Theory]
+        [InlineData(true, false, false)]
+        [InlineData(false, true, false)]
+        [InlineData(false, false, true)]
+        public void SortedSubsetOperatorBase_InsertGenesAtPositionWithConlflict_ShouldReturnsUnsuccess(bool leftConflict, bool rightConflict, bool expectedSuccess)
+        {
+            var geneValuesToInsert = new int[] { 10, 11, 12, 13 };
+            var chromosome = SortedSubsetTestData.CreateChromosome();
+            var random = Substitute.For<IRandom>();
+            var parameterSet = new ParameterSet();
+            var conflictDetector = new PredeterminedConflictDetector(leftConflict, rightConflict);
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetector);
+
+            var success = operatorBase.InsertGenes(chromosome, 0, 1, geneValuesToInsert, 0, 1);
+
+            success.Should().Be(expectedSuccess);
+        }
+
+        [Theory]
         [InlineData(0, 0, 0, 2)]
         [InlineData(0, 2, 1, 2)]
         [InlineData(0, 4, 0, 4)]
         [InlineData(2, 0, 3, 1)]
         [InlineData(2, 1, 1, 3)]
         [InlineData(2, 2, 0, 1)]
-        public void GivenSortedSubsetOperatorBase_WhenInsertGeneAtPosition_ThenShouldInsert(int sectionIndex, int insertPosition, int firstGeneIndex, int count)
+        public void SortedSubsetOperatorBase_InsertGenesAtPosition_ShouldInsert(int sectionIndex, int insertPosition, int firstGeneIndex, int count)
         {
             var geneValuesToInsert = new int[] { 10, 11, 12, 13 };
 

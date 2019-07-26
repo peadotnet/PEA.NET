@@ -1,4 +1,5 @@
 ﻿using System;
+using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core.Entity;
 
 namespace Pea.Core.Island
@@ -31,6 +32,8 @@ namespace Pea.Core.Island
 
         private static IConflictDetector CreateConflictDetector(PeaSettings settings)
         {
+            if (settings.ConflictDetector == null) return AllRightConflictDetector.Instance;
+
             var detectorInstance = (IConflictDetector)Activator.CreateInstance(settings.ConflictDetector);
             return detectorInstance;
         }

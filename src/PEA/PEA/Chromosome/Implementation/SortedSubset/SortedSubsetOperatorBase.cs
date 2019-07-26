@@ -156,13 +156,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         {
             var count = 0;
             while ((firstGeneIndex + count < genesToInsert.Length)
-                    && ((insertPosition > chromosome.Sections[sectionIndex].Length - 1)
-                         || (genesToInsert[firstGeneIndex + count] < chromosome.Sections[sectionIndex][insertPosition])
-                       )
+                   && ((insertPosition > chromosome.Sections[sectionIndex].Length - 1)
+                       || (genesToInsert[firstGeneIndex + count] < chromosome.Sections[sectionIndex][insertPosition])
                    )
+            )
             {
                 count++;
             }
+
             return count;
         }
 
@@ -187,8 +188,6 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return result;
         }
 
-
-
         /// <summary>
         /// Insert one gene into a chromosome section and position inside it
         /// </summary>
@@ -198,6 +197,12 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// <param name="genesToInsert">The array of genes to insert</param>
         public bool InsertGenes(SortedSubsetChromosome chromosome, int sectionIndex, int insertPosition, int[] genesToInsert, int firstGeneIndex, int count)
         {
+            if (ConflictDetectedWithLeftNeighbor(chromosome.Sections[sectionIndex], insertPosition,
+                genesToInsert[firstGeneIndex])) return false;
+
+            if (ConflictDetectedWithRightNeighbor(chromosome.Sections[sectionIndex], insertPosition,
+                genesToInsert[firstGeneIndex + count - 1])) return false;
+
             int[] section = chromosome.Sections[sectionIndex];
             int[] temp = new int[section.Length + count];
 
@@ -218,7 +223,6 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
             chromosome.Sections[sectionIndex] = temp;
 
-            //TODO: collision detection
             return true;
         }
 

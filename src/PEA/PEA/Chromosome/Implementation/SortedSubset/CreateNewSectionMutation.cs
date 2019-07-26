@@ -13,7 +13,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public override SortedSubsetChromosome Mutate(SortedSubsetChromosome chromosome)
         {
-            if (chromosome == null) throw new ArgumentNullException();
+            if (chromosome == null) return null;
 
             var numberOfGenesToReplace = GetNumberOfGenesToChange(chromosome);
             chromosome = IncrementNumberOfSections(chromosome, numberOfGenesToReplace);

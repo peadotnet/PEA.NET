@@ -12,14 +12,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public override SortedSubsetChromosome Mutate(SortedSubsetChromosome chromosome)
         {
-            if (chromosome == null) throw new ArgumentNullException();
+            if (chromosome == null) return null;
             if (chromosome.Sections.Length < 2) return null;
 
             int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
             while (true)
             {
                 var source = GetSourceSectionAndPosition(chromosome);
-                bool success = ReplaceOneGeneToRandomSection(chromosome, source);
+                bool success = ReplaceOneGeneToRandomSection(chromosome, source, retryCount);
 
                 if (success || retryCount-- < 0) break;
             }

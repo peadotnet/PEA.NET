@@ -62,7 +62,6 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var results = crossover.Cross(chromosomes);
 
             var result1 = results[0] as SortedSubsetChromosome;
-            var result2 = results[1] as SortedSubsetChromosome;
 
             results.Count.Should().Be(1);
             result1.Sections[0].Should().BeEquivalentTo(new int[] { 3, 4, 5, 7 });

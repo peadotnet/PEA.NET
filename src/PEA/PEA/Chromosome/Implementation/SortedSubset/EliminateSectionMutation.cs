@@ -12,7 +12,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public override SortedSubsetChromosome Mutate(SortedSubsetChromosome chromosome)
         {
-            if (chromosome == null) throw new ArgumentNullException();
+            if (chromosome == null) return null;
             if (chromosome.Sections.Length < 2) return null;
 
             SortedSubsetChromosome clone;

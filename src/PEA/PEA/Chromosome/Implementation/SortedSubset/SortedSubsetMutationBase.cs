@@ -26,23 +26,23 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// <param name="chromosome"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        public bool ReplaceOneGeneToRandomSection(SortedSubsetChromosome chromosome, GenePosition source)
+        public bool ReplaceOneGeneToRandomSection(SortedSubsetChromosome chromosome, GenePosition source, int retryCount)
         {
             var geneValue = chromosome.Sections[source.Section][source.Position];
-            var targetSectionIndex = Random.GetIntWithTabu(0, chromosome.Sections.Length, source.Section);
-            var targetSection = chromosome.Sections[targetSectionIndex];
 
-            var targetPos = FindNewGenePosition(targetSection, geneValue);
-
-            //TODO: conflict check, fail retry
-            if (ConflictDetectedWithLeftNeighbor(chromosome.Sections[targetSectionIndex], targetPos, geneValue)
-                || (ConflictDetectedWithRightNeighbor(chromosome.Sections[targetSectionIndex], targetPos, geneValue)))
+            bool success = false;
+            while (true)
             {
-                return false;
-            }
+                var targetSectionIndex = Random.GetIntWithTabu(0, chromosome.Sections.Length, source.Section);
+                var targetSection = chromosome.Sections[targetSectionIndex];
+                var targetPos = FindNewGenePosition(targetSection, geneValue);
 
-            var success = InsertGenes(chromosome, targetSectionIndex, targetPos, chromosome.Sections[source.Section], source.Position, 1);
-            if (success) DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
+                success = InsertGenes(chromosome, targetSectionIndex, targetPos, 
+                                            chromosome.Sections[source.Section], source.Position, 1);
+                if (success) DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
+
+                if (success || retryCount-- < 0) break;
+            }
 
             return success;
         }

@@ -11,8 +11,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 
         public override PermutationChromosome Mutate(PermutationChromosome chromosome)
         {
-            var temp = new int[chromosome.Genes.Length];
-            if (chromosome == null) throw new ArgumentNullException();
+            if (chromosome == null) return null;
             if (chromosome.Genes.Length < 2) return null;
 
             //TODO: conflictDetection, repeat, conflictList cleaning
