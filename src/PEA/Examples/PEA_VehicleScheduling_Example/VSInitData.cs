@@ -13,6 +13,7 @@ namespace PEA_VehicleScheduling_Example
         public bool AlreadyBuilt = false;
 
         public Dictionary<string, int> StopIds = new Dictionary<string, int>();
+
         public Trip[] Trips { get; private set; }
 
         public double[,] DurationMatrix;
@@ -31,37 +32,73 @@ namespace PEA_VehicleScheduling_Example
             Trips = TripList.ToArray();
             Array.Sort<Trip>(Trips, new SortByArrivalThenDepartureComparer());
 
-            int stopsCounter = 0;
-            foreach (var trip in TripList)
+            int StopsCounter = 0;
+            foreach (var trip in Trips)
             {
                 if (!StopIds.ContainsKey(trip.FirstStopId))
                 {
-                    StopIds.Add(trip.FirstStopId, stopsCounter);
-                    stopsCounter++;
+                    StopIds.Add(trip.FirstStopId, StopsCounter);
+                    StopsCounter++;
                 }
 
                 if (!StopIds.ContainsKey(trip.LastStopId))
                 {
-                    StopIds.Add(trip.LastStopId, stopsCounter);
-                    stopsCounter++;
+                    StopIds.Add(trip.LastStopId, StopsCounter);
+                    StopsCounter++;
                 }
             }
 
-            DurationMatrix = new double[stopsCounter, stopsCounter];
-            DistanceMatrix = new double[stopsCounter, stopsCounter];
+            DurationMatrix = new double[StopsCounter, StopsCounter];
+            DistanceMatrix = new double[StopsCounter, StopsCounter];
+
+            for (int i = 0; i < StopsCounter; i++)
+            {
+                for (int j = 0; j < StopsCounter; j++)
+                {
+                    if(i != j) DurationMatrix[i, j] = double.MaxValue;
+                }
+            }
 
             foreach (var distance in Distances)
             {
-                if (!StopIds.ContainsKey(distance.Stop1Id) || !StopIds.ContainsKey(distance.Stop2Id))
-                {
-                    continue;
-                }
+                if (!StopIds.ContainsKey(distance.Stop1Id) || !StopIds.ContainsKey(distance.Stop2Id)) continue;
 
                 var id1 = StopIds[distance.Stop1Id];
                 var id2 = StopIds[distance.Stop2Id];
 
-                DurationMatrix[id1, id2] = distance.Duration * 2;
+                if (DurationMatrix[id1, id2] > distance.Duration)
+                {
+                    DurationMatrix[id1, id2] = distance.Duration;
+                }
+
                 DistanceMatrix[id1, id2] = distance.DistanceKm;
+            }
+
+            foreach (var trip in Trips)
+            {
+                if (!StopIds.ContainsKey(trip.FirstStopId) || !StopIds.ContainsKey(trip.LastStopId)) continue;
+
+                var id1 = StopIds[trip.FirstStopId];
+                var id2 = StopIds[trip.LastStopId];
+
+                if (DurationMatrix[id1, id2] > trip.DepartureTime - trip.ArrivalTime)
+                {
+                    DurationMatrix[id1, id2] = trip.DepartureTime - trip.ArrivalTime;
+                }
+            }
+
+            for (int k = 0; k < StopsCounter; k++)
+            {
+                for (int i = 0; i < StopsCounter; i++)
+                {
+                    for (int j = 0; j < StopsCounter; j++)
+                    {
+                        if (DurationMatrix[i, j] > DurationMatrix[i, k] + DurationMatrix[k, j])
+                        {
+                            DurationMatrix[i, j] = DurationMatrix[i, k] + DurationMatrix[k, j];
+                        }
+                    }
+                }
             }
 
             AlreadyBuilt = true;

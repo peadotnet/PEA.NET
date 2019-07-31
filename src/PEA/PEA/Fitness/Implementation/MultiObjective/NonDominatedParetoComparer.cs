@@ -47,8 +47,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
 
             if (hasToBeAdded)
             {
-                var timeString = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." +
-                                 DateTime.Now.Millisecond;
+                var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
                 Console.WriteLine(timeString + " " + entity.ToString());
                 bests.Add(entity);
             }

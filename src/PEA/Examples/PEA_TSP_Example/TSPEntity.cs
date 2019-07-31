@@ -11,8 +11,8 @@ namespace PEA_TSP_Example
         public IDictionary<string, IChromosome> Chromosomes { get; } = new Dictionary<string, IChromosome>();
         public List<SpatialPoint> Phenotype = new List<SpatialPoint>();
         public IFitness Fitness { get; set; }
-        public Dictionary<string, string> LastCrossOvers { get; } = new Dictionary<string, string>();
-        public Dictionary<string, string> LastMutations { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>();
 
         public double TotalDistance { get; set; }
 

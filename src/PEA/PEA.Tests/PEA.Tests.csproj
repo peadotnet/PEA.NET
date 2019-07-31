@@ -83,6 +83,7 @@
     <Compile Include="ChromosomeTests\PermutationTests\PermutationOperatorBaseTests.cs" />
     <Compile Include="ChromosomeTests\PermutationTests\PermutationTestData.cs" />
     <Compile Include="ChromosomeTests\PredeterminedConflictDetector.cs" />
+    <Compile Include="ChromosomeTests\SortedSubsetTests\DifferentParityConflictDetector.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetCrossoverTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetMutationTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetOperatorBaseTests.cs" />

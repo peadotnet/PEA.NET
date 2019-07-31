@@ -23,11 +23,11 @@ namespace Pea.Chromosome
 
             _mutations = new List<IMutation<SortedSubsetChromosome>>()
             {
-                new CreateNewSectionMutation(random, parameterSet, conflictDetector),
+                //new CreateNewSectionMutation(random, parameterSet, conflictDetector),
                 new EliminateSectionMutation(random, parameterSet, conflictDetector),
                 new ReplaceOneGeneMutation(random, parameterSet, conflictDetector),
-                //new SwapThreeRangeMutation(random, parameterSet, null),
-                //new SwapTwoRangeMutation(random, parameterSet, null)
+                //new SwapThreeRangeMutation(random, parameterSet, conflictDetector),
+                new SwapTwoRangeMutation(random, parameterSet, conflictDetector)
             };
         }
 

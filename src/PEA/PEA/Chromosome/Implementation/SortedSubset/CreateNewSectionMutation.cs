@@ -16,34 +16,35 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             if (chromosome == null) return null;
 
             var numberOfGenesToReplace = GetNumberOfGenesToChange(chromosome);
-            chromosome = IncrementNumberOfSections(chromosome, numberOfGenesToReplace);
-            var targetSection = chromosome.Sections.Length - 1;
-            var target = chromosome.Sections[targetSection];
 
             int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
+            int replaced = 0;
+
+            var targetList = new LinkedList<int>();
 
             for (int i = 0; i < numberOfGenesToReplace; i++)
             {
-                bool replaced = false;
-                var replaceCount = retryCount;
+                var tryCount = retryCount;
+
                 while (true)
                 {
                     GenePosition source = GetSourceSectionAndPosition(chromosome);
                     var geneValue = chromosome.Sections[source.Section][source.Position];
-                    var targetPos = FindNewGenePosition(target, geneValue);
-                    if (!ConflictDetectedWithLeftNeighbor(target, targetPos, geneValue)
-                        && ConflictDetectedWithRightNeighbor(target, targetPos, geneValue))
+                    var success = InsertGeneToLinkedList(targetList, geneValue);
+                    if (success)
                     {
-                        InsertGenes(chromosome, targetSection, targetPos, chromosome.Sections[source.Section], source.Position, 1);
                         DeleteGenesFromSection(chromosome, source.Section, source.Position, 1);
-                        replaced = true;
+                        replaced++;
                     }
 
-                    if (replaced || replaceCount-- < 0) break;
+                    if (success || tryCount-- < 0) break;
                 }
             }
 
+            IncrementNumberOfSections(chromosome, targetList);
+
             CleanOutSections(chromosome);
+
             return chromosome;
         }
 
@@ -55,13 +56,56 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return Random.GetInt(min, max);
         }
 
-        public SortedSubsetChromosome IncrementNumberOfSections(SortedSubsetChromosome chromosome, int numberOfGenesToReplace)
+        public bool InsertGeneToLinkedList(LinkedList<int> list, int geneValue)
+        {
+            if (list.First == null)
+            {
+                list.AddFirst(geneValue);
+                return true;
+            }
+
+            if (list.First.Value > geneValue)
+            {
+                if (ConflictDetector.ConflictDetected(geneValue, list.First.Value)) return false;
+
+                list.AddFirst(geneValue);
+                return true;
+            }
+
+            if (list.Last.Value < geneValue)
+            {
+                if (ConflictDetector.ConflictDetected(list.Last.Value, geneValue)) return false;
+
+                list.AddLast(geneValue);
+                return true;
+            }
+
+            var node = list.First;
+            while (node.Value < geneValue) node = node.Next;
+
+            if (ConflictDetector.ConflictDetected(node.Previous.Value, geneValue) ||
+                ConflictDetector.ConflictDetected(geneValue, node.Value))
+            {
+                return false;
+            }
+
+            list.AddBefore(node, geneValue);
+            return true;
+        }
+
+        public SortedSubsetChromosome IncrementNumberOfSections(SortedSubsetChromosome chromosome, LinkedList<int> sectionList)
         {
             int length = chromosome.Sections.Length;
             var newSections = new int[length + 1][];
             Array.Copy(chromosome.Sections, newSections, length);
 
-            newSections[length] = new int[numberOfGenesToReplace];
+            newSections[length] = new int[sectionList.Count];
+            var node = sectionList.First;
+            for (int i = 0; i < sectionList.Count; i++)
+            {
+                newSections[length][i] = node.Value;
+                node = node.Next;
+            }
 
             chromosome.Sections = newSections;
             return chromosome;

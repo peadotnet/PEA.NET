@@ -67,7 +67,22 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                     if (child0Conflicted && child1Conflicted) break;
                 }
 
-                if (!child0Conflicted || !child1Conflicted || retryCount-- < 0) break;
+                if (!child0Conflicted || !child1Conflicted)
+                {
+                    var conflictedPositions0 =
+                        child0Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child0);
+                    var conflictedPositions1 =
+                        child1Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child1);
+
+                    if (conflictedPositions0.Count > 0 || conflictedPositions1.Count > 0)
+                    {
+                        bool error = true;  //For breakpoint
+                    }
+
+                    break;
+                }
+
+                if(retryCount-- < 0) break;
 
                 child0 = new int[sectionsCount][];
                 child1 = new int[sectionsCount][];
@@ -90,59 +105,6 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             }
 
             return children;
-        }
-
-        public int[] MergeSections(int[] sectionForOuter, int outerStartPosition, int outerEndPosition, int[] sectionForInner, int innerStartPosition, int innerEndPosition, ref bool childConflicted)
-        {
-            if (childConflicted) return null;
-            int? geneValue0 = null;
-            int? geneValue1 = null;
-
-            if (innerStartPosition < sectionForInner.Length)
-            {
-                geneValue0 = sectionForInner[innerStartPosition];
-            }
-
-            if (innerEndPosition < sectionForInner.Length)
-            {
-                geneValue1 = sectionForInner[innerStartPosition];
-            }
-            else if (sectionForInner.Length > 0)
-            {
-                geneValue1 = sectionForInner[sectionForInner.Length - 1];
-            }
-
-            if (!geneValue0.HasValue) geneValue1 = null;
-
-            if (ConflictDetectedWithLeftNeighbor(sectionForOuter, outerStartPosition, geneValue0))
-                childConflicted = true;
-
-            if (ConflictDetectedWithRightNeighbor(sectionForOuter, outerEndPosition, geneValue1))
-                childConflicted = true;
-
-            if (childConflicted) return null;
-
-            var innerLength = innerEndPosition - innerStartPosition;
-            var rightLength = sectionForOuter.Length - outerEndPosition;
-
-            int[] childSection = new int[outerStartPosition + innerLength + rightLength];
-
-            if (outerStartPosition > 0)
-            {
-                Array.Copy(sectionForOuter, 0, childSection, 0, outerStartPosition);
-            }
-
-            if (innerLength > 0)
-            {
-                Array.Copy(sectionForInner, innerStartPosition, childSection, outerStartPosition, innerLength);
-            }
-
-            if (rightLength > 0)
-            {
-                Array.Copy(sectionForOuter, outerStartPosition, childSection, outerStartPosition + innerLength, rightLength);
-            }
-
-            return childSection;
         }
     }
 }

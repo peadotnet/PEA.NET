@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NSubstitute;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
@@ -50,11 +51,58 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         {
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var genesToInsert = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-            var random = Substitute.For<IRandom>();
+            var random = new FastRandom();
             var parameterSet = new ParameterSet();
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, AllRightConflictDetector.Instance);
 
             var result = operatorBase.CountInsertableGenes(chromosome, sectionIndex, insertPosition, genesToInsert, firstGeneIndex);
+
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(2, null, false)]
+        [InlineData(4, null, false)]
+        [InlineData(0, 3, false)]
+        [InlineData(0, 4, false)]
+        [InlineData(1, 4, false)]
+        [InlineData(1, 3, true)]
+        [InlineData(2, 3, false)]
+        [InlineData(2, 4, true)]
+        [InlineData(5, 12, false)]
+        [InlineData(5, 11, true)]
+        public void SortedSubsetOperatorBase_ConflictDetectedWithLeftNeighbor_ShouldReturn(int position, int? geneValue, bool expected)
+        {
+            var targetSection = new int[] {2, 5, 7, 8, 10};
+            var random = new FastRandom();
+            var parameterSet = new ParameterSet();
+            var conflictDetector = new DifferentParityConflictDetector();
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetector);
+
+            var result = operatorBase.ConflictDetectedWithLeftNeighbor(targetSection, position, geneValue);
+
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(2, null, false)]
+        [InlineData(4, null, false)]
+        [InlineData(0, 3, true)]
+        [InlineData(2, 3, false)]
+        [InlineData(2, 4, true)]
+        [InlineData(3, 4, false)]
+        [InlineData(3, 3, true)]
+        [InlineData(5, 11, false)]
+        [InlineData(5, 12, false)]
+        public void SortedSubsetOperatorBase_ConflictDetectedWithRightNeighbor_ShouldReturn(int position, int? geneValue, bool expected)
+        {
+            var targetSection = new int[] { 2, 5, 7, 8, 10 };
+            var random = new FastRandom();
+            var parameterSet = new ParameterSet();
+            var conflictDetector = new DifferentParityConflictDetector();
+            var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetector);
+
+            var result = operatorBase.ConflictDetectedWithRightNeighbor(targetSection, position, geneValue);
 
             result.Should().Be(expected);
         }
@@ -80,7 +128,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         [InlineData(true, false, false)]
         [InlineData(false, true, false)]
         [InlineData(false, false, true)]
-        public void SortedSubsetOperatorBase_InsertGenesAtPositionWithConlflict_ShouldReturnsUnsuccess(bool leftConflict, bool rightConflict, bool expectedSuccess)
+        public void SortedSubsetOperatorBase_InsertGenesAtPositionWithConflict_ShouldReturns(bool leftConflict, bool rightConflict, bool expectedSuccess)
         {
             var geneValuesToInsert = new int[] { 10, 11, 12, 13 };
             var chromosome = SortedSubsetTestData.CreateChromosome();

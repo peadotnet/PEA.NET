@@ -32,7 +32,7 @@ namespace PEA_VehicleScheduling_Example
             for (int i = 0; i < InitData.Trips.Length; i++)
             {
                 
-                var fitVehicles = new List<int>();
+                var fitVehicles = new List<KeyValuePair<double, int>>();
 
                 for (int s = 0; s < indices.Count; s++)
                 {
@@ -40,7 +40,10 @@ namespace PEA_VehicleScheduling_Example
 
                     if (!ConflictDetector.ConflictDetected(previousIndex, i))
                     {
-                        fitVehicles.Add(s);
+                        var trip1 = InitData.Trips[previousIndex];
+                        var trip2 = InitData.Trips[i];
+                        var distance = InitData.GetDistance(trip1.LastStopId, trip2.FirstStopId);
+                        fitVehicles.Add(new KeyValuePair<double, int>(distance, s));
                     }
                 }
 
@@ -51,8 +54,17 @@ namespace PEA_VehicleScheduling_Example
                 }
                 else
                 {
-                    var randomIndex = random.GetInt(0, fitVehicles.Count);
-                    indices[fitVehicles[randomIndex]].Add(i);
+                    var randomChoose = random.GetDouble(0, 1);
+                    if (randomChoose < 0.99 || fitVehicles.Count == 1)
+                    {
+                        fitVehicles.Sort((x, y) => x.Key.CompareTo(y.Key));
+                        indices[fitVehicles.First().Value].Add(i);
+                    }
+                    else
+                    {
+                        var randomIndex = random.GetInt(0, fitVehicles.Count);
+                        indices[fitVehicles[randomIndex].Value].Add(i);
+                    }
                 }
             }
 

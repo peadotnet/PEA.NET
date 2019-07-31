@@ -10,10 +10,10 @@ namespace Pea.Core
 
         public abstract double GetDouble(double minValue, double upperBound);
 
-        public virtual int GetIntWithTabu(int minValue, int upperBound, int tabu)
+        public virtual int GetIntWithTabu(int minValue, int upperBound, params int[] tabu)
         {
-            var result = tabu;
-            while (result == tabu)
+            var result = tabu[0];
+            while (tabu.Contains(result))
             {
                 result = GetInt(minValue, upperBound);
             }

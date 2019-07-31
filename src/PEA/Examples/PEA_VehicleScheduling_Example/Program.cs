@@ -31,20 +31,20 @@ namespace PEA_VehicleScheduling_Example
                 .AddSelection<Pea.Selection.TournamentSelection>()
                 .AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
 
-                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 250)
+                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 750)
                 .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
                 .SetParameter(Island.ParameterNames.ArchipelagosCount, 1)
                 .SetParameter(Island.ParameterNames.IslandsCount, 1)
                 .SetParameter(Island.ParameterNames.EvaluatorsCount, 2)
                 .SetParameter(Chromosome.ParameterNames.ConflictReducingProbability, 0.5)
-                .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 5)
-                .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 5);
+                .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 20)
+                .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 10);
                 
             system.Settings.Random = typeof(FastRandom);
 
             system.Settings.StopCriteria = StopCriteriaBuilder
-                .StopWhen().TimeoutElapsed(300000)
+                .StopWhen().TimeoutElapsed(32400000)
                 .Build();
 
             Evaluation = new VSEvaluation();
@@ -52,6 +52,10 @@ namespace PEA_VehicleScheduling_Example
 
             var creator = new VSEntityCreator();
             creator.Init(initData);
+
+            var conflictDetector = new VSConflictDetector();
+            conflictDetector.Init(initData);
+            Chromosome.Implementation.SortedSubset.SortedSubsetChromosomeValidator.ConflictDetector = conflictDetector;
 
             var islandEngine = Island.IslandEngineFactory.Create(system.Settings);
             islandEngine.EntityCreators.Add(creator, 1);
@@ -91,7 +95,7 @@ namespace PEA_VehicleScheduling_Example
             sw.Stop();
             var elapsed = sw.ElapsedMilliseconds;
             var entities = VSEvaluation.EntityCount;
-            var speed = entities / elapsed;
+            var speed = entities / (double)elapsed;
             Console.WriteLine($"Elapsed: {elapsed} Entities: {entities} ({speed} ent./ms)");
 
             Console.ReadLine();

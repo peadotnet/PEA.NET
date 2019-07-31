@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
@@ -15,36 +16,64 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             if (chromosome == null) return null;
             if (chromosome.Sections.Length < 2) return null;
 
-            SortedSubsetChromosome clone;
-
-            int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
-
-            clone = chromosome.DeepClone();
-            var sectionToEliminate = Random.GetInt(0, clone.Sections.Length);
-            for (int g = 0; g < clone.Sections[sectionToEliminate].Length; g++)
+            var sectionToEliminate = GetSectionToEliminate(chromosome);
+            for (int g = chromosome.Sections[sectionToEliminate].Length - 1; g >= 0; g--)
             {
-                var geneValue = clone.Sections[sectionToEliminate][g];
-                var replaceCount = retryCount;
+                var geneValue = chromosome.Sections[sectionToEliminate][g];
+                var target = GetTargetSection(chromosome, sectionToEliminate, geneValue);
 
-                while (true)
+                if (target == null)
                 {
-                    var targetSection = Random.GetIntWithTabu(0, clone.Sections.Length, sectionToEliminate);
-                    var targetPosition = FindNewGenePosition(clone.Sections[targetSection], geneValue);
+                    continue;
+                }
 
-                    if (!ConflictDetectedWithLeftNeighbor(clone.Sections[targetSection], targetPosition, geneValue)
-                        && !ConflictDetectedWithRightNeighbor(clone.Sections[targetSection], targetPosition, geneValue))
+                InsertGenes(chromosome, target.Section, target.Position, new int[] {geneValue}, 0, 1);
+                DeleteGenesFromSection(chromosome, sectionToEliminate, g, 1);
+            }
+
+            bool eliminated = CleanOutSections(chromosome);
+            if (eliminated)
+            {
+                var yepp = true;
+            }
+            return chromosome;
+        }
+
+        private GenePosition GetTargetSection(SortedSubsetChromosome chromosome, int sectionToEliminate, int geneValue)
+        {
+            List<GenePosition> fitSections = new List<GenePosition>();
+            for (int s = 0; s < chromosome.Sections.Length; s++)
+            {
+                if (s != sectionToEliminate)
+                {
+                    var position = FindNewGenePosition(chromosome.Sections[s], geneValue);
+                    if (!ConflictDetectedWithLeftNeighbor(chromosome.Sections[s], position, geneValue)
+                        && !ConflictDetectedWithRightNeighbor(chromosome.Sections[s], position, geneValue))
                     {
-                        //TODO: simplify this method parameter set! (or make an alternative one)
-                        InsertGenes(clone, targetSection, targetPosition, new int[] {geneValue}, 0, 1);
-                        DeleteGenesFromSection(clone, sectionToEliminate, g, 1);
-                        break;
+                        fitSections.Add(new GenePosition(s, position));
                     }
-
-                    if (replaceCount-- < 0) break;
                 }
             }
 
-            return clone;
+            if (fitSections.Count == 0) return null;
+
+            var randomIndex = Random.GetInt(0, fitSections.Count);
+            var chosenSection = fitSections[randomIndex];
+            return chosenSection;
+        }
+
+        private int GetSectionToEliminate(SortedSubsetChromosome chromosome)
+        {
+            var provider = new StochasticProvider<int>(this.Random);
+            for (int s = 0; s < chromosome.Sections.Length; s++)
+            {
+                var section = chromosome.Sections[s];
+                var probability = chromosome.TotalCount / (double)section.Length;
+                provider.Add(s, probability);
+            }
+
+            int chosen = provider.GetOne();
+            return chosen;
         }
     }
 }

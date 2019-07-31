@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core.Settings;
 
 namespace Pea.Core.Entity
@@ -30,15 +31,16 @@ namespace Pea.Core.Entity
             var result = new List<IEntity>();
             foreach (var entity in entities)
             {
-                result.Add(MutateEntity(entity));
+                var mutated = MutateEntity(entity);
+                if (mutated != null) result.Add(mutated);
             }
-
             return result;
         }
 
         public IEntity MutateEntity(IEntity entity)
         {
             var mutatedEntity = (IEntity)entity.Clone();
+            mutatedEntity.LastCrossOvers = entity.LastCrossOvers;
 
             foreach (var chromosome in entity.Chromosomes)
             {
@@ -48,6 +50,15 @@ namespace Pea.Core.Entity
                     var mutation = provider.GetOne();
 
                     var mutatedChromosome = mutation.Mutate(chromosome.Value);
+                    if (mutatedChromosome == null) return null;
+
+
+                    var conflictedPositions = 
+                        SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)chromosome.Value).Sections);
+                    if (conflictedPositions.Count > 0)
+                    {
+                        bool error = true;  //For breakpoint
+                    }
 
                     mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
                     mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);

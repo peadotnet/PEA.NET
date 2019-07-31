@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
@@ -226,6 +225,61 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return true;
         }
 
+        public int[] MergeSections(int[] sectionForOuter, int outerStartPosition, int outerEndPosition, int[] sectionForInner, int innerStartPosition, int innerEndPosition, ref bool childConflicted)
+        {
+            if (childConflicted) return null;
+            int? geneValue0 = null;
+            int? geneValue1 = null;
+
+            if (innerStartPosition < sectionForInner.Length)
+            {
+                geneValue0 = sectionForInner[innerStartPosition];
+            }
+
+            if (innerEndPosition > 0 && innerEndPosition < sectionForInner.Length)
+            {
+                geneValue1 = sectionForInner[innerEndPosition - 1];
+            }
+            else if (sectionForInner.Length > 0)
+            {
+                geneValue1 = sectionForInner[sectionForInner.Length - 1];
+            }
+            else
+            {
+                geneValue1 = geneValue0;
+            }
+
+            if (ConflictDetectedWithLeftNeighbor(sectionForOuter, outerStartPosition, geneValue0))
+                childConflicted = true;
+
+            if (ConflictDetectedWithRightNeighbor(sectionForOuter, outerEndPosition, geneValue1))
+                childConflicted = true;
+
+            if (childConflicted) return null;
+
+            var innerLength = innerEndPosition - innerStartPosition;
+            var rightLength = sectionForOuter.Length - outerEndPosition;
+
+            int[] childSection = new int[outerStartPosition + innerLength + rightLength];
+
+            if (outerStartPosition > 0)
+            {
+                Array.Copy(sectionForOuter, 0, childSection, 0, outerStartPosition);
+            }
+
+            if (innerLength > 0)
+            {
+                Array.Copy(sectionForInner, innerStartPosition, childSection, outerStartPosition, innerLength);
+            }
+
+            if (rightLength > 0)
+            {
+                Array.Copy(sectionForOuter, outerEndPosition, childSection, outerStartPosition + innerLength, rightLength);
+            }
+
+            return childSection;
+        }
+
         /// <summary>
         /// Delete given number of genes from a chromosome section and position inside it
         /// </summary>
@@ -279,7 +333,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// Deletes all the sections with length of 0
         /// </summary>
         /// <param name="chromosome">The multi-section chromosome which the operator works within</param>
-        public void CleanOutSections(SortedSubsetChromosome chromosome)
+        /// <returns>True if at least one chromosome is eliminated</returns>
+        public bool CleanOutSections(SortedSubsetChromosome chromosome)
         {
             //TODO: simlpy move the sections?
             int[][] sections = chromosome.Sections;
@@ -290,7 +345,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 if (section.Length == 0) sectionsToDeleteCount++;
             }
 
-            if (sectionsToDeleteCount == 0) return;
+            if (sectionsToDeleteCount == 0) return false;
 
             int[][] temp = new int[sections.Length - sectionsToDeleteCount][];
 
@@ -314,6 +369,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             }
 
             chromosome.Sections = temp;
+
+            return true;
         }
 
         /// <summary>

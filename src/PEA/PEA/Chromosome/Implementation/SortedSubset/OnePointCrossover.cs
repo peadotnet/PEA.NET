@@ -57,7 +57,22 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                     if (child0Conflicted && child1Conflicted) break;
                 }
 
-                if (!child0Conflicted || !child1Conflicted || retryCount-- < 0) break;
+                if (!child0Conflicted || !child1Conflicted)
+                {
+                    var conflictedPositions0 =
+                        child0Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child0);
+                    var conflictedPositions1 =
+                        child1Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child1);
+
+                    if (conflictedPositions0.Count > 0 || conflictedPositions1.Count > 0)
+                    {
+                        bool error = true;  //For breakpoints
+                    }
+
+                    break;
+                }
+
+                if (retryCount-- < 0) break;
 
                 child0 = new int[sectionsCount][];
                 child1 = new int[sectionsCount][];
