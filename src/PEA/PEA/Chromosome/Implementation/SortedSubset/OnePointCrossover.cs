@@ -57,6 +57,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                     if (child0Conflicted && child1Conflicted) break;
                 }
 
+                //TODO: Delete this
                 if (!child0Conflicted || !child1Conflicted)
                 {
                     var conflictedPositions0 =
@@ -67,6 +68,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                     if (conflictedPositions0.Count > 0 || conflictedPositions1.Count > 0)
                     {
                         bool error = true;  //For breakpoints
+                        throw new ApplicationException("Conflict between neighboring values! (Crossover: OnePointCrossover)");
                     }
 
                     break;

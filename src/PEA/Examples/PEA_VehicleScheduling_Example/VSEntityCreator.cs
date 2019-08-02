@@ -31,48 +31,19 @@ namespace PEA_VehicleScheduling_Example
 
             for (int i = 0; i < InitData.Trips.Length; i++)
             {
-                
-                var fitVehicles = new List<KeyValuePair<double, int>>();
 
-                for (int s = 0; s < indices.Count; s++)
-                {
-                    var previousIndex = indices[s][indices[s].Count - 1];
+                int targetIndex;
 
-                    if (!ConflictDetector.ConflictDetected(previousIndex, i))
-                    {
-                        var trip1 = InitData.Trips[previousIndex];
-                        var trip2 = InitData.Trips[i];
-                        var distance = InitData.GetDistance(trip1.LastStopId, trip2.FirstStopId);
-                        fitVehicles.Add(new KeyValuePair<double, int>(distance, s));
-                    }
-                }
+                targetIndex = ChooseTarget(random, indices, i);
 
-                if (!fitVehicles.Any())
+                if (targetIndex == indices.Count)
                 {
                     indices.Add(new List<int>());
-                    indices[indices.Count-1].Add(i);
                 }
-                else
-                {
-                    var randomChoose = random.GetDouble(0, 1);
-                    if (randomChoose < 0.99 || fitVehicles.Count == 1)
-                    {
-                        fitVehicles.Sort((x, y) => x.Key.CompareTo(y.Key));
-                        indices[fitVehicles.First().Value].Add(i);
-                    }
-                    else
-                    {
-                        var randomIndex = random.GetInt(0, fitVehicles.Count);
-                        indices[fitVehicles[randomIndex].Value].Add(i);
-                    }
-                }
+                indices[targetIndex].Add(i);
             }
 
-            var geneSections = new int[indices.Count][];
-            for (int s = 0; s < indices.Count; s++)
-            {
-                geneSections[s] = indices[s].ToArray();
-            }
+            int[][] geneSections = CreateSectionsFromList(indices);
 
             var chromosome = new SortedSubsetChromosome(geneSections);
 
@@ -81,5 +52,75 @@ namespace PEA_VehicleScheduling_Example
 
             return entity;
         }
+
+        private int ChooseTarget(IRandom random, List<List<int>> indices, int i)
+        {
+            int targetIndex;
+            var fitVehicles = CheckFitVehicles(indices, i);
+
+            if (!fitVehicles.Any())
+            {
+                targetIndex = indices.Count;
+            }
+            else
+            {
+                double greedyProbability = 0.99;
+
+                targetIndex = ChooseFromFitVehicles(random, fitVehicles, greedyProbability);
+            }
+
+            return targetIndex;
+        }
+
+        private List<KeyValuePair<double, int>> CheckFitVehicles(List<List<int>> indices, int i)
+        {
+            var fitVehicles = new List<KeyValuePair<double, int>>();
+
+            for (int s = 0; s < indices.Count; s++)
+            {
+                var previousIndex = indices[s][indices[s].Count - 1];
+
+                if (!ConflictDetector.ConflictDetected(previousIndex, i))
+                {
+                    var trip1 = InitData.Trips[previousIndex];
+                    var trip2 = InitData.Trips[i];
+                    var distance = InitData.GetDistance(trip1.LastStopId, trip2.FirstStopId);
+                    fitVehicles.Add(new KeyValuePair<double, int>(distance, s));
+                }
+            }
+
+            return fitVehicles;
+        }
+
+        private static int ChooseFromFitVehicles(IRandom random, List<KeyValuePair<double, int>> fitVehicles, double greedyProbability)
+        {
+            int targetIndex;
+            var randomChoose = random.GetDouble(0, 1);
+            if (randomChoose < greedyProbability || fitVehicles.Count == 1)
+            {
+                fitVehicles.Sort((x, y) => x.Key.CompareTo(y.Key));
+                targetIndex = fitVehicles.First().Value;
+
+            }
+            else
+            {
+                var randomIndex = random.GetInt(0, fitVehicles.Count);
+                targetIndex = fitVehicles[randomIndex].Value;
+            }
+
+            return targetIndex;
+        }
+
+        private static int[][] CreateSectionsFromList(List<List<int>> indices)
+        {
+            var geneSections = new int[indices.Count][];
+            for (int s = 0; s < indices.Count; s++)
+            {
+                geneSections[s] = indices[s].ToArray();
+            }
+
+            return geneSections;
+        }
+
     }
 }

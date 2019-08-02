@@ -32,10 +32,11 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             }
 
             bool eliminated = CleanOutSections(chromosome);
-            if (eliminated)
-            {
-                var yepp = true;
-            }
+            //TODO: Delete this
+            //if (eliminated)
+            //{
+            //    var yepp = true;
+            //}
             return chromosome;
         }
 

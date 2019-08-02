@@ -52,12 +52,13 @@ namespace Pea.Core.Entity
                     var mutatedChromosome = mutation.Mutate(chromosome.Value);
                     if (mutatedChromosome == null) return null;
 
-
-                    var conflictedPositions = 
-                        SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)chromosome.Value).Sections);
+                    //TODO: Delete this
+                    var conflictedPositions =
+                        SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)mutatedChromosome).Sections);
                     if (conflictedPositions.Count > 0)
                     {
                         bool error = true;  //For breakpoint
+                        //throw new ApplicationException($"Conflict between neighboring values! (Mutation: {mutation.GetType().Name})");
                     }
 
                     mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;

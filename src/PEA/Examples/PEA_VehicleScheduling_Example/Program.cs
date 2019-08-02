@@ -31,7 +31,7 @@ namespace PEA_VehicleScheduling_Example
                 .AddSelection<Pea.Selection.TournamentSelection>()
                 .AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
 
-                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 750)
+                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 2500)
                 .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
                 .SetParameter(Island.ParameterNames.ArchipelagosCount, 1)
@@ -44,7 +44,7 @@ namespace PEA_VehicleScheduling_Example
             system.Settings.Random = typeof(FastRandom);
 
             system.Settings.StopCriteria = StopCriteriaBuilder
-                .StopWhen().TimeoutElapsed(32400000)
+                .StopWhen().TimeoutElapsed(600000)
                 .Build();
 
             Evaluation = new VSEvaluation();
@@ -76,20 +76,29 @@ namespace PEA_VehicleScheduling_Example
             //    Console.WriteLine(reason);
             //}
 
-            initData.Build();
-            islandEngine.ConflictDetector.Init(initData);
-            algorithm.InitPopulation();
-            var c = 0;
-            while (true)
+            try
             {
-                algorithm.RunOnce();
-                var stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
-                if (stopDecision.MustStop)
+
+                initData.Build();
+                islandEngine.ConflictDetector.Init(initData);
+                algorithm.InitPopulation();
+                var c = 0;
+                while (true)
                 {
-                    Console.WriteLine(stopDecision.Reasons[0]);
-                    break;
+                    algorithm.RunOnce();
+                    var stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
+                    if (stopDecision.MustStop)
+                    {
+                        Console.WriteLine(stopDecision.Reasons[0]);
+                        break;
+                    }
+
+                    c++;
                 }
-                c++;
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             sw.Stop();

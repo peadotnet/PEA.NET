@@ -231,22 +231,14 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             int? geneValue0 = null;
             int? geneValue1 = null;
 
-            if (innerStartPosition < sectionForInner.Length)
+            if (innerStartPosition > 0)
             {
-                geneValue0 = sectionForInner[innerStartPosition];
+                geneValue0 = sectionForInner[innerStartPosition - 1];
             }
 
-            if (innerEndPosition > 0 && innerEndPosition < sectionForInner.Length)
+            if (innerEndPosition > 0)
             {
                 geneValue1 = sectionForInner[innerEndPosition - 1];
-            }
-            else if (sectionForInner.Length > 0)
-            {
-                geneValue1 = sectionForInner[sectionForInner.Length - 1];
-            }
-            else
-            {
-                geneValue1 = geneValue0;
             }
 
             if (ConflictDetectedWithLeftNeighbor(sectionForOuter, outerStartPosition, geneValue0))
