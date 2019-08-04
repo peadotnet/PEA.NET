@@ -67,19 +67,19 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                     if (child0Conflicted && child1Conflicted) break;
                 }
 
-                //TODO: Delete this
                 if (!child0Conflicted || !child1Conflicted)
                 {
-                    var conflictedPositions0 =
-                        child0Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child0);
-                    var conflictedPositions1 =
-                        child1Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child1);
+                    //TODO: Delete this
+                    //    var conflictedPositions0 =
+                    //        child0Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child0);
+                    //    var conflictedPositions1 =
+                    //        child1Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child1);
 
-                    if (conflictedPositions0.Count > 0 || conflictedPositions1.Count > 0)
-                    {
-                        bool error = true;  //For breakpoint
-                        throw new ApplicationException("Conflict between neighboring values! (Crossover: TwoPointCrossover)");
-                    }
+                    //    if (conflictedPositions0.Count > 0 || conflictedPositions1.Count > 0)
+                    //    {
+                    //        bool error = true;  //For breakpoint
+                    //        throw new ApplicationException("Conflict between neighboring values! (Crossover: TwoPointCrossover)");
+                    //    }
 
                     break;
                 }

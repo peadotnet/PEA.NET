@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Chromosome\Implementation\Permutation\IConflictDetector.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Chromosome\Implementation\PositionValuePair\" />
     <Folder Include="Chromosome\Implementation\BitVector\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />

@@ -1,6 +1,4 @@
-﻿using Pea.Core;
-
-namespace Pea.Chromosome.Implementation.SortedSubset
+﻿namespace Pea.Core
 {
     public class AllRightConflictDetector : IConflictDetector
     {

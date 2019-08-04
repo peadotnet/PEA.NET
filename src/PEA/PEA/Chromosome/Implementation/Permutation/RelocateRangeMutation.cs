@@ -12,7 +12,7 @@ namespace Pea.Chromosome.Implementation.Permutation
         public override PermutationChromosome Mutate(PermutationChromosome chromosome)
         {
             if (chromosome == null) return null;
-            if (chromosome.Genes.Length < 2) return null;
+            if (chromosome.Genes.Length < 2) return chromosome;
 
             //TODO: ConflictCheck, retry
 

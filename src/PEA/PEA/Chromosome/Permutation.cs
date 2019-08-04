@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
-using IConflictDetector = Pea.Chromosome.Implementation.Permutation.IConflictDetector;
 
 namespace Pea.Chromosome
 {
@@ -21,7 +20,9 @@ namespace Pea.Chromosome
             {
                 new RelocateRangeMutation(random, parameterSet, conflictDetector),
                 new InverseRangeMutation(random, parameterSet, conflictDetector),
-                new SwapTwoRangeMutation(random, parameterSet, conflictDetector)
+                new SwapTwoRangeMutation(random, parameterSet, conflictDetector),
+                new ShuffleRangeMutation(random, parameterSet, conflictDetector),
+                new RelocateOneMutation(random, parameterSet, conflictDetector)
             };
         }
 

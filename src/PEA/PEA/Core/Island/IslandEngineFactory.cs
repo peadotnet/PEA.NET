@@ -1,5 +1,4 @@
 ﻿using System;
-using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core.Entity;
 
 namespace Pea.Core.Island

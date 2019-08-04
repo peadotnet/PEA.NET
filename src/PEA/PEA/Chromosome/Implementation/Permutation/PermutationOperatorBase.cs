@@ -81,8 +81,15 @@ namespace Pea.Chromosome.Implementation.Permutation
                 range1 = r;
             }
 
-            if (range2.Position < range1.Position + range1.Length) throw new ArgumentException("Gene ranges are overlapped!");
+            if (range2.Position < range1.Position + range1.Length)
+            {
+                if (range1.IsDisjointWith(range2))
+                {
+                    var error = true;
+                }
 
+                throw new ArgumentException("Gene ranges are overlapped!");
+            }
             var temp = new int[genes.Length];
             var range1EndPosition = range1.Position + range1.Length;
             var range2EndPosition = range2.Position + range2.Length;

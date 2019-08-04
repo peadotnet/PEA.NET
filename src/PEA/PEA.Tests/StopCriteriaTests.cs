@@ -3,7 +3,6 @@ using NSubstitute;
 using Pea.Core;
 using Pea.StopCriteria;
 using Pea.StopCriteria.Implementation;
-using System;
 using Xunit;
 
 namespace Pea.Tests

@@ -53,13 +53,13 @@ namespace Pea.Core.Entity
                     if (mutatedChromosome == null) return null;
 
                     //TODO: Delete this
-                    var conflictedPositions =
-                        SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)mutatedChromosome).Sections);
-                    if (conflictedPositions.Count > 0)
-                    {
-                        bool error = true;  //For breakpoint
-                        //throw new ApplicationException($"Conflict between neighboring values! (Mutation: {mutation.GetType().Name})");
-                    }
+                    //var conflictedPositions =
+                    //    SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)mutatedChromosome).Sections);
+                    //if (conflictedPositions.Count > 0)
+                    //{
+                    //    bool error = true;  //For breakpoint
+                    //    //throw new ApplicationException($"Conflict between neighboring values! (Mutation: {mutation.GetType().Name})");
+                    //}
 
                     mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
                     mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);

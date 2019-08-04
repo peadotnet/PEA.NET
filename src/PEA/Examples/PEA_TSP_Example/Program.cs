@@ -32,7 +32,7 @@ namespace PEA_TSP_Example
                 .WithCreator<TSPEntityCreator>()
                 .WithEvaluation<TSPEvaluation>()
 
-                .SetParameter(Pea.Algorithm.ParameterNames.MaxNumberOfEntities, 250)
+                .SetParameter(Pea.Algorithm.ParameterNames.MaxNumberOfEntities, 500)
                 .SetParameter(Pea.Algorithm.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
                 .SetParameter(ParameterNames.ArchipelagosCount, 1)

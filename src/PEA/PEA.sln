@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2002
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA", "PEA\PEA.csproj", "{2A0CD29E-EED0-45A8-8CB3-7962CC63B2BE}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA_TSP_Example", "Examples\PEA_TSP_Example\PEA_TSP_Example.csproj", "{58A421E4-B2D3-4027-9C45-BA5AEEBCAED6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA_VehicleScheduling_Example", "Examples\PEA_VehicleScheduling_Example\PEA_VehicleScheduling_Example.csproj", "{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEA.Benchmarks", "PEA.Benchmarks\PEA.Benchmarks.csproj", "{0FA621BF-C7D8-4837-8933-CFB9ED9EB617}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA13A97D-FC2B-4796-BC11-7A6A15BDE867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FA621BF-C7D8-4837-8933-CFB9ED9EB617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FA621BF-C7D8-4837-8933-CFB9ED9EB617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FA621BF-C7D8-4837-8933-CFB9ED9EB617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FA621BF-C7D8-4837-8933-CFB9ED9EB617}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
