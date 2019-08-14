@@ -101,7 +101,7 @@ namespace PEA_VehicleScheduling_Example
         private void FillMatrixWithInitValues(int StopsCounter)
         {
             for (int i = 0; i < StopsCounter; i++)
-            {
+            {               
                 for (int j = 0; j < StopsCounter; j++)
                 {
                     if (i != j) DurationMatrix[i, j] = double.MaxValue;

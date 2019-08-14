@@ -13,8 +13,8 @@ namespace PEA_VehicleScheduling_Example
         public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>();
 
         public int VehiclesCount = 0;
-        public int CrewCount = 0;
         public double TotalDeadMileage = 0;
+        public int TotalActiveTime = 0;
 
         public object Clone()
         {
@@ -33,7 +33,7 @@ namespace PEA_VehicleScheduling_Example
 
         public override string ToString()
         {
-            return $"Vehicles: {VehiclesCount} Dead mileage: {TotalDeadMileage}";
+            return $"Vehicles: {VehiclesCount} Dead mileage: {TotalDeadMileage} Active time: {TotalActiveTime/60}:{TotalActiveTime%60}";
         }
     }
 }

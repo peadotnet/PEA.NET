@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using Pea.Core;
 using Pea.StopCriteria;
 using Algorithm = Pea.Algorithm;
@@ -44,7 +45,7 @@ namespace PEA_VehicleScheduling_Example
             system.Settings.Random = typeof(FastRandom);
 
             system.Settings.StopCriteria = StopCriteriaBuilder
-                .StopWhen().TimeoutElapsed(600000)
+                .StopWhen().TimeoutElapsed(2*3600*1000)
                 .Build();
 
             Evaluation = new VSEvaluation();
@@ -106,6 +107,8 @@ namespace PEA_VehicleScheduling_Example
             var entities = VSEvaluation.EntityCount;
             var speed = entities / (double)elapsed;
             Console.WriteLine($"Elapsed: {elapsed} Entities: {entities} ({speed} ent./ms)");
+
+            ResultWriter.WriteResults("VehicleSchedulingResults", algorithm.Population.Bests);
 
             Console.ReadLine();
 

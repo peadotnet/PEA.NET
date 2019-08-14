@@ -22,7 +22,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// </summary>
         /// <param name="chromosome"></param>
         /// <returns></returns>
-        public GeneRange GetSourceSectionAndPosition(SortedSubsetChromosome chromosome)
+        public GenePosition GetSourceSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             return ConflictShouldBeEliminated(chromosome)
                 ? GetConflictedSectionAndPosition(chromosome)
@@ -34,7 +34,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// </summary>
         /// <param name="chromosome"></param>
         /// <returns></returns>
-        public GeneRange GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
+        public GenePosition GetRandomSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             var sectionLength = 0;
             var sourceSectionIndex = 0;
@@ -45,9 +45,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             }
 
             var sourcePosition = Random.GetInt(0, chromosome.Sections[sourceSectionIndex].Length);
-            var length = Random.GetInt(1, chromosome.Sections[sourceSectionIndex].Length - sourcePosition);
 
-            var source = new GeneRange(sourceSectionIndex, sourcePosition, length);
+            var source = new GenePosition(sourceSectionIndex, sourcePosition);
             return source;
         }
 
@@ -56,7 +55,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         /// </summary>
         /// <param name="chromosome"></param>
         /// <returns></returns>
-        public GeneRange GetConflictedSectionAndPosition(SortedSubsetChromosome chromosome)
+        public GenePosition GetConflictedSectionAndPosition(SortedSubsetChromosome chromosome)
         {
             var conflicted = Random.GetInt(0, chromosome.ConflictList.Count);
             var source = chromosome.ConflictList[conflicted];
@@ -225,48 +224,44 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return true;
         }
 
-        public int[] MergeSections(int[] sectionForOuter, int outerStartPosition, int outerEndPosition, int[] sectionForInner, int innerStartPosition, int innerEndPosition, ref bool childConflicted)
+        public int[] MergeSections(int[] section1, GeneRange range1, int[] section2, GeneRange range2, ref bool childConflicted)
         {
             if (childConflicted) return null;
             int? geneValue0 = null;
             int? geneValue1 = null;
 
-            if (innerStartPosition > 0)
+            if (range2.FirstPosition < range2.LastPosition)
             {
-                geneValue0 = sectionForInner[innerStartPosition - 1];
+                geneValue0 = section2[range2.FirstPosition];
+                geneValue1 = section2[range2.LastPosition - 1];
             }
 
-            if (innerEndPosition > 0)
-            {
-                geneValue1 = sectionForInner[innerEndPosition - 1];
-            }
-
-            if (ConflictDetectedWithLeftNeighbor(sectionForOuter, outerStartPosition, geneValue0))
+            if (ConflictDetectedWithLeftNeighbor(section1, range1.FirstPosition, geneValue0))
                 childConflicted = true;
 
-            if (ConflictDetectedWithRightNeighbor(sectionForOuter, outerEndPosition, geneValue1))
+            if (ConflictDetectedWithRightNeighbor(section1, range1.LastPosition, geneValue1))
                 childConflicted = true;
 
             if (childConflicted) return null;
 
-            var innerLength = innerEndPosition - innerStartPosition;
-            var rightLength = sectionForOuter.Length - outerEndPosition;
+            var innerLength = range2.LastPosition - range2.FirstPosition;
+            var rightLength = section1.Length - range1.LastPosition;
 
-            int[] childSection = new int[outerStartPosition + innerLength + rightLength];
+            int[] childSection = new int[range1.FirstPosition + innerLength + rightLength];
 
-            if (outerStartPosition > 0)
+            if (range1.FirstPosition > 0)
             {
-                Array.Copy(sectionForOuter, 0, childSection, 0, outerStartPosition);
+                Array.Copy(section1, 0, childSection, 0, range1.FirstPosition);
             }
 
             if (innerLength > 0)
             {
-                Array.Copy(sectionForInner, innerStartPosition, childSection, outerStartPosition, innerLength);
+                Array.Copy(section2, range2.FirstPosition, childSection, range1.FirstPosition, innerLength);
             }
 
             if (rightLength > 0)
             {
-                Array.Copy(sectionForOuter, outerEndPosition, childSection, outerStartPosition + innerLength, rightLength);
+                Array.Copy(section1, range1.LastPosition, childSection, range1.FirstPosition + innerLength, rightLength);
             }
 
             return childSection;

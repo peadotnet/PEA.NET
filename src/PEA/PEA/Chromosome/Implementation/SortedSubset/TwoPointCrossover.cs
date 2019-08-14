@@ -27,8 +27,9 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 : parent2.TotalCount;
 
             var child0 = new int[sectionsCount][];
-            var child1 = new int[sectionsCount][];
             bool child0Conflicted = false;
+
+            var child1 = new int[sectionsCount][];
             bool child1Conflicted = false;
 
             int retryCount = ParameterSet.GetInt(ParameterNames.FailedCrossoverRetryCount);
@@ -36,30 +37,20 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             {
                 var crossoverPointLeft = Random.GetInt(0, totalCount);
                 var crossoverPointRight = Random.GetIntWithTabu(0, totalCount, crossoverPointLeft);
-
-                if (crossoverPointRight < crossoverPointLeft)
-                {
-                    var temp = crossoverPointLeft;
-                    crossoverPointLeft = crossoverPointRight;
-                    crossoverPointRight = temp;
-                }
+                SortIncrementalOrder(ref crossoverPointLeft, ref crossoverPointRight);
 
                 for (int sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
                 {
-                    bool section0Exists = (parent1.Sections.Length > sectionIndex);
-                    var section0 = section0Exists ? parent1.Sections[sectionIndex] : new int[0];
-                    var position0left = section0Exists ? FindNewGenePosition(section0, crossoverPointLeft) : 0;
-                    var position0right = section0Exists ? FindNewGenePosition(section0, crossoverPointRight) : 0;
+                    int[] section1 = GetParentSection(parent1, sectionIndex);
+                    var range1 = GetParentRange(section1, crossoverPointLeft, crossoverPointRight, sectionIndex);
 
-                    bool section1Exists = (parent2.Sections.Length > sectionIndex);
-                    var section1 = section1Exists ? parent2.Sections[sectionIndex] : new int[0];
-                    var position1left = section1Exists ? FindNewGenePosition(section1, crossoverPointLeft) : 0;
-                    var position1right = section1Exists ? FindNewGenePosition(section1, crossoverPointRight) : 0;
+                    var section2 = GetParentSection(parent2, sectionIndex);
+                    var range2 = GetParentRange(section2, crossoverPointLeft, crossoverPointRight, sectionIndex);
 
-                    var child0Section = MergeSections(section0, position0left, position0right, section1, position1left, position1right, ref child0Conflicted);
+                    var child0Section = MergeSections(section1, range1, section2, range2, ref child0Conflicted);
                     child0[sectionIndex] = child0Section;
 
-                    var child1Section = MergeSections(section1, position1left, position1right, section0, position0left, position0right, ref child1Conflicted);
+                    var child1Section = MergeSections(section2, range2, section1, range1, ref child1Conflicted);
                     child1[sectionIndex] = child1Section;
 
                     //TODO: Merge conflict lists
@@ -70,16 +61,16 @@ namespace Pea.Chromosome.Implementation.SortedSubset
                 if (!child0Conflicted || !child1Conflicted)
                 {
                     //TODO: Delete this
-                    //    var conflictedPositions0 =
-                    //        child0Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child0);
-                    //    var conflictedPositions1 =
-                    //        child1Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child1);
+                    var conflictedPositions0 =
+                        child0Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child0);
+                    var conflictedPositions1 =
+                        child1Conflicted ? new List<GenePosition>() : SortedSubsetChromosomeValidator.SearchForConflict(child1);
 
-                    //    if (conflictedPositions0.Count > 0 || conflictedPositions1.Count > 0)
-                    //    {
-                    //        bool error = true;  //For breakpoint
-                    //        throw new ApplicationException("Conflict between neighboring values! (Crossover: TwoPointCrossover)");
-                    //    }
+                    if (conflictedPositions0.Count > 0 || conflictedPositions1.Count > 0)
+                    {
+                        bool error = true;  //For breakpoint
+                        throw new ApplicationException("Conflict between neighboring values! (Crossover: TwoPointCrossover)");
+                    }
 
                     break;
                 }
@@ -107,6 +98,16 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             }
 
             return children;
+        }
+
+        public static void SortIncrementalOrder(ref int crossoverPointLeft, ref int crossoverPointRight)
+        {
+            if (crossoverPointRight < crossoverPointLeft)
+            {
+                var temp = crossoverPointLeft;
+                crossoverPointLeft = crossoverPointRight;
+                crossoverPointRight = temp;
+            }
         }
     }
 }

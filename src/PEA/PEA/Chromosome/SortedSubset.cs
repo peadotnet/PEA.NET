@@ -26,7 +26,7 @@ namespace Pea.Chromosome
                 //new CreateNewSectionMutation(random, parameterSet, conflictDetector),
                 new EliminateSectionMutation(random, parameterSet, conflictDetector),
                 new ReplaceOneGeneMutation(random, parameterSet, conflictDetector),
-                //new SwapThreeRangeMutation(random, parameterSet, conflictDetector),
+                new SwapThreeRangeMutation(random, parameterSet, conflictDetector),
                 new SwapTwoRangeMutation(random, parameterSet, conflictDetector)
             };
         }

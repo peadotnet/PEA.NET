@@ -20,6 +20,15 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             return Mutate(sortedSubsetChromosome);
         }
 
+        public GeneRange GetSourceRange(SortedSubsetChromosome chromosome)
+        {
+            var sourceStart = GetSourceSectionAndPosition(chromosome);
+            var sourceLength = Random.GetInt(1, chromosome.Sections[sourceStart.Section].Length - sourceStart.Position + 1);
+            var sourceEnd = sourceStart.Position + sourceLength;
+            var range = new GeneRange(sourceStart.Section, sourceStart.Position, sourceEnd);
+            return range;
+        }
+
         /// <summary>
         /// Inserts one gene value into a randomly choosen section and deletes it from its original position
         /// </summary>

@@ -36,10 +36,15 @@ namespace PEA_VehicleScheduling_Example
             var chromosome = entity.Chromosomes[Key[0]] as SortedSubsetChromosome;
 
             entity.VehiclesCount = chromosome.Sections.Length;
-            entity.CrewCount = chromosome.Sections.Length;
 
             for (int s = 0; s < chromosome.Sections.Length; s++)
             {
+                int DailyFirstTime = InitData.Trips[chromosome.Sections[s][0]].ArrivalTime;
+                int length = chromosome.Sections[s].Length;
+                int DailyLastTime = InitData.Trips[chromosome.Sections[s][length-1]].DepartureTime;
+                int? AMLastTime = null;
+                int? PMFirstTime = null;
+                
                 for (int p = 0; p < chromosome.Sections[s].Length-1; p++)
                 {
                     if (ConflictDetector.ConflictDetected(chromosome.Sections[s][p], chromosome.Sections[s][p + 1]))
@@ -50,22 +55,27 @@ namespace PEA_VehicleScheduling_Example
                     var trip1 = InitData.Trips[chromosome.Sections[s][p]];
                     var trip2 = InitData.Trips[chromosome.Sections[s][p + 1]];
 
-                    //double duration = InitData.GetDuration(trip1.LastStopId, trip2.FirstStopId);
                     double distance = InitData.GetDistance(trip1.LastStopId, trip2.FirstStopId);
-
-                    //if (trip1.DepartureTime + duration > trip2.ArrivalTime)
-                    //{
-                    //    hardConflict = true;
-                    //}
-
                     entity.TotalDeadMileage += distance;
+
+                    if ((trip1.DepartureTime <= 720) && (!AMLastTime.HasValue || trip1.DepartureTime > AMLastTime)) AMLastTime = trip1.DepartureTime;
+                    if ((trip1.ArrivalTime >= 720) && (!PMFirstTime.HasValue || trip1.ArrivalTime < PMFirstTime)) PMFirstTime = trip1.ArrivalTime;
+
                 }
+
+                var lastTrip = InitData.Trips[chromosome.Sections[s][length-1]];
+                if ((lastTrip.DepartureTime <= 720) && (!AMLastTime.HasValue || lastTrip.DepartureTime > AMLastTime)) AMLastTime = lastTrip.DepartureTime;
+                if ((lastTrip.ArrivalTime >= 720) && (!PMFirstTime.HasValue || lastTrip.ArrivalTime < PMFirstTime)) PMFirstTime = lastTrip.ArrivalTime;
+
+                entity.TotalActiveTime += DailyLastTime - DailyFirstTime;
+                if (AMLastTime.HasValue) entity.TotalActiveTime -= (720 - AMLastTime.Value);
+                if (PMFirstTime.HasValue) entity.TotalActiveTime -= (PMFirstTime.Value - 720);
             }
 
-            MultiObjectiveFitness fitness = new MultiObjectiveFitness(2);
+            MultiObjectiveFitness fitness = new MultiObjectiveFitness(3);
             fitness.Value[0] = 1 /(1 + entity.TotalDeadMileage);
             fitness.Value[1] = 1 / (1 + (double)entity.VehiclesCount);
-            //fitness.Value[2] =
+            fitness.Value[2] = 1 / (1 + (double) entity.TotalActiveTime);
             GetAverageLengthOfLongSections(chromosome.Sections);
 
             entity.Fitness = fitness;

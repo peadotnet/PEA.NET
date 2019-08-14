@@ -19,31 +19,39 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
             while (true)
             {
-                var source = GetSourceSectionAndPosition(chromosome);
-                var sourceSection = chromosome.Sections[source.Section];
-                var sourcePosition1 = source.Position;
-                var sourceLength = Random.GetInt(0, sourceSection.Length - source.Position);
-                var sourcePosition2 = sourcePosition1 + sourceLength;
 
-                var sourceGeneValue1 = sourceSection[sourcePosition1];
-                var sourceGeneValue2 = sourceSection[sourcePosition2];
+                var range1 = GetSourceRange(chromosome);
+                var section1 = chromosome.Sections[range1.Section];
+                var sourceGeneValue1 = section1[range1.FirstPosition];
+                var sourceGeneValue2 = section1[range1.LastPosition - 1];
 
-                var targetSectionIndex = Random.GetIntWithTabu(0, chromosome.Sections.Length, source.Section);
-                var targetSection = chromosome.Sections[targetSectionIndex];
+                var targetSectionIndex = Random.GetIntWithTabu(0, chromosome.Sections.Length, range1.Section);
+                var section2 = chromosome.Sections[targetSectionIndex];
+                var targetPosition1 = FindNewGenePosition(section2, sourceGeneValue1);
+                var targetPosition2 = FindNewGenePosition(section2, sourceGeneValue2);
+                var range2 = new GeneRange(targetSectionIndex, targetPosition1, targetPosition2);
 
-                var targetPosition1 = FindNewGenePosition(targetSection, sourceGeneValue1);
-                var targetPosition2 = FindNewGenePosition(targetSection, sourceGeneValue2);
-
-                var temp1 = MergeSections(sourceSection, sourcePosition1, sourcePosition2, targetSection, targetPosition1, targetPosition2, ref childConflicted);
-                var temp2 = MergeSections(targetSection, targetPosition1, targetPosition2, sourceSection, sourcePosition1, sourcePosition2, ref childConflicted);
+                var temp1 = MergeSections(section1, range1, section2, range2, ref childConflicted);
+                var temp2 = MergeSections(section2, range2, section1, range1, ref childConflicted);
 
                 if (!childConflicted)
                 {
-                    chromosome.Sections[source.Section] = temp1;
-                    chromosome.Sections[targetSectionIndex] = temp2;
+                    chromosome.Sections[range1.Section] = temp1;
+                    chromosome.Sections[range2.Section] = temp2;
                 }
 
-                if (!childConflicted || retryCount-- < 0) break;
+                if (!childConflicted || retryCount-- < 0)
+                {
+                    //TODO: Remove this (only for debugging purpose)
+                    chromosome.GeneratedRandoms.Add(range1.Section);
+                    chromosome.GeneratedRandoms.Add(range1.FirstPosition);
+                    chromosome.GeneratedRandoms.Add(range1.LastPosition);
+                    chromosome.GeneratedRandoms.Add(range2.Section);
+                    chromosome.GeneratedRandoms.Add(range2.FirstPosition);
+                    chromosome.GeneratedRandoms.Add(range2.LastPosition);
+
+                    break;
+                }
 
                 childConflicted = false;
             }
