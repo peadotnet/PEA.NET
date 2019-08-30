@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 using PEA.Benchmarks.ChromosomeBenchmarks;
+using PEA.Benchmarks.CoreBenchmarks;
 
 namespace PEA.Benchmarks
 {

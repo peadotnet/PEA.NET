@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using Pea.Core;
 using Pea.StopCriteria;
 using Algorithm = Pea.Algorithm;
@@ -33,7 +32,7 @@ namespace PEA_VehicleScheduling_Example
                 .AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
 
                 .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 2500)
-                .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.7)
+                .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.5)
                 .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
                 .SetParameter(Island.ParameterNames.ArchipelagosCount, 1)
                 .SetParameter(Island.ParameterNames.IslandsCount, 1)
@@ -45,7 +44,7 @@ namespace PEA_VehicleScheduling_Example
             system.Settings.Random = typeof(FastRandom);
 
             system.Settings.StopCriteria = StopCriteriaBuilder
-                .StopWhen().TimeoutElapsed(2*3600*1000)
+                .StopWhen().TimeoutElapsed(3600 * 1000)
                 .Build();
 
             Evaluation = new VSEvaluation();

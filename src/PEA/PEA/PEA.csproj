@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Chromosome\Implementation\MultiSectionPermutation\" />
     <Folder Include="Chromosome\Implementation\PositionValuePair\" />
     <Folder Include="Chromosome\Implementation\BitVector\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />

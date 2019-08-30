@@ -98,6 +98,21 @@ namespace PEA_VehicleScheduling_Example
             AlreadyBuilt = true;
         }
 
+        public bool ConflictDetected(int first, int second)
+        {
+            var trip1 = this.Trips[first];
+            var trip2 = this.Trips[second];
+
+            double duration = this.GetDuration(trip1.LastStopId, trip2.FirstStopId);
+
+            if (trip1.DepartureTime + duration > trip2.ArrivalTime)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void FillMatrixWithInitValues(int StopsCounter)
         {
             for (int i = 0; i < StopsCounter; i++)
@@ -105,6 +120,7 @@ namespace PEA_VehicleScheduling_Example
                 for (int j = 0; j < StopsCounter; j++)
                 {
                     if (i != j) DurationMatrix[i, j] = double.MaxValue;
+                    else DurationMatrix[i, j] = 0;
                 }
             }
         }

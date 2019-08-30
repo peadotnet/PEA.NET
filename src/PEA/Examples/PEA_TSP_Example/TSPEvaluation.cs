@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
 using Pea.Fitness.Implementation.MultiObjective;

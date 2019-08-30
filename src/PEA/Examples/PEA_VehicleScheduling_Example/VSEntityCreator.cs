@@ -9,6 +9,8 @@ namespace PEA_VehicleScheduling_Example
     {
         public static readonly string Key = "VehicleScheduling";
 
+        public double GreedyProbability { get; set; } = 0.99;
+
         public VSInitData InitData { get; private set; }
 
         public IConflictDetector ConflictDetector { get; private set; }
@@ -64,9 +66,7 @@ namespace PEA_VehicleScheduling_Example
             }
             else
             {
-                double greedyProbability = 0.99;
-
-                targetIndex = ChooseFromFitVehicles(random, fitVehicles, greedyProbability);
+                targetIndex = ChooseFromFitVehicles(random, fitVehicles, GreedyProbability);
             }
 
             return targetIndex;

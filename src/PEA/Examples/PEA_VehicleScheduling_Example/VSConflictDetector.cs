@@ -19,7 +19,15 @@ namespace PEA_VehicleScheduling_Example
 
             double duration = InitData.GetDuration(trip1.LastStopId, trip2.FirstStopId);
 
-            if (trip1.DepartureTime + duration > trip2.ArrivalTime)
+            var earliestArrivalTime = trip1.DepartureTime + duration;
+            var route1 = trip1.TripId.Substring(0, trip1.TripId.IndexOf('_'));
+            var route2 = trip2.TripId.Substring(0, trip2.TripId.IndexOf('_'));
+            if (route1 != route2)
+            {
+                earliestArrivalTime += 2;
+            }
+
+            if (earliestArrivalTime > trip2.ArrivalTime)
             {
                 return true;
             }

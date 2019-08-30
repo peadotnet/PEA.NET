@@ -42,6 +42,7 @@ namespace PEA_TSP_Example
             system.Settings.Random = typeof(FastRandom);
 
             var fitnessLimit = new MultiObjectiveFitness(1) { Value = { [0] = -7545 } };
+
             system.Settings.StopCriteria = StopCriteriaBuilder
                 .StopWhen().FitnessLimitExceeded(fitnessLimit)
                 //.Or().TimeoutElapsed(180000)

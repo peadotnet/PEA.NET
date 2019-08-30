@@ -2,13 +2,19 @@
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PEA.Benchmarks.ChromosomeBenchmarks
 {
+    [MinColumn, MaxColumn]
+    [HtmlExporter, RPlotExporter]
     public class PermutationOperatorBenchmarks
     {
-        public const int Count = 100;
-        public const int Size = 52;
+        [Params(100)]
+        public int Count { get; set; }
+
+        [Params(52, 104)]
+        public int Size { get; set; }
 
         public IRandom Random = new FastRandom();
 
@@ -28,8 +34,8 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
 
         public List<IChromosome> MutateChromosomes(IMutation mutation)
         {
-            List<IChromosome> result = new List<IChromosome>();
-            for (int i=0; i< Chromosomes.Count; i++)
+            var result = new List<IChromosome>();
+            for (int i = 0; i < Chromosomes.Count; i++)
             {
                 result.Add(mutation.Mutate(Chromosomes[i]));
             }

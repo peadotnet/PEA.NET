@@ -1,5 +1,4 @@
 ﻿using Pea.Core;
-using System;
 
 namespace Pea.Chromosome.Implementation.Permutation
 {
