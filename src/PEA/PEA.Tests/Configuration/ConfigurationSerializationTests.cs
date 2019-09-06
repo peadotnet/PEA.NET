@@ -23,6 +23,20 @@ namespace Pea.Tests.Configuration
             result.Should().BeEquivalentTo(subProblem);
         }
 
+        [Fact]
+        public void PeaSettingsBuilder_Serialize_ShouldReturnSame()
+        {
+            //var settings = new PeaSettingsBuilder();
+
+            //settings.SubProblems.Encoding<Chromosome.Permutation>("TSP").Build();
+            //settings.SubProblems.Encoding<Chromosome.SortedSubset>("VSP").Build();
+
+
+            //var result = SerializeAndDeserialize<PeaSettings>(settings.PeaSettings);
+
+            //result.Should().BeEquivalentTo(settings.PeaSettings);
+        }
+
         private static T SerializeAndDeserialize<T>(T config)
         {
             ActorSystem system = ActorSystem.Create("example");

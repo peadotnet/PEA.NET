@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Common;
 using Pea.Configuration.Implementation;
 
 namespace Pea.Configuration

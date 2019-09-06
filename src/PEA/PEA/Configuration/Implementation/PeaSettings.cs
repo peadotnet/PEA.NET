@@ -1,14 +1,9 @@
-﻿using System;
-using Pea.Configuration.Implementation;
+﻿using System.Collections.Generic;
 
-namespace Pea.Configuration
+namespace Pea.Configuration.Implementation
 {
     public class PeaSettings
     {
-        public Encoding Encoding { get; set; }
-
-        public Type DecoderType { get; set; }
-
-        public Type NichingType { get; set; }
+        public List<SubProblem> SubProblemList = new List<SubProblem>();
     }
 }
