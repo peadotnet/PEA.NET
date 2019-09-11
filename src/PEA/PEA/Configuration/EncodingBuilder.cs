@@ -17,6 +17,9 @@ namespace Pea.Configuration
 
         public ActionListBuilder<Type, EncodingBuilder> Operators => new ActionListBuilder<Type, EncodingBuilder>(SubProblem.Encoding.Operators, this);
 
+        public ActionListBuilder<Type, EncodingBuilder> Creators => new ActionListBuilder<Type, EncodingBuilder>(SubProblem.Encoding.Creators, this);
+
+
         //public EncodingBuilder AddOperator<T>()
         //{
         //    var op = new BuildAction<Type>(ActionTypes.Add, typeof(T));

@@ -4,7 +4,7 @@ namespace Pea.Configuration
 {
     public class SubProblemBuilder
     {
-        protected SubProblem SubProblem;
+        public SubProblem SubProblem;
 
         public SubProblemBuilder()
         {

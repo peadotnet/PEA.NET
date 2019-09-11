@@ -26,15 +26,15 @@ namespace Pea.Tests.Configuration
         [Fact]
         public void PeaSettingsBuilder_Serialize_ShouldReturnSame()
         {
-            //var settings = new PeaSettingsBuilder();
+            var settings = new PeaSettingsBuilder();
 
-            //settings.SubProblems.Encoding<Chromosome.Permutation>("TSP").Build();
-            //settings.SubProblems.Encoding<Chromosome.SortedSubset>("VSP").Build();
+            settings.AddSubProblem().Encoding<Chromosome.Permutation>("TSP");
+            settings.AddSubProblem().Encoding<Chromosome.SortedSubset>("VSP");
 
+            var original = settings.Build();
+            var result = SerializeAndDeserialize<PeaSettings>(original);
 
-            //var result = SerializeAndDeserialize<PeaSettings>(settings.PeaSettings);
-
-            //result.Should().BeEquivalentTo(settings.PeaSettings);
+            result.Should().BeEquivalentTo(original);
         }
 
         private static T SerializeAndDeserialize<T>(T config)

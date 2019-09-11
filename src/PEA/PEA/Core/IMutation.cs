@@ -1,6 +1,6 @@
 ﻿namespace Pea.Core
 {
-    public interface IMutation
+    public interface IMutation: IGeneticOperator
     {
         IChromosome Mutate(IChromosome chromosome);
     }

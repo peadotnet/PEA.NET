@@ -2,7 +2,7 @@
 
 namespace Pea.Core
 {
-    public interface ICrossover
+    public interface ICrossover : IGeneticOperator
     {
         IList<IChromosome> Cross(IList<IChromosome> parents);
     }
