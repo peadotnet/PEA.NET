@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Pea.Core;
 
 namespace Pea.Configuration.Implementation
 {
@@ -6,9 +8,12 @@ namespace Pea.Configuration.Implementation
     {
         public Encoding Encoding { get; set; }
 
-        public Type DecoderType { get; set; }
+        public ParameterSet ParameterSet { get; set; } = new ParameterSet();
 
-        public Type NichingType { get; set; }
+        public List<Type> ConflictDetectors { get; set; } = new List<Type>();
 
+        public Type Decoder { get; set; }
+
+        public Type Niching { get; set; }
     }
 }

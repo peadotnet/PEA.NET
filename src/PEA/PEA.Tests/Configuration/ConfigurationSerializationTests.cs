@@ -1,8 +1,11 @@
 ﻿using Akka.Actor;
 using Akka.Serialization;
 using FluentAssertions;
+using Pea.Algorithm;
 using Pea.Configuration;
 using Pea.Configuration.Implementation;
+using Pea.Reinsertion;
+using Pea.Selection;
 using Xunit;
 
 namespace Pea.Tests.Configuration
@@ -13,9 +16,13 @@ namespace Pea.Tests.Configuration
         public void SubProblemBuilder_Serialize_ShouldReturnSame()
         {
             var subProblem = new SubProblemBuilder()
-                .Encoding<Chromosome.Permutation>("TSP")
+                .WithEncoding<Chromosome.Permutation>("TSP")
+                    .WithAlgorithm<SteadyState>()
+                        .Selections.Add<TournamentSelection>()
+                        .ReInsertions.Add<ReplaceWorstParentWithBestChildrenReinsertion>()
                     .Operators.Clear()
-                    .Operators.Add(typeof(Chromosome.Implementation.Permutation.ShuffleRangeMutation))
+                    .Operators.Add<Chromosome.Implementation.Permutation.ShuffleRangeMutation>()
+                .SetParameter("SomeParameter", 3.141592654)
                 .Build();
 
             var result = SerializeAndDeserialize<SubProblem>(subProblem);
@@ -28,8 +35,8 @@ namespace Pea.Tests.Configuration
         {
             var settings = new PeaSettingsBuilder();
 
-            settings.AddSubProblem().Encoding<Chromosome.Permutation>("TSP");
-            settings.AddSubProblem().Encoding<Chromosome.SortedSubset>("VSP");
+            settings.AddSubProblem().WithEncoding<Chromosome.Permutation>("TSP");
+            settings.AddSubProblem().WithEncoding<Chromosome.SortedSubset>("VSP");
 
             var original = settings.Build();
             var result = SerializeAndDeserialize<PeaSettings>(original);

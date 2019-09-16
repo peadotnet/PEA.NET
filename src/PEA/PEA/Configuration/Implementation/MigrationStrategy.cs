@@ -3,17 +3,18 @@ using System.Collections.Generic;
 
 namespace Pea.Configuration.Implementation
 {
-    public class Algorithm
+    public class MigrationStrategy
     {
-        public Type AlgorithmType { get; set; }
+        public Type StrategyType { get; set; }
 
-        public Algorithm(Type algorithmType)
+        public MigrationStrategy(Type strategyType)
         {
-            AlgorithmType = algorithmType;
+            StrategyType = strategyType;
         }
 
         public List<IBuildAction> Selections = new List<IBuildAction>();
 
         public List<IBuildAction> Reinsertions = new List<IBuildAction>();
+
     }
 }

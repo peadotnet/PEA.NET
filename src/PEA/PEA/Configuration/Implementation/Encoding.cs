@@ -9,10 +9,10 @@ namespace Pea.Configuration.Implementation
 
         public Type ChromosomeType { get; set; }
 
-        public List<BuildAction<Algorithm>> Algorithms = new List<BuildAction<Algorithm>>();
+        public Algorithm Algorithm { get; set; }
 
-        public List<BuildAction<Type>> Creators = new List<BuildAction<Type>>();
+        public List<IBuildAction> Creators = new List<IBuildAction>();
 
-        public List<BuildAction<Type>> Operators = new List<BuildAction<Type>>();
+        public List<IBuildAction> Operators = new List<IBuildAction>();
     }
 }

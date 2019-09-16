@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pea.Core
+﻿namespace Pea.Core
 {
     public interface IOperator
     {
