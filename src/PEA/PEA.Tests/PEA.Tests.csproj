@@ -93,6 +93,8 @@
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetOperatorBaseTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetTestData.cs" />
     <Compile Include="Configuration\ConfigurationSerializationTests.cs" />
+    <Compile Include="Configuration\PeaSettingsBuilderTests.cs" />
+    <Compile Include="Configuration\ProblemModelTests.cs" />
     <Compile Include="CoreTests\RandomTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetChromosomeTests.cs" />
     <Compile Include="CoreTests\StochasticProviderTests.cs" />

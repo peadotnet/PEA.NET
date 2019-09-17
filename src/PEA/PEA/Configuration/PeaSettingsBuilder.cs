@@ -1,23 +1,38 @@
 ﻿using System.Collections.Generic;
 using Pea.Configuration.Implementation;
+using Pea.StopCriteria;
 
 namespace Pea.Configuration
 {
     public class PeaSettingsBuilder
     {
         protected PeaSettings PeaSettings = new PeaSettings();
-        public List<SubProblemBuilder> SubProblemBuilders = new List<SubProblemBuilder>();
+        protected List<SubProblemBuilder> SubProblems = new List<SubProblemBuilder>();
+        protected StopCriteriaBuilder StopCriteria;
 
         public SubProblemBuilder AddSubProblem()
         {
             var problemBuilder = new SubProblemBuilder();
-            SubProblemBuilders.Add(problemBuilder);
+            SubProblems.Add(problemBuilder);
             return problemBuilder;
+        }
+
+        public SubProblemBuilder AddSubProblem(string key, IProblemModel problemModel)
+        {
+            var problemBuilder = problemModel.Apply(key, new SubProblemBuilder());
+            SubProblems.Add(problemBuilder);
+            return problemBuilder;
+        }
+
+        public StopCriteriaBuilder StopWhen()
+        {
+            StopCriteria = StopCriteriaBuilder.StopWhen();
+            return StopCriteria;
         }
 
         public PeaSettings Build()
         {
-            foreach (var subProblem in SubProblemBuilders)
+            foreach (var subProblem in SubProblems)
             {
                 PeaSettings.SubProblemList.Add(subProblem.Build());
             }

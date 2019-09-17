@@ -14,13 +14,13 @@ namespace Pea.Configuration
 
         public EncodingBuilder WithEncoding<CT>(string key) => new EncodingBuilder(SubProblem, key, typeof(CT));
 
-        public SubProblemBuilder WithDecoder<DT>()
+        public SubProblemBuilder WithDecoder<DT>() where DT: IEvaluation
         {
             SubProblem.Decoder = typeof(DT);
             return this;
         }
 
-        public SubProblemBuilder WithNiching<NT>()
+        public SubProblemBuilder WithNiching<NT>() where NT: INiching
         {
             SubProblem.Niching = typeof(NT);
             return this;
