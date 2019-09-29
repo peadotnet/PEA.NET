@@ -9,7 +9,7 @@ namespace Pea.Core
         IChromosome Create();
     }
 
-    public interface IChromosomeCreator<TC> : IChromosomeCreator where TC : IChromosome
+    public interface IChromosomeCreator<out TC> : IChromosomeCreator where TC : IChromosome
     {
         new IChromosome Create();
     }

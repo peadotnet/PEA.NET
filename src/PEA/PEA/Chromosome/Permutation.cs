@@ -6,23 +6,31 @@ namespace Pea.Chromosome
 {
     public class Permutation : IChromosomeFactory<PermutationChromosome>
     {
-        private readonly List<ICrossover<PermutationChromosome>> _crossovers;
-        private readonly List<IMutation<PermutationChromosome>> _mutations;
+        private readonly List<IChromosomeCreator> _creators;
+        private readonly List<ICrossover> _crossovers;
+        private readonly List<IMutation> _mutations;
 
-        public Permutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector)
+        public Permutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
         {
-            _crossovers = new List<ICrossover<PermutationChromosome>>()
+            var size = parameterSet.GetInt("ProblemSize");
+
+            _creators = new List<IChromosomeCreator>()
             {
-                new PMXCrossover(random, parameterSet, conflictDetector)
+                new PermutationRandomCreator(size, random, conflictDetectors)
             };
 
-            _mutations = new List<IMutation<PermutationChromosome>>()
+            _crossovers = new List<ICrossover>()
             {
-                new RelocateRangeMutation(random, parameterSet, conflictDetector),
-                new InverseRangeMutation(random, parameterSet, conflictDetector),
-                new SwapTwoRangeMutation(random, parameterSet, conflictDetector),
-                new ShuffleRangeMutation(random, parameterSet, conflictDetector),
-                new RelocateOneMutation(random, parameterSet, conflictDetector)
+                new PMXCrossover(random, parameterSet, conflictDetectors)
+            };
+
+            _mutations = new List<IMutation>()
+            {
+                new RelocateRangeMutation(random, parameterSet, conflictDetectors),
+                new InverseRangeMutation(random, parameterSet, conflictDetectors),
+                new SwapTwoRangeMutation(random, parameterSet, conflictDetectors),
+                new ShuffleRangeMutation(random, parameterSet, conflictDetectors),
+                new RelocateOneMutation(random, parameterSet, conflictDetectors)
             };
         }
 
@@ -32,18 +40,29 @@ namespace Pea.Chromosome
             return this;
         }
 
+        public IChromosomeFactory<PermutationChromosome> AddCreators(IEnumerable<IChromosomeCreator<PermutationChromosome>> creators)
+        {
+            _creators.AddRange(creators);
+            return this;
+        }
+
         public IChromosomeFactory<PermutationChromosome> AddMutations(IEnumerable<IMutation<PermutationChromosome>> mutations)
         {
             _mutations.AddRange(mutations);
             return this;
         }
 
-        public IEnumerable<ICrossover> GetCrossovers()
+        public IList<IChromosomeCreator> GetCreators()
+        {
+            return _creators;
+        }
+
+        public IList<ICrossover> GetCrossovers()
         {
             return _crossovers;
         }
 
-        public IEnumerable<IMutation> GetMutations()
+        public IList<IMutation> GetMutations()
         {
             return _mutations;
         }

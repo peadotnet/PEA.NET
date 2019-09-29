@@ -2,12 +2,12 @@
 {
     public interface IEngine
     {
-        PeaSettings Settings { get; }
+        Pea.Configuration.Implementation.PeaSettings Settings { get; }
         ParameterSet Parameters { get; }
 
         IRandom Random { get; set; }
         IAlgorithm Algorithm { get; set; }
-        IProvider<IEntityCreator> EntityCreators { get; }
+        IEntityCreator EntityCreator { get; }
         IEntityCrossover EntityCrossover { get; }
         IEntityMutation EntityMutation { get; }
         IFitnessComparer FitnessComparer { get; }

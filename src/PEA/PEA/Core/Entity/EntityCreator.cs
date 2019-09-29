@@ -1,11 +1,53 @@
 ﻿using System;
+using System.Collections.Generic;
+using Pea.Configuration.Implementation;
 
 namespace Pea.Core.Entity
 {
-    public abstract class EntityCreator : IEntityCreator
+    public class EntityCreator : IEntityCreator
     {
-        public abstract void Init(IEvaluationInitData initData);
+        public Dictionary<string, IProvider<IChromosomeCreator>> CreatorProviders { get; } = new Dictionary<string, IProvider<IChromosomeCreator>>();
 
-        public abstract IEntity CreateEntity();
+
+        public EntityCreator(List<SubProblem> subProblemList, IRandom random)
+        {
+            for (int i = 0; i < subProblemList.Count; i++)
+            {
+                var subProblem = subProblemList[i];
+                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, subProblem.ConflictDetectors) as IChromosomeFactory;
+
+                var creators = factoryInstance.GetCreators();
+                var creatorProvider = ProviderFactory.Create<IChromosomeCreator>(creators.Count, random);
+                for (int c = 0; c < creators.Count; c++)
+                {
+                    var creator = creators[i];
+                    creatorProvider.Add(creator, 1.0);
+                }
+
+                CreatorProviders.Add(subProblem.Encoding.Key, creatorProvider);
+            }
+        }
+
+        public virtual void Init(IEvaluationInitData initData)
+        {
+
+        }
+
+        public virtual IEntity CreateEntity()
+        {
+            //TODO: set islandKey
+
+            IEntity entity = new Entity();
+            foreach (var key in CreatorProviders.Keys)
+            {
+                var provider = CreatorProviders[key];
+                var creator = provider.GetOne();
+
+                var chromosome = creator.Create();
+                entity.Chromosomes.Add(key, chromosome);
+            }
+
+            return entity;
+        }
     }
 }

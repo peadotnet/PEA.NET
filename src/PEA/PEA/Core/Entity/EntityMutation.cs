@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pea.Chromosome.Implementation.SortedSubset;
+using Pea.Configuration.Implementation;
 using Pea.Core.Settings;
 
 namespace Pea.Core.Entity
@@ -10,11 +11,11 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<IMutation>> MutationProviders { get; } = new Dictionary<string, IProvider<IMutation>>();
 
-        public EntityMutation(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random, ParameterSet parameterSet, IConflictDetector conflictDetector)
+        public EntityMutation(List<SubProblem> subProblemList, IRandom random)
         {
-            foreach (var factory in chromosomeFactories)
+            foreach (var subProblem in subProblemList)
             {
-                var factoryInstance = Activator.CreateInstance(factory.ValueType, random, parameterSet, conflictDetector) as IChromosomeFactory;
+                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, subProblem.ConflictDetectors) as IChromosomeFactory;
                 var mutations = factoryInstance.GetMutations();
                 var mutationProvider = ProviderFactory.Create<IMutation>(mutations.Count(), random);
                 foreach (var mutation in mutations)
@@ -22,7 +23,7 @@ namespace Pea.Core.Entity
                     mutationProvider.Add(mutation, 1.0);
                 }
 
-                MutationProviders.Add(factory.Keys[0], mutationProvider);
+                MutationProviders.Add(subProblem.Encoding.Key, mutationProvider);
             }
         }
 

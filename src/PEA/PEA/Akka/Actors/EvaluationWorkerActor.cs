@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Akka.Actor;
+using Pea.Configuration.Implementation;
 using Pea.Core;
 
 namespace Pea.Akka.Actors
@@ -26,7 +27,7 @@ namespace Pea.Akka.Actors
             //Calculator = (IEvaluation)Activator.CreateInstance(settings.Fitness);
             //Calculator.Init(initData);
 
-            Evaluation = (IEvaluation)TypeLoader.CreateInstance(settings.Evaluation);
+            //Evaluation = (IEvaluation)TypeLoader.CreateInstance(settings.Evaluation);
             Evaluation.Init(initData);
 
             Receive<IEntity>(e => Evaluate(e));

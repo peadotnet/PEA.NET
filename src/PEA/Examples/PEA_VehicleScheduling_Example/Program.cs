@@ -21,15 +21,15 @@ namespace PEA_VehicleScheduling_Example
             var initData = new VSInitData(tripList, distances);
 
             var system = PeaSystem.Create()
-                .WithAlgorithm<Algorithm.SteadyState>()
-                .AddChromosome<Pea.Chromosome.SortedSubset>("VehicleScheduling")
-                .WithConflictDetector<VSConflictDetector>()
-                .WithCreator<VSEntityCreator>()
-                .WithEvaluation<VSEvaluation>()
+                //.WithAlgorithm<Algorithm.SteadyState>()
+                //.AddChromosome<Pea.Chromosome.SortedSubset>("VehicleScheduling")
+                //.WithConflictDetector<VSConflictDetector>()
+                //.WithCreator<VSEntityCreator>()
+                //.WithEvaluation<VSEvaluation>()
 
-                .WithFitness<Pea.Fitness.ParetoMultiobjective>()
-                .AddSelection<Pea.Selection.TournamentSelection>()
-                .AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
+                //.WithFitness<Pea.Fitness.ParetoMultiobjective>()
+                //.AddSelection<Pea.Selection.TournamentSelection>()
+                //.AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
 
                 .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 2500)
                 .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.5)
@@ -41,10 +41,9 @@ namespace PEA_VehicleScheduling_Example
                 .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 20)
                 .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 10);
                 
-            system.Settings.Random = typeof(FastRandom);
+            //system.Settings.Random = typeof(FastRandom);
 
-            system.Settings.StopCriteria = StopCriteriaBuilder
-                .StopWhen().TimeoutElapsed(3600 * 1000)
+            system.Settings.StopWhen().TimeoutElapsed(3600 * 1000)
                 .Build();
 
             Evaluation = new VSEvaluation();

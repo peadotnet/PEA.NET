@@ -1,12 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SwapTwoRangeMutation : SortedSubsetMutationBase
     {
-        public SwapTwoRangeMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector)
-            : base(random, parameterSet, conflictDetector)
+        public SwapTwoRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+            : base(random, parameterSet, conflictDetectors)
         {
         }
 

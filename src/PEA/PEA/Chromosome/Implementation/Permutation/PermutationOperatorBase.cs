@@ -1,20 +1,21 @@
 ﻿using Pea.Core;
 using System;
+using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.Permutation
 {
     public class PermutationOperatorBase
     {
-        public IConflictDetector ConflictDetector { get; set; }
+        public IList<IConflictDetector> ConflictDetectors { get; set; }
 
         protected readonly IRandom Random;
         protected readonly IParameterSet ParameterSet;
 
-        protected PermutationOperatorBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
+        protected PermutationOperatorBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null)
         {
             Random = random;
             ParameterSet = parameterSet;
-            ConflictDetector = conflictDetector;
+            ConflictDetectors = conflictDetectors;
         }
 
         public GeneRange GetSourceRange(PermutationChromosome chromosome)

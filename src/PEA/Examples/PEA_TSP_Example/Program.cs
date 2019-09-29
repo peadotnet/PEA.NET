@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using Pea.Algorithm;
+using Pea.Configuration.ProblemModels;
 using Pea.Core;
 using Pea.Core.Island;
 using Pea.Fitness.Implementation.MultiObjective;
@@ -23,30 +24,24 @@ namespace PEA_TSP_Example
             var tspData = LoadCsv("Berlin52.csv");
             var initData = new TSPInitData(tspData);
 
-            var system = PeaSystem.Create()
-                .WithAlgorithm<SteadyState>()
-                .AddChromosome<Pea.Chromosome.Permutation>("TSP")
-                .WithFitness<Pea.Fitness.ParetoMultiobjective>()
-                .AddSelection<Pea.Selection.TournamentSelection>()
-                .AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
-                .WithCreator<TSPEntityCreator>()
-                .WithEvaluation<TSPEvaluation>()
+            var system = PeaSystem.Create();
+            system.Settings.AddSubProblem("Berlin52", new TravelingSalesmanProblem(tspData.Count));
+                
 
-                .SetParameter(Pea.Algorithm.ParameterNames.MaxNumberOfEntities, 500)
-                .SetParameter(Pea.Algorithm.ParameterNames.MutationProbability, 0.7)
-                .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
-                .SetParameter(ParameterNames.ArchipelagosCount, 1)
-                .SetParameter(ParameterNames.IslandsCount, 1)
-                .SetParameter(ParameterNames.EvaluatorsCount, 2);
-
-            system.Settings.Random = typeof(FastRandom);
 
             var fitnessLimit = new MultiObjectiveFitness(1) { Value = { [0] = -7545 } };
+            system.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)
+                .Or().TimeoutElapsed(180000);
 
-            system.Settings.StopCriteria = StopCriteriaBuilder
-                .StopWhen().FitnessLimitExceeded(fitnessLimit)
-                //.Or().TimeoutElapsed(180000)
-                .Build();
+
+            //.WithFitness<Pea.Fitness.ParetoMultiobjective>()
+            //.AddSelection<Pea.Selection.TournamentSelection>()
+            //.AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
+            //.WithCreator<TSPEntityCreator>()
+            //.WithEvaluation<TSPEvaluation>()
+
+            //.SetParameter(ParameterNames.EvaluatorsCount, 2);
+
 
             Evaluation = new TSPEvaluation();
             Evaluation.Init(initData);
@@ -54,12 +49,12 @@ namespace PEA_TSP_Example
             var creator = new TSPEntityCreator();
             creator.Init(initData);
 
-            var islandEngine = IslandEngineFactory.Create(system.Settings);
-            islandEngine.EntityCreators.Add(creator, 1);
+            //var islandEngine = IslandEngineFactory.Create(system.Settings);
+            //islandEngine.EntityCreators.Add(creator, 1);
 
-            var algorithmFactory = new SteadyState();
-            var algorithm = algorithmFactory.GetAlgorithm(islandEngine, Evaluate);
-            islandEngine.Algorithm = algorithm;
+            //var algorithmFactory = new SteadyState();
+            //var algorithm = algorithmFactory.GetAlgorithm(islandEngine, Evaluate);
+            //islandEngine.Algorithm = algorithm;
 
 
             Stopwatch sw = Stopwatch.StartNew();

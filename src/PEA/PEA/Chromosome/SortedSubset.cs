@@ -6,28 +6,29 @@ namespace Pea.Chromosome
 {
     public class SortedSubset : ChromosomeFactory, IChromosomeFactory<SortedSubsetChromosome>
     {
-        private IConflictDetector ConflictDetector { get; }
+        private IList<IConflictDetector> ConflictDetectors { get; }
 
-        private readonly List<ICrossover<SortedSubsetChromosome>> _crossovers;
-        private readonly List<IMutation<SortedSubsetChromosome>> _mutations;
+        private readonly List<IChromosomeCreator> _creators;
+        private readonly List<ICrossover> _crossovers;
+        private readonly List<IMutation> _mutations;
 
-        public SortedSubset(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
+        public SortedSubset(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null)
         {
-            ConflictDetector = conflictDetector;
+            ConflictDetectors = conflictDetectors;
 
-            _crossovers = new List<ICrossover<SortedSubsetChromosome>>()
+            _crossovers = new List<ICrossover>()
             {
-                new TwoPointCrossover(random, parameterSet, conflictDetector),
-                new OnePointCrossover(random, parameterSet, conflictDetector)
+                new TwoPointCrossover(random, parameterSet, conflictDetectors),
+                new OnePointCrossover(random, parameterSet, conflictDetectors)
             };
 
-            _mutations = new List<IMutation<SortedSubsetChromosome>>()
+            _mutations = new List<IMutation>()
             {
                 //new CreateNewSectionMutation(random, parameterSet, conflictDetector),
-                new EliminateSectionMutation(random, parameterSet, conflictDetector),
-                new ReplaceOneGeneMutation(random, parameterSet, conflictDetector),
-                new SwapThreeRangeMutation(random, parameterSet, conflictDetector),
-                new SwapTwoRangeMutation(random, parameterSet, conflictDetector)
+                new EliminateSectionMutation(random, parameterSet, conflictDetectors),
+                new ReplaceOneGeneMutation(random, parameterSet, conflictDetectors),
+                new SwapThreeRangeMutation(random, parameterSet, conflictDetectors),
+                new SwapTwoRangeMutation(random, parameterSet, conflictDetectors)
             };
         }
 
@@ -37,18 +38,28 @@ namespace Pea.Chromosome
             return this;
         }
 
+        public IChromosomeFactory<SortedSubsetChromosome> AddCreators(IEnumerable<IChromosomeCreator<SortedSubsetChromosome>> creators)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IChromosomeFactory<SortedSubsetChromosome> AddMutations(IEnumerable<IMutation<SortedSubsetChromosome>> mutations)
         {
             _mutations.AddRange(mutations);
             return this;
         }
 
-        public IEnumerable<ICrossover> GetCrossovers()
+        public IList<IChromosomeCreator> GetCreators()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IList<ICrossover> GetCrossovers()
         {
             return _crossovers;
         }
 
-        public IEnumerable<IMutation> GetMutations()
+        public IList<IMutation> GetMutations()
         {
             return _mutations;
         }

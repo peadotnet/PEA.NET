@@ -21,13 +21,20 @@ namespace Pea.Akka.Actors
 
         private IActorRef Starter { get; set; }
 
-        public IslandActor(PeaSettings settings)
+        public IslandActor(Pea.Configuration.Implementation.PeaSettings settings)
         {
             Engine = IslandEngineFactory.Create(settings);
 
-            IslandKey = settings.Chromosomes[0].Keys; //TODO: multiple island topology
+            var key = new string[settings.SubProblemList.Count];
+            for (int i = 0; i < settings.SubProblemList.Count; i++)
+            {
+                key[i] = settings.SubProblemList[i].Encoding.Key;
+            }
 
-            var algorithmFactory = (IAlgorithmFactory)Activator.CreateInstance(settings.Algorithm);
+            IslandKey = new MultiKey(key);
+
+            var algorithmType = settings.SubProblemList[0].Encoding.Algorithm.AlgorithmType;
+            var algorithmFactory = (IAlgorithmFactory)Activator.CreateInstance(algorithmType);
             Algorithm = algorithmFactory.GetAlgorithm(Engine, Evaluate);
             Engine.Algorithm = Algorithm;
 
@@ -84,7 +91,7 @@ namespace Pea.Akka.Actors
             return evaluatedEntities;
         }
 
-        public static Props CreateProps(PeaSettings settings)
+        public static Props CreateProps(Pea.Configuration.Implementation.PeaSettings settings)
         {
             var props = Props.Create(() => new IslandActor(settings));
             return props;

@@ -7,7 +7,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public abstract class SortedSubsetCrossoverBase : SortedSubsetOperatorBase, ICrossover<SortedSubsetChromosome>
     {
-        protected SortedSubsetCrossoverBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null) : base(random, parameterSet, conflictDetector)
+        protected SortedSubsetCrossoverBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors) : base(random, parameterSet, conflictDetectors)
         {
         }
 

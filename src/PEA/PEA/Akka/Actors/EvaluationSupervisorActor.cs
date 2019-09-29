@@ -3,6 +3,7 @@ using System.Linq;
 using Akka.Actor;
 using Akka.Routing;
 using Pea.ActorModel.Messages;
+using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Core.Island;
 

@@ -1,11 +1,12 @@
 ﻿using Pea.Core;
 using System;
+using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.Permutation
 {
     public class RelocateRangeMutation : PermutationMutationBase
     {
-        public RelocateRangeMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null) : base(random, parameterSet, conflictDetector)
+        public RelocateRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

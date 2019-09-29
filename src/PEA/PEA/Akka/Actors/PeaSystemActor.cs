@@ -44,11 +44,11 @@ namespace Pea.Akka.Actors
             }
         }
 
-        private void CreateSystem(PeaSettings settings)
+        private void CreateSystem(Pea.Configuration.Implementation.PeaSettings settings)
         {
             _starter = Sender;
-            var parameterSet = new ParameterSet(settings.ParameterSet);
-            var archipelagosCount = parameterSet.GetInt(ParameterNames.ArchipelagosCount);
+            //var parameterSet = new ParameterSet(settings.ParameterSet);
+            var archipelagosCount = 1;// parameterSet.GetInt(ParameterNames.ArchipelagosCount);
 
             for (int a = 0; a < archipelagosCount; a++)
             {

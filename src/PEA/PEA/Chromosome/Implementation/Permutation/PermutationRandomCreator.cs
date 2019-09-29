@@ -1,4 +1,5 @@
-﻿using Pea.Core;
+﻿using System.Collections.Generic;
+using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.Permutation
 {
@@ -6,13 +7,13 @@ namespace Pea.Chromosome.Implementation.Permutation
     {
         public int Size { get; }
         public IRandom Random { get; }
-        public IConflictDetector ConflictDetector { get; }
+        public IList<IConflictDetector> ConflictDetectors { get; }
 
-        public PermutationRandomCreator(int size, IRandom random, IConflictDetector conflictDetector)
+        public PermutationRandomCreator(int size, IRandom random, IList<IConflictDetector> conflictDetectors)
         {
             Size = size;
             Random = random;
-            ConflictDetector = conflictDetector;
+            ConflictDetectors = conflictDetectors;
         }
 
         public virtual IChromosome Create()

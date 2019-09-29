@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public class PMXCrossover : PermutationCrossoverBase
     {
-        public PMXCrossover(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null) : base(random, parameterSet, conflictDetector)
+        public PMXCrossover(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
 
         }

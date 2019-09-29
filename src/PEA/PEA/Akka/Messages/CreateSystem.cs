@@ -1,6 +1,6 @@
-﻿using Pea.Core;
+﻿using Pea.Configuration.Implementation;
 
-namespace Pea.ActorModel.Messages
+namespace Pea.Akka.Messages
 {
     public class CreateSystem
     {

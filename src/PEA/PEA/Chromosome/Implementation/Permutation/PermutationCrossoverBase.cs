@@ -7,7 +7,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public abstract class PermutationCrossoverBase : PermutationOperatorBase, ICrossover<PermutationChromosome>
     {
-        protected PermutationCrossoverBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null) : base(random, parameterSet, conflictDetector)
+        protected PermutationCrossoverBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

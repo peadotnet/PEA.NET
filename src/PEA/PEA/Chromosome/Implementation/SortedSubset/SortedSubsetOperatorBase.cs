@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetOperatorBase
     {
-        public IConflictDetector ConflictDetector { get; set; }
+        public IList<IConflictDetector> ConflictDetectors;
 
         protected readonly IRandom Random;
         protected readonly IParameterSet ParameterSet;
 
-        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector)
+        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
         {
             Random = random;
             ParameterSet = parameterSet;
-            ConflictDetector = conflictDetector ?? AllRightConflictDetector.Instance;
+            ConflictDetectors = conflictDetectors;
         }
 
         /// <summary>

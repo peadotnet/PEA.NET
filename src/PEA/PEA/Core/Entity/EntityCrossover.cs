@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pea.Core.Settings;
+using Pea.Configuration.Implementation;
 
 namespace Pea.Core.Entity
 {
@@ -9,19 +9,20 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<ICrossover>> CrossoverProviders { get; } = new Dictionary<string, IProvider<ICrossover>>();
 
-        public EntityCrossover(IList<PeaSettingsNamedType> chromosomeFactories, IRandom random, ParameterSet parameters, IConflictDetector conflictDetector)
+        public EntityCrossover(List<SubProblem> subProblemList, IRandom random)
         {
-            foreach (var factory in chromosomeFactories)
+            for(int i=0; i < subProblemList.Count; i++)
             {
-                var factoryInstance = Activator.CreateInstance(factory.ValueType, random, parameters, conflictDetector) as IChromosomeFactory;
+                var subProblem = subProblemList[i];
+                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, subProblem.ConflictDetectors) as IChromosomeFactory;
                 var crossovers = factoryInstance.GetCrossovers();
-                var mutationProvider = ProviderFactory.Create<ICrossover>(crossovers.Count(), random);
+                var crossoverProvider = ProviderFactory.Create<ICrossover>(crossovers.Count(), random);
                 foreach (var crossover in crossovers)
                 {
-                    mutationProvider.Add(crossover, 1.0);
+                    crossoverProvider.Add(crossover, 1.0);
                 }
 
-                CrossoverProviders.Add(factory.Keys[0], mutationProvider);
+                CrossoverProviders.Add(subProblem.Encoding.Key, crossoverProvider);
             }
         }
 

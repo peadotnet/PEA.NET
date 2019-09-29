@@ -1,11 +1,14 @@
-﻿namespace Pea.Core.Settings
+﻿using System;
+
+namespace Pea.Core.Settings
 {
-    public class PeaSettingsNamedValue
+    [Obsolete]
+    public class PeaSettingsNamedValue_old
     {
         public string Name { get; }
         public double Value { get; }
 
-        public PeaSettingsNamedValue(string name, double value)
+        public PeaSettingsNamedValue_old(string name, double value)
         {
             Name = name;
             Value = value;

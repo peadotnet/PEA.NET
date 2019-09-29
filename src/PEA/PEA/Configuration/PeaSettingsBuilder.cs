@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pea.Configuration.Implementation;
+using Pea.Core;
 using Pea.StopCriteria;
 
 namespace Pea.Configuration
@@ -28,6 +29,12 @@ namespace Pea.Configuration
         {
             StopCriteria = StopCriteriaBuilder.StopWhen();
             return StopCriteria;
+        }
+
+        public PeaSettingsBuilder SetParameter(string parameterKey, double parameterValue)
+        {
+            PeaSettings.ParameterSet.Add(new PeaSettingsNamedValue(parameterKey, parameterValue));
+            return this;
         }
 
         public PeaSettings Build()

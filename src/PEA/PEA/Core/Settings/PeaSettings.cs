@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pea.Configuration.Implementation;
 using Pea.Core.Settings;
 
 namespace Pea.Core
 {
-    public class PeaSettings
+    [Obsolete("This class is obsolete. Use Pea.Config.Implementation.PeaSettings instead.")]
+    public class PeaSettings_old
     {
         public Type Random { get; set; }
 

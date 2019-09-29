@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.Permutation
 {
     public abstract class PermutationMutationBase : PermutationOperatorBase, IMutation<PermutationChromosome>
     {
-        protected PermutationMutationBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null) : base(random, parameterSet, conflictDetector)
+        protected PermutationMutationBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

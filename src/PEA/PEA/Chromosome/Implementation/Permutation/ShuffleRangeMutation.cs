@@ -1,10 +1,11 @@
-﻿using Pea.Core;
+﻿using System.Collections.Generic;
+using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.Permutation
 {
     public class ShuffleRangeMutation : PermutationMutationBase
     {
-        public ShuffleRangeMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null) : base(random, parameterSet, conflictDetector)
+        public ShuffleRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

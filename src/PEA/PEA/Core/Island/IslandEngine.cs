@@ -1,4 +1,6 @@
-﻿namespace Pea.Core.Island
+﻿using System.Collections.Generic;
+
+namespace Pea.Core.Island
 {
     public class IslandEngine : IEngine
     {
@@ -7,10 +9,10 @@
         //public ParameterSet ParameterSet { get; set; }
         public IRandom Random { get; set; }
 
-        public PeaSettings Settings { get; set; }
+        public Pea.Configuration.Implementation.PeaSettings Settings { get; set; }
         public ParameterSet Parameters { get; set; }
-        public IConflictDetector ConflictDetector { get; set; }
-        public IProvider<IEntityCreator> EntityCreators { get; set; }
+        public IList<IConflictDetector> ConflictDetectors { get; set; }
+        public IEntityCreator EntityCreator { get; set; }
         public IProvider<ISelection> Selections { get; set; }
         public IFitnessComparer FitnessComparer { get; set; }
         public IEntityCrossover EntityCrossover { get; set; }
@@ -26,7 +28,10 @@
         public void Init(IEvaluationInitData initData)
         {
             initData.Build();
-            ConflictDetector.Init(initData);
+            foreach (var conflictDetector in ConflictDetectors)
+            {
+                conflictDetector.Init(initData);
+            }
             Algorithm.InitPopulation();
         }
 

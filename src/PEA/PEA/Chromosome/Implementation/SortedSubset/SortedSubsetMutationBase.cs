@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public abstract class SortedSubsetMutationBase : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
     {
-        protected SortedSubsetMutationBase(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector) 
-            : base(random, parameterSet, conflictDetector)
+        protected SortedSubsetMutationBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors) 
+            : base(random, parameterSet, conflictDetectors)
         {
         }
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Pea.Configuration.Implementation;
 using Pea.Core;
 
 namespace Pea.Algorithm.Implementation
@@ -12,6 +14,9 @@ namespace Pea.Algorithm.Implementation
 
         public abstract void InitPopulation();
         public abstract void RunOnce();
+        public abstract IEnumerable<Type> GetSelections();
+        public abstract IEnumerable<Type> GetReinsertions();
+        public abstract IEnumerable<PeaSettingsNamedValue> GetParameters();
 
         private EvaluationDelegate _evaluate;
 
@@ -24,8 +29,7 @@ namespace Pea.Algorithm.Implementation
 
         protected IEntity CreateEntity()
         {
-            var entityCreator = Engine.EntityCreators.GetOne();
-            var entity = entityCreator.CreateEntity();
+            var entity = Engine.EntityCreator.CreateEntity();
             return entity;
         }
 

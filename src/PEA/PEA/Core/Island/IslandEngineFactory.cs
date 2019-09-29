@@ -1,15 +1,16 @@
 ﻿using System;
+using Pea.Configuration.Implementation;
 using Pea.Core.Entity;
 
 namespace Pea.Core.Island
 {
     public static class IslandEngineFactory
     {
-        public static IslandEngine Create(PeaSettings settings)
+        public static IslandEngine Create(Pea.Configuration.Implementation.PeaSettings settings)
         {
             var random = (IRandom)Activator.CreateInstance(settings.Random);
             var parameterSet = new ParameterSet(settings.ParameterSet);
-            var fitness = (IFitnessFactory)Activator.CreateInstance(settings.Fitness);
+            var fitness = (IFitnessFactory)Activator.CreateInstance(settings.FitnessEvaluation);
             var fitnessComparer = fitness.GetFitnessComparer();
 
             var engine = new IslandEngine();
@@ -17,37 +18,31 @@ namespace Pea.Core.Island
             engine.Random = random;
             engine.Settings = settings;
             engine.Parameters = parameterSet;
-            engine.ConflictDetector = CreateConflictDetector(settings);
             engine.FitnessComparer = fitnessComparer;
-            engine.EntityCreators = CreateEntityCreators(settings, random);
-            engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
-            engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
-            engine.EntityMutation = new EntityMutation(settings.Chromosomes, random, parameterSet, engine.ConflictDetector);
-            engine.EntityCrossover = new EntityCrossover(settings.Chromosomes, random, parameterSet, engine.ConflictDetector);
+            //engine.EntityCreators = CreateEntityCreators(settings, random);
+            //engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
+            //engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
+
+            engine.EntityCreator = new EntityCreator(settings.SubProblemList, random);
+            engine.EntityMutation = new EntityMutation(settings.SubProblemList, random);
+            engine.EntityCrossover = new EntityCrossover(settings.SubProblemList, random);
             engine.StopCriteria = settings.StopCriteria;
 
             return engine;
         }
 
-        private static IConflictDetector CreateConflictDetector(PeaSettings settings)
-        {
-            if (settings.ConflictDetector == null) return AllRightConflictDetector.Instance;
 
-            var detectorInstance = (IConflictDetector)Activator.CreateInstance(settings.ConflictDetector);
-            return detectorInstance;
-        }
+        //public static IProvider<IEntityCreator> CreateEntityCreators(Pea.Configuration.Implementation.PeaSettings settings, IRandom random)
+        //{
+        //    var creatorProvider = CreateProvider<IEntityCreator>(settings.EntityCreators.Count, random);
+        //    foreach (var creator in settings.EntityCreators)
+        //    {
+        //        var creatorInstance = (IEntityCreator)TypeLoader.CreateInstance(creator.ValueType);
+        //        creatorProvider.Add(creatorInstance, 1.0);
+        //    }
 
-        public static IProvider<IEntityCreator> CreateEntityCreators(PeaSettings settings, IRandom random)
-        {
-            var creatorProvider = CreateProvider<IEntityCreator>(settings.EntityCreators.Count, random);
-            foreach (var creator in settings.EntityCreators)
-            {
-                var creatorInstance = (IEntityCreator)TypeLoader.CreateInstance(creator.ValueType);
-                creatorProvider.Add(creatorInstance, 1.0);
-            }
-
-            return creatorProvider;
-        }
+        //    return creatorProvider;
+        //}
 
         public static IProvider<ISelection> CreateSelections(PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
         {
@@ -62,18 +57,18 @@ namespace Pea.Core.Island
             return selectionProvider;
         }
 
-        private static IProvider<IReinsertion> CreateReinsertions(PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
-        {
-            var reinsertionProvider = CreateProvider<IReinsertion>(settings.Reinsertions.Count, random);
+        //private static IProvider<IReinsertion> CreateReinsertions(PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
+        //{
+        //    var reinsertionProvider = CreateProvider<IReinsertion>(settings.Reinsertions.Count, random);
 
-            foreach (var reinsertion in settings.Reinsertions)
-            {
-                var reinsertionInstance = (IReinsertion)Activator.CreateInstance(reinsertion.ValueType, random, fitnessComparer, parameterSet);
-                reinsertionProvider.Add(reinsertionInstance, 1.0);
-            }
+        //    foreach (var reinsertion in settings.Reinsertions)
+        //    {
+        //        var reinsertionInstance = (IReinsertion)Activator.CreateInstance(reinsertion.ValueType, random, fitnessComparer, parameterSet);
+        //        reinsertionProvider.Add(reinsertionInstance, 1.0);
+        //    }
 
-            return reinsertionProvider;
-        }
+        //    return reinsertionProvider;
+        //}
 
         public static IProvider<T> CreateProvider<T>(int count, IRandom random)
         {
