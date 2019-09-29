@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pea.Configuration.Implementation;
 using Pea.Core.Entity;
 
@@ -6,69 +7,96 @@ namespace Pea.Core.Island
 {
     public static class IslandEngineFactory
     {
-        public static IslandEngine Create(Pea.Configuration.Implementation.PeaSettings settings)
+        public static IslandEngine Create(PeaSettings settings)
         {
             var random = (IRandom)Activator.CreateInstance(settings.Random);
             var parameterSet = new ParameterSet(settings.ParameterSet);
-            var fitness = (IFitnessFactory)Activator.CreateInstance(settings.FitnessEvaluation);
-            var fitnessComparer = fitness.GetFitnessComparer();
+
+            var fitnessEvaluation = (IFitnessFactory)Activator.CreateInstance(settings.FitnessEvaluation);
+            var fitnessComparer = fitnessEvaluation.GetFitnessComparer();
 
             var engine = new IslandEngine();
+
+            var algorithm = CreateAlgorithm(engine, settings);
+
 
             engine.Random = random;
             engine.Settings = settings;
             engine.Parameters = parameterSet;
-            engine.FitnessComparer = fitnessComparer;
-            //engine.EntityCreators = CreateEntityCreators(settings, random);
-            //engine.Selections = CreateSelections(settings, parameterSet, random, fitnessComparer);
-            //engine.Reinsertions = CreateReinsertions(settings, parameterSet, random, fitnessComparer);
+         
 
-            engine.EntityCreator = new EntityCreator(settings.SubProblemList, random);
-            engine.EntityMutation = new EntityMutation(settings.SubProblemList, random);
-            engine.EntityCrossover = new EntityCrossover(settings.SubProblemList, random);
+            engine.FitnessComparer = fitnessComparer;
+            engine.ConflictDetectors = CreateConflictDetectors(settings.SubProblemList);
+            engine.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
+            engine.Reinsertions = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
+
+            engine.EntityCreator = new EntityCreator(settings.SubProblemList, engine.ConflictDetectors, random);
+            //engine.EntityCreators = CreateEntityCreators(settings, random);
+
+            engine.EntityMutation = new EntityMutation(settings.SubProblemList, engine.ConflictDetectors, random);
+            engine.EntityCrossover = new EntityCrossover(settings.SubProblemList, engine.ConflictDetectors, random);
             engine.StopCriteria = settings.StopCriteria;
 
             return engine;
         }
 
-
-        //public static IProvider<IEntityCreator> CreateEntityCreators(Pea.Configuration.Implementation.PeaSettings settings, IRandom random)
-        //{
-        //    var creatorProvider = CreateProvider<IEntityCreator>(settings.EntityCreators.Count, random);
-        //    foreach (var creator in settings.EntityCreators)
-        //    {
-        //        var creatorInstance = (IEntityCreator)TypeLoader.CreateInstance(creator.ValueType);
-        //        creatorProvider.Add(creatorInstance, 1.0);
-        //    }
-
-        //    return creatorProvider;
-        //}
-
-        public static IProvider<ISelection> CreateSelections(PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
+        private static IDictionary<string, IList<IConflictDetector>> CreateConflictDetectors(List<SubProblem> subProblemList)
         {
-            var selectionProvider = CreateProvider<ISelection>(settings.Selectors.Count, random);
-
-            foreach (var selectionType in settings.Selectors)
+            var result = new Dictionary<string, IList<IConflictDetector>>();
+            foreach (var subProblem in subProblemList)
             {
-                var selectionInstance = (ISelection)Activator.CreateInstance(selectionType.ValueType, random, fitnessComparer, parameterSet);
+                string key = subProblem.Encoding.Key;
+                var detectors = new List<IConflictDetector>();
+                foreach (var detectorType in subProblem.ConflictDetectors)
+                {
+                    var detectorInstance = (IConflictDetector)Activator.CreateInstance(detectorType);
+                    detectors.Add(detectorInstance);
+                }
+                result.Add(key, detectors);
+            }
+            return result;
+        }
+
+        private static IAlgorithm CreateAlgorithm(IEngine engine, PeaSettings settings)
+        {
+            //TODO: choose first matching algorithm type from chromosomeFactories, or apply settings
+            return new Algorithm.Implementation.SteadyStateAlgorithm(engine);
+        }
+
+        public static IProvider<ISelection> CreateSelections(IAlgorithm algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
+        {
+            var selections = algorithm.GetSelections();
+
+            //TODO: impement override by settings
+
+            var selectionProvider = CreateProvider<ISelection>(selections.Count, random);
+
+            foreach (var selectionType in selections)
+            {
+                var selectionInstance = (ISelection)Activator.CreateInstance(selectionType, random, fitnessComparer, parameterSet);
                 selectionProvider.Add(selectionInstance, 1.0);
             }
 
             return selectionProvider;
         }
 
-        //private static IProvider<IReinsertion> CreateReinsertions(PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
-        //{
-        //    var reinsertionProvider = CreateProvider<IReinsertion>(settings.Reinsertions.Count, random);
+        private static IProvider<IReinsertion> CreateReinsertions(IAlgorithm algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
+        {
+            var reinsertions = algorithm.GetReinsertions();
 
-        //    foreach (var reinsertion in settings.Reinsertions)
-        //    {
-        //        var reinsertionInstance = (IReinsertion)Activator.CreateInstance(reinsertion.ValueType, random, fitnessComparer, parameterSet);
-        //        reinsertionProvider.Add(reinsertionInstance, 1.0);
-        //    }
+            //TODO: impement override by settings
 
-        //    return reinsertionProvider;
-        //}
+
+            var reinsertionProvider = CreateProvider<IReinsertion>(reinsertions.Count, random);
+
+            foreach (var reinsertion in reinsertions)
+            {
+                var reinsertionInstance = (IReinsertion)Activator.CreateInstance(reinsertion, random, fitnessComparer, parameterSet);
+                reinsertionProvider.Add(reinsertionInstance, 1.0);
+            }
+
+            return reinsertionProvider;
+        }
 
         public static IProvider<T> CreateProvider<T>(int count, IRandom random)
         {

@@ -14,17 +14,21 @@ namespace Pea.Algorithm.Implementation
 
         public abstract void InitPopulation();
         public abstract void RunOnce();
-        public abstract IEnumerable<Type> GetSelections();
-        public abstract IEnumerable<Type> GetReinsertions();
+        public abstract IList<Type> GetSelections();
+        public abstract IList<Type> GetReinsertions();
         public abstract IEnumerable<PeaSettingsNamedValue> GetParameters();
 
         private EvaluationDelegate _evaluate;
 
 
-        protected AlgorithmBase(IEngine engine, EvaluationDelegate evaluate)
+        protected AlgorithmBase(IEngine engine)
         {
             Engine = engine;
-            _evaluate = evaluate;
+        }
+
+        public void SetEvaluationCallback(EvaluationDelegate evaluationCallback)
+        {
+            _evaluate = evaluationCallback;
         }
 
         protected IEntity CreateEntity()

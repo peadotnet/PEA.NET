@@ -8,7 +8,7 @@ namespace Pea.Algorithm
         public IAlgorithm GetAlgorithm(IEngine engine,
             AlgorithmBase.EvaluationDelegate evaluation)
         {
-            return new SteadyStateAlgorithm(engine, evaluation);
+            return new SteadyStateAlgorithm(engine);
         }
     }
 }

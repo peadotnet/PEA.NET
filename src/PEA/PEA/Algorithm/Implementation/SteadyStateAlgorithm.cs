@@ -1,11 +1,40 @@
-﻿using Pea.Core;
+﻿using System;
+using System.Collections.Generic;
+using Pea.Configuration.Implementation;
+using Pea.Core;
 
 namespace Pea.Algorithm.Implementation
 {
     public class SteadyStateAlgorithm : AlgorithmBase
     {
-        public SteadyStateAlgorithm(IEngine engine, EvaluationDelegate evaluation) : base(engine, evaluation)
+        public SteadyStateAlgorithm(IEngine engine) : base(engine)
         {
+        }
+
+        public override IEnumerable<PeaSettingsNamedValue> GetParameters()
+        {
+            return new List<PeaSettingsNamedValue>()
+            {
+                new PeaSettingsNamedValue(Selection.ParameterNames.TournamentSize, 2),
+                new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 2)
+
+            };
+        }
+
+        public override IList<Type> GetReinsertions()
+        {
+            return new List<Type>()
+            {
+                typeof(Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion)
+            };
+        }
+
+        public override IList<Type> GetSelections()
+        {
+            return new List<Type>()
+            {
+                typeof(Selection.TournamentSelection)
+            };
         }
 
         public override void InitPopulation()

@@ -31,17 +31,17 @@ namespace PEA_VehicleScheduling_Example
                 //.AddSelection<Pea.Selection.TournamentSelection>()
                 //.AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
 
-                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 2500)
-                .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.5)
-                .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)
+                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 2500) //->ProblemType
+                .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.5) //->ProblemType
+                .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)  //->Algorithm
                 .SetParameter(Island.ParameterNames.ArchipelagosCount, 1)
                 .SetParameter(Island.ParameterNames.IslandsCount, 1)
-                .SetParameter(Island.ParameterNames.EvaluatorsCount, 2)
-                .SetParameter(Chromosome.ParameterNames.ConflictReducingProbability, 0.5)
-                .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 20)
-                .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 10);
-                
-            //system.Settings.Random = typeof(FastRandom);
+                .SetParameter(Island.ParameterNames.EvaluatorsCount, 2) //-> Algorithm
+                .SetParameter(Chromosome.ParameterNames.ConflictReducingProbability, 0.5) //->ChromosomeFactory
+                .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 20) //->ChromosomeFactory
+                .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 10); //->ChromosomeFactory
+
+            //system.Settings.Random = typeof(FastRandom);  //-> PeaSettings
 
             system.Settings.StopWhen().TimeoutElapsed(3600 * 1000)
                 .Build();
@@ -56,8 +56,8 @@ namespace PEA_VehicleScheduling_Example
             conflictDetector.Init(initData);
             Chromosome.Implementation.SortedSubset.SortedSubsetChromosomeValidator.ConflictDetector = conflictDetector;
 
-            var islandEngine = Island.IslandEngineFactory.Create(system.Settings);
-            islandEngine.EntityCreators.Add(creator, 1);
+            var islandEngine = Island.IslandEngineFactory.Create(system.Settings.Build());
+            //islandEngine.EntityCreators.Add(creator, 1);
 
             var algorithmFactory = new Algorithm.SteadyState();
             var algorithm = algorithmFactory.GetAlgorithm(islandEngine, Evaluate);
@@ -79,7 +79,7 @@ namespace PEA_VehicleScheduling_Example
             {
 
                 initData.Build();
-                islandEngine.ConflictDetector.Init(initData);
+                islandEngine.InitConflictDetectors(initData);
                 algorithm.InitPopulation();
                 var c = 0;
                 while (true)

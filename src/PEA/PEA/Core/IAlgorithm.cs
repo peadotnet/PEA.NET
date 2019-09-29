@@ -9,8 +9,8 @@ namespace Pea.Core
         IEngine Engine { get; }
         IPopulation Population { get; set; }
 
-        IEnumerable<Type> GetSelections();
-        IEnumerable<Type> GetReinsertions();
+        IList<Type> GetSelections();
+        IList<Type> GetReinsertions();
         IEnumerable<PeaSettingsNamedValue> GetParameters();
 
         void InitPopulation();

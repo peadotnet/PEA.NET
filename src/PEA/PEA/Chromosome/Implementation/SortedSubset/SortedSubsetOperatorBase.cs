@@ -121,7 +121,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             if (targetPositionIndex == 0) return false;
 
             var leftNeighborGeneValue = targetSection[targetPositionIndex - 1];
-            return ConflictDetector.ConflictDetected(leftNeighborGeneValue, geneValue.Value);
+            return ConflictDetectors[0].ConflictDetected(leftNeighborGeneValue, geneValue.Value); //TODO: multiple detectors!
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             if (targetPositionIndex == targetSection.Length) return false;
 
             var rightNeighborGeneValue = targetSection[targetPositionIndex];
-            return ConflictDetector.ConflictDetected(geneValue.Value, rightNeighborGeneValue);
+            return ConflictDetectors[0].ConflictDetected(geneValue.Value, rightNeighborGeneValue);  //TODO: multiple detectors!
         }
 
         /// <summary>

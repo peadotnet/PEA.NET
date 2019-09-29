@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Configuration.Implementation;
-using Pea.Core.Settings;
 
 namespace Pea.Core.Entity
 {
@@ -11,7 +10,7 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<IMutation>> MutationProviders { get; } = new Dictionary<string, IProvider<IMutation>>();
 
-        public EntityMutation(List<SubProblem> subProblemList, IRandom random)
+        public EntityMutation(List<SubProblem> subProblemList, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
         {
             foreach (var subProblem in subProblemList)
             {

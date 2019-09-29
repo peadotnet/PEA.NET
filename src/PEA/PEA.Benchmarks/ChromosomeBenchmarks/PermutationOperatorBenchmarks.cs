@@ -24,8 +24,8 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
 
         public PermutationOperatorBenchmarks()
         {
-            var conflictDetector = AllRightConflictDetector.Instance;
-            var chromosomeCreator = new PermutationRandomCreator(Size, Random, conflictDetector);
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var chromosomeCreator = new PermutationRandomCreator(Size, Random, conflictDetectors);
             for (int i = 0; i < Count; i++)
             {
                 Chromosomes.Add(chromosomeCreator.Create());
@@ -45,21 +45,24 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
         [Benchmark]
         public List<IChromosome> RelocateRange()
         {
-            var mutation = new RelocateRangeMutation(Random, ParameterSet, AllRightConflictDetector.Instance);
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var mutation = new RelocateRangeMutation(Random, ParameterSet, conflictDetectors);
             return MutateChromosomes(mutation);
         }
 
         [Benchmark]
         public List<IChromosome> InverseRange()
         {
-            var mutation = new InverseRangeMutation(Random, ParameterSet, AllRightConflictDetector.Instance);
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var mutation = new InverseRangeMutation(Random, ParameterSet, conflictDetectors);
             return MutateChromosomes(mutation);
         }
 
         [Benchmark]
         public List<IChromosome> SwapTwoRange()
         {
-            var mutation = new SwapTwoRangeMutation(Random, ParameterSet, AllRightConflictDetector.Instance);
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var mutation = new SwapTwoRangeMutation(Random, ParameterSet, conflictDetectors);
             return MutateChromosomes(mutation);
         }
     }

@@ -1,12 +1,13 @@
 ﻿using Pea.Core;
 using System;
+using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class ReplaceRangeMutation : SortedSubsetMutationBase
     {
-        public ReplaceRangeMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
-            : base(random, parameterSet, conflictDetector)
+        public ReplaceRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+            : base(random, parameterSet, conflictDetectors)
         {
         }
 

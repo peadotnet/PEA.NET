@@ -11,7 +11,7 @@ namespace Pea.Core.Island
 
         public Pea.Configuration.Implementation.PeaSettings Settings { get; set; }
         public ParameterSet Parameters { get; set; }
-        public IList<IConflictDetector> ConflictDetectors { get; set; }
+        public IDictionary<string, IList<IConflictDetector>> ConflictDetectors { get; set; }
         public IEntityCreator EntityCreator { get; set; }
         public IProvider<ISelection> Selections { get; set; }
         public IFitnessComparer FitnessComparer { get; set; }
@@ -28,11 +28,19 @@ namespace Pea.Core.Island
         public void Init(IEvaluationInitData initData)
         {
             initData.Build();
-            foreach (var conflictDetector in ConflictDetectors)
-            {
-                conflictDetector.Init(initData);
-            }
+            InitConflictDetectors(initData);
             Algorithm.InitPopulation();
+        }
+
+        public void InitConflictDetectors(IEvaluationInitData initData)
+        {
+            foreach (var key in ConflictDetectors.Keys)
+            {
+                foreach (var detector in ConflictDetectors[key])
+                {
+                    detector.Init(initData);
+                }
+            }
         }
 
         public StopDecision RunOnce()

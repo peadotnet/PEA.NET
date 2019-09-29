@@ -9,12 +9,12 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<ICrossover>> CrossoverProviders { get; } = new Dictionary<string, IProvider<ICrossover>>();
 
-        public EntityCrossover(List<SubProblem> subProblemList, IRandom random)
+        public EntityCrossover(List<SubProblem> subProblemList, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
         {
             for(int i=0; i < subProblemList.Count; i++)
             {
                 var subProblem = subProblemList[i];
-                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, subProblem.ConflictDetectors) as IChromosomeFactory;
+                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, conflictDetectors[subProblem.Encoding.Key]) as IChromosomeFactory;
                 var crossovers = factoryInstance.GetCrossovers();
                 var crossoverProvider = ProviderFactory.Create<ICrossover>(crossovers.Count(), random);
                 foreach (var crossover in crossovers)

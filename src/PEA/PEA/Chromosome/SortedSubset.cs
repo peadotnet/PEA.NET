@@ -51,7 +51,7 @@ namespace Pea.Chromosome
 
         public IList<IChromosomeCreator> GetCreators()
         {
-            throw new System.NotImplementedException();
+            return _creators;
         }
 
         public IList<ICrossover> GetCrossovers()

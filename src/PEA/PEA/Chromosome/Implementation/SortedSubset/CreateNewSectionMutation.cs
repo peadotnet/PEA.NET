@@ -6,8 +6,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class CreateNewSectionMutation : SortedSubsetMutationBase
     {
-        public CreateNewSectionMutation(IRandom random, IParameterSet parameterSet, IConflictDetector conflictDetector = null)
-            : base(random, parameterSet, conflictDetector)
+        public CreateNewSectionMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+            : base(random, parameterSet, conflictDetectors)
         {
         }
 
@@ -66,7 +66,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
             if (list.First.Value > geneValue)
             {
-                if (ConflictDetector.ConflictDetected(geneValue, list.First.Value)) return false;
+                if (ConflictDetectors[0].ConflictDetected(geneValue, list.First.Value)) return false;
 
                 list.AddFirst(geneValue);
                 return true;
@@ -74,7 +74,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
             if (list.Last.Value < geneValue)
             {
-                if (ConflictDetector.ConflictDetected(list.Last.Value, geneValue)) return false;
+                if (ConflictDetectors[0].ConflictDetected(list.Last.Value, geneValue)) return false; //TODO: multiple detectors!
 
                 list.AddLast(geneValue);
                 return true;
@@ -83,8 +83,8 @@ namespace Pea.Chromosome.Implementation.SortedSubset
             var node = list.First;
             while (node.Value < geneValue) node = node.Next;
 
-            if (ConflictDetector.ConflictDetected(node.Previous.Value, geneValue) ||
-                ConflictDetector.ConflictDetected(geneValue, node.Value))
+            if (ConflictDetectors[0].ConflictDetected(node.Previous.Value, geneValue) ||
+                ConflictDetectors[0].ConflictDetected(geneValue, node.Value)) //TODO: multiple detectors!
             {
                 return false;
             }
