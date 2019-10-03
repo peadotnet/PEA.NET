@@ -7,16 +7,11 @@ namespace Pea.Algorithm.Implementation
 {
     public abstract class AlgorithmBase : IAlgorithm
     {
-        public delegate IList<IEntity> EvaluationDelegate(IList<IEntity> entityList);
-
         public IEngine Engine { get; }
         public IPopulation Population { get; set; }
 
         public abstract void InitPopulation();
         public abstract void RunOnce();
-        public abstract IList<Type> GetSelections();
-        public abstract IList<Type> GetReinsertions();
-        public abstract IEnumerable<PeaSettingsNamedValue> GetParameters();
 
         private EvaluationDelegate _evaluate;
 

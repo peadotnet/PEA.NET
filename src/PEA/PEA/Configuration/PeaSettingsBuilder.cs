@@ -37,12 +37,26 @@ namespace Pea.Configuration
             return this;
         }
 
+        public PeaSettingsBuilder WithEvaluation<TE>() where TE : IEvaluation
+        {
+            PeaSettings.Evaluation = typeof(TE);
+            return this;
+        }
+
+        public PeaSettingsBuilder WithEntityType<NE>() where NE : IEntity
+        {
+            PeaSettings.EntityType = typeof(NE);
+            return this;
+        }
+
         public PeaSettings Build()
         {
             foreach (var subProblem in SubProblems)
             {
                 PeaSettings.SubProblemList.Add(subProblem.Build());
             }
+
+            PeaSettings.StopCriteria = StopCriteria.Build();
 
             return PeaSettings;
         }

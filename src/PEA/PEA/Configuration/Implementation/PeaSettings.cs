@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Core;
+using Pea.Core.Entity;
+using Pea.Fitness;
 
 namespace Pea.Configuration.Implementation
 {
@@ -12,7 +14,11 @@ namespace Pea.Configuration.Implementation
 
         public MigrationStrategy MigrationStrategy { get; set; }
 
-        public Type FitnessEvaluation { get; set; }
+        public Type EntityType { get; set; } = typeof(Entity);
+
+        public Type Fitness { get; set; } = typeof(ParetoMultiobjective);
+
+        public Type Evaluation { get; set; }
 
         public Type Random { get; set; } = typeof(FastRandom);
 
@@ -23,7 +29,7 @@ namespace Pea.Configuration.Implementation
             var islandSettings = new PeaSettings()
             {
                 MigrationStrategy = this.MigrationStrategy,
-                FitnessEvaluation = this.FitnessEvaluation,
+                Fitness = this.Fitness,
                 StopCriteria = this.StopCriteria
             };
 

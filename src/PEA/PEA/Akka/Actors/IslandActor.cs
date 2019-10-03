@@ -33,12 +33,14 @@ namespace Pea.Akka.Actors
 
             IslandKey = new MultiKey(key);
 
-            var algorithmType = settings.SubProblemList[0].Encoding.Algorithm.AlgorithmType;
-            var algorithmFactory = (IAlgorithmFactory)Activator.CreateInstance(algorithmType);
-            Algorithm = algorithmFactory.GetAlgorithm(Engine, Evaluate);
-            Engine.Algorithm = Algorithm;
+            //var algorithmType = settings.SubProblemList[0].Encoding.Algorithm.AlgorithmType;
+            //var algorithmFactory = (IAlgorithmFactory)Activator.CreateInstance(algorithmType);
+            //Algorithm = algorithmFactory.GetAlgorithm(Engine, Evaluate);
+            //Engine.Algorithm = Algorithm;
 
-            Evaluator = Context.ActorOf(EvaluationSupervisorActor.CreateProps(IslandKey, settings));
+            Engine.Algorithm.SetEvaluationCallback(Evaluate);
+
+            Evaluator = Context.ActorOf(EvaluationSupervisorActor.CreateProps(IslandKey, settings.Evaluation, Engine.Parameters));
 
             Receive<InitEvaluator>(m => InitEvaluator(m));
             Receive<Continue>(m => RunOneStep());
@@ -67,7 +69,7 @@ namespace Pea.Akka.Actors
             }
             else
             {
-                var result = new PeaResult(stop.Reasons, Algorithm.Population.Bests);
+                var result = new PeaResult(stop.Reasons, Engine.Algorithm.Population.Bests);
                 Starter.Tell(result);
             }
         }
@@ -91,7 +93,7 @@ namespace Pea.Akka.Actors
             return evaluatedEntities;
         }
 
-        public static Props CreateProps(Pea.Configuration.Implementation.PeaSettings settings)
+        public static Props CreateProps(Configuration.Implementation.PeaSettings settings)
         {
             var props = Props.Create(() => new IslandActor(settings));
             return props;

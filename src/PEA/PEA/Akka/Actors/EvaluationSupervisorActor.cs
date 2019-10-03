@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
 using Akka.Routing;
@@ -18,6 +19,8 @@ namespace Pea.Akka.Actors
         public MultiKey IslandKey { get; }
 
         public int EntityProcessingCount { get; private set; }
+
+        private Type EvaluatorType { get; }
         public ParameterSet Parameters { get; }
 
         public IActorRef RequestSender { get; private set; }
@@ -26,23 +29,13 @@ namespace Pea.Akka.Actors
 
         public PeaSettings Settings { get; }
 
-        public EvaluationSupervisorActor(MultiKey islandKey, PeaSettings settings)
+        public EvaluationSupervisorActor(MultiKey islandKey, Type evaluatorType, ParameterSet parameters)
         {
             IslandKey = islandKey;
-            Settings = settings;
-            Parameters = new ParameterSet(Settings.ParameterSet);
-            Become(Idle);
-        }
+            EvaluatorType = evaluatorType;
+            Parameters = parameters;
 
-        void Idle()
-        {
-            Receive<InitEvaluator>(m => InitEvaluator(m));
-            Receive<IList<IEntity>>(l => StartProcessing(l));
-        }
-
-        public void InitEvaluator(InitEvaluator m)
-        {
-            var props = EvaluationWorkerActor.CreateProps(IslandKey, Settings, m.InitData);
+            var props = EvaluationWorkerActor.CreateProps(IslandKey, EvaluatorType, Parameters);
             var evaluatorsCount = Parameters.GetInt(ParameterNames.EvaluatorsCount);
             EvaluationWorkers = CreateWorkers(props, evaluatorsCount);
 
@@ -50,6 +43,23 @@ namespace Pea.Akka.Actors
             var routerProps = Props.Empty.WithRouter(new RoundRobinGroup(paths));
 
             EvaluationRouter = Context.ActorOf(routerProps, "Evaluators");
+
+            Become(Idle);
+        }
+
+        void Idle()
+        {
+
+            Receive<InitEvaluator>(m => InitEvaluator(m));
+            Receive<IList<IEntity>>(l => StartProcessing(l));
+        }
+
+        public void InitEvaluator(InitEvaluator initMessage)
+        {
+            foreach (var worker in EvaluationWorkers)
+            {
+                worker.Tell(initMessage);
+            }
         }
 
         public IActorRef[] CreateWorkers(Props props, int count)
@@ -100,9 +110,9 @@ namespace Pea.Akka.Actors
             }
         }
 
-        public static Props CreateProps(MultiKey islandKey, PeaSettings settings)
+        public static Props CreateProps(MultiKey islandKey, Type evaluatorType, ParameterSet parameters)
         {
-            return Props.Create(() => new EvaluationSupervisorActor(islandKey, settings));
+            return Props.Create(() => new EvaluationSupervisorActor(islandKey, evaluatorType, parameters));
         }
     }
 }

@@ -4,13 +4,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using Pea.Algorithm;
 using Pea.Configuration.ProblemModels;
 using Pea.Core;
-using Pea.Core.Island;
 using Pea.Fitness.Implementation.MultiObjective;
-using Pea.StopCriteria;
-using ParameterNames = Pea.Core.Island.ParameterNames;
 
 namespace PEA_TSP_Example
 {
@@ -25,14 +21,13 @@ namespace PEA_TSP_Example
             var initData = new TSPInitData(tspData);
 
             var system = PeaSystem.Create();
-            system.Settings.AddSubProblem("Berlin52", new TravelingSalesmanProblem(tspData.Count));
-                
+            system.Settings.AddSubProblem("TSP", new TravelingSalesmanProblem(tspData.Count));
 
+            system.Settings.WithEntityType<TSPEntity>().WithEvaluation<TSPEvaluation>();
 
             var fitnessLimit = new MultiObjectiveFitness(1) { Value = { [0] = -7545 } };
             system.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)
-                .Or().TimeoutElapsed(180000);
-
+                .Or().TimeoutElapsed(600000);
 
             //.WithFitness<Pea.Fitness.ParetoMultiobjective>()
             //.AddSelection<Pea.Selection.TournamentSelection>()
@@ -59,7 +54,7 @@ namespace PEA_TSP_Example
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            system.Start(initData).GetAwaiter().GetResult();
+            //system.Start(initData).GetAwaiter().GetResult();
 
             var result = AsyncUtil.RunSync(() => system.Start(initData));
 

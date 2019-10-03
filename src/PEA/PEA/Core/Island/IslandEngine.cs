@@ -9,7 +9,7 @@ namespace Pea.Core.Island
         //public ParameterSet ParameterSet { get; set; }
         public IRandom Random { get; set; }
 
-        public Pea.Configuration.Implementation.PeaSettings Settings { get; set; }
+        public Configuration.Implementation.PeaSettings Settings { get; set; }
         public ParameterSet Parameters { get; set; }
         public IDictionary<string, IList<IConflictDetector>> ConflictDetectors { get; set; }
         public IEntityCreator EntityCreator { get; set; }

@@ -14,7 +14,7 @@ namespace Pea.Core.Entity
         {
             foreach (var subProblem in subProblemList)
             {
-                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, subProblem.ConflictDetectors) as IChromosomeFactory;
+                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, conflictDetectors[subProblem.Encoding.Key]) as IChromosomeFactory;
                 var mutations = factoryInstance.GetMutations();
                 var mutationProvider = ProviderFactory.Create<IMutation>(mutations.Count(), random);
                 foreach (var mutation in mutations)
@@ -52,14 +52,14 @@ namespace Pea.Core.Entity
                     var mutatedChromosome = mutation.Mutate(chromosome.Value.DeepClone());
                     if (mutatedChromosome == null) return null;
 
-                    //TODO: Delete this
-                    var conflictedPositions =
-                        SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)mutatedChromosome).Sections);
-                    if (conflictedPositions.Count > 0)
-                    {
-                        bool error = true;  //For breakpoint
-                        throw new ApplicationException($"Conflict between neighboring values! (Mutation: {mutation.GetType().Name})");
-                    }
+                    ////TODO: Delete this
+                    //var conflictedPositions =
+                    //    SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)mutatedChromosome).Sections);
+                    //if (conflictedPositions.Count > 0)
+                    //{
+                    //    bool error = true;  //For breakpoint
+                    //    throw new ApplicationException($"Conflict between neighboring values! (Mutation: {mutation.GetType().Name})");
+                    //}
 
                     mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
                     mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);

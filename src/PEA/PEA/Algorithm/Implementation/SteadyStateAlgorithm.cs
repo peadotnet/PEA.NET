@@ -11,32 +11,6 @@ namespace Pea.Algorithm.Implementation
         {
         }
 
-        public override IEnumerable<PeaSettingsNamedValue> GetParameters()
-        {
-            return new List<PeaSettingsNamedValue>()
-            {
-                new PeaSettingsNamedValue(Selection.ParameterNames.TournamentSize, 2),
-                new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 2)
-
-            };
-        }
-
-        public override IList<Type> GetReinsertions()
-        {
-            return new List<Type>()
-            {
-                typeof(Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion)
-            };
-        }
-
-        public override IList<Type> GetSelections()
-        {
-            return new List<Type>()
-            {
-                typeof(Selection.TournamentSelection)
-            };
-        }
-
         public override void InitPopulation()
         {
             Population = new Population.Population();

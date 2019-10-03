@@ -60,7 +60,7 @@ namespace PEA_VehicleScheduling_Example
             //islandEngine.EntityCreators.Add(creator, 1);
 
             var algorithmFactory = new Algorithm.SteadyState();
-            var algorithm = algorithmFactory.GetAlgorithm(islandEngine, Evaluate);
+            var algorithm = algorithmFactory.GetAlgorithm(islandEngine);
             islandEngine.Algorithm = algorithm;
 
 

@@ -37,9 +37,21 @@ namespace Pea.Core
             return Parameters[parameterKey];
         }
 
+        public IEnumerable<KeyValuePair<string, double>> GetAllValues()
+        {
+            var parameters = new List<KeyValuePair<string, double>>();
+
+            foreach (var parameter in Parameters)
+            {
+                parameters.Add(new KeyValuePair<string, double>(parameter.Key, parameter.Value));
+            }
+
+            return parameters;
+        }
+
         public int GetInt(string parameterKey)
         {
-            if (!Parameters.ContainsKey(parameterKey)) throw new ArgumentException(nameof(parameterKey));
+            if (!Parameters.ContainsKey(parameterKey)) throw new ArgumentException(nameof(parameterKey) + $": {parameterKey}");
 
             return Convert.ToInt32(Parameters[parameterKey]);
         }
@@ -54,6 +66,23 @@ namespace Pea.Core
             {
                 Parameters[parameterKey] = newValue;
             }
+        }
+
+        public void SetValueRange(IEnumerable<KeyValuePair<string, double>> parameters)
+        {
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            foreach (var parameter in parameters)
+            {
+                SetValue(parameter.Key, parameter.Value);
+            }
+        }
+
+        public void SetValueRange(IParameterSet parameters)
+        {
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            SetValueRange(parameters.GetAllValues());
         }
     }
 }

@@ -10,27 +10,29 @@ namespace Pea.Core.Island
         public static IslandEngine Create(PeaSettings settings)
         {
             var random = (IRandom)Activator.CreateInstance(settings.Random);
-            var parameterSet = new ParameterSet(settings.ParameterSet);
+            var parameterSet = CreateParameters(settings);
 
-            var fitnessEvaluation = (IFitnessFactory)Activator.CreateInstance(settings.FitnessEvaluation);
-            var fitnessComparer = fitnessEvaluation.GetFitnessComparer();
+            var fitness = (IFitnessFactory)Activator.CreateInstance(settings.Fitness);
+            var fitnessComparer = fitness.GetFitnessComparer();
 
             var engine = new IslandEngine();
 
             var algorithm = CreateAlgorithm(engine, settings);
 
-
             engine.Random = random;
             engine.Settings = settings;
             engine.Parameters = parameterSet;
-         
+
+            engine.Algorithm = algorithm.GetAlgorithm(engine);
 
             engine.FitnessComparer = fitnessComparer;
             engine.ConflictDetectors = CreateConflictDetectors(settings.SubProblemList);
             engine.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
             engine.Reinsertions = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
 
-            engine.EntityCreator = new EntityCreator(settings.SubProblemList, engine.ConflictDetectors, random);
+            engine.Parameters.SetValueRange(algorithm.GetParameters());
+
+            engine.EntityCreator = new EntityCreator(settings.EntityType, settings.SubProblemList, engine.ConflictDetectors, random);
             //engine.EntityCreators = CreateEntityCreators(settings, random);
 
             engine.EntityMutation = new EntityMutation(settings.SubProblemList, engine.ConflictDetectors, random);
@@ -38,6 +40,17 @@ namespace Pea.Core.Island
             engine.StopCriteria = settings.StopCriteria;
 
             return engine;
+        }
+
+        private static ParameterSet CreateParameters(PeaSettings settings)
+        {
+            var parameterSet = new ParameterSet(settings.ParameterSet);
+            var entitiesCount = 1;
+            foreach (var subProblem in settings.SubProblemList)
+            {
+                parameterSet.SetValueRange(subProblem.ParameterSet);
+            }
+            return parameterSet;
         }
 
         private static IDictionary<string, IList<IConflictDetector>> CreateConflictDetectors(List<SubProblem> subProblemList)
@@ -57,13 +70,13 @@ namespace Pea.Core.Island
             return result;
         }
 
-        private static IAlgorithm CreateAlgorithm(IEngine engine, PeaSettings settings)
+        private static IAlgorithmFactory CreateAlgorithm(IEngine engine, PeaSettings settings)
         {
             //TODO: choose first matching algorithm type from chromosomeFactories, or apply settings
-            return new Algorithm.Implementation.SteadyStateAlgorithm(engine);
+            return new Algorithm.SteadyState();
         }
 
-        public static IProvider<ISelection> CreateSelections(IAlgorithm algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
+        public static IProvider<ISelection> CreateSelections(IAlgorithmFactory algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
         {
             var selections = algorithm.GetSelections();
 
@@ -80,7 +93,7 @@ namespace Pea.Core.Island
             return selectionProvider;
         }
 
-        private static IProvider<IReinsertion> CreateReinsertions(IAlgorithm algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
+        private static IProvider<IReinsertion> CreateReinsertions(IAlgorithmFactory algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
         {
             var reinsertions = algorithm.GetReinsertions();
 

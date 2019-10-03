@@ -1,5 +1,4 @@
 ﻿using System;
-using Pea.Algorithm;
 
 namespace Pea.Configuration.ProblemModels
 {
@@ -16,10 +15,12 @@ namespace Pea.Configuration.ProblemModels
         {
             return subProblemBuilder
                 .WithEncoding<Chromosome.Permutation>(key)
-                .WithAlgorithm<SteadyState>()
+                .WithAlgorithm<Algorithm.SteadyState>()
+                //Fitness?
                 .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, Size * 2)
                 .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Selection.ParameterNames.TournamentSize, 2)
+                .SetParameter("ProblemSize", Size)
                 .SetParameter(Core.Island.ParameterNames.IslandsCount, Math.Floor(Math.Sqrt(Size)));
         }
     }

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Configuration.Implementation;
+﻿using System.Collections.Generic;
 
 namespace Pea.Core
 {
+    public delegate IList<IEntity> EvaluationDelegate(IList<IEntity> entityList);
+
     public interface IAlgorithm
     {
         IEngine Engine { get; }
         IPopulation Population { get; set; }
 
-        IList<Type> GetSelections();
-        IList<Type> GetReinsertions();
-        IEnumerable<PeaSettingsNamedValue> GetParameters();
-
+        void SetEvaluationCallback(EvaluationDelegate evaluationCallback);
         void InitPopulation();
         void RunOnce();
     }

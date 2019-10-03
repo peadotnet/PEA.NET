@@ -6,11 +6,16 @@ namespace Pea.Core.Entity
 {
     public class EntityCreator : IEntityCreator
     {
+
+        public Type EntityType { get; }
+
         public Dictionary<string, IProvider<IChromosomeCreator>> CreatorProviders { get; } = new Dictionary<string, IProvider<IChromosomeCreator>>();
 
-
-        public EntityCreator(List<SubProblem> subProblemList, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
+        
+        public EntityCreator(Type entityType, List<SubProblem> subProblemList, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
         {
+            EntityType = entityType;
+
             for (int i = 0; i < subProblemList.Count; i++)
             {
                 var subProblem = subProblemList[i];
@@ -38,7 +43,7 @@ namespace Pea.Core.Entity
         {
             //TODO: set islandKey
 
-            IEntity entity = new Entity();
+            IEntity entity = (IEntity)Activator.CreateInstance(EntityType);
             foreach (var key in CreatorProviders.Keys)
             {
                 var provider = CreatorProviders[key];
