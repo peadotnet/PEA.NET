@@ -8,7 +8,7 @@ namespace Pea.Configuration.Implementation
     {
         public Encoding Encoding { get; set; }
 
-        public IParameterSet ParameterSet { get; set; } = new ParameterSet();
+        public List<PeaSettingsNamedValue> ParameterSet { get; set; } = new List<PeaSettingsNamedValue>();
 
         public List<Type> ConflictDetectors { get; set; } = new List<Type>();
 

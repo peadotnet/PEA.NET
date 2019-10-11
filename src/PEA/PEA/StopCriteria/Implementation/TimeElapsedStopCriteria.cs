@@ -6,7 +6,7 @@ namespace Pea.StopCriteria.Implementation
 {
     public class TimeOutStopCriteria : IStopCriteria
     {
-        public int TimeoutMilliseconds { get; }
+        public int TimeoutMilliseconds { get; set; }
         public Stopwatch StopWatch { get; private set; } = null;
 
         public TimeOutStopCriteria()

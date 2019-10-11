@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pea.Chromosome.Implementation.SortedSubset;
+using Pea.Configuration.Implementation;
 using Pea.Core;
 
 namespace Pea.Chromosome
@@ -14,7 +15,16 @@ namespace Pea.Chromosome
 
         public SortedSubset(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null)
         {
+            var size = parameterSet.GetInt("ProblemSize");
+
+            parameterSet.SetValueRange(GetParameters());
+
             ConflictDetectors = conflictDetectors;
+
+            _creators = new List<IChromosomeCreator>()
+            {
+                new SortedSubsetLeftToRightCreator(size, random, conflictDetectors)
+            };
 
             _crossovers = new List<ICrossover>()
             {
@@ -47,6 +57,16 @@ namespace Pea.Chromosome
         {
             _mutations.AddRange(mutations);
             return this;
+        }
+
+        public IEnumerable<PeaSettingsNamedValue> GetParameters()
+        {
+            return new List<PeaSettingsNamedValue>()
+            {
+                new PeaSettingsNamedValue(ParameterNames.ConflictReducingProbability, 0.5),
+                new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 10),
+                new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 20)
+            };
         }
 
         public IList<IChromosomeCreator> GetCreators()

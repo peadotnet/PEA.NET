@@ -77,7 +77,7 @@ namespace PEA_VehicleScheduling_Example
             fitness.Value[0] = 1 /(1 + entity.TotalDeadMileage);
             fitness.Value[1] = 1 / (1 + (double)entity.VehiclesCount);
             //fitness.Value[2] = 1 / (1 + (double) entity.TotalActiveTime);
-            GetAverageLengthOfLongSections(chromosome.Sections);
+            //GetAverageLengthOfLongSections(chromosome.Sections);
 
             entity.Fitness = fitness;
 

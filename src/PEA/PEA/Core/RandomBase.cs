@@ -10,6 +10,11 @@ namespace Pea.Core
 
         public abstract double GetDouble(double minValue, double upperBound);
 
+        protected RandomBase(int seed)
+        {
+
+        }
+
         public virtual int GetIntWithTabu(int minValue, int upperBound, params int[] tabu)
         {
             var result = tabu[0];

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using Pea.Configuration.Implementation;
 
 namespace Pea.Core
 {
     public interface IParameterSet
     {
         double GetValue(string parameterKey);
-        IEnumerable<KeyValuePair<string, double>> GetAllValues();
+        IEnumerable<PeaSettingsNamedValue> GetAllValues();
         int GetInt(string parameterKey);
         void SetValue(string parameterKey, double newValue);
-        void SetValueRange(IEnumerable<KeyValuePair<string, double>> parameters);
+        void SetValueRange(IEnumerable<PeaSettingsNamedValue> parameters);
     }
 }

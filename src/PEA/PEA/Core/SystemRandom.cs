@@ -6,9 +6,9 @@ namespace Pea.Core
     {
         private readonly Random _random;
 
-        public SystemRandom()
+        public SystemRandom(int seed) : base(seed)
         {
-            _random = new Random(Convert.ToInt32(DateTime.Now.TimeOfDay.TotalMilliseconds));
+            _random = new Random(seed);
         }
 
         public override double GetDouble(double minValue, double upperBound)

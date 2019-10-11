@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pea.Chromosome.Implementation.Permutation;
+using Pea.Configuration.Implementation;
 using Pea.Core;
 
 namespace Pea.Chromosome
@@ -50,6 +51,11 @@ namespace Pea.Chromosome
         {
             _mutations.AddRange(mutations);
             return this;
+        }
+
+        public IEnumerable<PeaSettingsNamedValue> GetParameters()
+        {
+            return new List<PeaSettingsNamedValue>();
         }
 
         public IList<IChromosomeCreator> GetCreators()

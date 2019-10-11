@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
@@ -15,39 +14,42 @@ namespace Pea.Akka.Actors
 
         private IEngine Engine { get; }
 
-        private IAlgorithm Algorithm { get; }
-
-        private IActorRef Evaluator { get; set; }
+        private IActorRef Evaluator { get; }
 
         private IActorRef Starter { get; set; }
 
         public IslandActor(Pea.Configuration.Implementation.PeaSettings settings)
         {
-            Engine = IslandEngineFactory.Create(settings);
+            var actorPathName = Self.Path.ToString();
+            Engine = IslandEngineFactory.Create(actorPathName, settings);
+            IslandKey = CreateIslandKey(settings);
+            Engine.Algorithm.SetEvaluationCallback(Evaluate);
 
+            var evaluatorsCount = Engine.Parameters.GetInt(ParameterNames.IslandsCount);
+            if (evaluatorsCount > 0)
+            {
+                Evaluator = Context.ActorOf(EvaluationSupervisorActor.CreateProps(IslandKey, settings.Evaluation, Engine.Parameters));
+            }
+
+            Receive<InitEvaluator>(m => InitEvaluator(m));
+            Receive<Continue>(m => RunOneStep());
+            Receive<End>(m => End());
+        }
+
+        private static MultiKey CreateIslandKey(Configuration.Implementation.PeaSettings settings)
+        {
             var key = new string[settings.SubProblemList.Count];
             for (int i = 0; i < settings.SubProblemList.Count; i++)
             {
                 key[i] = settings.SubProblemList[i].Encoding.Key;
             }
-
-            IslandKey = new MultiKey(key);
-
-            //var algorithmType = settings.SubProblemList[0].Encoding.Algorithm.AlgorithmType;
-            //var algorithmFactory = (IAlgorithmFactory)Activator.CreateInstance(algorithmType);
-            //Algorithm = algorithmFactory.GetAlgorithm(Engine, Evaluate);
-            //Engine.Algorithm = Algorithm;
-
-            Engine.Algorithm.SetEvaluationCallback(Evaluate);
-
-            Evaluator = Context.ActorOf(EvaluationSupervisorActor.CreateProps(IslandKey, settings.Evaluation, Engine.Parameters));
-
-            Receive<InitEvaluator>(m => InitEvaluator(m));
-            Receive<Continue>(m => RunOneStep());
+            var islandKey = new MultiKey(key);
+            return islandKey;
         }
 
         protected override void PreStart()
         {
+            Console.WriteLine($"Actor {Self.Path.Name} started!");
             Context.Parent.Tell(new CreatedSuccessfully());
             base.PreStart();
         }
@@ -70,27 +72,43 @@ namespace Pea.Akka.Actors
             else
             {
                 var result = new PeaResult(stop.Reasons, Engine.Algorithm.Population.Bests);
+                Self.Tell(PoisonPill.Instance);
                 Starter.Tell(result);
             }
         }
 
         public IList<IEntity> Evaluate(IList<IEntity> entityList)
         {
-            //var result = new List<IEntity>();
-            //foreach (var entity in entityList)
-            //{
-            //    var key = new MultiKey("TSP");
-            //    var entityWithKey = new Dictionary<MultiKey, IEntity>();
-            //    entityWithKey.Add(key, entity);
+            if (entityList.Count == 0) return entityList;
 
-            //    var decodedEntity = Evaluation.Decode(key, entityWithKey);
-            //    result.Add(decodedEntity);
-            //}
+            IList<IEntity> evaluatedEntities;
+            if (Evaluator == null)
+            {
+                evaluatedEntities = new List<IEntity>();
+                foreach (var entity in entityList)
+                {
+                    var key = new MultiKey("TSP");
+                    var entityWithKey = new Dictionary<MultiKey, IEntity>();
+                    entityWithKey.Add(key, entity);
 
-            //return result;
+                    var decodedEntity = Engine.Evaluation.Decode(key, entityWithKey);
+                    evaluatedEntities.Add(decodedEntity);
+                }
+            }
 
-            var evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
+            evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
             return evaluatedEntities;
+        }
+
+        private void End()
+        {
+            Self.Tell(PoisonPill.Instance);
+        }
+
+        protected override void PostStop()
+        {
+            Console.WriteLine($"Actor {Self.Path.Name} stopped!");
+            base.PostStop();
         }
 
         public static Props CreateProps(Configuration.Implementation.PeaSettings settings)

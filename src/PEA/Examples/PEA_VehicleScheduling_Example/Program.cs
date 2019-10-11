@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Pea.Configuration.ProblemModels;
 using Pea.Core;
 using Pea.StopCriteria;
 using Algorithm = Pea.Algorithm;
@@ -20,85 +21,73 @@ namespace PEA_VehicleScheduling_Example
 
             var initData = new VSInitData(tripList, distances);
 
-            var system = PeaSystem.Create()
-                //.WithAlgorithm<Algorithm.SteadyState>()
-                //.AddChromosome<Pea.Chromosome.SortedSubset>("VehicleScheduling")
-                //.WithConflictDetector<VSConflictDetector>()
-                //.WithCreator<VSEntityCreator>()
-                //.WithEvaluation<VSEvaluation>()
+            var system = PeaSystem.Create();
+            system.Settings.AddSubProblem("VehicleScheduling", new VehicleSchedulingProblem(tripList.Count))
+                .AddConflictDetector<VSConflictDetector>();
 
-                //.WithFitness<Pea.Fitness.ParetoMultiobjective>()
-                //.AddSelection<Pea.Selection.TournamentSelection>()
-                //.AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
+            system.Settings.WithEntityType<VehicleSchedulingEntity>()
+                .WithEvaluation<VSEvaluation>();    //TODO: WithCreator
 
-                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, 2500) //->ProblemType
-                .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.5) //->ProblemType
-                .SetParameter(Pea.Selection.ParameterNames.TournamentSize, 2)  //->Algorithm
-                .SetParameter(Island.ParameterNames.ArchipelagosCount, 1)
-                .SetParameter(Island.ParameterNames.IslandsCount, 1)
-                .SetParameter(Island.ParameterNames.EvaluatorsCount, 2) //-> Algorithm
-                .SetParameter(Chromosome.ParameterNames.ConflictReducingProbability, 0.5) //->ChromosomeFactory
-                .SetParameter(Chromosome.ParameterNames.FailedCrossoverRetryCount, 20) //->ChromosomeFactory
-                .SetParameter(Chromosome.ParameterNames.FailedMutationRetryCount, 10); //->ChromosomeFactory
+            system.Settings.StopWhen().TimeoutElapsed(120 * 1000);
+
+
 
             //system.Settings.Random = typeof(FastRandom);  //-> PeaSettings
 
-            system.Settings.StopWhen().TimeoutElapsed(3600 * 1000)
-                .Build();
 
-            Evaluation = new VSEvaluation();
-            Evaluation.Init(initData);
+            //Evaluation = new VSEvaluation();
+            //Evaluation.Init(initData);
 
-            var creator = new VSEntityCreator();
-            creator.Init(initData);
+            //var creator = new VSEntityCreator();
+            //creator.Init(initData);
 
-            var conflictDetector = new VSConflictDetector();
-            conflictDetector.Init(initData);
-            Chromosome.Implementation.SortedSubset.SortedSubsetChromosomeValidator.ConflictDetector = conflictDetector;
+            //var conflictDetector = new VSConflictDetector();
+            //conflictDetector.Init(initData);
 
-            var islandEngine = Island.IslandEngineFactory.Create(system.Settings.Build());
-            //islandEngine.EntityCreators.Add(creator, 1);
+            //Chromosome.Implementation.SortedSubset.SortedSubsetChromosomeValidator.ConflictDetector = conflictDetector;
 
-            var algorithmFactory = new Algorithm.SteadyState();
-            var algorithm = algorithmFactory.GetAlgorithm(islandEngine);
-            islandEngine.Algorithm = algorithm;
+            //var islandEngine = Island.IslandEngineFactory.Create(system.Settings.Build());
+            ////islandEngine.EntityCreators.Add(creator, 1);
+
+            //var algorithmFactory = new Algorithm.SteadyState();
+            //var algorithm = algorithmFactory.GetAlgorithm(islandEngine);
+            //islandEngine.Algorithm = algorithm;
 
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            //system.Start(initData).GetAwaiter().GetResult();
 
+            var result = system.Start(initData);
             //var result = AsyncUtil.RunSync(() => system.Start(initData));
 
-            //foreach (var reason in result.StopReasons)
+            foreach (var reason in result.StopReasons)
+            {
+                Console.WriteLine(reason);
+            }
+
+            //try
             //{
-            //    Console.WriteLine(reason);
+            //    initData.Build();
+            //    islandEngine.InitConflictDetectors(initData);
+            //    algorithm.InitPopulation();
+            //    var c = 0;
+            //    while (true)
+            //    {
+            //        algorithm.RunOnce();
+            //        var stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
+            //        if (stopDecision.MustStop)
+            //        {
+            //            Console.WriteLine(stopDecision.Reasons[0]);
+            //            break;
+            //        }
+
+            //        c++;
+            //    }
             //}
-
-            try
-            {
-
-                initData.Build();
-                islandEngine.InitConflictDetectors(initData);
-                algorithm.InitPopulation();
-                var c = 0;
-                while (true)
-                {
-                    algorithm.RunOnce();
-                    var stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
-                    if (stopDecision.MustStop)
-                    {
-                        Console.WriteLine(stopDecision.Reasons[0]);
-                        break;
-                    }
-
-                    c++;
-                }
-            }
-            catch (ApplicationException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            //catch (ApplicationException ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
 
             sw.Stop();
             var elapsed = sw.ElapsedMilliseconds;
@@ -106,7 +95,7 @@ namespace PEA_VehicleScheduling_Example
             var speed = entities / (double)elapsed;
             Console.WriteLine($"Elapsed: {elapsed} Entities: {entities} ({speed} ent./ms)");
 
-            ResultWriter.WriteResults("VehicleSchedulingResults", algorithm.Population.Bests);
+            //ResultWriter.WriteResults("VehicleSchedulingResults", algorithm.Population.Bests);
 
             Console.ReadLine();
 

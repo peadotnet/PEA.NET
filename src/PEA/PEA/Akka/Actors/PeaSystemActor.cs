@@ -2,6 +2,7 @@
 using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
+using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Core.Island;
 
@@ -9,15 +10,15 @@ namespace Pea.Akka.Actors
 {
     public class PeaSystemActor : ReceiveActor
     {
+        public int ArchipelagosCount = 0;
         public List<IActorRef> Archipelagos { get; } = new List<IActorRef>();
-        private int ReceivedAcknowledgementsCount = 0;
-        public int IslandsCount = 0;
+        private int _receivedAcknowledgementsCount = 0;
         private IActorRef _starter;
 
         public PeaSystemActor()
         {
             Receive<CreateSystem>(m => CreateSystem(m.Settings));
-            Receive<CreatedSuccessfully>(m=> CountCreatedIslands());
+            Receive<CreatedSuccessfully>(m=> CountCreatedArchipelagos());
             Receive<InitEvaluator>(m => InitArchipelagos(m));
             Receive<PeaResult>(m => SendResultBack(m));
         }
@@ -35,27 +36,28 @@ namespace Pea.Akka.Actors
             }
         }
 
-        private void CountCreatedIslands()
+        private void CountCreatedArchipelagos()
         {
-            ReceivedAcknowledgementsCount++;
-            if (ReceivedAcknowledgementsCount == IslandsCount)
+            _receivedAcknowledgementsCount++;
+            if (_receivedAcknowledgementsCount == ArchipelagosCount)
             {
                 _starter.Tell(new CreatedSuccessfully());
             }
         }
 
-        private void CreateSystem(Pea.Configuration.Implementation.PeaSettings settings)
+        private void CreateSystem(PeaSettings settings)
         {
             _starter = Sender;
-            //var parameterSet = new ParameterSet(settings.ParameterSet);
-            var archipelagosCount = 1;// parameterSet.GetInt(ParameterNames.ArchipelagosCount);
+
+            var parameterSet = new ParameterSet(settings.ParameterSet);
+            int archipelagosCount = parameterSet.GetInt(ParameterNames.ArchipelagosCount);
 
             for (int a = 0; a < archipelagosCount; a++)
             {
-                var islandProps = IslandActor.CreateProps(settings);
-                var actorRef = Context.ActorOf(islandProps);
+                var archipelagoProps = ArchipelagoActor.CreateProps(settings);
+                var actorRef = Context.ActorOf(archipelagoProps);
                 Archipelagos.Add(actorRef);
-                IslandsCount++;
+                ArchipelagosCount++;
             }
         }
 

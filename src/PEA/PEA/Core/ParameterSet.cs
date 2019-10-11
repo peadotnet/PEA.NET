@@ -37,13 +37,13 @@ namespace Pea.Core
             return Parameters[parameterKey];
         }
 
-        public IEnumerable<KeyValuePair<string, double>> GetAllValues()
+        public IEnumerable<PeaSettingsNamedValue> GetAllValues()
         {
-            var parameters = new List<KeyValuePair<string, double>>();
+            var parameters = new List<PeaSettingsNamedValue>();
 
             foreach (var parameter in Parameters)
             {
-                parameters.Add(new KeyValuePair<string, double>(parameter.Key, parameter.Value));
+                parameters.Add(new PeaSettingsNamedValue(parameter.Key, parameter.Value));
             }
 
             return parameters;
@@ -68,13 +68,23 @@ namespace Pea.Core
             }
         }
 
-        public void SetValueRange(IEnumerable<KeyValuePair<string, double>> parameters)
+        //public void SetValueRange(IEnumerable<KeyValuePair<string, double>> parameters)
+        //{
+        //    if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+        //    foreach (var parameter in parameters)
+        //    {
+        //        SetValue(parameter.Key, parameter.Value);
+        //    }
+        //}
+
+        public void SetValueRange(IEnumerable<PeaSettingsNamedValue> parameters)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             foreach (var parameter in parameters)
             {
-                SetValue(parameter.Key, parameter.Value);
+                SetValue(parameter.Name, parameter.Value);
             }
         }
 

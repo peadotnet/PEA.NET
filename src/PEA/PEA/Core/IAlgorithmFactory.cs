@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pea.Configuration.Implementation;
 
 namespace Pea.Core
 {
@@ -8,6 +9,6 @@ namespace Pea.Core
         IAlgorithm GetAlgorithm(IEngine engine);
         IList<Type> GetSelections();
         IList<Type> GetReinsertions();
-        IEnumerable<KeyValuePair<string, double>> GetParameters();
+        IEnumerable<PeaSettingsNamedValue> GetParameters();
     }
 }

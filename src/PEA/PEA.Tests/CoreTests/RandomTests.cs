@@ -28,7 +28,7 @@ namespace Pea.Tests.CoreTests
         [MemberData(nameof(IntTestData))]
         public void GivenFastRandom_WhenGetIntWithMinMax_ThenShouldReturnProper(int minValue, int maxValue)
         {
-            var random = new FastRandom();
+            var random = new FastRandom(Environment.TickCount);
             TestRandomGetInt(random, minValue, maxValue);
         }
 
@@ -36,7 +36,7 @@ namespace Pea.Tests.CoreTests
         [MemberData(nameof(IntDoubleData))]
         public void GivenFastRandom_WhenGetDoubleWithMinMax_ThenShouldReturnProper(double minValue, double maxValue)
         {
-            var random = new FastRandom();
+            var random = new FastRandom(Environment.TickCount);
             TestRandomGetDouble(random, minValue, maxValue);
         }
 
@@ -44,7 +44,7 @@ namespace Pea.Tests.CoreTests
         [MemberData(nameof(IntTestData))]
         public void GivenSystemRandom_WhenGetIntWithMinMax_ThenShouldReturnProper(int minValue, int maxValue)
         {
-            var random = new SystemRandom();
+            var random = new SystemRandom(Environment.TickCount);
             TestRandomGetInt(random, minValue, maxValue);
         }
 
@@ -52,7 +52,7 @@ namespace Pea.Tests.CoreTests
         [MemberData(nameof(IntDoubleData))]
         public void GivenSystemRandom_WhenGetDoubleWithMinMax_ThenShouldReturnProper(double minValue, double maxValue)
         {
-            var random = new SystemRandom();
+            var random = new SystemRandom(Environment.TickCount);
             TestRandomGetDouble(random, minValue, maxValue);
         }
 

@@ -35,7 +35,7 @@ namespace Pea.Configuration
 
         public SubProblemBuilder SetParameter(string parameterKey, double parameterValue)
         {
-            SubProblem.ParameterSet.SetValue(parameterKey, parameterValue);
+            SubProblem.ParameterSet.Add(new PeaSettingsNamedValue(parameterKey, parameterValue));
             return this;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Pea.Chromosome;
 using Pea.Chromosome.Implementation.SortedSubset;
@@ -12,7 +13,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         [Fact]
         public void GivenChromosome_WithOneSection_WhenReplaceOneGene_ThenShouldReturnNull()
         {
-            var random = new SystemRandom();
+            var random = new SystemRandom(Environment.TickCount);
             var parameterSet = new ParameterSet();
             var chromosome = new SortedSubsetChromosome(new List<ICollection<int>>() {new int[] {1, 2, 3, 4, 5, 6}});
             var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };

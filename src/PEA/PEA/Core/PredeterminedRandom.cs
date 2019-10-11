@@ -10,7 +10,7 @@ namespace Pea.Core
 
         private int _index = 0;
 
-        public PredeterminedRandom(params double[] doubleValues)
+        public PredeterminedRandom(params double[] doubleValues) : base(0)
         {
             DoubleValues = doubleValues;
             IntValues = doubleValues.Select(Convert.ToInt32).ToArray();

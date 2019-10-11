@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Pea.Chromosome.Implementation.SortedSubset;
-using Pea.Configuration.Implementation;
 
 namespace Pea.Core.Entity
 {
@@ -10,19 +7,20 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<IMutation>> MutationProviders { get; } = new Dictionary<string, IProvider<IMutation>>();
 
-        public EntityMutation(List<SubProblem> subProblemList, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
+        public EntityMutation(IDictionary<string, IChromosomeFactory> chromosomeFactories, IRandom random)
         {
-            foreach (var subProblem in subProblemList)
+            foreach (var key in chromosomeFactories.Keys)
             {
-                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, conflictDetectors[subProblem.Encoding.Key]) as IChromosomeFactory;
-                var mutations = factoryInstance.GetMutations();
+                var factory = chromosomeFactories[key];
+
+                var mutations = factory.GetMutations();
                 var mutationProvider = ProviderFactory.Create<IMutation>(mutations.Count(), random);
                 foreach (var mutation in mutations)
                 {
                     mutationProvider.Add(mutation, 1.0);
                 }
 
-                MutationProviders.Add(subProblem.Encoding.Key, mutationProvider);
+                MutationProviders.Add(key, mutationProvider);
             }
         }
 
@@ -51,15 +49,6 @@ namespace Pea.Core.Entity
 
                     var mutatedChromosome = mutation.Mutate(chromosome.Value.DeepClone());
                     if (mutatedChromosome == null) return null;
-
-                    ////TODO: Delete this
-                    //var conflictedPositions =
-                    //    SortedSubsetChromosomeValidator.SearchForConflict(((SortedSubsetChromosome)mutatedChromosome).Sections);
-                    //if (conflictedPositions.Count > 0)
-                    //{
-                    //    bool error = true;  //For breakpoint
-                    //    throw new ApplicationException($"Conflict between neighboring values! (Mutation: {mutation.GetType().Name})");
-                    //}
 
                     mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
                     mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);

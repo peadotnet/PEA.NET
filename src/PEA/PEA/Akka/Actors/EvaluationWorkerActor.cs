@@ -12,6 +12,8 @@ namespace Pea.Akka.Actors
 
         //private IEvaluation Calculator { get; }
 
+        private string ActorPathName;
+
         private IEvaluation Evaluation { get; }
 
         private ParameterSet Parameters { get; }
@@ -21,6 +23,8 @@ namespace Pea.Akka.Actors
         public EvaluationWorkerActor(MultiKey islandKey, Type evaluatorType, ParameterSet parameters)
         {
             IslandKey = islandKey;
+
+            ActorPathName = Self.Path.Name;
             //Calculator = (IEvaluation)Activator.CreateInstance(settings.Fitness);
             //Calculator.Init(initData);
 
@@ -43,8 +47,6 @@ namespace Pea.Akka.Actors
             entityWithKey.Add(IslandKey, entity);
 
             var decodedEntity = Evaluation.Decode(IslandKey, entityWithKey);
-
-            var a = Self.Path.Name;
 
             Sender.Tell(decodedEntity);
         }

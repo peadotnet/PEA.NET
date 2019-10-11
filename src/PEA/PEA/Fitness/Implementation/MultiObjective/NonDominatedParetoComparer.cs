@@ -26,6 +26,11 @@ namespace Pea.Fitness.Implementation.MultiObjective
         {
             bool hasToBeAdded = true;
 
+            if (entity.Fitness == null)
+            {
+                int error = 1;
+            }
+
             for (int i = bests.Count-1; i >= 0; i--)
             {
                 if (bests[i].Fitness.IsEquivalent(entity.Fitness))

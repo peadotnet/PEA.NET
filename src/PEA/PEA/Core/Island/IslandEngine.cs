@@ -6,7 +6,6 @@ namespace Pea.Core.Island
     {
         public IAlgorithm Algorithm { get; set; }
 
-        //public ParameterSet ParameterSet { get; set; }
         public IRandom Random { get; set; }
 
         public Configuration.Implementation.PeaSettings Settings { get; set; }
@@ -19,6 +18,7 @@ namespace Pea.Core.Island
         public IEntityMutation EntityMutation { get; set; }
         public IProvider<IReinsertion> Reinsertions { get; set; }
         public IStopCriteria StopCriteria { get; set; }
+        public IEvaluation Evaluation { get; set; }
 
         public IslandEngine()
         {

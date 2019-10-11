@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pea.Configuration.Implementation;
 
 namespace Pea.Core.Entity
 {
@@ -9,20 +8,20 @@ namespace Pea.Core.Entity
     {
         public Dictionary<string, IProvider<ICrossover>> CrossoverProviders { get; } = new Dictionary<string, IProvider<ICrossover>>();
 
-        public EntityCrossover(List<SubProblem> subProblemList, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
+        public EntityCrossover(IDictionary<string, IChromosomeFactory> chromosomeFactories, IRandom random)
         {
-            for(int i=0; i < subProblemList.Count; i++)
+            foreach (var key in chromosomeFactories.Keys)
             {
-                var subProblem = subProblemList[i];
-                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, conflictDetectors[subProblem.Encoding.Key]) as IChromosomeFactory;
-                var crossovers = factoryInstance.GetCrossovers();
+                var factory = chromosomeFactories[key];
+
+                var crossovers = factory.GetCrossovers();
                 var crossoverProvider = ProviderFactory.Create<ICrossover>(crossovers.Count(), random);
                 foreach (var crossover in crossovers)
                 {
                     crossoverProvider.Add(crossover, 1.0);
                 }
 
-                CrossoverProviders.Add(subProblem.Encoding.Key, crossoverProvider);
+                CrossoverProviders.Add(key, crossoverProvider);
             }
         }
 
@@ -49,23 +48,31 @@ namespace Pea.Core.Entity
                     var provider = CrossoverProviders[chromosomeName];
                     var crossover = provider.GetOne();
 
-                    var crossoveredChromosomes = crossover.Cross(parentChromosomes);
-
-                    if (crossoveredChromosomes.Count > 0)
+                    try
                     {
-                        var child1 = (IEntity)parents[0].Clone();
-                        child1.Chromosomes[chromosomeName] = crossoveredChromosomes[0];
-                        child1.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
-                        children.Add(child1);
+                        var crossoveredChromosomes = crossover.Cross(parentChromosomes);
+
+                        if (crossoveredChromosomes.Count > 0)
+                        {
+                            var child1 = (IEntity) parents[0].Clone();
+                            child1.Chromosomes[chromosomeName] = crossoveredChromosomes[0];
+                            child1.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
+                            children.Add(child1);
+                        }
+
+                        if (crossoveredChromosomes.Count > 1)
+                        {
+                            var child2 = (IEntity) parents[1].Clone();
+                            child2.Chromosomes[chromosomeName] = crossoveredChromosomes[1];
+                            child2.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
+                            children.Add(child2);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
                     }
 
-                    if (crossoveredChromosomes.Count > 1)
-                    {
-                        var child2 = (IEntity)parents[1].Clone();
-                        child2.Chromosomes[chromosomeName] = crossoveredChromosomes[1];
-                        child2.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
-                        children.Add(child2);
-                    }
                 }
             }
 

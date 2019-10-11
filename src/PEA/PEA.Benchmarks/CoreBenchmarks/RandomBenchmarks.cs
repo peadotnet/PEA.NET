@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using BenchmarkDotNet.Attributes;
 using Pea.Core;
 
 namespace PEA.Benchmarks.CoreBenchmarks
@@ -6,8 +7,8 @@ namespace PEA.Benchmarks.CoreBenchmarks
     public class RandomBenchmarks
     {
         private const int N = 10000;
-        private IRandom _systemRandom = new SystemRandom();
-        private IRandom _fastRandom = new FastRandom();
+        private IRandom _systemRandom = new SystemRandom(Environment.TickCount);
+        private IRandom _fastRandom = new FastRandom(Environment.TickCount);
 
         private double[] GetRandomDouble(IRandom random)
         {

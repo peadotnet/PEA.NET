@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.Configuration;
 using Pea.ActorModel.Messages;
@@ -40,15 +42,34 @@ namespace Pea.Akka
             SystemActor = System.ActorOf(PeaSystemActor.CreateProps());
         }
 
-        public async Task<PeaResult> Start(PeaSettings settings, IEvaluationInitData initData)
+        public PeaResult Start(PeaSettings settings, IEvaluationInitData initData)
         {
-            var response = await SystemActor.Ask(new CreateSystem(settings));
+            var inbox = Inbox.Create(System);
+            PeaResult result = null;
+            try
+            {
+                inbox.Send(SystemActor, new CreateSystem(settings));
+                var response = inbox.Receive(TimeSpan.FromSeconds(30));
+                if (response is CreatedSuccessfully)
+                {
+                    inbox.Send(SystemActor, new InitEvaluator(initData));
+                    result = (PeaResult)inbox.Receive(TimeSpan.FromHours(1));
+                }
+            }
+            catch (Exception e)
+            {
+                result = new PeaResult(new List<string>() {e.Message}, new List<IEntity>());
+            }
+
+
+            //var response = await SystemActor.Ask(new CreateSystem(settings));
+
             //if (response is CreatedSuccessfully)
             //{
-            var result = await SystemActor.Ask(new InitEvaluator(initData));
+            //result = await SystemActor.Ask(new InitEvaluator(initData));
             //}
 
-            return result as PeaResult;
+            return result;
         }
 
 

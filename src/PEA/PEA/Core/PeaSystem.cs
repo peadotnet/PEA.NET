@@ -75,10 +75,10 @@ namespace Pea.Core
             return this;
         }
 
-        public async Task<PeaResult> Start(IEvaluationInitData initData)
+        public PeaResult Start(IEvaluationInitData initData) //async Task<PeaResult>
         {
             AkkaSystemProvider provider = new AkkaSystemProvider();
-            PeaResult result = await provider.Start(Settings.Build(), initData);
+            PeaResult result = provider.Start(Settings.Build(), initData);  //await
             return result;
         }
     }

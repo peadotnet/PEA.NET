@@ -8,7 +8,7 @@ namespace PEA_TSP_Example
     {
         public int IndexOfList { get; set; }
         public MultiKey OriginIslandKey { get; private set; }
-        public IDictionary<string, IChromosome> Chromosomes { get; } = new Dictionary<string, IChromosome>();
+        public IDictionary<string, IChromosome> Chromosomes { get; set; } = new Dictionary<string, IChromosome>();
         public List<SpatialPoint> Phenotype = new List<SpatialPoint>();
         public IFitness Fitness { get; set; }
         public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>();

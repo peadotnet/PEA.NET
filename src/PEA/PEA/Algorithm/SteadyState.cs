@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Algorithm.Implementation;
+using Pea.Configuration.Implementation;
 using Pea.Core;
 
 namespace Pea.Algorithm
@@ -12,12 +13,12 @@ namespace Pea.Algorithm
             return new SteadyStateAlgorithm(engine);
         }
 
-        public IEnumerable<KeyValuePair<string, double>> GetParameters()
+        public IEnumerable<PeaSettingsNamedValue> GetParameters()
         {
-            return new List<KeyValuePair<string, double>>()
+            return new List<PeaSettingsNamedValue>()
             {
-                new KeyValuePair<string, double>(Selection.ParameterNames.TournamentSize, 2),
-                new KeyValuePair<string, double>(Core.Island.ParameterNames.EvaluatorsCount, 2)
+                new PeaSettingsNamedValue(Selection.ParameterNames.TournamentSize, 2),
+                new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 2)
             };
         }
 

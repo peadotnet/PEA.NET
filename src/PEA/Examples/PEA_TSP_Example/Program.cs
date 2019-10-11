@@ -27,55 +27,17 @@ namespace PEA_TSP_Example
 
             var fitnessLimit = new MultiObjectiveFitness(1) { Value = { [0] = -7545 } };
             system.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)
-                .Or().TimeoutElapsed(600000);
-
-            //.WithFitness<Pea.Fitness.ParetoMultiobjective>()
-            //.AddSelection<Pea.Selection.TournamentSelection>()
-            //.AddReinsertion<Pea.Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion>()
-            //.WithCreator<TSPEntityCreator>()
-            //.WithEvaluation<TSPEvaluation>()
-
-            //.SetParameter(ParameterNames.EvaluatorsCount, 2);
-
-
-            Evaluation = new TSPEvaluation();
-            Evaluation.Init(initData);
-
-            var creator = new TSPEntityCreator();
-            creator.Init(initData);
-
-            //var islandEngine = IslandEngineFactory.Create(system.Settings);
-            //islandEngine.EntityCreators.Add(creator, 1);
-
-            //var algorithmFactory = new SteadyState();
-            //var algorithm = algorithmFactory.GetAlgorithm(islandEngine, Evaluate);
-            //islandEngine.Algorithm = algorithm;
-
+                .Or().TimeoutElapsed(300000);
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            //system.Start(initData).GetAwaiter().GetResult();
-
-            var result = AsyncUtil.RunSync(() => system.Start(initData));
+            var result = system.Start(initData);
+            //var result = AsyncUtil.RunSync(() => system.Start(initData));
 
             foreach (var reason in result.StopReasons)
             {
                 Console.WriteLine(reason);
             }
-
-            //algorithm.InitPopulation();
-            //var c = 0;
-            //while (true)
-            //{
-            //    algorithm.RunOnce();
-            //    var stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
-            //    if (stopDecision.MustStop)
-            //    {
-            //        Console.WriteLine(stopDecision.Reasons[0]);
-            //        break;
-            //    }
-            //    c++;
-            //}
 
             sw.Stop();
             var elapsed = sw.ElapsedMilliseconds;

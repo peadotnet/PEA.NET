@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
@@ -27,7 +28,7 @@ namespace PEA_VehicleScheduling_Example
 
         public IEntity CreateEntity()
         {
-            IRandom random = new FastRandom();
+            IRandom random = new FastRandom(DateTime.Now.Millisecond);
 
             List<List<int>> indices = new List<List<int>>();
 

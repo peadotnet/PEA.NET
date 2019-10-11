@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pea.Configuration.Implementation;
 
 namespace Pea.Core.Entity
 {
@@ -12,25 +11,22 @@ namespace Pea.Core.Entity
         public Dictionary<string, IProvider<IChromosomeCreator>> CreatorProviders { get; } = new Dictionary<string, IProvider<IChromosomeCreator>>();
 
         
-        public EntityCreator(Type entityType, List<SubProblem> subProblemList, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
+        public EntityCreator(Type entityType, IDictionary<string, IChromosomeFactory> chromosomeFactories, IRandom random)
         {
             EntityType = entityType;
 
-            for (int i = 0; i < subProblemList.Count; i++)
+            foreach (var key in chromosomeFactories.Keys)
             {
-                var subProblem = subProblemList[i];
-
-                var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random, subProblem.ParameterSet, conflictDetectors[subProblem.Encoding.Key]) as IChromosomeFactory;
-
-                var creators = factoryInstance.GetCreators();
+                var factory = chromosomeFactories[key];
+                var creators = factory.GetCreators();
                 var creatorProvider = ProviderFactory.Create<IChromosomeCreator>(creators.Count, random);
-                for (int c = 0; c < creators.Count; c++)
+
+                foreach (var creator in creators)
                 {
-                    var creator = creators[i];
                     creatorProvider.Add(creator, 1.0);
                 }
 
-                CreatorProviders.Add(subProblem.Encoding.Key, creatorProvider);
+                CreatorProviders.Add(key, creatorProvider);
             }
         }
 

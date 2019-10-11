@@ -22,7 +22,7 @@ namespace Pea.Algorithm.Implementation
                 Population.Add(entity);
             }
 
-            Evaluate(Population.Entities);
+            Population.Entities = Evaluate(Population.Entities);
             MergeToBests(Population.Entities);
         }
 

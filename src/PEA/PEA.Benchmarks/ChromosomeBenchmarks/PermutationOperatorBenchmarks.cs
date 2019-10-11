@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using BenchmarkDotNet.Attributes;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
         [Params(52, 104)]
         public int Size { get; set; }
 
-        public IRandom Random = new FastRandom();
+        public IRandom Random = new FastRandom(DateTime.Now.Millisecond);
 
         List<IChromosome> Chromosomes = new List<IChromosome>();
 

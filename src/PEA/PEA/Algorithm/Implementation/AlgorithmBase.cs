@@ -34,6 +34,8 @@ namespace Pea.Algorithm.Implementation
 
         protected IList<IEntity> Evaluate(IList<IEntity> entities)
         {
+            if (entities.Count == 0) return entities;
+
             return _evaluate(entities);
             //foreach (IEntity entity in entities)
             //{

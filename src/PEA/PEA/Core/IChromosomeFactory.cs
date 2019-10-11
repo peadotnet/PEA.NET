@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using Pea.Configuration.Implementation;
 
 namespace Pea.Core
 {
     public interface IChromosomeFactory : IEngineModifier
     {
+        IEnumerable<PeaSettingsNamedValue> GetParameters();
         IList<IChromosomeCreator> GetCreators();
         IList<ICrossover> GetCrossovers();
         IList<IMutation> GetMutations();
