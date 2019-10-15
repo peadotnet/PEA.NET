@@ -45,10 +45,7 @@ namespace Pea.Algorithm.Implementation
 
         protected void MergeToBests(IList<IEntity> entities)
         {
-            foreach (var entity in entities)
-            {
-                Population.Bests = Engine.FitnessComparer.MergeToBests(Population.Bests, entity);
-            }
+            Engine.MergeToBests(entities);
         }
 
         protected IList<IEntity> SelectParents(IList<IEntity> entities)
@@ -78,8 +75,8 @@ namespace Pea.Algorithm.Implementation
 
         protected void Reinsert(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
         {
-            var replacement = Engine.Reinsertions.GetOne();
-            replacement.Reinsert(targetPopulation, offspring, parents, sourcePopulation);
+            var replacement = Engine.Replacements.GetOne();
+            replacement.Replace(targetPopulation, offspring, parents, sourcePopulation);
         }
     }
 }

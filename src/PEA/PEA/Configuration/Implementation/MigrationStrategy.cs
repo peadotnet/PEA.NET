@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Pea.Configuration.Implementation
 {
@@ -7,14 +6,13 @@ namespace Pea.Configuration.Implementation
     {
         public Type StrategyType { get; set; }
 
+        public Type SelectionType { get; set; }
+
+        public Type ReinsertionType { get; set; }
+
         public MigrationStrategy(Type strategyType)
         {
             StrategyType = strategyType;
         }
-
-        public List<IBuildAction> Selections = new List<IBuildAction>();
-
-        public List<IBuildAction> Reinsertions = new List<IBuildAction>();
-
     }
 }

@@ -26,6 +26,8 @@ namespace Pea.Akka.Actors
             
             Receive<InitEvaluator>(m => InitIslands(m));
 
+            Receive<Travel>(m => Transit(m));
+
             Receive<PeaResult>(m => MergeResults(m));
         }
 
@@ -62,6 +64,17 @@ namespace Pea.Akka.Actors
             foreach (var island in Islands)
             {
                 island.Tell(initMessage);
+            }
+        }
+
+        private void Transit(Travel travel)
+        {
+            foreach (var island in Islands)
+            {
+                if (island != Sender)
+                {
+                    island.Tell(travel);
+                }
             }
         }
 

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using Pea.Configuration.Implementation;
 using Pea.Core.Entity;
+using Pea.Migration;
+using Pea.Migration.Implementation;
+using Pea.Population.Replacement;
+using Pea.Selection;
 
 namespace Pea.Core.Island
 {
@@ -27,12 +31,14 @@ namespace Pea.Core.Island
             var algorithm = CreateAlgorithm(engine, settings);
             var conflictDetectors = CreateConflictDetectors(settings.SubProblemList);
             var chromosomeFactories = CreateChromosomeFactories(settings, conflictDetectors, random);
+            IMigrationStrategy migrationStrategy = CreateMigrationStrategy(engine, random, fitnessComparer, parameterSet, settings);
 
             engine.Algorithm = algorithm.GetAlgorithm(engine);
             engine.FitnessComparer = fitnessComparer;
             engine.ConflictDetectors = conflictDetectors;
             engine.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
-            engine.Reinsertions = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
+            engine.Replacements = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
+            engine.MigrationStrategy = migrationStrategy;
 
             engine.Parameters.SetValueRange(algorithm.GetParameters());
             
@@ -94,6 +100,16 @@ namespace Pea.Core.Island
             return new Algorithm.SteadyState();
         }
 
+        private static IMigrationStrategy CreateMigrationStrategy(IslandEngine engine, IRandom random, IFitnessComparer fitnessComparer, ParameterSet parameters, PeaSettings settings)
+        {
+            //TODO: MigrationFactory!
+            var selection = new TournamentSelection(random, fitnessComparer, parameters);
+            var replacement = new ReplaceWorstEntitiesOfPopulation(random, fitnessComparer, parameters);
+            var strategy = new Migration.Implementation.MigrationStrategy(random, selection, replacement, engine.Parameters);
+            strategy.Parameters.SetValue(Migration.ParameterNames.MigrationReceptionRate, 0.02);
+            return strategy;
+        }
+
         public static IProvider<ISelection> CreateSelections(IAlgorithmFactory algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
         {
             var selections = algorithm.GetSelections();
@@ -111,18 +127,18 @@ namespace Pea.Core.Island
             return selectionProvider;
         }
 
-        private static IProvider<IReinsertion> CreateReinsertions(IAlgorithmFactory algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
+        private static IProvider<IReplacement> CreateReinsertions(IAlgorithmFactory algorithm, PeaSettings settings, ParameterSet parameterSet, IRandom random, IFitnessComparer fitnessComparer)
         {
             var reinsertions = algorithm.GetReinsertions();
 
             //TODO: impement override by settings
 
 
-            var reinsertionProvider = CreateProvider<IReinsertion>(reinsertions.Count, random);
+            var reinsertionProvider = CreateProvider<IReplacement>(reinsertions.Count, random);
 
             foreach (var reinsertion in reinsertions)
             {
-                var reinsertionInstance = (IReinsertion)Activator.CreateInstance(reinsertion, random, fitnessComparer, parameterSet);
+                var reinsertionInstance = (IReplacement)Activator.CreateInstance(reinsertion, random, fitnessComparer, parameterSet);
                 reinsertionProvider.Add(reinsertionInstance, 1.0);
             }
 

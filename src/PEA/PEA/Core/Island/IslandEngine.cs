@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Pea.Migration;
 
 namespace Pea.Core.Island
 {
@@ -16,13 +18,15 @@ namespace Pea.Core.Island
         public IFitnessComparer FitnessComparer { get; set; }
         public IEntityCrossover EntityCrossover { get; set; }
         public IEntityMutation EntityMutation { get; set; }
-        public IProvider<IReinsertion> Reinsertions { get; set; }
+        public IProvider<IReplacement> Replacements { get; set; }
         public IStopCriteria StopCriteria { get; set; }
         public IEvaluation Evaluation { get; set; }
+        public IMigrationStrategy MigrationStrategy { get; set; }
+        public LaunchTravelersDelegate LaunchTravelers { get; set; }
 
         public IslandEngine()
         {
-
+             
         }
 
         public void Init(IEvaluationInitData initData)
@@ -47,6 +51,41 @@ namespace Pea.Core.Island
         {
             Algorithm.RunOnce();
             return StopCriteria.MakeDecision(this, Algorithm.Population);
+        }
+
+        public void MergeToBests(IList<IEntity> entities)
+        {
+            IList<IEntity> travelers = new List<IEntity>();
+            foreach (var entity in entities)
+            {
+                bool merged = FitnessComparer.MergeToBests(Algorithm.Population.Bests, entity);
+                if (merged)
+                {
+                    travelers.Add(entity);
+                    var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
+                    Console.WriteLine(timeString + " " + entity.ToString());
+
+                }
+            }
+
+            if (LaunchTravelers != null && travelers.Count > 0)
+            {
+                LaunchTravelers(travelers, TravelerTypes.Best);
+            }
+        }
+
+        public void TravelersArrived(IList<IEntity> travelers)
+        {
+            //TODO: Migration replacement
+            foreach (var traveler in travelers)
+            {
+                FitnessComparer.MergeToBests(Algorithm.Population.Bests, traveler);
+            }
+
+            if (MigrationStrategy.TravelerReceptionDecision(Algorithm.Population.Entities))
+            {
+                MigrationStrategy.InsertMigrants(Algorithm.Population.Entities, travelers);
+            }
         }
     }
 }

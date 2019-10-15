@@ -22,7 +22,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return 0;
         }
 
-        public IList<IEntity> MergeToBests(IList<IEntity> bests, IEntity entity)
+        public bool MergeToBests(IList<IEntity> bests, IEntity entity)
         {
             bool hasToBeAdded = true;
 
@@ -52,29 +52,34 @@ namespace Pea.Fitness.Implementation.MultiObjective
 
             if (hasToBeAdded)
             {
-                var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
-                Console.WriteLine(timeString + " " + entity.ToString());
                 bests.Add(entity);
             }
 
-            return bests;
+            return hasToBeAdded;
+        }
+
+        public bool Dominates(object x, object y)
+        {
+            return Dominates(x as IFitness<double[]>, y as IFitness<double[]>);
         }
 
         /// <summary>
         /// Indicates whether the multiobjective fitness y dominates x
         /// </summary>
         /// <returns>True if y dominates x, false otherwise</returns>
-        private bool Dominates(IFitness<double[]> x, IFitness<double[]> y)
+        public bool Dominates(IFitness<double[]> x, IFitness<double[]> y)
         {
             var dominates = false;
             for (int i = 0; i < x.Value.Length; i++)
             {
                 var diff = x.Value[i] - y.Value[i];
+
                 if (diff > double.Epsilon)
                 {
                     return false;
                 }
-                else if (diff < -1 * double.Epsilon)
+
+                if (diff < -1 * double.Epsilon)
                 {
                     dominates = true;
                 }

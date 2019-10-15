@@ -1,17 +1,15 @@
-﻿using Pea.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Pea.Core;
 
-namespace Pea.Reinsertion
+namespace Pea.Population.Replacement
 {
-    public abstract class ReinsertionBase : IReinsertion
+    public abstract class ReplacementBase : IReplacement
     {
         public IRandom Random { get; }
         public IFitnessComparer FitnessComparer { get; }
         public ParameterSet Parameters { get; }
 
-        protected ReinsertionBase(IRandom random, IFitnessComparer fitnessComparer, ParameterSet parameters)
+        protected ReplacementBase(IRandom random, IFitnessComparer fitnessComparer, ParameterSet parameters)
         {
             Random = random;
             FitnessComparer = fitnessComparer;
@@ -37,6 +35,6 @@ namespace Pea.Reinsertion
             }
         }
 
-        public abstract void Reinsert(IList<IEntity> population, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
+        public abstract void Replace(IList<IEntity> population, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
     }
 }

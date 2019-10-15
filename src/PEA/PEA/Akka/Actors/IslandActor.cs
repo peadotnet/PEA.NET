@@ -5,6 +5,8 @@ using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
 using Pea.Core;
 using Pea.Core.Island;
+using Pea.Migration;
+using ParameterNames = Pea.Core.Island.ParameterNames;
 
 namespace Pea.Akka.Actors
 {
@@ -18,7 +20,7 @@ namespace Pea.Akka.Actors
 
         private IActorRef Starter { get; set; }
 
-        public IslandActor(Pea.Configuration.Implementation.PeaSettings settings)
+        public IslandActor(Configuration.Implementation.PeaSettings settings)
         {
             var actorPathName = Self.Path.ToString();
             Engine = IslandEngineFactory.Create(actorPathName, settings);
@@ -33,6 +35,7 @@ namespace Pea.Akka.Actors
 
             Receive<InitEvaluator>(m => InitEvaluator(m));
             Receive<Continue>(m => RunOneStep());
+            Receive<Travel>(m => TravelersArrived(m));
             Receive<End>(m => End());
         }
 
@@ -59,6 +62,7 @@ namespace Pea.Akka.Actors
             Starter = Sender;
             Evaluator.Tell(m);
             Engine.Init(m.InitData);
+            Engine.LaunchTravelers += LaunchTravelers;
             Self.Tell(Continue.Instance);
         }
 
@@ -72,8 +76,8 @@ namespace Pea.Akka.Actors
             else
             {
                 var result = new PeaResult(stop.Reasons, Engine.Algorithm.Population.Bests);
-                Self.Tell(PoisonPill.Instance);
                 Starter.Tell(result);
+                Self.Tell(PoisonPill.Instance);
             }
         }
 
@@ -82,22 +86,36 @@ namespace Pea.Akka.Actors
             if (entityList.Count == 0) return entityList;
 
             IList<IEntity> evaluatedEntities;
-            if (Evaluator == null)
-            {
-                evaluatedEntities = new List<IEntity>();
-                foreach (var entity in entityList)
-                {
-                    var key = new MultiKey("TSP");
-                    var entityWithKey = new Dictionary<MultiKey, IEntity>();
-                    entityWithKey.Add(key, entity);
 
-                    var decodedEntity = Engine.Evaluation.Decode(key, entityWithKey);
-                    evaluatedEntities.Add(decodedEntity);
-                }
-            }
+            //TODO: Evaluate entities locally
+            //if (Evaluator == null)
+            //{
+            //    evaluatedEntities = new List<IEntity>();
+            //    foreach (var entity in entityList)
+            //    {
+            //        var key = new MultiKey("TSP");
+            //        var entityWithKey = new Dictionary<MultiKey, IEntity> {{key, entity}};
+            //        var decodedEntity = Engine.Evaluation.Decode(key, entityWithKey);
+            //        evaluatedEntities.Add(decodedEntity);
+            //    }
+            //}
 
             evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
             return evaluatedEntities;
+        }
+
+        public void LaunchTravelers(IList<IEntity> entityList, TravelerTypes travelerType)
+        {
+            foreach (var entity in entityList)
+            {
+                var traveler = new Travel(entityList, travelerType);
+                Starter.Tell(traveler);
+            }
+        }
+
+        private void TravelersArrived(Travel travel)
+        {
+            Engine.TravelersArrived(travel.Members);
         }
 
         private void End()

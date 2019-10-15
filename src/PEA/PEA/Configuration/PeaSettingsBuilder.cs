@@ -10,6 +10,7 @@ namespace Pea.Configuration
         protected PeaSettings PeaSettings = new PeaSettings();
         protected List<SubProblemBuilder> SubProblems = new List<SubProblemBuilder>();
         protected StopCriteriaBuilder StopCriteria;
+        protected MigrationStrategyBuilder MigrationStrategy;
 
         public SubProblemBuilder AddSubProblem()
         {
@@ -47,6 +48,12 @@ namespace Pea.Configuration
         {
             PeaSettings.EntityType = typeof(NE);
             return this;
+        }
+
+        public MigrationStrategyBuilder WithMigrationStrategy<TM>() where TM : IMigrationStrategy
+        {
+            MigrationStrategy = new MigrationStrategyBuilder(typeof(TM));
+            return MigrationStrategy;
         }
 
         public PeaSettings Build()

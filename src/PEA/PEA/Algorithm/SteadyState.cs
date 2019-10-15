@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Pea.Algorithm.Implementation;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Population.Replacement;
 
 namespace Pea.Algorithm
 {
@@ -26,7 +27,7 @@ namespace Pea.Algorithm
         {
             return new List<Type>()
             {
-                typeof(Reinsertion.ReplaceWorstParentWithBestChildrenReinsertion)
+                typeof(ReplaceWorstParentWithBestChildrenReinsertion)
             };
         }
 

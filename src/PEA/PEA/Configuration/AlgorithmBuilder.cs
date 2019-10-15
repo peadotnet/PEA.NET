@@ -15,7 +15,7 @@ namespace Pea.Configuration
         public ActionListBuilder<ISelection, AlgorithmBuilder> Selections =>
             new ActionListBuilder<ISelection, AlgorithmBuilder>(SubProblem.Encoding.Algorithm.Selections, this);
 
-        public ActionListBuilder<IReinsertion, AlgorithmBuilder> ReInsertions =>
-            new ActionListBuilder<IReinsertion, AlgorithmBuilder>(SubProblem.Encoding.Algorithm.Reinsertions, this);
+        public ActionListBuilder<IReplacement, AlgorithmBuilder> ReInsertions =>
+            new ActionListBuilder<IReplacement, AlgorithmBuilder>(SubProblem.Encoding.Algorithm.Reinsertions, this);
     }
 }

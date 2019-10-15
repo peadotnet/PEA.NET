@@ -5,7 +5,7 @@ using Pea.Algorithm;
 using Pea.Configuration;
 using Pea.Configuration.Implementation;
 using Pea.Core;
-using Pea.Reinsertion;
+using Pea.Population.Replacement;
 using Pea.Selection;
 using Xunit;
 using PeaSettings = Pea.Configuration.Implementation.PeaSettings;
