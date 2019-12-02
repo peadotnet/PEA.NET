@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Configuration.Implementation;
-using Pea.Core;
+﻿using Pea.Core;
 
 namespace Pea.Algorithm.Implementation
 {
-    public class SteadyStateAlgorithm : AlgorithmBase
+    public class SteadyStateAlgorithm : GeneticAlgorithmBase
     {
         public SteadyStateAlgorithm(IEngine engine) : base(engine)
         {

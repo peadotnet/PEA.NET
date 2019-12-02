@@ -8,6 +8,7 @@ namespace Pea.Chromosome.Implementation.Permutation
     {
         public int Position { get; set; }
         public int Length { get; set; }
+        public int End => Length + Position - 1;
 
         public GeneRange(int position, int length)
         {
@@ -20,6 +21,11 @@ namespace Pea.Chromosome.Implementation.Permutation
             var thisEnd = this.Position + this.Length;
             var otherEnd = other.Position + other.Length;
             return thisEnd < other.Position || otherEnd < this.Position; 
+        }
+
+        public bool ContainsPosition(int position)
+        {
+            return this.Position <= position && this.Position + this.Length > position;
         }
     }
 }

@@ -18,10 +18,12 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
         public int Size { get; set; }
 
         public IRandom Random = new FastRandom(DateTime.Now.Millisecond);
+        public ParameterSet ParameterSet = new ParameterSet();
 
         List<IChromosome> Chromosomes = new List<IChromosome>();
 
-        public ParameterSet ParameterSet = new ParameterSet();
+        private PrecedenceMatrixModel PrebuildModel;
+
 
         public PermutationOperatorBenchmarks()
         {
@@ -31,6 +33,9 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
             {
                 Chromosomes.Add(chromosomeCreator.Create());
             }
+
+            PrebuildModel = new PrecedenceMatrixModel(Random, ParameterSet);
+            PrebuildModel.Add(Chromosomes);
         }
 
         public List<IChromosome> MutateChromosomes(IMutation mutation)
@@ -40,6 +45,33 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
             {
                 result.Add(mutation.Mutate(Chromosomes[i]));
             }
+            return result;
+        }
+
+        [Benchmark]
+        public double[,] BuildModel()
+        {
+            var precedenceMatrixModel = new PrecedenceMatrixModel(Random, ParameterSet);
+            precedenceMatrixModel.Add(Chromosomes);
+            return precedenceMatrixModel.PrecedenceMatrix;
+        }
+
+        [Benchmark]
+        public List<IChromosome> GetSamples()
+        {
+            var result = new List<IChromosome>();
+
+            var precedenceMatrixModel = new PrecedenceMatrixModel(Random, ParameterSet);
+
+            if (Count != Chromosomes.Count) throw new ApplicationException($"Mi a f... {Count} / {Chromosomes.Count}");
+
+            for (int i = 0; i < Chromosomes.Count; i++)
+            {
+                precedenceMatrixModel.Add(new List<IChromosome>() { Chromosomes[i] });
+                var chromosome = precedenceMatrixModel.GetSample();
+                result.Add(chromosome);
+            }
+
             return result;
         }
 

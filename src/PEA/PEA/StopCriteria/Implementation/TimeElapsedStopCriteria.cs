@@ -1,5 +1,4 @@
 ﻿using Pea.Core;
-using System;
 using System.Diagnostics;
 
 namespace Pea.StopCriteria.Implementation

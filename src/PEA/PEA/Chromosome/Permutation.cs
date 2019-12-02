@@ -22,6 +22,8 @@ namespace Pea.Chromosome
 
             _crossovers = new List<ICrossover>()
             {
+                new DoNothingCrossover(random, parameterSet, conflictDetectors),
+                new Order1Crossover(random, parameterSet, conflictDetectors),
                 new PMXCrossover(random, parameterSet, conflictDetectors)
             };
 

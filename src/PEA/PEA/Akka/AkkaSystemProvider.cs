@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.Configuration;
 using Pea.ActorModel.Messages;
@@ -22,6 +21,7 @@ namespace Pea.Akka
                     stdout-loglevel = ERROR
                     loglevel = ERROR
                     log-config-on-start = on
+
                     actor {
                         debug {  
                             receive = off

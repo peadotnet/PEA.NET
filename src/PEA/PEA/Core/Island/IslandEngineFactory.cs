@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Pea.Configuration.Implementation;
 using Pea.Core.Entity;
-using Pea.Migration;
-using Pea.Migration.Implementation;
 using Pea.Population.Replacement;
 using Pea.Selection;
 

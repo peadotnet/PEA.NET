@@ -1,4 +1,6 @@
-﻿namespace Pea.Configuration.ProblemModels
+﻿using System;
+
+namespace Pea.Configuration.ProblemModels
 {
     public class TravelingSalesmanProblem : IProblemModel
     {
@@ -14,10 +16,10 @@
             return subProblemBuilder
                 .WithEncoding<Chromosome.Permutation>(key)
                 .WithAlgorithm<Algorithm.SteadyState>()
-                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, Size * 5) //*2
+                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, Size * 3) //*2
                 .SetParameter(Algorithm.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Selection.ParameterNames.TournamentSize, 2)
-                .SetParameter(Core.Island.ParameterNames.IslandsCount, 10) // Math.Floor(Math.Sqrt(Size)));
+                .SetParameter(Core.Island.ParameterNames.IslandsCount, Math.Floor(Math.Sqrt(Size)))
                 .SetParameter("ProblemSize", Size);
         }
     }
