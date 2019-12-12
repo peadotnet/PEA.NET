@@ -1,9 +1,5 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using FluentAssertions;
+﻿using System.Collections.Generic;
 using Pea.Core;
-using Pea.Core.Island;
-using Pea.Fitness.Implementation.MultiObjective;
 using Xunit;
 
 namespace Pea.Tests.EngineTests

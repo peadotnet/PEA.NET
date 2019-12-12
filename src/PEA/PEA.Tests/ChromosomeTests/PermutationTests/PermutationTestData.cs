@@ -28,6 +28,5 @@ namespace Pea.Tests.ChromosomeTests.PermutationTests
             var chromosome2 = new PermutationChromosome(genes2);
             return chromosome2;
         }
-
     }
 }

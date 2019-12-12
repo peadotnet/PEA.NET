@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,6 +48,15 @@ namespace Pea.Core
             }
 
             return ints;
+        }
+
+        public virtual double GetGaussian(double mean, double deviation)
+        {
+            double x1 = 1 - GetDouble(0, 1);
+            double x2 = 1 - GetDouble(0, 1);    //TODO: buffer one ?
+
+            double y1 = Math.Sqrt(-2.0 * Math.Log(x1)) * Math.Cos(2.0 * Math.PI * x2);
+            return y1 * deviation + mean;
         }
     }
 }

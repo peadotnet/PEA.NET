@@ -13,12 +13,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Chromosome\Implementation\PositionValuePair\**" />
+    <EmbeddedResource Remove="Chromosome\Implementation\PositionValuePair\**" />
+    <None Remove="Chromosome\Implementation\PositionValuePair\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Chromosome\Implementation\Permutation\IConflictDetector.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Chromosome\Implementation\MultiSectionPermutation\" />
-    <Folder Include="Chromosome\Implementation\PositionValuePair\" />
     <Folder Include="Chromosome\Implementation\BitVector\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
     <Folder Include="Chromosome\Implementation\DoubleVector\" />

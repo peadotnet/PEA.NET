@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
@@ -62,6 +63,28 @@ namespace Pea.Tests.ChromosomeTests.PermutationTests
             var children = crossover.Cross(parents);
 
             children.Count.Should().Be(2);
+            ((PermutationChromosome)children[0]).Genes.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void Order1Crossover_Cross_ReturnChildren()
+        {
+            var position = 3;
+            var length = 5;
+            var random = new PredeterminedRandom(new double[] { position, length });
+            var parameterSet = new ParameterSet();
+            var crossover = new Order1Crossover(random, parameterSet, null);
+
+            var parent1Genes = new int[] { 8, 4, 7, 3, 6, 2, 5, 1, 9, 0 };
+            var parent2Genes = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var parent1 = new PermutationChromosome(parent1Genes);
+            var parent2 = new PermutationChromosome(parent2Genes);
+
+            var children = crossover.Cross(new List<IChromosome>() { parent1, parent2 });
+
+            children.Count.Should().Be(2);
+
+            var expected = new int[] { 0, 4, 7, 3, 6, 2, 5, 1, 8, 9 };
             ((PermutationChromosome)children[0]).Genes.Should().BeEquivalentTo(expected);
         }
     }
