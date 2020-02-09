@@ -57,7 +57,14 @@ namespace Pea.Chromosome
 
         public IEnumerable<PeaSettingsNamedValue> GetParameters()
         {
-            return new List<PeaSettingsNamedValue>();
+            return new List<PeaSettingsNamedValue>()
+            {
+                new PeaSettingsNamedValue(ParameterNames.ConflictReducingProbability, 0.5),
+                new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
+                new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
+                new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
+                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 0.1)
+            };
         }
 
         public IList<IChromosomeCreator> GetCreators()
@@ -77,9 +84,7 @@ namespace Pea.Chromosome
 
         public IEngine Apply(IEngine engine)
         {
-            engine.Parameters.SetValue(ParameterNames.ConflictReducingProbability, 0.5);
-            engine.Parameters.SetValue(ParameterNames.FailedCrossoverRetryCount, 1);
-            engine.Parameters.SetValue(ParameterNames.FailedMutationRetryCount, 2);
+            engine.Parameters.SetValueRange(GetParameters());
             return engine;
         }
     }

@@ -65,7 +65,9 @@ namespace Pea.Chromosome
             {
                 new PeaSettingsNamedValue(ParameterNames.ConflictReducingProbability, 0.5),
                 new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 10),
-                new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 20)
+                new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 20),
+                new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
+                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 0.1)
             };
         }
 
@@ -86,9 +88,7 @@ namespace Pea.Chromosome
 
         public override IEngine Apply(IEngine engine)
         {
-            engine.Parameters.SetValue(ParameterNames.ConflictReducingProbability, 0.5);
-            engine.Parameters.SetValue(ParameterNames.FailedCrossoverRetryCount, 3);
-            engine.Parameters.SetValue(ParameterNames.FailedMutationRetryCount, 3);
+            engine.Parameters.SetValueRange(GetParameters());
             return engine;
         }
     }

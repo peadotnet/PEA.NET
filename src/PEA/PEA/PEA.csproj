@@ -26,7 +26,6 @@
     <Folder Include="Chromosome\Implementation\MultiSectionPermutation\" />
     <Folder Include="Chromosome\Implementation\BitVector\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
-    <Folder Include="Chromosome\Implementation\DoubleVector\" />
     <Folder Include="Util\Types\" />
   </ItemGroup>
 
