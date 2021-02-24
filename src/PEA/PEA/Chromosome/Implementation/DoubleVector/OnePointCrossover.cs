@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 {
     public class OnePointCrossover : DoubleVectorOperatorBase, ICrossover<DoubleVectorChromosome>
     {
-        public OnePointCrossover(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors) 
+        public OnePointCrossover(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors) 
             : base(random, parameterSet, conflictDetectors)
         {
         }

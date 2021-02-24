@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public class DoNothingCrossover : PermutationCrossoverBase
     {
-        public DoNothingCrossover(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) 
+        public DoNothingCrossover(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null) 
             : base(random, parameterSet, conflictDetectors)
         {
         }

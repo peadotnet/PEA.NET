@@ -7,9 +7,9 @@ namespace Pea.Chromosome.Implementation.Permutation
     {
         public int Size { get; }
         public IRandom Random { get; }
-        public IList<IConflictDetector> ConflictDetectors { get; }
+        public IList<INeighborhoodConflictDetector> ConflictDetectors { get; }
 
-        public PermutationRandomCreator(int size, IRandom random, IList<IConflictDetector> conflictDetectors)
+        public PermutationRandomCreator(int size, IRandom random, IList<INeighborhoodConflictDetector> conflictDetectors)
         {
             Size = size;
             Random = random;

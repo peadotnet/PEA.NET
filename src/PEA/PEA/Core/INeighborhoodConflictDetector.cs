@@ -1,7 +1,6 @@
 ﻿namespace Pea.Core
 {
-    public interface INeighborhoodConflictDetector : IConflictDetector
+    public interface INeighborhoodConflictDetector: IConflictDetector<int, int>
     {
-        new bool ConflictDetected(int first, int second);
     }
 }

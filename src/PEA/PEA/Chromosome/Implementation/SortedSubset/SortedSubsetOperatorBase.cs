@@ -6,12 +6,12 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SortedSubsetOperatorBase
     {
-        public IList<IConflictDetector> ConflictDetectors;
+        public IList<INeighborhoodConflictDetector> ConflictDetectors;
 
         protected readonly IRandom Random;
         protected readonly IParameterSet ParameterSet;
 
-        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public SortedSubsetOperatorBase(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
         {
             Random = random;
             ParameterSet = parameterSet;

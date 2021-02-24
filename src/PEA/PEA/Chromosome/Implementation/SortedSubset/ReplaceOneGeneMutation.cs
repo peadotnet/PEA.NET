@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class ReplaceOneGeneMutation : SortedSubsetMutationBase
     {
-        public ReplaceOneGeneMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public ReplaceOneGeneMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }

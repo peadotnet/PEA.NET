@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public abstract class SortedSubsetMutationBase : SortedSubsetOperatorBase, IMutation<SortedSubsetChromosome>
     {
-        protected SortedSubsetMutationBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors) 
+        protected SortedSubsetMutationBase(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors) 
             : base(random, parameterSet, conflictDetectors)
         {
         }

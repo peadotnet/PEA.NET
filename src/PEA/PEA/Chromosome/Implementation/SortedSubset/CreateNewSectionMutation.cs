@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class CreateNewSectionMutation : SortedSubsetMutationBase
     {
-        public CreateNewSectionMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public CreateNewSectionMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }

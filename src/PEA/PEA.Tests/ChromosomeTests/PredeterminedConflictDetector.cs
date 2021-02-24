@@ -2,7 +2,7 @@
 
 namespace Pea.Tests.ChromosomeTests
 {
-    public class PredeterminedConflictDetector : IConflictDetector
+    public class PredeterminedConflictDetector : INeighborhoodConflictDetector
     {
         private int _index = 0;
         private readonly bool[] _results;
@@ -23,5 +23,10 @@ namespace Pea.Tests.ChromosomeTests
             if (_index >= _results.Length) _index = 0;
             return result;
         }
-    }
+
+		public bool ConflictDetected(IEntity entity, int first, int second)
+		{
+            return ConflictDetected(first, second);
+		}
+	}
 }

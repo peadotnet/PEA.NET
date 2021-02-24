@@ -8,7 +8,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
     {
         public static int EntityCount = 0;
 
-        public static IConflictDetector ConflictDetector { get; set; }
+        public static INeighborhoodConflictDetector ConflictDetector { get; set; }
 
         public static List<GenePosition> SearchForConflict(int[][] sections)
         {

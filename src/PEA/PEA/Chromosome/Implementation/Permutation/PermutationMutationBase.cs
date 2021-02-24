@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public abstract class PermutationMutationBase : PermutationOperatorBase, IMutation<PermutationChromosome>
     {
-        protected PermutationMutationBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
+        protected PermutationMutationBase(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

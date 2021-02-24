@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 {
     public class UniformInterpolationCrossover : DoubleVectorOperatorBase, ICrossover<DoubleVectorChromosome>
     {
-        public UniformInterpolationCrossover(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public UniformInterpolationCrossover(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }

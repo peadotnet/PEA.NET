@@ -2,7 +2,7 @@
 
 namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 {
-    public class DifferentParityConflictDetector : IConflictDetector
+    public class DifferentParityConflictDetector : INeighborhoodConflictDetector
     {
         public void Init(IEvaluationInitData initData)
         {
@@ -13,5 +13,10 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var parity = (first + second) % 2;
             return (parity == 1);
         }
-    }
+
+		public bool ConflictDetected(IEntity entity, int first, int second)
+		{
+            return ConflictDetected(first, second);
+        }
+	}
 }

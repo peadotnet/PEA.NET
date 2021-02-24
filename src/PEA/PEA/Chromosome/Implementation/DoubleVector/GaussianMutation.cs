@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 {
     public class GaussianMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
     {
-        public GaussianMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors) 
+        public GaussianMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors) 
             : base(random, parameterSet, conflictDetectors)
         {
         }

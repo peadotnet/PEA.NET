@@ -67,8 +67,7 @@ namespace Pea.Core.Island
         private static ParameterSet CreateParameters(PeaSettings settings)
         {
             var parameterSet = new ParameterSet(settings.ParameterSet);
-            var entitiesCount = 1;
-            foreach (var subProblem in settings.SubProblemList)
+			foreach (var subProblem in settings.SubProblemList)
             {
                 parameterSet.SetValueRange(subProblem.ParameterSet);
             }

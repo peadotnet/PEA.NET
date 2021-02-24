@@ -15,7 +15,7 @@ namespace PEA_VehicleScheduling_Example
 
         public VSInitData InitData { get; private set; }
 
-        public IConflictDetector ConflictDetector { get; private set; }
+        public INeighborhoodConflictDetector ConflictDetector { get; private set; }
 
         //TODO: abstract constructor with conflictdetector
 

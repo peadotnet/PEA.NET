@@ -7,13 +7,13 @@ namespace Pea.Chromosome
 {
     public class SortedSubset : ChromosomeFactory, IChromosomeFactory<SortedSubsetChromosome>
     {
-        private IList<IConflictDetector> ConflictDetectors { get; }
+        private IList<INeighborhoodConflictDetector> ConflictDetectors { get; }
 
         private readonly List<IChromosomeCreator> _creators;
         private readonly List<ICrossover> _crossovers;
         private readonly List<IMutation> _mutations;
 
-        public SortedSubset(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null)
+        public SortedSubset(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null)
         {
             var size = parameterSet.GetInt("ProblemSize");
 

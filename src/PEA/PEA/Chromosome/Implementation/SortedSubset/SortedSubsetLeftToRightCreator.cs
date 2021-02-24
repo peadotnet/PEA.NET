@@ -9,10 +9,10 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public int Size { get; }
         public IRandom Random { get; }
-        public IList<IConflictDetector> ConflictDetectors { get; }
+        public IList<INeighborhoodConflictDetector> ConflictDetectors { get; }
 
         //TODO: costdetectors
-        public SortedSubsetLeftToRightCreator(int size, IRandom random, IList<IConflictDetector> conflictDetectors)
+        public SortedSubsetLeftToRightCreator(int size, IRandom random, IList<INeighborhoodConflictDetector> conflictDetectors)
         {
             Size = size;
             Random = random;

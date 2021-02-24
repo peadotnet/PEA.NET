@@ -2,7 +2,7 @@
 
 namespace PEA_VehicleScheduling_Example
 {
-    public class VSConflictDetector : IConflictDetector
+    public class VSConflictDetector : INeighborhoodConflictDetector
     {
         public VSInitData InitData { get; private set; }
 
@@ -34,5 +34,10 @@ namespace PEA_VehicleScheduling_Example
 
             return false;
         }
-    }
+
+		public bool ConflictDetected(IEntity entity, int first, int second)
+		{
+            return ConflictDetected(first, second);
+		}
+	}
 }

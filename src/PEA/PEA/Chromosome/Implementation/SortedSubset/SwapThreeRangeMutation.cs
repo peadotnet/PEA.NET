@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SwapThreeRangeMutation : SortedSubsetMutationBase
     {
-        public SwapThreeRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public SwapThreeRangeMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }

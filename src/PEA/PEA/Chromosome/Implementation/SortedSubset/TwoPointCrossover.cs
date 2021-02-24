@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class TwoPointCrossover : SortedSubsetCrossoverBase
     {
-        public TwoPointCrossover(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public TwoPointCrossover(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }

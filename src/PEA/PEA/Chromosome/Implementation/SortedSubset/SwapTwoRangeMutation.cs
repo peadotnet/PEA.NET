@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 {
     public class SwapTwoRangeMutation : SortedSubsetMutationBase
     {
-        public SwapTwoRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public SwapTwoRangeMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }

@@ -11,7 +11,7 @@ namespace Pea.Chromosome
         private readonly List<ICrossover> _crossovers;
         private readonly List<IMutation> _mutations;
 
-        public Permutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public Permutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
         {
             var size = parameterSet.GetInt("ProblemSize");
 

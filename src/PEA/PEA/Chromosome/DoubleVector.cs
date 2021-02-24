@@ -11,7 +11,7 @@ namespace Pea.Chromosome
         private readonly List<ICrossover> _crossovers;
         private readonly List<IMutation> _mutations;
 
-        public DoubleVector(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public DoubleVector(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
         {
             _creators = new List<IChromosomeCreator>()
             {

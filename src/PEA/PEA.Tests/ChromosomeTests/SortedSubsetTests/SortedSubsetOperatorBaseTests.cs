@@ -29,7 +29,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
             var section = chromosome.Sections[sectionIndex];
             var result = operatorBase.FindNewGenePosition(section, geneValue);
@@ -55,7 +55,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var genesToInsert = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
             var random = new FastRandom(DateTime.Now.Millisecond);
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             var result = operatorBase.CountInsertableGenes(chromosome, sectionIndex, insertPosition, genesToInsert, firstGeneIndex);
@@ -79,7 +79,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var targetSection = new int[] {2, 5, 7, 8, 10};
             var random = new FastRandom(DateTime.Now.Millisecond);
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { new DifferentParityConflictDetector() };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { new DifferentParityConflictDetector() };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             var result = operatorBase.ConflictDetectedWithLeftNeighbor(targetSection, position, geneValue);
@@ -102,7 +102,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var targetSection = new int[] { 2, 5, 7, 8, 10 };
             var random = new FastRandom(DateTime.Now.Millisecond);
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { new DifferentParityConflictDetector() };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { new DifferentParityConflictDetector() };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             var result = operatorBase.ConflictDetectedWithRightNeighbor(targetSection, position, geneValue);
@@ -120,7 +120,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             var result = operatorBase.GetGenes(chromosome, sectionIndex, position, count);
@@ -138,7 +138,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { new PredeterminedConflictDetector(leftConflict, rightConflict) };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(leftConflict, rightConflict) };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             var success = operatorBase.InsertGenes(chromosome, 0, 1, geneValuesToInsert, 0, 1);
@@ -161,7 +161,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var clone = chromosome.DeepClone();
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
             operatorBase.InsertGenes(chromosome, sectionIndex, insertPosition, geneValuesToInsert, firstGeneIndex, count);
 
@@ -183,7 +183,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             operatorBase.DeleteGenesFromSection(chromosome, sectionIndex, position, count);
@@ -206,7 +206,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             operatorBase.DeleteSection(chromosome, sectionIndex);
@@ -244,7 +244,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var random = Substitute.For<IRandom>();
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var operatorBase = new SortedSubsetOperatorBase(random, parameterSet, conflictDetectors);
 
             operatorBase.CleanOutSections(testChromosome);

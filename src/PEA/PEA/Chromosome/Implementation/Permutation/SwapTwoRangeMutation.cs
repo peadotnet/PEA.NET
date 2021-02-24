@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public class SwapTwoRangeMutation : PermutationMutationBase
     {
-        public SwapTwoRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
+        public SwapTwoRangeMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

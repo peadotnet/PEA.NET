@@ -20,7 +20,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             bool childAlreadyConflicted = false;
             var random = new PredeterminedRandom(5);
             var parameterSet = new ParameterSet();
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
             var result = crossover.MergeSections(sectionForLeft, leftEndPosition, sectionForRight, rightStartPosition,
@@ -36,7 +36,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var random = new PredeterminedRandom(5); //Crossover gene value
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 0);
-            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
             var results = crossover.Cross(chromosomes);
@@ -59,7 +59,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var random = new PredeterminedRandom(5); //Crossover gene value
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 0);
-            var conflictDetectors = new List<IConflictDetector>() { new PredeterminedConflictDetector(false, false, true, false, false, false) };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, false, true, false, false, false) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
             var results = crossover.Cross(chromosomes);
@@ -80,7 +80,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var random = new PredeterminedRandom(5); //Crossover gene value
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 0);
-            var conflictDetectors = new List<IConflictDetector>() { new PredeterminedConflictDetector(false, true, true) };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, true, true) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
             var results = crossover.Cross(chromosomes);
@@ -96,7 +96,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var random = new PredeterminedRandom(5, 7); //Crossover gene value before and after conflicts
             var parameterSet = new ParameterSet();
             parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 1);
-            var conflictDetectors = new List<IConflictDetector>() { new PredeterminedConflictDetector(false, true, true, false, false, false, false, false, false, false) };
+            var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, true, true, false, false, false, false, false, false, false) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
             var results = crossover.Cross(chromosomes);
