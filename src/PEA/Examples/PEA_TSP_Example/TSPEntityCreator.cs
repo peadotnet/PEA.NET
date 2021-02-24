@@ -7,7 +7,13 @@ namespace PEA_TSP_Example
 {
     public class TSPEntityCreator : IEntityCreator
     {
+        private IRandom _random;
         private int Count { get; set; } = 52;
+
+        public TSPEntityCreator(IRandom random)
+		{
+            _random = random;
+		}
 
         public void Init(IEvaluationInitData initData)
         {
@@ -25,10 +31,10 @@ namespace PEA_TSP_Example
         private int[] ShuffleRange(int start, int count)
         {
             int[] shuffled = Enumerable.Range(start, count).ToArray();
-            Random rng = new Random(DateTime.Now.Millisecond);
+            //Random rng = new Random(DateTime.Now.Millisecond);
             for (int i = shuffled.Length - 1; i > -1; i--)
             {
-                int j = rng.Next(i);
+                int j = _random.GetInt(0, i);
                 int tmp = shuffled[i];
                 shuffled[i] = shuffled[j];
                 shuffled[j] = tmp;

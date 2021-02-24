@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using Pea.Algorithm;
 using Pea.Configuration.ProblemModels;
 using Pea.Core;
+using Pea.Core.Island;
 using Pea.Fitness.Implementation.MultiObjective;
+using Pea.StopCriteria;
 
 namespace PEA_TSP_Example
 {
@@ -31,10 +34,44 @@ namespace PEA_TSP_Example
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            var result = system.Start(initData);
+            //var result = system.Start(initData);
             //var result = AsyncUtil.RunSync(() => system.Start(initData));
 
-            foreach (var reason in result.StopReasons)
+            Evaluation = new TSPEvaluation();
+            Evaluation.Init(initData);
+            //var creator = new TSPEntityCreator();
+            //creator.Init(initData);
+            //var islandEngine = new IslandEngine();
+            //islandEngine.EntityCreator = creator;
+
+            var islandEngine = IslandEngineFactory.Create("TSP", system.Settings.Build());
+            
+            var algorithmFactory = new SteadyState();
+            var algorithm = algorithmFactory.GetAlgorithm(islandEngine);
+            algorithm.SetEvaluationCallback(Evaluate);
+            islandEngine.Algorithm = algorithm;
+
+            islandEngine.StopCriteria = StopCriteriaBuilder.StopWhen().FitnessLimitExceeded(fitnessLimit)
+                .Or().TimeoutElapsed(60000).Build();
+
+            //            Task.Run(() => system.Start(initData)).GetAwaiter().GetResult();
+
+            algorithm.InitPopulation();
+            var c = 0;
+            StopDecision stopDecision;
+            while (true)
+            {
+                algorithm.RunOnce();
+                stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
+                if (stopDecision.MustStop)
+                {
+                    Console.WriteLine(stopDecision.Reasons[0]);
+                    break;
+                }
+                c++;
+            }
+
+            foreach (var reason in stopDecision.Reasons)
             {
                 Console.WriteLine(reason);
             }
