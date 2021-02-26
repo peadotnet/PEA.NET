@@ -35,10 +35,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
                 }
             }
 
-            var mutatedChromosome = new DoubleVectorChromosome(mutated)
-            {
-                Entity = chromosome.Entity
-            };
+            var mutatedChromosome = new DoubleVectorChromosome(mutated);
             return mutatedChromosome;
         }
     }
