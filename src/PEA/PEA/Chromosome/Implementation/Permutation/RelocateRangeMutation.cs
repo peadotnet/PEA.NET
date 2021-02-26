@@ -6,7 +6,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public class RelocateRangeMutation : PermutationMutationBase
     {
-        public RelocateRangeMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
+        public RelocateRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

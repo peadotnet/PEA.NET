@@ -1,4 +1,6 @@
-﻿namespace Pea.Core
+﻿using System.Collections;
+
+namespace Pea.Core
 {
     public interface IEntityCreator
     {

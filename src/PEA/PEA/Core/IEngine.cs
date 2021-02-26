@@ -11,7 +11,7 @@ namespace Pea.Core
 
         IRandom Random { get; set; }
         IAlgorithm Algorithm { get; set; }
-        IEntityCreator EntityCreator { get; }
+        IProvider<IEntityCreator> EntityCreators { get; }
         IEntityCrossover EntityCrossover { get; }
         IEntityMutation EntityMutation { get; }
         IFitnessComparer FitnessComparer { get; }

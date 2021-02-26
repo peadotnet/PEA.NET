@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public class ShuffleRangeMutation : PermutationMutationBase
     {
-        public ShuffleRangeMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
+        public ShuffleRangeMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) : base(random, parameterSet, conflictDetectors)
         {
         }
 

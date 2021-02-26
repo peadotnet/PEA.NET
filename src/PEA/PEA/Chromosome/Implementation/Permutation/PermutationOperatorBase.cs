@@ -6,12 +6,12 @@ namespace Pea.Chromosome.Implementation.Permutation
 {
     public class PermutationOperatorBase
     {
-        public IList<INeighborhoodConflictDetector> ConflictDetectors { get; set; }
+        public IList<IConflictDetector> ConflictDetectors { get; set; }
 
         protected readonly IRandom Random;
         protected readonly IParameterSet ParameterSet;
 
-        protected PermutationOperatorBase(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null)
+        protected PermutationOperatorBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null)
         {
             Random = random;
             ParameterSet = parameterSet;

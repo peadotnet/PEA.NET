@@ -13,7 +13,7 @@ namespace Pea.Core.Island
         public Configuration.Implementation.PeaSettings Settings { get; set; }
         public ParameterSet Parameters { get; set; }
         public IDictionary<string, IList<IConflictDetector>> ConflictDetectors { get; set; }
-        public IEntityCreator EntityCreator { get; set; }
+        public IProvider<IEntityCreator> EntityCreators { get; set; }
         public IProvider<ISelection> Selections { get; set; }
         public IFitnessComparer FitnessComparer { get; set; }
         public IEntityCrossover EntityCrossover { get; set; }
@@ -33,10 +33,19 @@ namespace Pea.Core.Island
         {
             initData.Build();
             InitConflictDetectors(initData);
+            InitEntityCreators(initData);
             Algorithm.InitPopulation();
         }
 
-        public void InitConflictDetectors(IEvaluationInitData initData)
+		private void InitEntityCreators(IEvaluationInitData initData)
+		{
+			foreach (var creator in EntityCreators)
+			{
+                creator.Init(initData);
+			}
+		}
+
+		public void InitConflictDetectors(IEvaluationInitData initData)
         {
             foreach (var key in ConflictDetectors.Keys)
             {

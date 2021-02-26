@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,6 +35,18 @@ namespace Pea.Core
             _max = _max + probability;
             _intervals.Add(new KeyValuePair<double, T>(_max, item));
             return this;
+        }
+
+		public IEnumerator<T> GetEnumerator()
+		{
+            var enumerable = _intervals.Select(i => i.Value).ToList();
+            return enumerable.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+            var enumerable = _intervals.Select(i => i.Value).ToList();
+            return enumerable.GetEnumerator();
         }
     }
 }

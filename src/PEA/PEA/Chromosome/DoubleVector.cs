@@ -11,26 +11,30 @@ namespace Pea.Chromosome
         private readonly List<ICrossover> _crossovers;
         private readonly List<IMutation> _mutations;
 
-        public DoubleVector(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
+        public DoubleVector(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
         {
             _creators = new List<IChromosomeCreator>()
             {
                 //new PermutationRandomCreator(size, random, conflictDetectors)
             };
 
+            parameterSet.SetValueRange(GetParameters());
+
             _crossovers = new List<ICrossover>()
             {
-                new OnePointCrossover(random, parameterSet, conflictDetectors),
-                new TwoPointCrossover(random, parameterSet, conflictDetectors),
-                new UniformCrossover(random, parameterSet, conflictDetectors),
-                new InterpolationCrossover(random, parameterSet, conflictDetectors),
-                new UniformInterpolationCrossover(random, parameterSet, conflictDetectors)
+                new DoNothingCrossover(random, parameterSet, conflictDetectors)
+                //new OnePointCrossover(random, parameterSet, conflictDetectors),
+                //new TwoPointCrossover(random, parameterSet, conflictDetectors),
+                //new UniformCrossover(random, parameterSet, conflictDetectors),
+                //new InterpolationCrossover(random, parameterSet, conflictDetectors),
+                //new UniformInterpolationCrossover(random, parameterSet, conflictDetectors)
             };
 
             _mutations = new List<IMutation>()
             {
                 new DoNothingMutation(random, parameterSet, conflictDetectors),
-                new GaussianMutation(random, parameterSet, conflictDetectors)
+                //new UniformGaussianMutation(random, parameterSet, conflictDetectors)
+                new OnePointGaussianMutation(random, parameterSet, conflictDetectors)
             };
         }
 
@@ -81,7 +85,7 @@ namespace Pea.Chromosome
                 new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
                 new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
                 new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
-                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 0.1)
+                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 1000)
             };
 
         }

@@ -58,6 +58,10 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return hasToBeAdded;
         }
 
+        /// <summary>
+        /// Indicates whether the multiobjective fitness y dominates x
+        /// </summary>
+        /// <returns>True if the second (y) dominates the first (x), false otherwise</returns>
         public bool Dominates(object x, object y)
         {
             return Dominates(x as IFitness<double[]>, y as IFitness<double[]>);

@@ -9,7 +9,7 @@ namespace Pea.Chromosome.Implementation.Permutation
     {
         public RunningVariance[] Variances { get; private set; }
 
-        protected PermutationUnivariateModel(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null) 
+        protected PermutationUnivariateModel(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) 
             : base(random, parameterSet, conflictDetectors)
         {
         }

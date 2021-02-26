@@ -27,7 +27,8 @@ namespace Pea.Algorithm
         {
             return new List<Type>()
             {
-                typeof(ReplaceWorstParentWithBestChildrenReinsertion)
+                typeof(ReplaceParentsOnlyWithBetter)
+                //typeof(ReplaceWorstParentWithBestChildrenReinsertion)
             };
         }
 

@@ -27,7 +27,7 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
 
         public PermutationOperatorBenchmarks()
         {
-            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
             var chromosomeCreator = new PermutationRandomCreator(Size, Random, conflictDetectors);
             PrebuildModel = new PrecedenceMatrixModel(Random, ParameterSet, null);
 
@@ -80,7 +80,7 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
         [Benchmark]
         public List<IChromosome> RelocateRange()
         {
-            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
             var mutation = new RelocateRangeMutation(Random, ParameterSet, conflictDetectors);
             return MutateChromosomes(mutation);
         }
@@ -88,7 +88,7 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
         [Benchmark]
         public List<IChromosome> InverseRange()
         {
-            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
             var mutation = new InverseRangeMutation(Random, ParameterSet, conflictDetectors);
             return MutateChromosomes(mutation);
         }
@@ -96,7 +96,7 @@ namespace PEA.Benchmarks.ChromosomeBenchmarks
         [Benchmark]
         public List<IChromosome> SwapTwoRange()
         {
-            var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
+            var conflictDetectors = new List<IConflictDetector>() { AllRightConflictDetector.Instance };
             var mutation = new SwapTwoRangeMutation(Random, ParameterSet, conflictDetectors);
             return MutateChromosomes(mutation);
         }

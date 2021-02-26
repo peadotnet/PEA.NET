@@ -8,7 +8,7 @@ namespace Pea.Chromosome.Implementation.Permutation
     {
         public double[,] PrecedenceMatrix { get; private set; }
 
-        public PrecedenceMatrixModel(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors = null) 
+        public PrecedenceMatrixModel(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) 
             : base(random, parameterSet, conflictDetectors)
         {
         }

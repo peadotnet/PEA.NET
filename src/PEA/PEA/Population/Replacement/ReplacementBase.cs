@@ -35,6 +35,6 @@ namespace Pea.Population.Replacement
             }
         }
 
-        public abstract void Replace(IList<IEntity> population, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
+        public abstract void Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
     }
 }

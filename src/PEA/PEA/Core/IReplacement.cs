@@ -4,6 +4,6 @@ namespace Pea.Core
 {
     public interface IReplacement
     {
-        void Replace(IList<IEntity> population, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
+        void Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
     }
 }

@@ -5,7 +5,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 {
     public class DoNothingMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
     {
-        public DoNothingMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
+        public DoNothingMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }

@@ -1,4 +1,7 @@
-﻿namespace Pea.Core
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Pea.Core
 {
     public class SimpleProvider<T> : IProvider<T>
     {
@@ -13,6 +16,18 @@
         {
             Item = item;
             return this;
+        }
+
+		public IEnumerator<T> GetEnumerator()
+		{
+            var enumerable = new List<T>() { Item };
+            return enumerable.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+            var enumerable = new List<T>() { Item };
+            return enumerable.GetEnumerator();
         }
     }
 }

@@ -32,6 +32,12 @@ namespace Pea.Configuration
             return this;
         }
 
+        public SubProblemBuilder AddEntityCreator<ECT>() where ECT: IEntityCreator
+		{
+            SubProblem.EntityCreators.Add(typeof(ECT));
+            return this;
+		}
+
         public SubProblemBuilder SetParameter(string parameterKey, double parameterValue)
         {
             SubProblem.ParameterSet.Add(new PeaSettingsNamedValue(parameterKey, parameterValue));

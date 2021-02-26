@@ -26,7 +26,8 @@ namespace Pea.Algorithm.Implementation
 
         protected IEntity CreateEntity()
         {
-            var entity = Engine.EntityCreator.CreateEntity();
+            var creator = Engine.EntityCreators.GetOne();
+            var entity = creator.CreateEntity();
             return entity;
         }
 

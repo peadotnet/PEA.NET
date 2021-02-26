@@ -12,6 +12,8 @@ namespace Pea.Configuration.Implementation
 
         public List<Type> ConflictDetectors { get; set; } = new List<Type>();
 
+        public List<Type> EntityCreators { get; set; } = new List<Type>();
+
         public Type Decoder { get; set; }
 
         public Type Niching { get; set; }

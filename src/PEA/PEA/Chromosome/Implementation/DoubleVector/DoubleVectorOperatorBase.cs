@@ -7,12 +7,13 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 {
     public class DoubleVectorOperatorBase
     {
-        public IList<INeighborhoodConflictDetector> ConflictDetectors;
+        public IList<IConflictDetector> ConflictDetectors;
 
         protected readonly IRandom Random;
+
         protected readonly IParameterSet ParameterSet;
 
-        public DoubleVectorOperatorBase(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors)
+        public DoubleVectorOperatorBase(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
         {
             Random = random;
             ParameterSet = parameterSet;

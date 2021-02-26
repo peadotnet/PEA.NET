@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.DoubleVector
 {
-    public class GaussianMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
+    public class UniformGaussianMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
     {
-        public GaussianMutation(IRandom random, IParameterSet parameterSet, IList<INeighborhoodConflictDetector> conflictDetectors) 
+        public UniformGaussianMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors) 
             : base(random, parameterSet, conflictDetectors)
         {
         }
@@ -35,7 +35,10 @@ namespace Pea.Chromosome.Implementation.DoubleVector
                 }
             }
 
-            var mutatedChromosome = new DoubleVectorChromosome(mutated);
+            var mutatedChromosome = new DoubleVectorChromosome(mutated)
+            {
+                Entity = chromosome.Entity
+            };
             return mutatedChromosome;
         }
     }

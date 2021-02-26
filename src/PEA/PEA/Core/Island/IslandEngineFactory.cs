@@ -28,7 +28,11 @@ namespace Pea.Core.Island
 
             var algorithm = CreateAlgorithm(engine, settings);
             var conflictDetectors = CreateConflictDetectors(settings.SubProblemList);
-            var chromosomeFactories = CreateChromosomeFactories(settings, conflictDetectors, random);
+
+            var chromosomeFactories = CreateChromosomeFactories(engine, settings, conflictDetectors, random);
+            var defaultCreator = new EntityCreator(settings.EntityType, chromosomeFactories, random);
+            engine.EntityCreators = CreateEntityCreators(settings.SubProblemList, defaultCreator, random);
+
             IMigrationStrategy migrationStrategy = CreateMigrationStrategy(engine, random, fitnessComparer, parameterSet, settings);
 
             engine.Algorithm = algorithm.GetAlgorithm(engine);
@@ -40,7 +44,6 @@ namespace Pea.Core.Island
 
             engine.Parameters.SetValueRange(algorithm.GetParameters());
             
-            engine.EntityCreator = new EntityCreator(settings.EntityType, chromosomeFactories, random);
             engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
             engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
             engine.StopCriteria = settings.StopCriteria;
@@ -48,7 +51,7 @@ namespace Pea.Core.Island
             return engine;
         }
 
-        private static IDictionary<string, IChromosomeFactory> CreateChromosomeFactories(PeaSettings settings, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
+        private static IDictionary<string, IChromosomeFactory> CreateChromosomeFactories(IEngine engine, PeaSettings settings, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
         {
             var factories = new Dictionary<string, IChromosomeFactory>();
 
@@ -57,6 +60,8 @@ namespace Pea.Core.Island
                 var parameterSet = new ParameterSet(subProblem.ParameterSet);
                 var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random,
                     parameterSet, conflictDetectors[subProblem.Encoding.Key]) as IChromosomeFactory;
+
+                factoryInstance.Apply(engine);
 
                 factories.Add(subProblem.Encoding.Key, factoryInstance);
             }
@@ -89,6 +94,31 @@ namespace Pea.Core.Island
                 result.Add(key, detectors);
             }
             return result;
+        }
+
+        private static IProvider<IEntityCreator> CreateEntityCreators(List<SubProblem> subProblems, EntityCreator defaultCreator, IRandom random)
+        {
+            List<IEntityCreator> creators = new List<IEntityCreator>();
+            var result = new Dictionary<string, IList<IEntityCreator>>();
+            foreach (var subProblem in subProblems)
+            {
+                string key = subProblem.Encoding.Key;
+
+                foreach (var creatorType in subProblem.EntityCreators)
+                {
+                    var creatorInstance = (IEntityCreator)Activator.CreateInstance(creatorType, random);
+                    creators.Add(creatorInstance); 
+                }
+            }
+
+            if (creators.Count == 0) creators.Add(defaultCreator);
+
+            var provider = CreateProvider<IEntityCreator>(creators.Count, random);
+            foreach(var creator in creators)
+			{
+                provider.Add(creator, 1.0);
+			}
+            return provider;
         }
 
         private static IAlgorithmFactory CreateAlgorithm(IEngine engine, PeaSettings settings)
