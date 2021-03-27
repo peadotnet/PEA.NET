@@ -14,10 +14,10 @@ namespace Pea.Chromosome.Implementation.Permutation
 
         public IChromosome Mutate(IChromosome chromosome)
         {
-            var sortedSubsetChromosome = chromosome as PermutationChromosome;
-            if (sortedSubsetChromosome == null) throw new ArgumentException(nameof(chromosome));
+            var permutationChromosome = chromosome as PermutationChromosome;
+            if (permutationChromosome == null) throw new ArgumentException(nameof(chromosome));
 
-            return Mutate(sortedSubsetChromosome);
+            return Mutate(permutationChromosome);
         }
     }
 }

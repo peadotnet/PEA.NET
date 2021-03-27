@@ -17,6 +17,7 @@ namespace Pea.Configuration.Implementation
         public Type Fitness { get; set; } = typeof(ParetoMultiobjective);
         public Type Evaluation { get; set; }
         public Type Random { get; set; } = typeof(FastRandom);
+        public int Seed { get; set; } = 0;
 
         public IStopCriteria StopCriteria { get; set; }
 

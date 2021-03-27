@@ -7,5 +7,6 @@
         public const string FailedMutationRetryCount = "FailedMutationRetryCount";
         public const string MutationProbability = "MutationProbability";
         public const string MutationIntensity = "MutationIntensity";
+        public const string BlockSize = "BlockSize";
     }
 }

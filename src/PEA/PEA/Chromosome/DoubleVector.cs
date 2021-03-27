@@ -22,9 +22,9 @@ namespace Pea.Chromosome
 
             _crossovers = new List<ICrossover>()
             {
-                new DoNothingCrossover(random, parameterSet, conflictDetectors)
-                //new OnePointCrossover(random, parameterSet, conflictDetectors),
-                //new TwoPointCrossover(random, parameterSet, conflictDetectors),
+                new DoNothingCrossover(random, parameterSet, conflictDetectors),
+				new OnePointCrossover(random, parameterSet, conflictDetectors),
+				new TwoPointCrossover(random, parameterSet, conflictDetectors)
                 //new UniformCrossover(random, parameterSet, conflictDetectors),
                 //new InterpolationCrossover(random, parameterSet, conflictDetectors),
                 //new UniformInterpolationCrossover(random, parameterSet, conflictDetectors)
@@ -34,7 +34,9 @@ namespace Pea.Chromosome
             {
                 new DoNothingMutation(random, parameterSet, conflictDetectors),
                 //new UniformGaussianMutation(random, parameterSet, conflictDetectors)
-                new OnePointGaussianMutation(random, parameterSet, conflictDetectors)
+                new OnePointGaussianMutation(random, parameterSet, conflictDetectors),
+                new SwapTwoBlocksMutation(random, parameterSet, conflictDetectors),
+                new UniformParallelMutation(random, parameterSet, conflictDetectors)
             };
         }
 
@@ -85,7 +87,8 @@ namespace Pea.Chromosome
                 new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
                 new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
                 new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
-                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 1000)
+                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 300),
+                new PeaSettingsNamedValue(ParameterNames.BlockSize, 2)
             };
 
         }

@@ -27,10 +27,13 @@ namespace Pea.Chromosome.Implementation.DoubleVector
             bool child1Conflicted = false;
 
             int retryCount = ParameterSet.GetInt(ParameterNames.FailedCrossoverRetryCount);
+            int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);
 
             while (true)
             {
-                var crossoverPosition = Random.GetInt(1, length);
+
+                var blockPosition = Random.GetInt(1, length / blockSize);
+                var crossoverPosition = blockPosition * blockSize;
 
                 child0 = MergeGenes(parent0.Genes, parent1.Genes, crossoverPosition, ref child0Conflicted);
                 child1 = MergeGenes(parent1.Genes, parent0.Genes, crossoverPosition, ref child1Conflicted);

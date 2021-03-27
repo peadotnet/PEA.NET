@@ -2,30 +2,29 @@
 using System;
 using System.Collections.Generic;
 
-namespace Pea.Chromosome.Implementation.DoubleVector
+namespace Pea.Chromosome.Implementation.BitVector
 {
-    public class TwoPointCrossover : DoubleVectorOperatorBase, ICrossover<DoubleVectorChromosome>
-    {
-        public TwoPointCrossover(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
-            : base(random, parameterSet, conflictDetectors)
-        {
-        }
+	public class TwoPointCrossover : BitVectorCrossoverBase, ICrossover<BitVectorChromosome>
+	{
+		public TwoPointCrossover(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) 
+			: base(random, parameterSet, conflictDetectors)
+		{
+		}
 
-        public IList<IChromosome> Cross(IList<IChromosome> parents)
-        {
-            var children = new List<IChromosome>();
+		public override IList<IChromosome> Cross(IList<IChromosome> parents)
+		{
+			var children = new List<IChromosome>();
 
-            var parent0 = parents[0] as DoubleVectorChromosome;
-            var parent1 = parents[1] as DoubleVectorChromosome;
-            var length = parent0.Genes.Length;
+			var parent0 = parents[0] as BitVectorChromosome;
+			var parent1 = parents[1] as BitVectorChromosome;
+			var length = parent0.Genes.Length;
 
-            int retryCount = ParameterSet.GetInt(ParameterNames.FailedCrossoverRetryCount);
-            int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);
+			int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);
 
-            if (length / blockSize < 3) return children;
+			if (length / blockSize < 3) return children;
 
-            double[] child0 = new double[length];
-            double[] child1 = new double[length];
+            bool[] child0 = new bool[length];
+            bool[] child1 = new bool[length];
 
             bool child0Conflicted = false;
             bool child1Conflicted = false;
@@ -51,13 +50,13 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 
             if (!child0Conflicted)
             {
-                var child0Chromosome = new DoubleVectorChromosome(child0);
+                var child0Chromosome = new BitVectorChromosome(child0);
                 children.Add(child0Chromosome);
             }
 
             if (!child1Conflicted)
             {
-                var child1Chromosome = new DoubleVectorChromosome(child1);
+                var child1Chromosome = new BitVectorChromosome(child1);
                 children.Add(child1Chromosome);
             }
 
@@ -74,10 +73,10 @@ namespace Pea.Chromosome.Implementation.DoubleVector
             }
         }
 
-        public double[] MergeGenes(double[] parent0Genes, double[] parent1Genes, int crossoverPosition1, int crossoverPosition2, ref bool childConflicted)
+        public bool[] MergeGenes(bool[] parent0Genes, bool[] parent1Genes, int crossoverPosition1, int crossoverPosition2, ref bool childConflicted)
         {
             //TODO: ConflictDetectors
-            double[] childGenes = new double[parent0Genes.Length];
+            bool[] childGenes = new bool[parent0Genes.Length];
 
             Array.Copy(parent0Genes, 0, childGenes, 0, crossoverPosition1);
 

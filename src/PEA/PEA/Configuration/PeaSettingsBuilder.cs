@@ -7,7 +7,7 @@ namespace Pea.Configuration
 {
     public class PeaSettingsBuilder
     {
-        protected PeaSettings PeaSettings = new PeaSettings();
+        protected PeaSettings Settings = new PeaSettings();
         protected List<SubProblemBuilder> SubProblems = new List<SubProblemBuilder>();
         protected StopCriteriaBuilder StopCriteria;
         protected MigrationStrategyBuilder MigrationStrategy;
@@ -34,19 +34,19 @@ namespace Pea.Configuration
 
         public PeaSettingsBuilder SetParameter(string parameterKey, double parameterValue)
         {
-            PeaSettings.ParameterSet.Add(new PeaSettingsNamedValue(parameterKey, parameterValue));
+            Settings.ParameterSet.Add(new PeaSettingsNamedValue(parameterKey, parameterValue));
             return this;
         }
 
         public PeaSettingsBuilder WithEvaluation<TE>() where TE : IEvaluation
         {
-            PeaSettings.Evaluation = typeof(TE);
+            Settings.Evaluation = typeof(TE);
             return this;
         }
 
         public PeaSettingsBuilder WithEntityType<NE>() where NE : IEntity
         {
-            PeaSettings.EntityType = typeof(NE);
+            Settings.EntityType = typeof(NE);
             return this;
         }
 
@@ -56,16 +56,28 @@ namespace Pea.Configuration
             return MigrationStrategy;
         }
 
+        public PeaSettingsBuilder WithRandom<TR>() where TR : IRandom
+		{
+            Settings.Random = typeof(TR);
+            return this;
+		}
+
+        public PeaSettingsBuilder WithSeed(int seed)
+		{
+            Settings.Seed = seed;
+            return this;
+		}
+
         public PeaSettings Build()
         {
             foreach (var subProblem in SubProblems)
             {
-                PeaSettings.SubProblemList.Add(subProblem.Build());
+                Settings.SubProblemList.Add(subProblem.Build());
             }
 
-            PeaSettings.StopCriteria = StopCriteria.Build();
+            Settings.StopCriteria = StopCriteria.Build();
 
-            return PeaSettings;
+            return Settings;
         }
     }
 }

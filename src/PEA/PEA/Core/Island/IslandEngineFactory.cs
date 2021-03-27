@@ -11,7 +11,7 @@ namespace Pea.Core.Island
     {
         public static IslandEngine Create(string islandName, PeaSettings settings)
         {
-            int seed = islandName.GetHashCode() + Environment.TickCount;
+            int seed = settings.Seed != 0 ? settings.Seed : islandName.GetHashCode() + Environment.TickCount;
 
             var random = (IRandom)Activator.CreateInstance(settings.Random, seed);
             var parameterSet = CreateParameters(settings);
