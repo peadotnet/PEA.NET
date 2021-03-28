@@ -79,11 +79,10 @@ namespace Pea.Chromosome
 			return new List<PeaSettingsNamedValue>()
 			{
 				//new PeaSettingsNamedValue(ParameterNames.ConflictReducingProbability, 0.5),
-				//new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
-				//new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
-				//new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
-				//new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 300),
-				//new PeaSettingsNamedValue(ParameterNames.BlockSize, 2)
+				new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
+				new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
+				new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
+				new PeaSettingsNamedValue(ParameterNames.BlockSize, 2)
 			};
 
 		}
