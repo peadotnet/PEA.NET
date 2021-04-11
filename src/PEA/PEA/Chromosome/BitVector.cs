@@ -13,10 +13,11 @@ namespace Pea.Chromosome
 
 		public BitVector(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
 		{
-			var size = parameterSet.GetInt("ProblemSize");
+			var size = parameterSet.GetInt(ParameterNames.ProblemSize);
 
 			_creators = new List<IChromosomeCreator>()
 			{
+				new BitVectorZeroCreator(size, random, conflictDetectors),
 				new BitVectorRandomCreator(size, random, conflictDetectors)
 			};
 

@@ -45,9 +45,10 @@ namespace Pea.Core.Entity
                 if (MutationProviders.ContainsKey(chromosome.Key))
                 {
                     var provider = MutationProviders[chromosome.Key];
+                    var retryCount = provider.Count();
                     var mutation = provider.GetOne();
 
-                    var mutatedChromosome = mutation.Mutate(chromosome.Value.DeepClone());
+                    var mutatedChromosome = mutation.Mutate(chromosome.Value);
                     if (mutatedChromosome == null) return null;
 
                     mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Pea.Migration;
 
 namespace Pea.Core.Island
@@ -72,7 +73,7 @@ namespace Pea.Core.Island
                 {
                     travelers.Add(entity);
                     var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
-                    Console.WriteLine(timeString + " " + entity.ToString());
+                    Debug.WriteLine(timeString + " " + entity.ToString());
 
                 }
             }

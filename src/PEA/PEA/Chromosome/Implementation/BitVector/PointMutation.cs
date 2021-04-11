@@ -12,10 +12,9 @@ namespace Pea.Chromosome.Implementation.BitVector
 
 		public override BitVectorChromosome Mutate(BitVectorChromosome chromosome)
 		{
-			var result = chromosome.DeepClone();
 			var pos = Random.GetInt(0, chromosome.Genes.Length);
 			chromosome.Genes[pos] = !chromosome.Genes[pos];
-			return result;
+			return chromosome;
 		}
 	}
 }

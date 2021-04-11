@@ -10,12 +10,31 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Pea</RootNamespace>
+    <PackageId>PEA.NET</PackageId>
+    <Authors>Zoltán Bácskai</Authors>
+    <Product>PEA.NET</Product>
+    <Description>Parallel Evolutionary Algorithm framework for developing optimization projects</Description>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Company>PEA</Company>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/peadotnet/PEA.NET</RepositoryUrl>
+    <PackageTags>evolutionary, genetic, algorithm, optimization, optimisation, parallel, akka</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Chromosome\Implementation\PositionValuePair\**" />
     <EmbeddedResource Remove="Chromosome\Implementation\PositionValuePair\**" />
     <None Remove="Chromosome\Implementation\PositionValuePair\**" />
+    <None Include="..\..\..\documentation\icons\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
