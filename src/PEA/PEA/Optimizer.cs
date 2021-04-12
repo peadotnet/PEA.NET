@@ -1,23 +1,22 @@
-﻿using System.Threading.Tasks;
-using Pea.Akka;
-using Pea.Akka.Messages;
+﻿using Pea.Akka.Messages;
 using Pea.Configuration;
-using Pea.Configuration.Implementation;
+using Pea.Core;
+using Pea.Core.Island;
 
-namespace Pea.Core
+namespace Pea
 {
-    public class PeaSystem
+	public class Optimizer
     {
         public PeaSettingsBuilder Settings { get; set; } = new PeaSettingsBuilder();
 
-        private PeaSystem()
+        private Optimizer()
         {
             
         }
 
-        public static PeaSystem Create()
+        public static Optimizer Create()
         {
-            return new PeaSystem();
+            return new Optimizer();
         }
 
         //public PeaSystem WithAlgorithm<TA>() where TA : IAlgorithmFactory
@@ -69,16 +68,20 @@ namespace Pea.Core
         //    return this;
         //}
 
-        public PeaSystem SetParameter(string parameterKey, double parameterValue)
+        public Optimizer SetParameter(string parameterKey, double parameterValue)
         {
             Settings.SetParameter(parameterKey, parameterValue);
             return this;
         }
 
-        public PeaResult Start(IEvaluationInitData initData) //async Task<PeaResult>
+        public PeaResult Run(IEvaluationInitData initData) //async Task<PeaResult>
         {
-            AkkaSystemProvider provider = new AkkaSystemProvider();
-            PeaResult result = provider.Start(Settings.Build(), initData);  //await
+            var settings = Settings.Build();
+            var localRunner = new IslandLocalRunner();
+            var result = localRunner.Run(settings, initData);
+
+            //AkkaSystemProvider provider = new AkkaSystemProvider();
+            //PeaResult result = provider.Start(settings, initData);  //await
             return result;
         }
     }

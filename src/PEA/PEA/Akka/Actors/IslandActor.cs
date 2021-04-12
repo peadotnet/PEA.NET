@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
@@ -52,7 +53,7 @@ namespace Pea.Akka.Actors
 
         protected override void PreStart()
         {
-            Console.WriteLine($"Actor {Self.Path.Name} started!");
+            Debug.WriteLine($"Actor {Self.Path.Name} started!");
             Context.Parent.Tell(new CreatedSuccessfully());
             base.PreStart();
         }
@@ -125,7 +126,7 @@ namespace Pea.Akka.Actors
 
         protected override void PostStop()
         {
-            Console.WriteLine($"Actor {Self.Path.Name} stopped!");
+            Debug.WriteLine($"Actor {Self.Path.Name} stopped!");
             base.PostStop();
         }
 

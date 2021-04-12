@@ -24,7 +24,8 @@ namespace Pea.Chromosome
             {
                 new DoNothingCrossover(random, parameterSet, conflictDetectors),
 				new OnePointCrossover(random, parameterSet, conflictDetectors),
-				new TwoPointCrossover(random, parameterSet, conflictDetectors)
+				new TwoPointCrossover(random, parameterSet, conflictDetectors),
+                //new OneGeneInterpolationCrossover(random, parameterSet, conflictDetectors)
                 //new UniformCrossover(random, parameterSet, conflictDetectors),
                 //new InterpolationCrossover(random, parameterSet, conflictDetectors),
                 //new UniformInterpolationCrossover(random, parameterSet, conflictDetectors)

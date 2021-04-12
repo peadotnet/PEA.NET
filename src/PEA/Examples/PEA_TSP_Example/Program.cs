@@ -34,44 +34,44 @@ namespace PEA_TSP_Example
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            //var result = system.Start(initData);
-            //var result = AsyncUtil.RunSync(() => system.Start(initData));
+			var result = system.Start(initData);
+			//var result = AsyncUtil.RunSync(() => system.Start(initData));
 
-            Evaluation = new TSPEvaluation();
-            Evaluation.Init(initData);
+			//Evaluation = new TSPEvaluation();
+   //         Evaluation.Init(initData);
             //var creator = new TSPEntityCreator();
             //creator.Init(initData);
             //var islandEngine = new IslandEngine();
             //islandEngine.EntityCreator = creator;
 
-            var islandEngine = IslandEngineFactory.Create("TSP", system.Settings.Build());
+            //var islandEngine = IslandEngineFactory.Create("TSP", system.Settings.Build());
             
-            var algorithmFactory = new SteadyState();
-            var algorithm = algorithmFactory.GetAlgorithm(islandEngine);
-            algorithm.SetEvaluationCallback(Evaluate);
-            islandEngine.Algorithm = algorithm;
+            //var algorithmFactory = new SteadyState();
+            //var algorithm = algorithmFactory.GetAlgorithm(islandEngine);
+            //algorithm.SetEvaluationCallback(Evaluate);
+            //islandEngine.Algorithm = algorithm;
 
-            islandEngine.StopCriteria = StopCriteriaBuilder.StopWhen().FitnessLimitExceeded(fitnessLimit)
-                .Or().TimeoutElapsed(60000).Build();
+            //islandEngine.StopCriteria = StopCriteriaBuilder.StopWhen().FitnessLimitExceeded(fitnessLimit)
+            //    .Or().TimeoutElapsed(60000).Build();
 
-            //            Task.Run(() => system.Start(initData)).GetAwaiter().GetResult();
+            ////            Task.Run(() => system.Start(initData)).GetAwaiter().GetResult();
 
-            algorithm.InitPopulation();
-            var c = 0;
-            StopDecision stopDecision;
-            while (true)
-            {
-                algorithm.RunOnce();
-                stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
-                if (stopDecision.MustStop)
-                {
-                    Console.WriteLine(stopDecision.Reasons[0]);
-                    break;
-                }
-                c++;
-            }
+            //algorithm.InitPopulation();
+            //var c = 0;
+            //StopDecision stopDecision;
+            //while (true)
+            //{
+            //    algorithm.RunOnce();
+            //    stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
+            //    if (stopDecision.MustStop)
+            //    {
+            //        Console.WriteLine(stopDecision.Reasons[0]);
+            //        break;
+            //    }
+            //    c++;
+            //}
 
-            foreach (var reason in stopDecision.Reasons)
+            foreach (var reason in result.StopReasons)
             {
                 Console.WriteLine(reason);
             }
@@ -86,19 +86,19 @@ namespace PEA_TSP_Example
 
         }
 
-        private static IList<IEntity> Evaluate(IList<IEntity> entitylist)
-        {
-            var result = new List<IEntity>();
-            foreach (var entity in entitylist)
-            {
-                var entityWithKey = new Dictionary<MultiKey, IEntity>();
-                entityWithKey.Add(TSPEvaluation.Key, entity);
-                var decodedEntity = Evaluation.Decode(TSPEvaluation.Key, entityWithKey);
-                result.Add(decodedEntity);
-            }
+        //private static IList<IEntity> Evaluate(IList<IEntity> entitylist)
+        //{
+        //    var result = new List<IEntity>();
+        //    foreach (var entity in entitylist)
+        //    {
+        //        var entityWithKey = new Dictionary<MultiKey, IEntity>();
+        //        entityWithKey.Add(TSPEvaluation.Key, entity);
+        //        var decodedEntity = Evaluation.Decode(TSPEvaluation.Key, entityWithKey);
+        //        result.Add(decodedEntity);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public static List<SpatialPoint> LoadCsv(string fileName)
         {
