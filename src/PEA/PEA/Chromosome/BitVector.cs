@@ -32,7 +32,7 @@ namespace Pea.Chromosome
 			_mutations = new List<IMutation>()
 			{
 				new DoNothingMutation(random, parameterSet, conflictDetectors),
-				new PointMutation(random, parameterSet, conflictDetectors)
+				new OneGeneMutation(random, parameterSet, conflictDetectors)
 			};
 		}
 

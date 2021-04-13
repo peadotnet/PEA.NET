@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.BitVector
 {
-	public class PointMutation : BitVectorMutationBase
+	public class OneGeneMutation : BitVectorMutationBase
 	{
-		public PointMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) 
+		public OneGeneMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors = null) 
 			: base(random, parameterSet, conflictDetectors)
 		{
 		}

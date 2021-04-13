@@ -12,7 +12,12 @@ namespace Pea.Chromosome.Implementation.BitVector
 
 		public override IList<IChromosome> Cross(IList<IChromosome> parents)
 		{
-			return parents;
+			var offspring = new List<IChromosome>();
+			for (int i = 0; i < parents.Count; i++)
+			{
+				offspring.Add(parents[i].DeepClone());
+			}
+			return offspring;
 		}
 	}
 }

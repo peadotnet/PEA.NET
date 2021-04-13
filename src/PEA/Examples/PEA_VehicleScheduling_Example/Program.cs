@@ -7,6 +7,7 @@ using Pea.StopCriteria;
 using Algorithm = Pea.Algorithm;
 using Island = Pea.Core.Island;
 using Chromosome = Pea.Chromosome;
+using Pea;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -21,14 +22,14 @@ namespace PEA_VehicleScheduling_Example
 
             var initData = new VSInitData(tripList, distances);
 
-            var system = PeaSystem.Create();
-            system.Settings.AddSubProblem("VehicleScheduling", new VehicleSchedulingProblem(tripList.Count))
+            var optimizer = Optimizer.Create();
+            optimizer.Settings.AddSubProblem("VehicleScheduling", new VehicleSchedulingProblem(tripList.Count))
                 .AddConflictDetector<VSConflictDetector>();
 
-            system.Settings.WithEntityType<VehicleSchedulingEntity>()
+            optimizer.Settings.WithEntityType<VehicleSchedulingEntity>()
                 .WithEvaluation<VSEvaluation>();    //TODO: WithCreator
 
-            system.Settings.StopWhen().TimeoutElapsed(120 * 1000);
+            optimizer.Settings.StopWhen().TimeoutElapsed(120 * 1000);
 
 
 
@@ -57,7 +58,7 @@ namespace PEA_VehicleScheduling_Example
             Stopwatch sw = Stopwatch.StartNew();
 
 
-            var result = system.Start(initData);
+            var result = optimizer.Run(initData);
             //var result = AsyncUtil.RunSync(() => system.Start(initData));
 
             foreach (var reason in result.StopReasons)
