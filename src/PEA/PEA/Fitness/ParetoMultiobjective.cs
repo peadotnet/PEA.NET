@@ -5,6 +5,8 @@ namespace Pea.Fitness
 {
     public class ParetoMultiobjective : IFitnessFactory
     {
+        public IEntity Entity { get; internal set; }
+
         private int _numberOfObjectives { get; }
         private static readonly NonDominatedParetoComparer FitnessComparer = new NonDominatedParetoComparer();
 

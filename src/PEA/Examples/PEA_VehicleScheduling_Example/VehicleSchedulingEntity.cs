@@ -1,33 +1,17 @@
-﻿using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core.Entity;
 
 namespace PEA_VehicleScheduling_Example
 {
-    public class VehicleSchedulingEntity : IEntity
+	public class VehicleSchedulingEntity : EntityBase
     {
-        public int IndexOfList { get; set; }
-        public MultiKey OriginIslandKey { get; private set; }
-        public IDictionary<string, IChromosome> Chromosomes { get; set; } = new Dictionary<string, IChromosome>();
-        public IFitness Fitness { get; set; }
-        public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>();
-        public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>();
-
         public int VehiclesCount = 0;
         public double TotalDeadMileage = 0;
         public int TotalActiveTime = 0;
 
-        public object Clone()
+        public override object Clone()
         {
-            var clone = new VehicleSchedulingEntity()
-            {
-                OriginIslandKey = this.OriginIslandKey
-            };
-
-            foreach (var chromosome in Chromosomes)
-            {
-                clone.Chromosomes.Add(chromosome.Key, chromosome.Value);
-            }
-
+            var clone = base.Clone() as VehicleSchedulingEntity;
+            clone.OriginIslandKey = this.OriginIslandKey;
             return clone;
         }
 

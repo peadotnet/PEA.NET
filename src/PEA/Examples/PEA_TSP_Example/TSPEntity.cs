@@ -1,33 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using Pea.Core;
+using Pea.Core.Entity;
 
 namespace PEA_TSP_Example
 {
-    public class TSPEntity : IEntity
+	public class TSPEntity : EntityBase
     {
-        public int IndexOfList { get; set; }
-        public MultiKey OriginIslandKey { get; private set; }
-        public IDictionary<string, IChromosome> Chromosomes { get; set; } = new Dictionary<string, IChromosome>();
         public List<SpatialPoint> Phenotype = new List<SpatialPoint>();
-        public IFitness Fitness { get; set; }
-        public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>();
-        public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>();
 
         public double TotalDistance { get; set; }
 
-        public object Clone()
+        public override object Clone()
         {
-            var clone = new TSPEntity()
-            {
-                OriginIslandKey = this.OriginIslandKey
-            };
-
-            foreach (var chromosome in Chromosomes)
-            {
-                clone.Chromosomes.Add(chromosome.Key, chromosome.Value);
-            }
-
+            var clone = base.Clone() as TSPEntity;
+            clone.OriginIslandKey = this.OriginIslandKey;
             return clone;
         }
 

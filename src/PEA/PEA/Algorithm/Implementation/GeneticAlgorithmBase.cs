@@ -57,7 +57,6 @@ namespace Pea.Algorithm.Implementation
         protected IList<IEntity> Crossover(IList<IEntity> parents)
         {
             var children = Engine.EntityCrossover.Cross(parents);
-
             return children;
         }
 
@@ -67,10 +66,10 @@ namespace Pea.Algorithm.Implementation
             return children;
         }
 
-        protected void Reinsert(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+        protected IList<IEntity> Reinsert(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
         {
             var replacement = Engine.Replacements.GetOne();
-            replacement.Replace(targetPopulation, offspring, parents, sourcePopulation);
+            return replacement.Replace(targetPopulation, offspring, parents, sourcePopulation);
         }
     }
 }

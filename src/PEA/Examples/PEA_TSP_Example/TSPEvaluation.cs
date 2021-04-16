@@ -39,9 +39,8 @@ namespace PEA_TSP_Example
             totalDistance += GetDistance(previousPoint, firstPoint);
             entity.Phenotype.Add(previousPoint);
 
-            MultiObjectiveFitness fitness = new MultiObjectiveFitness(1);
-            fitness.Value[0] = -1 * totalDistance;
-            entity.Fitness = fitness;
+            MultiObjectiveFitness fitness = new MultiObjectiveFitness(-1 * totalDistance);
+            entity.SetFitness(fitness);
             entity.TotalDistance = totalDistance;
 
             EntityCount++;

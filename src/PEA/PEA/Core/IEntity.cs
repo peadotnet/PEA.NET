@@ -8,9 +8,10 @@ namespace Pea.Core
         int IndexOfList { get; set; }
         MultiKey OriginIslandKey { get; }
         IDictionary<string, IChromosome> Chromosomes { get; set; }
-        IFitness Fitness { get; set; }
+        IFitness Fitness { get; }
         Dictionary<string, string> LastCrossOvers { get; set; }
         Dictionary<string, string> LastMutations { get; set; }
+        void SetFitness(IFitness fitness);
     }
 }
 

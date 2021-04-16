@@ -13,7 +13,7 @@ namespace Pea.Configuration.Implementation
         public List<PeaSettingsNamedValue> ParameterSet = new List<PeaSettingsNamedValue>();
         public MigrationStrategy MigrationStrategy { get; set; }
 
-        public Type EntityType { get; set; } = typeof(Entity);
+        public Type EntityType { get; set; } = typeof(EntityBase);
         public Type Fitness { get; set; } = typeof(ParetoMultiobjective);
         public Type Evaluation { get; set; }
         public Type Random { get; set; } = typeof(FastRandom);

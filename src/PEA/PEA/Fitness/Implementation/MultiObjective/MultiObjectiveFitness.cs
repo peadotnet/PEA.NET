@@ -1,15 +1,18 @@
 ﻿using Pea.Core;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Pea.Fitness.Implementation.MultiObjective
 {
-    public class MultiObjectiveFitness : IFitness<double[]>
+    public class MultiObjectiveFitness : IFitness<double>
     {
-        public double[] Value { get; set; }
+        public IEntity Entity { get; set; }
+        public IReadOnlyList<double> Value { get; }
         public bool IsValid { get; set; }
 
-        public MultiObjectiveFitness(int numberOfObjectives)
+        public MultiObjectiveFitness(params double[] values)
         {
-            Value = new double[numberOfObjectives];
+            Value = ImmutableArray.Create<double>(values);
         }
 
         public bool IsEquivalent(IFitness other)
@@ -17,8 +20,8 @@ namespace Pea.Fitness.Implementation.MultiObjective
             var otherFitness = other as MultiObjectiveFitness;
             if (otherFitness == null) return false;
 
-            if (Value.Length != otherFitness.Value.Length) return false;
-            for (int i = 0; i < Value.Length; i++)
+            if (Value.Count != otherFitness.Value.Count) return false;
+            for (int i = 0; i < Value.Count; i++)
             {
                 var difference = Value[i] - otherFitness.Value[i];
                 if (difference > double.Epsilon || difference < -1 * double.Epsilon) return false;

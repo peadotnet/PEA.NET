@@ -1,13 +1,16 @@
-﻿namespace Pea.Core
+﻿using System.Collections.Generic;
+
+namespace Pea.Core
 {
-    public interface IFitness
+	public interface IFitness
     {
+        IEntity Entity { get; set; }
         bool IsValid { get; set; }
         bool IsEquivalent(IFitness other);
     }
 
     public interface IFitness<TF> : IFitness
     {
-        TF Value { get; set; }
+        IReadOnlyList<TF> Value { get; }
     }
 }

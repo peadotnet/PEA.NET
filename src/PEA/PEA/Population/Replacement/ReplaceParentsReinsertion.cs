@@ -10,10 +10,11 @@ namespace Pea.Population.Replacement
         {
         }
 
-        public override void Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+        public override IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
         {
             RemoveEntitiesFromPopulation(sourcePopulation, parents);
             AddEntitiesToPopulation(targetPopulation, offspring);
+            return offspring;
         }
     }
 }

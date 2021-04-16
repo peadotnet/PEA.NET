@@ -19,19 +19,19 @@ namespace Pea.Algorithm.Implementation
                 Population.Add(entity);
             }
 
-            Population.Entities = Evaluate(Population.Entities);
+            Evaluate(Population.Entities);
             MergeToBests(Population.Entities);
         }
 
         public override void RunOnce()
         {
             var parents = SelectParents(Population.Entities);
-            var children = Crossover(parents);
-            children = Mutate(children);
-            children = Evaluate(children);
+            var offspring = Crossover(parents);
+            offspring = Mutate(offspring);
+            offspring = Evaluate(offspring);
             //TODO: Reduction (children) ?
-            MergeToBests(children);
-            Reinsert(Population.Entities, children, parents, Population.Entities);
+            var inserted = Reinsert(Population.Entities, offspring, parents, Population.Entities);
+            MergeToBests(inserted);
         }
     }
 }

@@ -73,13 +73,14 @@ namespace PEA_VehicleScheduling_Example
                 //if (PMFirstTime.HasValue) entity.TotalActiveTime -= (PMFirstTime.Value - 720);
             }
 
-            MultiObjectiveFitness fitness = new MultiObjectiveFitness(2);
-            fitness.Value[0] = 1 /(1 + entity.TotalDeadMileage);
-            fitness.Value[1] = 1 / (1 + (double)entity.VehiclesCount);
+            var fitness0 = 1 / (1 + entity.TotalDeadMileage);
+            var fitness1 = 1 / (1 + (double)entity.VehiclesCount);
+            MultiObjectiveFitness fitness = new MultiObjectiveFitness(fitness0, fitness1);
+            
             //fitness.Value[2] = 1 / (1 + (double) entity.TotalActiveTime);
             //GetAverageLengthOfLongSections(chromosome.Sections);
 
-            entity.Fitness = fitness;
+            entity.SetFitness(fitness);
 
             return entity;
         }
