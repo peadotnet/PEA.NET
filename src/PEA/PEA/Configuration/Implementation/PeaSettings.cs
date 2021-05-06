@@ -9,15 +9,16 @@ namespace Pea.Configuration.Implementation
 {
     public class PeaSettings
     {
-        public List<SubProblem> SubProblemList = new List<SubProblem>();
-        public List<PeaSettingsNamedValue> ParameterSet = new List<PeaSettingsNamedValue>();
-        public MigrationStrategy MigrationStrategy { get; set; }
+        public List<SubProblem> SubProblemList { get; set; } = new List<SubProblem>();
 
+        public List<PeaSettingsNamedValue> ParameterSet { get; set; } = new List<PeaSettingsNamedValue>();
+        public MigrationStrategy MigrationStrategy { get; set; }
         public Type EntityType { get; set; } = typeof(EntityBase);
         public Type Fitness { get; set; } = typeof(ParetoMultiobjective);
         public Type Evaluation { get; set; }
         public Type Random { get; set; } = typeof(FastRandom);
         public int Seed { get; set; } = 0;
+        public List<NewEntitiesMergedToBestDelegate> NewEntityMergedToBest { get; set; } = new List<NewEntitiesMergedToBestDelegate>();
 
         public IStopCriteria StopCriteria { get; set; }
 

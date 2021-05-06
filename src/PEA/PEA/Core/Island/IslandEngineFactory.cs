@@ -16,48 +16,48 @@ namespace Pea.Core.Island
         }
 
         public static IslandEngine Create(MultiKey islandKey, PeaSettings settings)
-        {
-            int seed = settings.Seed != 0 ? settings.Seed : islandKey.GetHashCode() + Environment.TickCount;
+		{
+			int seed = settings.Seed != 0 ? settings.Seed : islandKey.GetHashCode() + Environment.TickCount;
 
-            var random = (IRandom)Activator.CreateInstance(settings.Random, seed);
-            var parameterSet = CreateParameters(settings);
+			var random = (IRandom)Activator.CreateInstance(settings.Random, seed);
+			var parameterSet = CreateParameters(settings);
 
-            var fitness = (IFitnessFactory)Activator.CreateInstance(settings.Fitness);
-            var fitnessComparer = fitness.GetFitnessComparer();
+			var fitness = (IFitnessFactory)Activator.CreateInstance(settings.Fitness);
+			var fitnessComparer = fitness.GetFitnessComparer();
 
-            var engine = new IslandEngine()
-            {
-                Random = random,
-                Settings = settings,
-                Parameters = parameterSet
-            };
+			var engine = new IslandEngine()
+			{
+				Random = random,
+				Settings = settings,
+				Parameters = parameterSet
+			};
 
-            var algorithm = CreateAlgorithm(engine, settings);
-            var conflictDetectors = CreateConflictDetectors(settings.SubProblemList);
+			var algorithm = CreateAlgorithm(engine, settings);
+			var conflictDetectors = CreateConflictDetectors(settings.SubProblemList);
 
-            var chromosomeFactories = CreateChromosomeFactories(engine, settings, conflictDetectors, random);
-            var defaultCreator = new EntityCreator(settings.EntityType, chromosomeFactories, random);
-            engine.EntityCreators = CreateEntityCreators(settings.SubProblemList, defaultCreator, random);
+			var chromosomeFactories = CreateChromosomeFactories(engine, settings, conflictDetectors, random);
+			var defaultCreator = new EntityCreator(settings.EntityType, chromosomeFactories, random);
+			engine.EntityCreators = CreateEntityCreators(settings.SubProblemList, defaultCreator, random);
 
-            IMigrationStrategy migrationStrategy = CreateMigrationStrategy(engine, random, fitnessComparer, parameterSet, settings);
+			IMigrationStrategy migrationStrategy = CreateMigrationStrategy(engine, random, fitnessComparer, parameterSet, settings);
 
-            engine.Algorithm = algorithm.GetAlgorithm(engine);
-            engine.FitnessComparer = fitnessComparer;
-            engine.ConflictDetectors = conflictDetectors;
-            engine.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
-            engine.Replacements = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
-            engine.MigrationStrategy = migrationStrategy;
+			engine.Algorithm = algorithm.GetAlgorithm(engine);
+			engine.FitnessComparer = fitnessComparer;
+			engine.ConflictDetectors = conflictDetectors;
+			engine.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
+			engine.Replacements = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
+			engine.MigrationStrategy = migrationStrategy;
 
-            engine.Parameters.SetValueRange(algorithm.GetParameters());
-            
-            engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
-            engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
-            engine.StopCriteria = settings.StopCriteria;
+			engine.Parameters.SetValueRange(algorithm.GetParameters());
 
-            return engine;
-        }
+			engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
+			engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
+			engine.StopCriteria = settings.StopCriteria;
 
-        private static IDictionary<string, IChromosomeFactory> CreateChromosomeFactories(IEngine engine, PeaSettings settings, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
+			return engine;
+		}
+
+		private static IDictionary<string, IChromosomeFactory> CreateChromosomeFactories(IEngine engine, PeaSettings settings, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)
         {
             var factories = new Dictionary<string, IChromosomeFactory>();
 

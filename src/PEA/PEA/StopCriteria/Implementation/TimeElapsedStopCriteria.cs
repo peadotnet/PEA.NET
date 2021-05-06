@@ -32,7 +32,7 @@ namespace Pea.StopCriteria.Implementation
             }
 
             StopWatch.Stop();
-            return new StopDecision(true, "Timeout expired");
+            return new StopDecision(true, "Time frame elapsed.");
         }
     }
 }

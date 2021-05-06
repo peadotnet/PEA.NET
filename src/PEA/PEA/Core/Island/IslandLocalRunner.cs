@@ -10,6 +10,8 @@ namespace Pea.Core.Island
 		IEvaluation Evaluator;
 		MultiKey Key;
 
+		event NewEntitiesMergedToBestDelegate NewEntitiesMergedToBest;
+
 		public PeaResult Run(PeaSettings settings, IEvaluationInitData initData, LaunchTravelersDelegate launchTravelers = null)
 		{
 			string[] keys = new string[settings.SubProblemList.Count];
@@ -20,6 +22,9 @@ namespace Pea.Core.Island
 			Key = new MultiKey(keys);
 
 			var islandEngine = IslandEngineFactory.Create(Key, settings);
+
+			AddCallbackEvents(islandEngine, settings.NewEntityMergedToBest);
+
 
 			Evaluator = (IEvaluation)TypeLoader.CreateInstance(settings.Evaluation);
 			Evaluator.Init(initData);
@@ -48,6 +53,24 @@ namespace Pea.Core.Island
 			return new PeaResult(stopDecision.Reasons, algorithm.Population.Bests);
 		}
 
+		private void AddCallbackEvents(IslandEngine engine, List<NewEntitiesMergedToBestDelegate> delegates)
+		{
+			if (delegates.Count > 0)
+			{
+				for (int d = 0; d < delegates.Count; d++)
+				{
+					NewEntitiesMergedToBest += delegates[d];
+				}
+				engine.NewEntityMergedToBest = NewEntitiesMergetToBestCallback;
+			}
+		}
+
+		private void NewEntitiesMergetToBestCallback(IList<IEntity> bests)
+		{
+			if (NewEntitiesMergedToBest != null) NewEntitiesMergedToBest(bests);
+		}
+
+
 		public IList<IEntity> Evaluate(IList<IEntity> entityList)
 		{
 			if (entityList.Count == 0) return entityList;
@@ -58,7 +81,7 @@ namespace Pea.Core.Island
 			{
 				var entityWithKey = new Dictionary<MultiKey, IEntity> { { Key, entityList[i] } };
 				var decodedEntity = Evaluator.Decode(Key, entityWithKey);
-				evaluatedEntities.Add(decodedEntity);
+				if (decodedEntity != null) evaluatedEntities.Add(decodedEntity);
 			}
 
 			return evaluatedEntities;

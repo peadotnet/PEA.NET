@@ -68,6 +68,12 @@ namespace Pea.Configuration
             return this;
 		}
 
+        public PeaSettingsBuilder AddBestMergedCallback(NewEntitiesMergedToBestDelegate callback)
+		{
+            Settings.NewEntityMergedToBest.Add(callback);
+            return this;
+		}
+
         public PeaSettings Build()
         {
             foreach (var subProblem in SubProblems)

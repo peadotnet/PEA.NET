@@ -27,10 +27,15 @@ namespace Pea.Algorithm.Implementation
         {
             var parents = SelectParents(Population.Entities);
             var offspring = Crossover(parents);
-            offspring = Mutate(offspring);
-            offspring = Evaluate(offspring);
+            var mutated = Mutate(offspring);
+            var evaluated = Evaluate(mutated);
+
+            if (evaluated[0] == null)
+			{
+                bool brk = true;
+			}
             //TODO: Reduction (children) ?
-            var inserted = Reinsert(Population.Entities, offspring, parents, Population.Entities);
+            var inserted = Reinsert(Population.Entities, evaluated, parents, Population.Entities);
             MergeToBests(inserted);
         }
     }

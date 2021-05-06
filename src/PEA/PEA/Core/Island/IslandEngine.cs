@@ -25,12 +25,14 @@ namespace Pea.Core.Island
         public IMigrationStrategy MigrationStrategy { get; set; }
         public LaunchTravelersDelegate LaunchTravelers { get; set; }
 
+        public NewEntitiesMergedToBestDelegate NewEntityMergedToBest { get; set; }
+
         public IslandEngine()
         {
              
         }
 
-        public void Init(IEvaluationInitData initData)
+		public void Init(IEvaluationInitData initData)
         {
             initData.Build();
             InitConflictDetectors(initData);
@@ -66,6 +68,7 @@ namespace Pea.Core.Island
         public void MergeToBests(IList<IEntity> entities)
         {
             IList<IEntity> travelers = new List<IEntity>();
+            bool anyMerged = false;
             foreach (var entity in entities)
             {
                 bool merged = FitnessComparer.MergeToBests(Algorithm.Population.Bests, entity);
@@ -74,8 +77,13 @@ namespace Pea.Core.Island
                     travelers.Add(entity);
                     var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
                     Debug.WriteLine(timeString + " " + entity.ToString());
-
+                    anyMerged = true;
                 }
+            }
+
+            if (anyMerged && NewEntityMergedToBest != null)
+            {
+                NewEntityMergedToBest(Algorithm.Population.Bests);
             }
 
             if (LaunchTravelers != null && travelers.Count > 0)

@@ -3,11 +3,14 @@ using Pea.Migration;
 
 namespace Pea.Core
 {
+    public delegate void NewEntitiesMergedToBestDelegate(IList<IEntity> bests);
+
     public delegate void LaunchTravelersDelegate(IList<IEntity> entityList, TravelerTypes travelerType);
 
     public interface IEngine
     {
         LaunchTravelersDelegate LaunchTravelers { get; set; }
+        NewEntitiesMergedToBestDelegate NewEntityMergedToBest { get; set; }
 
         IRandom Random { get; set; }
         IAlgorithm Algorithm { get; set; }
