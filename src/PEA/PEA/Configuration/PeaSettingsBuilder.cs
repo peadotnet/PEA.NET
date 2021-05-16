@@ -76,6 +76,7 @@ namespace Pea.Configuration
 
         public PeaSettings Build()
         {
+            Settings.SubProblemList.Clear();
             foreach (var subProblem in SubProblems)
             {
                 Settings.SubProblemList.Add(subProblem.Build());

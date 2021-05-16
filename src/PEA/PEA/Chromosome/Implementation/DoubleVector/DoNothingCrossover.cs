@@ -11,13 +11,13 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 		{
 		}
 
-		public IList<IChromosome> Cross(IList<IChromosome> parents)
+		public IList<IChromosome> Cross(IChromosome parent0, IChromosome parent1)
 		{
 			var offspring = new List<IChromosome>();
-			for(int i=0; i< parents.Count; i++)
-			{
-				offspring.Add(parents[i].DeepClone());
-			}
+
+			offspring.Add(parent0.DeepClone());
+			offspring.Add(parent1.DeepClone());
+
 			return offspring;
 		}
 	}

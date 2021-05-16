@@ -11,12 +11,12 @@ namespace Pea.Chromosome.Implementation.BitVector
 		{
 		}
 
-		public override IList<IChromosome> Cross(IList<IChromosome> parents)
+		public override IList<IChromosome> Cross(IChromosome iparent0, IChromosome iparent1)
 		{
 			var children = new List<IChromosome>();
 
-			var parent0 = parents[0] as BitVectorChromosome;
-			var parent1 = parents[1] as BitVectorChromosome;
+			var parent0 = iparent0 as BitVectorChromosome;
+			var parent1 = iparent1 as BitVectorChromosome;
 			var length = parent0.Genes.Length;
 
 			int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);

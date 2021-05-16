@@ -34,7 +34,7 @@ namespace Pea.Migration.Implementation
                 var count = Parameters.GetValue(ParameterNames.MigrationCount);
                 for (int i = 0; i < count; i++)
                 {
-                    var traveler = Selection.Select(population);
+                    var traveler = Selection.Select(population, 1);
                     travelers.AddRange(traveler);
                 }
             }

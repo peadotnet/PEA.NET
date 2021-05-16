@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Pea.Core.Entity
@@ -7,9 +8,11 @@ namespace Pea.Core.Entity
     public class EntityCrossover : IEntityCrossover
     {
         public Dictionary<string, IProvider<ICrossover>> CrossoverProviders { get; } = new Dictionary<string, IProvider<ICrossover>>();
+        IRandom _random;
 
         public EntityCrossover(IDictionary<string, IChromosomeFactory> chromosomeFactories, IRandom random)
         {
+            _random = random;
             foreach (var key in chromosomeFactories.Keys)
             {
                 var factory = chromosomeFactories[key];
@@ -25,58 +28,59 @@ namespace Pea.Core.Entity
             }
         }
 
-        public IList<IEntity> Cross(IList<IEntity> parents)
+        public IList<IEntity> Cross(IList<IEntity> parents, int count)
         {
             if (parents.Count < 2) throw new ArgumentException(nameof(parents));
 
-            var children = new List<IEntity>();
+            var offsprings = new List<IEntity>();
 
-            //TODO: operation with more than 2 parent / child entities
-
-            foreach (var chromosomeName in parents[0].Chromosomes.Keys)
+            while (offsprings.Count < count)
             {
-                var parent1Chromosome = parents[0].Chromosomes[chromosomeName];
-                var parent2Chromosome = parents[1].Chromosomes[chromosomeName];
-                var parentChromosomes = new List<IChromosome>()
-                {
-                    parent1Chromosome,
-                    parent2Chromosome
-                };
+                int p0 = _random.GetInt(0, parents.Count);
+                int p1 = _random.GetIntWithTabu(0, parents.Count, p0);
 
-                if (CrossoverProviders.ContainsKey(chromosomeName))
-                {
-                    var provider = CrossoverProviders[chromosomeName];
-                    var crossover = provider.GetOne();
+                var parent0 = parents[p0];
+                var parent1 = parents[p1];
+                IEntity offspring0 = parent0.Clone(false);
+                IEntity offspring1 = parent1.Clone(false);
 
-                    try
+                bool offspring1Failed = false;
+
+                foreach (var chromosomeName in parents[0].Chromosomes.Keys)
+                {
+                    IList<IChromosome> crossoveredChromosomes = new List<IChromosome>();
+                    while (crossoveredChromosomes.Count == 0)
                     {
-                        var crossoveredChromosomes = crossover.Cross(parentChromosomes);
+                        var provider = CrossoverProviders[chromosomeName];
+                        var crossover = provider.GetOne();
 
-                        if (crossoveredChromosomes.Count > 0)
+                        try
                         {
-                            var child1 = (IEntity) parents[0].Clone();
-                            child1.Chromosomes[chromosomeName] = crossoveredChromosomes[0];
-                            child1.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
-                            children.Add(child1);
+                            crossoveredChromosomes = crossover.Cross(parent0.Chromosomes[chromosomeName], parent1.Chromosomes[chromosomeName]);
+                            if (crossoveredChromosomes.Count > 1)
+                            {
+                                if (!offspring1Failed) offspring1.Chromosomes.Add(chromosomeName, crossoveredChromosomes[1]);
+                            }
+                            else
+                            {
+                                offspring1Failed = true;
+                            }
+                            if (crossoveredChromosomes.Count > 0)
+							{
+                                offspring0.Chromosomes.Add(chromosomeName, crossoveredChromosomes[0]);
+                            }
                         }
-
-                        if (crossoveredChromosomes.Count > 1)
+                        catch (Exception e)
                         {
-                            var child2 = (IEntity) parents[1].Clone();
-                            child2.Chromosomes[chromosomeName] = crossoveredChromosomes[1];
-                            child2.LastCrossOvers.Add(chromosomeName, crossover.GetType().Name);
-                            children.Add(child2);
+                            Trace.WriteLine(e);
                         }
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-
                 }
+                offsprings.Add(offspring0);
+                if (!offspring1Failed) offsprings.Add(offspring1);
             }
 
-            return children;
+            return offsprings;
         }
     }
 }

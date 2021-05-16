@@ -11,12 +11,12 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         {
         }
 
-        public override IList<IChromosome> Cross(IList<IChromosome> parents)
+        public override IList<IChromosome> Cross(IChromosome iparent0, IChromosome iparent1)
         {
             var children = new List<IChromosome>();
 
-            var parent1 = parents[0] as SortedSubsetChromosome;
-            var parent2 = parents[1] as SortedSubsetChromosome;
+            var parent1 = iparent0 as SortedSubsetChromosome;
+            var parent2 = iparent1 as SortedSubsetChromosome;
 
             var sectionsCount = parent1.Sections.Length > parent2.Sections.Length
                 ? parent1.Sections.Length 

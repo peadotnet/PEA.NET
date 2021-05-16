@@ -4,6 +4,6 @@ namespace Pea.Core
 {
     public interface IEntityCrossover
     {
-        IList<IEntity> Cross(IList<IEntity> parents);
+        IList<IEntity> Cross(IList<IEntity> parents, int count);
     }
 }

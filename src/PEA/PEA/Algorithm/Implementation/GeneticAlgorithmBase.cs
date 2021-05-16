@@ -47,16 +47,16 @@ namespace Pea.Algorithm.Implementation
             Engine.MergeToBests(entities);
         }
 
-        protected IList<IEntity> SelectParents(IList<IEntity> entities)
+        protected IList<IEntity> SelectParents(IList<IEntity> entities, int count)
         {
             var selector = Engine.Selections.GetOne();
-            var parents = selector.Select(entities);
+            var parents = selector.Select(entities, count);
             return parents;
         }
 
-        protected IList<IEntity> Crossover(IList<IEntity> parents)
+        protected IList<IEntity> Crossover(IList<IEntity> parents, int count)
         {
-            var children = Engine.EntityCrossover.Cross(parents);
+            var children = Engine.EntityCrossover.Cross(parents, count);
             return children;
         }
 

@@ -10,12 +10,12 @@ namespace Pea.Chromosome.Implementation.DoubleVector
         {
         }
 
-        public IList<IChromosome> Cross(IList<IChromosome> parents)
+        public IList<IChromosome> Cross(IChromosome cparent0, IChromosome cparent1)
         {
             var children = new List<IChromosome>();
 
-            var parent0 = parents[0] as DoubleVectorChromosome;
-            var parent1 = parents[1] as DoubleVectorChromosome;
+            var parent0 = cparent0 as DoubleVectorChromosome;
+            var parent1 = cparent1 as DoubleVectorChromosome;
             var length = parent0.Genes.Length;
 
             double[] child0 = new double[length];

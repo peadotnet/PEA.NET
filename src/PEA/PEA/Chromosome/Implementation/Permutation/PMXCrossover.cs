@@ -11,13 +11,13 @@ namespace Pea.Chromosome.Implementation.Permutation
 
         }
 
-        public override IList<IChromosome> Cross(IList<IChromosome> parents)
+        public override IList<IChromosome> Cross(IChromosome iparent0, IChromosome iparent1)
         {
             //TODO: ConflictDetection, repeat, 
             var result = new List<IChromosome>();
 
-            var parent1 = parents[0] as PermutationChromosome;
-            var parent2 = parents[1] as PermutationChromosome;
+            var parent1 = iparent0 as PermutationChromosome;
+            var parent2 = iparent1 as PermutationChromosome;
 
             var swapRange = GetSourceRange(parent1);
 

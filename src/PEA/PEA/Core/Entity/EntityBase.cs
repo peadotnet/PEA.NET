@@ -12,15 +12,18 @@ namespace Pea.Core.Entity
         public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>();
 
-        public virtual object Clone()
+        public virtual IEntity Clone(bool cloneChromosomes)
         {
             var clone = (EntityBase)Activator.CreateInstance(this.GetType());
             clone.IndexOfList = this.IndexOfList;
             clone.OriginIslandKey = this.OriginIslandKey;
 
-            foreach (var key in Chromosomes.Keys)
+            if (cloneChromosomes)
             {
-                clone.Chromosomes.Add(key, this.Chromosomes[key].DeepClone());
+                foreach (var key in Chromosomes.Keys)
+                {
+                    clone.Chromosomes.Add(key, this.Chromosomes[key].DeepClone());
+                }
             }
 
             return clone;

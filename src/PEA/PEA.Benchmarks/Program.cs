@@ -8,8 +8,9 @@ namespace PEA.Benchmarks
     {
         static void Main(string[] args)
         {
-			//var summary = BenchmarkRunner.Run<PermutationOperatorBenchmarks>();
-			var summary = BenchmarkRunner.Run<ImmutableArrayBenchmarks>();
+            //var summary = BenchmarkRunner.Run<PermutationOperatorBenchmarks>();
+            //var summary = BenchmarkRunner.Run<ImmutableArrayBenchmarks>();
+            var summary = BenchmarkRunner.Run<ListHashSetComparisonBenchmark>();
         }
     }
 }

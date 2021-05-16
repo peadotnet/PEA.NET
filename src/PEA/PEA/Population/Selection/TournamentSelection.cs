@@ -11,28 +11,64 @@ namespace Pea.Selection
         {
         }
 
-        public override IList<IEntity> Select(IList<IEntity> entities)
-        {
-            IList<IEntity> result = new List<IEntity>();
-            var size = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
-            var first = SelectOne(entities, size);
-            result.Add(first);
-            var second = first;
-            while (second == first)
+        public override IList<IEntity> Select(IList<IEntity> entities, int count)
+		{
+            if (count == 1)
             {
-                second = SelectOne(entities, size);
+                var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
+                var selected = SelectOne(entities, tournamentSize);
+                return new List<IEntity>(1) { selected };
             }
+            //else if (count < 20)
+            //{
+                return SelectWithList(entities, count);
+            //}
+            //else
+            //{
+            //    return SelectWithHashSet(entities, count);
+            //}
+		}
 
-            result.Add(second);
-            return result;
+        IList<IEntity> SelectWithList(IList<IEntity> entities, int count)
+        {
+            List<IEntity> result = new List<IEntity>(count);
+            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
+
+            for (int i = 0; i < count; i++)
+            {
+                var selected = SelectOne(entities, tournamentSize);
+    //            while(result.Contains(selected))
+				//{
+                    //selected = SelectOne(entities, tournamentSize);
+                //}
+                result.Add(selected);
+            }
+            return new List<IEntity>(result);
         }
 
-        private IEntity SelectOne(IList<IEntity> entities, int size)
+        IList<IEntity> SelectWithHashSet(IList<IEntity> entities, int count)
+        {
+            HashSet<IEntity> result = new HashSet<IEntity>();
+            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
+
+            for(int i=0; i< count; i++)
+            {
+                var selected = SelectOne(entities, tournamentSize);
+                while (result.Contains(selected))
+                {
+                    selected = SelectOne(entities, tournamentSize);
+                }
+                result.Add(selected);
+            }
+            return new List<IEntity>(result);
+        }
+
+        private IEntity SelectOne(IList<IEntity> entities, int tournamentSize)
         {
             var index = Random.GetInt(0, entities.Count);
             var best = entities[index];
 
-            for (int i = 1; i < size; i++)
+            for (int i = 1; i < tournamentSize; i++)
             {
                 index = Random.GetInt(0, entities.Count);
                 var next = entities[index];

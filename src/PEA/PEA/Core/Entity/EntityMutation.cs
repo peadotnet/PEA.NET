@@ -37,7 +37,7 @@ namespace Pea.Core.Entity
 
         public IEntity MutateEntity(IEntity entity)
         {
-            var mutatedEntity = (IEntity)entity.Clone();
+            var mutatedEntity = entity.Clone(true);
             mutatedEntity.LastCrossOvers = entity.LastCrossOvers;
 
             foreach (var chromosome in entity.Chromosomes)

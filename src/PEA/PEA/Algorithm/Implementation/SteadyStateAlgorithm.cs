@@ -25,8 +25,8 @@ namespace Pea.Algorithm.Implementation
 
         public override void RunOnce()
         {
-            var parents = SelectParents(Population.Entities);
-            var offspring = Crossover(parents);
+            var parents = SelectParents(Population.Entities, 2);
+            var offspring = Crossover(parents, 2);
             var mutated = Mutate(offspring);
             var evaluated = Evaluate(mutated);
 
