@@ -1,4 +1,5 @@
-﻿using Pea.Core.Entity;
+﻿using Pea.Core;
+using Pea.Core.Entity;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -8,9 +9,9 @@ namespace PEA_VehicleScheduling_Example
         public double TotalDeadMileage = 0;
         public int TotalActiveTime = 0;
 
-        public override object Clone()
+        public override IEntity Clone(bool cloneChromosomes)
         {
-            var clone = base.Clone() as VehicleSchedulingEntity;
+            var clone = base.Clone(cloneChromosomes) as VehicleSchedulingEntity;
             clone.OriginIslandKey = this.OriginIslandKey;
             return clone;
         }

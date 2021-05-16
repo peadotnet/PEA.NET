@@ -60,7 +60,7 @@ namespace Pea.Tests.ChromosomeTests.PermutationTests
             var crossover = new PMXCrossover(random, parameterSet, null);
             var parents = PermutationTestData.CreateTestChromosomes();
 
-            var children = crossover.Cross(parents);
+            var children = crossover.Cross(parents[0], parents[1]);
 
             children.Count.Should().Be(2);
             ((PermutationChromosome)children[0]).Genes.Should().BeEquivalentTo(expected);
@@ -80,7 +80,7 @@ namespace Pea.Tests.ChromosomeTests.PermutationTests
             var parent1 = new PermutationChromosome(parent1Genes);
             var parent2 = new PermutationChromosome(parent2Genes);
 
-            var children = crossover.Cross(new List<IChromosome>() { parent1, parent2 });
+            var children = crossover.Cross(parent1, parent2);
 
             children.Count.Should().Be(2);
 

@@ -39,7 +39,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
-            var results = crossover.Cross(chromosomes);
+            var results = crossover.Cross(chromosomes[0], chromosomes[1]);
 
             var result1 = results[0] as SortedSubsetChromosome;
             var result2 = results[1] as SortedSubsetChromosome;
@@ -62,7 +62,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, false, true, false, false, false) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
-            var results = crossover.Cross(chromosomes);
+            var results = crossover.Cross(chromosomes[0], chromosomes[1]);
 
             var result1 = results[0] as SortedSubsetChromosome;
 
@@ -83,7 +83,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, true, true) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
-            var results = crossover.Cross(chromosomes);
+            var results = crossover.Cross(chromosomes[0], chromosomes[1]);
 
             results.Count.Should().Be(0);
         }
@@ -99,7 +99,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, true, true, false, false, false, false, false, false, false) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
-            var results = crossover.Cross(chromosomes);
+            var results = crossover.Cross(chromosomes[0], chromosomes[1]);
 
             var result1 = results[0] as SortedSubsetChromosome;
             var result2 = results[1] as SortedSubsetChromosome;

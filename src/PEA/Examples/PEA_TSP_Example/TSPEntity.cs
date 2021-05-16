@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using Pea.Core;
 using Pea.Core.Entity;
 
 namespace PEA_TSP_Example
@@ -10,9 +11,9 @@ namespace PEA_TSP_Example
 
         public double TotalDistance { get; set; }
 
-        public override object Clone()
+        public override IEntity Clone(bool cloneChromosomes)
         {
-            var clone = base.Clone() as TSPEntity;
+            var clone = base.Clone(cloneChromosomes) as TSPEntity;
             clone.OriginIslandKey = this.OriginIslandKey;
             return clone;
         }
