@@ -57,17 +57,21 @@ namespace Pea.Core.Entity
                         try
                         {
                             crossoveredChromosomes = crossover.Cross(parent0.Chromosomes[chromosomeName], parent1.Chromosomes[chromosomeName]);
-                            if (crossoveredChromosomes.Count > 1)
-                            {
-                                if (!offspring1Failed) offspring1.Chromosomes.Add(chromosomeName, crossoveredChromosomes[1]);
-                            }
-                            else
-                            {
-                                offspring1Failed = true;
-                            }
                             if (crossoveredChromosomes.Count > 0)
-							{
+                            {
+                                var crossoverName = crossover.GetType().Name;
                                 offspring0.Chromosomes.Add(chromosomeName, crossoveredChromosomes[0]);
+                                offspring0.LastCrossOvers.Add(chromosomeName, crossoverName);
+
+                                if (crossoveredChromosomes.Count > 1)
+                                {
+                                    if (!offspring1Failed) offspring1.Chromosomes.Add(chromosomeName, crossoveredChromosomes[1]);
+                                    offspring1.LastCrossOvers.Add(chromosomeName, crossoverName);
+                                }
+                                else
+                                {
+                                    offspring1Failed = true;
+                                }
                             }
                         }
                         catch (Exception e)

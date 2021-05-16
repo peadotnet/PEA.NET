@@ -12,7 +12,7 @@ namespace Pea.Algorithm.Implementation
         {
             Population = new Population.Population();
 
-            var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.MaxNumberOfEntities);
+            var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
             for (int i = 0; i < maxNumberOfEntities; i++)
             {
                 var entity = CreateEntity();
@@ -29,12 +29,6 @@ namespace Pea.Algorithm.Implementation
             var offspring = Crossover(parents, 2);
             var mutated = Mutate(offspring);
             var evaluated = Evaluate(mutated);
-
-            if (evaluated[0] == null)
-			{
-                bool brk = true;
-			}
-            //TODO: Reduction (children) ?
             var inserted = Reinsert(Population.Entities, evaluated, parents, Population.Entities);
             MergeToBests(inserted);
         }

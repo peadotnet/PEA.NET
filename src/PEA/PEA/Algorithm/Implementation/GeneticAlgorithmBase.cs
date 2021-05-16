@@ -13,7 +13,6 @@ namespace Pea.Algorithm.Implementation
 
         private EvaluationDelegate _evaluate;
 
-
         protected GeneticAlgorithmBase(IEngine engine)
         {
             Engine = engine;
@@ -36,10 +35,6 @@ namespace Pea.Algorithm.Implementation
             if (entities.Count == 0) return entities;
 
             return _evaluate(entities);
-            //foreach (IEntity entity in entities)
-            //{
-            //    entity.Fitness = Engine.FitnessCalculator.CalculateFitness(entity.Phenotype);
-            //}
         }
 
         protected void MergeToBests(IList<IEntity> entities)
@@ -66,10 +61,10 @@ namespace Pea.Algorithm.Implementation
             return children;
         }
 
-        protected IList<IEntity> Reinsert(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+        protected IList<IEntity> Reinsert(IList<IEntity> targetPopulation, IList<IEntity> offsprings, IList<IEntity> parents, IList<IEntity> sourcePopulation)
         {
             var replacement = Engine.Replacements.GetOne();
-            return replacement.Replace(targetPopulation, offspring, parents, sourcePopulation);
+            return replacement.Replace(targetPopulation, offsprings, parents, sourcePopulation);
         }
     }
 }

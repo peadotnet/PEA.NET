@@ -2,7 +2,9 @@
 {
     public static class ParameterNames
     {
-        public const string MaxNumberOfEntities = "MaxNumberOfEntities";
-        public const string NumberOfSelectedEntities = "MinNumberOfEntities";
+        public const string PopulationSize = "PopulationSize";
+        public const string SelectionRate = "SelectionRate";
+
+        public const string ReinsertionRate = "ReinsertionRate";
     }
 }

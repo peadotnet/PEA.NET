@@ -27,10 +27,10 @@ namespace Pea.Core.Entity
         public IList<IEntity> Mutate(IList<IEntity> entities)
         {
             var result = new List<IEntity>();
-            foreach (var entity in entities)
-            {
-                var mutated = MutateEntity(entity);
-                if (mutated != null) result.Add(mutated);
+            for (int i=0; i< entities.Count; i++)
+            { 
+                var mutated = MutateEntity(entities[i]);
+                result.Add(mutated);
             }
             return result;
         }
@@ -42,18 +42,18 @@ namespace Pea.Core.Entity
 
             foreach (var chromosome in entity.Chromosomes)
             {
-                if (MutationProviders.ContainsKey(chromosome.Key))
+                IChromosome mutatedChromosome = null;
+                IMutation mutation = null;
+
+                var provider = MutationProviders[chromosome.Key];
+
+                while (mutatedChromosome == null)
                 {
-                    var provider = MutationProviders[chromosome.Key];
-                    var retryCount = provider.Count();
-                    var mutation = provider.GetOne();
-
-                    var mutatedChromosome = mutation.Mutate(chromosome.Value);
-                    if (mutatedChromosome == null) return null;
-
-                    mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
-                    mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);
+                    mutation = provider.GetOne();
+                    mutatedChromosome = mutation.Mutate(chromosome.Value);
                 }
+                mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
+                mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);
             }
 
             return mutatedEntity;

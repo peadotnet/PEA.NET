@@ -16,7 +16,7 @@ namespace Pea.Configuration.ProblemModels
             return subProblemBuilder
                 .WithEncoding<Chromosome.SortedSubset>(key)
                 .WithAlgorithm<Algorithm.SteadyState>()
-                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, TripsCount / 10)
+                .SetParameter(Algorithm.ParameterNames.PopulationSize, TripsCount / 10)
                 .SetParameter(Chromosome.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Selection.ParameterNames.TournamentSize, 2)
                 .SetParameter("ProblemSize", TripsCount)

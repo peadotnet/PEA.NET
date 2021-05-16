@@ -16,7 +16,7 @@ namespace Pea.Configuration.ProblemModels
             return subProblemBuilder
                 .WithEncoding<Chromosome.Permutation>(key)
                 .WithAlgorithm<Algorithm.SteadyState>()
-                .SetParameter(Algorithm.ParameterNames.MaxNumberOfEntities, Size * 3) //*2
+                .SetParameter(Algorithm.ParameterNames.PopulationSize, Size * 3) //*2
                 .SetParameter(Chromosome.ParameterNames.MutationProbability, 0.7)
                 .SetParameter(Selection.ParameterNames.TournamentSize, 2)
                 .SetParameter(Core.Island.ParameterNames.IslandsCount, Math.Floor(Math.Sqrt(Size)))
