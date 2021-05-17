@@ -25,14 +25,10 @@ namespace Pea.Core.Island
 
 			AddCallbackEvents(islandEngine, settings.NewEntityMergedToBest);
 
-
 			Evaluator = (IEvaluation)TypeLoader.CreateInstance(settings.Evaluation);
 			Evaluator.Init(initData);
 
-			var algorithmFactory = new Pea.Algorithm.SteadyState();
-			var algorithm = algorithmFactory.GetAlgorithm(islandEngine);
-			algorithm.SetEvaluationCallback(Evaluate);
-			islandEngine.Algorithm = algorithm;
+			islandEngine.Algorithm.SetEvaluationCallback(Evaluate);
 			islandEngine.Init(initData);
 			if (launchTravelers != null) islandEngine.LaunchTravelers += launchTravelers;
 
@@ -40,8 +36,8 @@ namespace Pea.Core.Island
 			StopDecision stopDecision;
 			while (true)
 			{
-				algorithm.RunOnce();
-				stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, algorithm.Population);
+				islandEngine.Algorithm.RunOnce();
+				stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, islandEngine.Algorithm.Population);
 				if (stopDecision.MustStop)
 				{
 					Debug.WriteLine(stopDecision.Reasons[0]);
@@ -50,7 +46,7 @@ namespace Pea.Core.Island
 				c++;
 			}
 
-			return new PeaResult(stopDecision.Reasons, algorithm.Population.Bests);
+			return new PeaResult(stopDecision.Reasons, islandEngine.Algorithm.Population.Bests);
 		}
 
 		private void AddCallbackEvents(IslandEngine engine, List<NewEntitiesMergedToBestDelegate> delegates)

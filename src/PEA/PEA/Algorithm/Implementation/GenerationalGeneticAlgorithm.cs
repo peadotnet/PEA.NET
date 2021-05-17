@@ -28,12 +28,13 @@ namespace Pea.Algorithm.Implementation
 
 		public override void RunOnce()
 		{
-			var selectionRate = Engine.Parameters.GetInt(ParameterNames.SelectionRate);
-			var minEntityCount = selectionRate * Population.Entities.Count;
+			var populationSize = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
+			var selectionRate = Engine.Parameters.GetValue(ParameterNames.SelectionRate);
+			var minEntityCount = Convert.ToInt32(selectionRate * populationSize);
 
 			var nextGeneration = new List<IEntity>();
 			var parents = SelectParents(Population.Entities, minEntityCount);
-			var offspring = Crossover(parents, minEntityCount);
+			var offspring = Crossover(parents, populationSize);
 			var mutated = Mutate(offspring);
 			var evaluated = Evaluate(mutated);
 			//TODO: Niching ?

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.DoubleVector
 {
-    public class UniformGaussianMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
+    public class UniformBlockParallelMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
     {
-        public UniformGaussianMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors) 
+        public UniformBlockParallelMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }
@@ -15,26 +15,32 @@ namespace Pea.Chromosome.Implementation.DoubleVector
             var original = chromosome as DoubleVectorChromosome;
             var length = original.Genes.Length;
 
+            //int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
             var mutationProbability = ParameterSet.GetValue(ParameterNames.MutationProbability);
             var mutationIntensity = ParameterSet.GetValue(ParameterNames.MutationIntensity);
+            int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);
 
             var mutated = new double[length];
 
-            for (int i = 0; i < length; i++)
+            int relPos = Random.GetInt(0, blockSize);
+            double modification = Random.GetGaussian(0, mutationIntensity);
+
+            for (int block = 0; block < length / blockSize; block++)
             {
-                var gene = original.Genes[i];
+                var position = blockSize * block + relPos;
+                var gene = original.Genes[position];
 
                 var rnd = Random.GetDouble(0, 1);
                 if (rnd < mutationProbability)
                 {
-                    gene = Random.GetGaussian(gene, mutationIntensity);
+                    gene += modification;
                 }
-
-                mutated[i] = gene;
+                mutated[position] = gene;
             }
 
             var mutatedChromosome = new DoubleVectorChromosome(mutated);
             return mutatedChromosome;
+
         }
     }
 }

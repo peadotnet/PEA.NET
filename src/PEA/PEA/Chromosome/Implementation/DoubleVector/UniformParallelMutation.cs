@@ -15,11 +15,11 @@ namespace Pea.Chromosome.Implementation.DoubleVector
             var original = chromosome as DoubleVectorChromosome;
             var length = original.Genes.Length;
 
-            int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
             var mutationProbability = ParameterSet.GetValue(ParameterNames.MutationProbability);
             var mutationIntensity = ParameterSet.GetValue(ParameterNames.MutationIntensity);
 
             var mutated = new double[length];
+            var modification = Random.GetGaussian(0, mutationIntensity);
 
             for (int i = 0; i < length; i++)
             {
@@ -28,11 +28,10 @@ namespace Pea.Chromosome.Implementation.DoubleVector
                 var rnd = Random.GetDouble(0, 1);
                 if (rnd < mutationProbability)
                 {
-                    var newValue = Random.GetGaussian(gene, mutationIntensity);
-                    if (newValue < 0) newValue = 0;
-                    if (newValue > 1) newValue = 1 - double.Epsilon;
-                    gene = newValue;
+                    gene += modification;
                 }
+
+                mutated[i] = gene;
             }
 
             var mutatedChromosome = new DoubleVectorChromosome(mutated);

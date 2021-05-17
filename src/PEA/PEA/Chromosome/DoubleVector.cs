@@ -34,10 +34,13 @@ namespace Pea.Chromosome
             _mutations = new List<IMutation>()
             {
                 new DoNothingMutation(random, parameterSet, conflictDetectors),
-                //new UniformGaussianMutation(random, parameterSet, conflictDetectors)
-                new OnePointGaussianMutation(random, parameterSet, conflictDetectors),
+				new UniformGaussianMutation(random, parameterSet, conflictDetectors),
+				new OnePointGaussianMutation(random, parameterSet, conflictDetectors),
+                new OneBlockGaussianMutation(random, parameterSet, conflictDetectors),
                 new SwapTwoBlocksMutation(random, parameterSet, conflictDetectors),
-                new UniformParallelMutation(random, parameterSet, conflictDetectors)
+                new UniformParallelMutation(random, parameterSet, conflictDetectors),
+                new UniformBlockParallelMutation(random, parameterSet, conflictDetectors),
+                new AllBlockParallelMutation(random, parameterSet, conflictDetectors)
             };
         }
 
@@ -88,7 +91,7 @@ namespace Pea.Chromosome
                 new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
                 new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
                 new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
-                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 300),
+                new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 10000),
                 new PeaSettingsNamedValue(ParameterNames.BlockSize, 2)
             };
 

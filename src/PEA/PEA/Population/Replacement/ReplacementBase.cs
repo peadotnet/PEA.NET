@@ -29,9 +29,9 @@ namespace Pea.Population.Replacement
 
         public virtual void AddEntitiesToPopulation(IList<IEntity> population, IList<IEntity> entities)
         {
-            foreach(var entity in entities)
+            for(int i=0; i< entities.Count; i++)
             {
-                population.Add(entity);
+                population.Add(entities[i]);
             }
         }
 
