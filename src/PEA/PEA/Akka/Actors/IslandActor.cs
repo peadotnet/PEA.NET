@@ -19,19 +19,25 @@ namespace Pea.Akka.Actors
 
         private IActorRef Evaluator { get; }
 
+        private IEvaluation LocalEvaluator { get; }
+
         private IActorRef Starter { get; set; }
 
-        public IslandActor(Configuration.Implementation.PeaSettings settings)
+        public IslandActor(Configuration.Implementation.PeaSettings settings, int seed)
         {
             var actorPathName = Self.Path.ToString();
-            Engine = IslandEngineFactory.Create(actorPathName, settings);
+            Engine = IslandEngineFactory.Create(actorPathName, settings, seed);
             IslandKey = CreateIslandKey(settings);
             Engine.Algorithm.SetEvaluationCallback(Evaluate);
 
-            var evaluatorsCount = Engine.Parameters.GetInt(ParameterNames.IslandsCount);
-            if (evaluatorsCount > 0)
+            var evaluatorsCount = Engine.Parameters.GetInt(ParameterNames.EvaluatorsCount);
+            if (evaluatorsCount > 4)
             {
                 Evaluator = Context.ActorOf(EvaluationSupervisorActor.CreateProps(IslandKey, settings.Evaluation, Engine.Parameters));
+            }
+            else
+			{
+                LocalEvaluator = (IEvaluation)TypeLoader.CreateInstance(settings.Evaluation);
             }
 
             Receive<InitEvaluator>(m => InitEvaluator(m));
@@ -61,7 +67,15 @@ namespace Pea.Akka.Actors
         private void InitEvaluator(InitEvaluator m)
         {
             Starter = Sender;
-            Evaluator.Tell(m);
+            if (Evaluator != null)
+            {
+                Evaluator.Tell(m);
+            }
+            else
+            {
+                LocalEvaluator.Init(m.InitData);
+            }
+
             Engine.Init(m.InitData);
             Engine.LaunchTravelers += LaunchTravelers;
             Self.Tell(Continue.Instance);
@@ -69,17 +83,20 @@ namespace Pea.Akka.Actors
 
         public void RunOneStep()
         {
-            StopDecision stop = Engine.RunOnce();
-            if (!stop.MustStop)
+            StopDecision stop = null;
+            var algorithmCycleCount = Engine.Parameters.GetInt(Pea.Algorithm.ParameterNames.SubCycleRunCount) + 1;
+            for (int i = 0; i < algorithmCycleCount; i++)
             {
-                Self.Tell(Continue.Instance);
+                stop = Engine.RunOnce();
+                if (stop.MustStop)
+                {
+                    var result = new PeaResult(stop.Reasons, Engine.Algorithm.Population.Bests);
+                    Starter.Tell(result);
+                    Self.Tell(PoisonPill.Instance);
+                    break;
+                }
             }
-            else
-            {
-                var result = new PeaResult(stop.Reasons, Engine.Algorithm.Population.Bests);
-                Starter.Tell(result);
-                Self.Tell(PoisonPill.Instance);
-            }
+            if (!stop.MustStop) Self.Tell(Continue.Instance);
         }
 
         public IList<IEntity> Evaluate(IList<IEntity> entityList)
@@ -89,29 +106,31 @@ namespace Pea.Akka.Actors
             IList<IEntity> evaluatedEntities;
 
             //TODO: Evaluate entities locally
-            //if (Evaluator == null)
-            //{
-            //    evaluatedEntities = new List<IEntity>();
-            //    foreach (var entity in entityList)
-            //    {
-            //        var key = new MultiKey("TSP");
-            //        var entityWithKey = new Dictionary<MultiKey, IEntity> {{key, entity}};
-            //        var decodedEntity = Engine.Evaluation.Decode(key, entityWithKey);
-            //        evaluatedEntities.Add(decodedEntity);
-            //    }
-            //}
 
-            evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
+            if (Evaluator == null)
+            {
+                evaluatedEntities = new List<IEntity>();
+                for(int e = 0; e< entityList.Count; e++)
+                {
+                    var entityWithKey = new Dictionary<MultiKey, IEntity> { { IslandKey, entityList[e] } };
+                    var decodedEntity = LocalEvaluator.Decode(IslandKey, entityWithKey);
+                    evaluatedEntities.Add(decodedEntity);
+                }
+            }
+            else
+            {
+                evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
+            }
             return evaluatedEntities;
         }
 
         public void LaunchTravelers(IList<IEntity> entityList, TravelerTypes travelerType)
         {
-            foreach (var entity in entityList)
-            {
+            //for (int e = 0; e < entityList.Count;e++)
+            //{
                 var traveler = new Travel(entityList, travelerType);
                 Starter.Tell(traveler);
-            }
+            //}
         }
 
         private void TravelersArrived(Travel travel)
@@ -130,9 +149,9 @@ namespace Pea.Akka.Actors
             base.PostStop();
         }
 
-        public static Props CreateProps(Configuration.Implementation.PeaSettings settings)
+        public static Props CreateProps(Configuration.Implementation.PeaSettings settings, int seed)
         {
-            var props = Props.Create(() => new IslandActor(settings));
+            var props = Props.Create(() => new IslandActor(settings, seed));
             return props;
         }
     }

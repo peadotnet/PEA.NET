@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
@@ -33,21 +34,34 @@ namespace Pea.Akka.Actors
 
         private void CreateIslands(PeaSettings settings)
         {
-            foreach (var subProblem in settings.SubProblemList)
+            var key = new string[settings.SubProblemList.Count];
+            var parameterSet = new ParameterSet();
+            parameterSet.SetValueRange(settings.ParameterSet);
+            for (int i = 0; i < settings.SubProblemList.Count; i++)
             {
-                string key = subProblem.Encoding.Key;
-                var parameterSet = new ParameterSet(subProblem.ParameterSet);
-                int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
+                key[i] = settings.SubProblemList[i].Encoding.Key;
+                parameterSet.SetValueRange(settings.SubProblemList[i].ParameterSet);
+            }
+
+            var random = (IRandom)Activator.CreateInstance(Settings.Random, settings.Seed);
+
+            //foreach (var subProblem in settings.SubProblemList)
+            //{
+            //    string key = subProblem.Encoding.Key;
+            //var parameterSet = new ParameterSet(subProblem.ParameterSet);
+            int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
 
                 for (int i = 0; i < islandsCount; i++)
                 {
+                    int seed = random.GetInt(0, Int32.MaxValue);
+
                     var islandSettings = settings.GetIslandSettings(new MultiKey(key));
-                    var islandProps = IslandActor.CreateProps(islandSettings);
+                    var islandProps = IslandActor.CreateProps(islandSettings, seed);
                     var actorRef = Context.ActorOf(islandProps);
                     Islands.Add(actorRef);
                     IslandsCount++;
                 }
-            }
+            //}
         }
 
         private void CountCreatedIslands()
@@ -61,9 +75,10 @@ namespace Pea.Akka.Actors
 
         private void InitIslands(InitEvaluator initMessage)
         {
+
             foreach (var island in Islands)
             {
-                island.Tell(initMessage);
+                island.Tell(new InitEvaluator(initMessage.InitData));
             }
         }
 
@@ -75,6 +90,11 @@ namespace Pea.Akka.Actors
                 {
                     island.Tell(travel);
                 }
+            }
+
+            if (travel.TravelerType == Migration.TravelerTypes.Best)
+			{
+                Context.Parent.Tell(travel);
             }
         }
 

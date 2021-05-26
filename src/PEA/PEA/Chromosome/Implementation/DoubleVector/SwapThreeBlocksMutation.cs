@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.DoubleVector
 {
-    public class SwapTwoBlocksMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
+	public class SwapThreeBlocksMutation : DoubleVectorOperatorBase, IMutation<DoubleVectorChromosome>
     {
-        public SwapTwoBlocksMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
+        public SwapThreeBlocksMutation(IRandom random, IParameterSet parameterSet, IList<IConflictDetector> conflictDetectors)
             : base(random, parameterSet, conflictDetectors)
         {
         }
@@ -21,18 +21,21 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 
             var blockPosition1 = Random.GetInt(1, length / blockSize);
             var blockPosition2 = Random.GetIntWithTabu(1, length / blockSize, blockPosition1);
+            var blockPosition3 = Random.GetIntWithTabu(1, length / blockSize, blockPosition1, blockPosition2);
 
             var position1 = blockPosition1 * blockSize;
             var position2 = blockPosition2 * blockSize;
+            var position3 = blockPosition3 * blockSize;
 
-            for (int i=0; i< blockSize; i++)
-			{
+            for (int i = 0; i < blockSize; i++)
+            {
                 var value1 = genes.Genes[position1 + i];
                 var value2 = genes.Genes[position2 + i];
+                var value3 = genes.Genes[position3 + i];
 
-                genes.Genes[position1 + i] = value2;
+                genes.Genes[position1 + i] = value3;
                 genes.Genes[position2 + i] = value1;
-
+                genes.Genes[position3 + i] = value2;
             }
 
             return chromosome;

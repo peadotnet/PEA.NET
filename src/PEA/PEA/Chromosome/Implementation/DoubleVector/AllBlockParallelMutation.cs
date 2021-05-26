@@ -12,15 +12,11 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 
         public IChromosome Mutate(IChromosome chromosome)
         {
-            var original = chromosome as DoubleVectorChromosome;
-            var length = original.Genes.Length;
+            var genes = chromosome as DoubleVectorChromosome;
+            var length = genes.Genes.Length;
 
-            //int retryCount = ParameterSet.GetInt(ParameterNames.FailedMutationRetryCount);
-            var mutationProbability = ParameterSet.GetValue(ParameterNames.MutationProbability);
             var mutationIntensity = ParameterSet.GetValue(ParameterNames.MutationIntensity);
             int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);
-
-            var mutated = new double[length];
 
             int relPos = Random.GetInt(0, blockSize);
             double modification = Random.GetGaussian(0, mutationIntensity);
@@ -29,15 +25,13 @@ namespace Pea.Chromosome.Implementation.DoubleVector
             {
                 for (int position = 0; position < blockSize; position++)
                 {
-                    var gene = original.Genes[blockSize * block + position];
+                    var gene = genes.Genes[blockSize * block + position];
                     if (position == relPos) gene += modification;
-                    mutated[blockSize * block + position] = gene;
+                    genes.Genes[blockSize * block + position] = gene;
                 }
             }
 
-            var mutatedChromosome = new DoubleVectorChromosome(mutated);
-            return mutatedChromosome;
-
+            return genes;
         }
     }
 }

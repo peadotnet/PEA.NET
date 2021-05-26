@@ -9,15 +9,15 @@ namespace Pea.Core.Island
 {
     public static class IslandEngineFactory
     {
-        public static IslandEngine Create(string islandName, PeaSettings settings)
+        public static IslandEngine Create(string islandName, PeaSettings settings, int seed)
         {
             var islandKey = new MultiKey(islandName);
-            return Create(islandKey, settings);
+            return Create(islandKey, settings, seed);
         }
 
-        public static IslandEngine Create(MultiKey islandKey, PeaSettings settings)
+        public static IslandEngine Create(MultiKey islandKey, PeaSettings settings, int seed)
 		{
-			int seed = settings.Seed != 0 ? settings.Seed : islandKey.GetHashCode() + Environment.TickCount;
+			if (seed == 0) seed = islandKey.GetHashCode() + Environment.TickCount;
 
 			var random = (IRandom)Activator.CreateInstance(settings.Random, seed);
 			var parameterSet = CreateParameters(settings);
@@ -139,7 +139,7 @@ namespace Pea.Core.Island
             var selection = new TournamentSelection(random, fitnessComparer, parameters);
             var replacement = new ReplaceWorstEntitiesOfPopulation(random, fitnessComparer, parameters);
             var strategy = new Migration.Implementation.MigrationStrategy(random, selection, replacement, engine.Parameters);
-            strategy.Parameters.SetValue(Migration.ParameterNames.MigrationReceptionRate, 0.02);
+            strategy.Parameters.SetValue(Migration.ParameterNames.MigrationReceptionRate, 0.01);
             return strategy;
         }
 

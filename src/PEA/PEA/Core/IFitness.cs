@@ -7,6 +7,7 @@ namespace Pea.Core
         IEntity Entity { get; set; }
         bool IsValid { get; set; }
         bool IsEquivalent(IFitness other);
+        bool IsLethal();
     }
 
     public interface IFitness<TF> : IFitness

@@ -35,11 +35,16 @@ namespace Pea.Akka
                         provider = Akka.Actor.LocalActorRefProvider
                         guardian-supervisor-strategy = Akka.Actor.DefaultSupervisorStrategy
                     }
+
+                    synchronized-dispatcher {
+                       type = SynchronizedDispatcher
+                       throughput = 10
+                    }
                 }";
 
             var config = ConfigurationFactory.ParseString(configString);
             System = ActorSystem.Create("PEA", config);
-            SystemActor = System.ActorOf(PeaSystemActor.CreateProps());
+            SystemActor = System.ActorOf(PeaSystemActor.CreateProps()); //.WithDispatcher("akka.synchronized-dispatcher"), "peasystem");
         }
 
         public PeaResult Start(PeaSettings settings, IEvaluationInitData initData)

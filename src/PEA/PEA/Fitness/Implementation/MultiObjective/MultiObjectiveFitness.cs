@@ -29,5 +29,14 @@ namespace Pea.Fitness.Implementation.MultiObjective
 
             return true;
         }
-    }
+
+		public bool IsLethal()
+		{
+            for(int i=0; i< Value.Count; i++)
+			{
+                if (double.IsInfinity(Value[i])) return true;
+			}
+            return false;
+		}
+	}
 }

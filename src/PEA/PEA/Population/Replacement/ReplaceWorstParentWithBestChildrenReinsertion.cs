@@ -21,13 +21,14 @@ namespace Pea.Population.Replacement
 
             var entityToRemove = FitnessComparer.Dominates(parents[0].Fitness, parents[1].Fitness) ? parents[0] : parents[1];
 
-            RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>() { entityToRemove });
-
             var entityToAdd = (offspring.Count > 1 && FitnessComparer.Dominates(offspring[0].Fitness, offspring[1].Fitness)) ? offspring[1] : offspring[0];
 
-            AddEntitiesToPopulation(targetPopulation, new List<IEntity>() { entityToAdd });
-
-            inserted.Add(entityToAdd);
+            if (!entityToAdd.Fitness.IsLethal())
+            {
+                RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>() { entityToRemove });
+                AddEntitiesToPopulation(targetPopulation, new List<IEntity>() { entityToAdd });
+                inserted.Add(entityToAdd);
+            }
 
             return inserted;
         }

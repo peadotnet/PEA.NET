@@ -19,7 +19,8 @@ namespace Pea.Algorithm
             return new List<PeaSettingsNamedValue>()
             {
                 new PeaSettingsNamedValue(Selection.ParameterNames.TournamentSize, 2),
-                new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 2)
+                new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 2),
+                new PeaSettingsNamedValue(ParameterNames.SubCycleRunCount, 10000)
             };
         }
 
@@ -27,8 +28,8 @@ namespace Pea.Algorithm
         {
             return new List<Type>()
             {
-                typeof(ReplaceParentsOnlyWithBetter)
-                //typeof(ReplaceWorstParentWithBestChildrenReinsertion)
+				//typeof(ReplaceParentsOnlyWithBetter),
+				typeof(ReplaceWorstParentWithBestChildrenReinsertion)
             };
         }
 

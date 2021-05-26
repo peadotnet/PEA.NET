@@ -21,7 +21,7 @@ namespace Pea.Core.Island
 			}
 			Key = new MultiKey(keys);
 
-			var islandEngine = IslandEngineFactory.Create(Key, settings);
+			var islandEngine = IslandEngineFactory.Create(Key, settings, settings.Seed);
 
 			AddCallbackEvents(islandEngine, settings.NewEntityMergedToBest);
 

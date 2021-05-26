@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Akka.Actor;
 using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
@@ -15,17 +16,75 @@ namespace Pea.Akka.Actors
         private int _receivedAcknowledgementsCount = 0;
         private IActorRef _starter;
 
+        List<IEntity> Bests = new List<IEntity>();
+        IFitnessComparer FitnessComparer;
+        event NewEntitiesMergedToBestDelegate NewEntitiesMergedToBest;
+
+        List<IEntity> Result = new List<IEntity>();
+        int ResultsWaitForCount;
+
         public PeaSystemActor()
         {
             Receive<CreateSystem>(m => CreateSystem(m.Settings));
             Receive<CreatedSuccessfully>(m=> CountCreatedArchipelagos());
             Receive<InitEvaluator>(m => InitArchipelagos(m));
-            Receive<PeaResult>(m => SendResultBack(m));
+            Receive<Travel>(m => Transit(m));
+            Receive<PeaResult>(m => CollectResults(m));
         }
 
-        private void SendResultBack(PeaResult result)
+		private void Transit(Travel travel)
+		{
+			if (travel.TravelerType == Migration.TravelerTypes.Best)
+			{
+                MergeToBests(travel.Members);
+			}
+		}
+
+		private void AddCallbackEvents(List<NewEntitiesMergedToBestDelegate> delegates)
         {
-            _starter.Tell(result);
+            if (delegates.Count > 0)
+            {
+                for (int d = 0; d < delegates.Count; d++)
+                {
+                    NewEntitiesMergedToBest += delegates[d];
+                }
+            }
+        }
+
+        public void MergeToBests(IList<IEntity> entities)
+        {
+            if (NewEntitiesMergedToBest == null) return;
+
+            bool anyMerged = false;
+            for (int e = 0; e < entities.Count; e++)
+            {
+                anyMerged |= FitnessComparer.MergeToBests(Bests, entities[e]);
+            }
+            if (anyMerged) NewEntitiesMergedToBest(Bests);
+        }
+
+        public void MergeToResults(IList<IEntity> entities)
+		{
+            for (int e = 0; e < entities.Count; e++)
+            {
+                FitnessComparer.MergeToBests(Result, entities[e]);
+            }
+        }
+
+        private void NewEntitiesMergetToBestCallback(IList<IEntity> bests)
+        {
+            if (NewEntitiesMergedToBest != null) NewEntitiesMergedToBest(bests);
+        }
+
+        private void CollectResults(PeaResult result)
+        {
+            MergeToResults(result.BestSolutions);
+            ResultsWaitForCount--;
+            if (ResultsWaitForCount == 0)
+            {
+                var finalResult = new PeaResult(result.StopReasons, Result);
+                _starter.Tell(finalResult);
+            }
         }
 
         private void InitArchipelagos(InitEvaluator initMessage)
@@ -51,6 +110,9 @@ namespace Pea.Akka.Actors
 
             var parameterSet = new ParameterSet(settings.ParameterSet);
             int archipelagosCount = parameterSet.GetInt(ParameterNames.ArchipelagosCount);
+            int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
+
+            ResultsWaitForCount = archipelagosCount * islandsCount;
 
             for (int a = 0; a < archipelagosCount; a++)
             {
@@ -59,6 +121,11 @@ namespace Pea.Akka.Actors
                 Archipelagos.Add(actorRef);
                 ArchipelagosCount++;
             }
+
+            var fitness = (IFitnessFactory)Activator.CreateInstance(settings.Fitness);
+            FitnessComparer = fitness.GetFitnessComparer();
+
+            AddCallbackEvents(settings.NewEntityMergedToBest);
         }
 
         public static Props CreateProps()

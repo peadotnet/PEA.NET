@@ -1,4 +1,5 @@
-﻿using Pea.Akka.Messages;
+﻿using Pea.Akka;
+using Pea.Akka.Messages;
 using Pea.Configuration;
 using Pea.Core;
 using Pea.Core.Island;
@@ -8,10 +9,12 @@ namespace Pea
 	public class Optimizer
     {
         public PeaSettingsBuilder Settings { get; set; } = new PeaSettingsBuilder();
+        AkkaSystemProvider _provider = new AkkaSystemProvider();
+
 
         private Optimizer()
         {
-            
+
         }
 
         public static Optimizer Create()
@@ -74,15 +77,24 @@ namespace Pea
             return this;
         }
 
+
+
         public PeaResult Run(IEvaluationInitData initData) //async Task<PeaResult>
         {
             var settings = Settings.Build();
-            var localRunner = new IslandLocalRunner();
-            var result = localRunner.Run(settings, initData);
 
-            //AkkaSystemProvider provider = new AkkaSystemProvider();
-            //PeaResult result = provider.Start(settings, initData);  //await
-            return result;
+            var islandsCount = settings.ParameterSet.FindLast(p => p.Name == ParameterNames.IslandsCount).Value; //TODO: clarify this
+            PeaResult result = null;
+			if (islandsCount < 2)
+			{
+				var localRunner = new IslandLocalRunner();
+				result = localRunner.Run(settings, initData);
+			}
+			else
+			{
+				result = _provider.Start(settings, initData);  //await
+			}
+			return result;
         }
     }
 }

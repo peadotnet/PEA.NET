@@ -12,7 +12,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 
         public IChromosome Mutate(IChromosome chromosome)
         {
-            return chromosome.DeepClone();
+            return chromosome;
         }
     }
 }

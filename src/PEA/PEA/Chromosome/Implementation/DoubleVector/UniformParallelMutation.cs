@@ -12,30 +12,26 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 
         public IChromosome Mutate(IChromosome chromosome)
         {
-            var original = chromosome as DoubleVectorChromosome;
-            var length = original.Genes.Length;
+            var genes = chromosome as DoubleVectorChromosome;
+            var length = genes.Genes.Length;
 
             var mutationProbability = ParameterSet.GetValue(ParameterNames.MutationProbability);
             var mutationIntensity = ParameterSet.GetValue(ParameterNames.MutationIntensity);
 
-            var mutated = new double[length];
             var modification = Random.GetGaussian(0, mutationIntensity);
 
             for (int i = 0; i < length; i++)
             {
-                var gene = original.Genes[i];
-
                 var rnd = Random.GetDouble(0, 1);
                 if (rnd < mutationProbability)
                 {
+                    var gene = genes.Genes[i];
                     gene += modification;
+                    genes.Genes[i] = gene;
                 }
-
-                mutated[i] = gene;
             }
 
-            var mutatedChromosome = new DoubleVectorChromosome(mutated);
-            return mutatedChromosome;
+            return genes;
         }
     }
 }

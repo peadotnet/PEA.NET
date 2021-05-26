@@ -6,5 +6,6 @@
         public const string SelectionRate = "SelectionRate";
 
         public const string ReinsertionRate = "ReinsertionRate";
+        public const string SubCycleRunCount = "SubCycleRunCount";
     }
 }

@@ -69,14 +69,14 @@ namespace Pea.Core.Island
         {
             IList<IEntity> travelers = new List<IEntity>();
             bool anyMerged = false;
-            foreach (var entity in entities)
+            for(int e = 0; e < entities.Count; e++)
             {
-                bool merged = FitnessComparer.MergeToBests(Algorithm.Population.Bests, entity);
+                bool merged = FitnessComparer.MergeToBests(Algorithm.Population.Bests, entities[e]);
                 if (merged)
                 {
-                    travelers.Add(entity);
+                    travelers.Add(entities[e]);
                     var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
-                    Debug.WriteLine(timeString + " " + entity.ToString());
+                    Debug.WriteLine(timeString + " " + entities[e].ToString());
                     anyMerged = true;
                 }
             }
@@ -95,10 +95,10 @@ namespace Pea.Core.Island
         public void TravelersArrived(IList<IEntity> travelers)
         {
             //TODO: Migration replacement
-            foreach (var traveler in travelers)
-            {
-                FitnessComparer.MergeToBests(Algorithm.Population.Bests, traveler);
-            }
+            //foreach (var traveler in travelers)
+            //{
+            //    FitnessComparer.MergeToBests(Algorithm.Population.Bests, traveler);
+            //}
 
             if (MigrationStrategy.TravelerReceptionDecision(Algorithm.Population.Entities))
             {
