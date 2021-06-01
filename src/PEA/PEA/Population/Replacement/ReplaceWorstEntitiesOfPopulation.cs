@@ -11,7 +11,7 @@ namespace Pea.Population.Replacement
 
         public override IList<IEntity> Replace(IList<IEntity> population, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
         {
-            var inserted = new List<IEntity>();
+            var inserted = new List<IEntity>(offspring.Count);
             int tournamentSize = Parameters.GetInt(ParameterNames.TournamentSize);
 
             for (int i = 0; i < offspring.Count; i++)

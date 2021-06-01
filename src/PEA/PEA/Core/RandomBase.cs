@@ -35,7 +35,7 @@ namespace Pea.Core
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
-            var ints = new List<int>();
+            var ints = new List<int>(count);
 
             for (int i = 0; i < count; i++)
             {

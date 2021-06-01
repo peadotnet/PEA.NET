@@ -14,7 +14,7 @@ namespace Pea.Akka.Actors
         public int IslandsCount { get; private set; } = 0;
 
         private PeaSettings Settings;
-        List<IActorRef> Islands = new List<IActorRef>();
+        List<IActorRef> Islands;
         private int ReceivedAcknowledgementsCount = 0;
         private IActorRef _starter;
 
@@ -49,9 +49,10 @@ namespace Pea.Akka.Actors
             //{
             //    string key = subProblem.Encoding.Key;
             //var parameterSet = new ParameterSet(subProblem.ParameterSet);
-            int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
 
-                for (int i = 0; i < islandsCount; i++)
+            int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
+            Islands = new List<IActorRef>(islandsCount);
+            for (int i = 0; i < islandsCount; i++)
                 {
                     int seed = random.GetInt(0, Int32.MaxValue);
 

@@ -16,6 +16,7 @@ namespace Pea.Core.Island
         public IDictionary<string, IList<IConflictDetector>> ConflictDetectors { get; set; }
         public IProvider<IEntityCreator> EntityCreators { get; set; }
         public IProvider<ISelection> Selections { get; set; }
+        public IReduction Reduction { get; set; }
         public IFitnessComparer FitnessComparer { get; set; }
         public IEntityCrossover EntityCrossover { get; set; }
         public IEntityMutation EntityMutation { get; set; }
@@ -67,7 +68,7 @@ namespace Pea.Core.Island
 
         public void MergeToBests(IList<IEntity> entities)
         {
-            IList<IEntity> travelers = new List<IEntity>();
+            IList<IEntity> travelers = new List<IEntity>(entities.Count);
             bool anyMerged = false;
             for(int e = 0; e < entities.Count; e++)
             {

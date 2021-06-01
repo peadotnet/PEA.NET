@@ -20,6 +20,7 @@ namespace Pea.Core
         IFitnessComparer FitnessComparer { get; }
         IProvider<IReplacement> Replacements { get; }
         IProvider<ISelection> Selections { get; }
+        IReduction Reduction { get; set; }
         IEvaluation Evaluation { get; set; }
         ParameterSet Parameters { get; }
 

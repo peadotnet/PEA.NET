@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.Configuration;
 using Pea.ActorModel.Messages;
@@ -35,20 +36,16 @@ namespace Pea.Akka
                         provider = Akka.Actor.LocalActorRefProvider
                         guardian-supervisor-strategy = Akka.Actor.DefaultSupervisorStrategy
                     }
-
-                    synchronized-dispatcher {
-                       type = SynchronizedDispatcher
-                       throughput = 10
-                    }
                 }";
 
             var config = ConfigurationFactory.ParseString(configString);
             System = ActorSystem.Create("PEA", config);
-            SystemActor = System.ActorOf(PeaSystemActor.CreateProps()); //.WithDispatcher("akka.synchronized-dispatcher"), "peasystem");
+            SystemActor = System.ActorOf(PeaSystemActor.CreateProps());
         }
 
         public PeaResult Start(PeaSettings settings, IEvaluationInitData initData)
         {
+
             var inbox = Inbox.Create(System);
             PeaResult result = null;
             try
@@ -58,12 +55,12 @@ namespace Pea.Akka
                 if (response is CreatedSuccessfully)
                 {
                     inbox.Send(SystemActor, new InitEvaluator(initData));
-                    result = (PeaResult)inbox.Receive(TimeSpan.FromHours(1));
+                    result = (PeaResult)inbox.Receive(TimeSpan.FromMinutes(10));
                 }
             }
             catch (Exception e)
             {
-                result = new PeaResult(new List<string>() {e.Message}, new List<IEntity>());
+                result = new PeaResult(new List<string>() {e.ToString()}, new List<IEntity>());
             }
 
 
@@ -76,7 +73,5 @@ namespace Pea.Akka
 
             return result;
         }
-
-
     }
 }

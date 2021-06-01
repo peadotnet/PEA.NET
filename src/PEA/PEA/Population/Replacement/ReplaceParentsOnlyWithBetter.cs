@@ -13,7 +13,8 @@ namespace Pea.Population.Replacement
 
 		public override IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
 		{
-			var inserted = new List<IEntity>();
+			var inserted = new List<IEntity>(1);
+			var populationSize = Parameters.GetValue(Algorithm.ParameterNames.PopulationSize);
 			//TODO: FitnessComparer.SelectWorst, SelectBest
 
 			if (offspring.Count == 0) return inserted;
@@ -23,9 +24,14 @@ namespace Pea.Population.Replacement
 
 			if (FitnessComparer.Dominates(entityToRemove.Fitness, entityToAdd.Fitness))
 			{
-				RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>() { entityToRemove });
-				AddEntitiesToPopulation(targetPopulation, new List<IEntity>() { entityToAdd });
+				AddEntitiesToPopulation(targetPopulation, new List<IEntity>(1) { entityToAdd });
 				inserted.Add(entityToAdd);
+
+				if (sourcePopulation.Count > populationSize)
+				{
+					RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>(1) { entityToRemove });
+				}
+
 			}
 
 			return inserted;

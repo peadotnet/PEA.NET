@@ -27,7 +27,7 @@ namespace Pea.Chromosome
 				new TwoPointCrossover(random, parameterSet, conflictDetectors),
                 new OneGeneInterpolationCrossover(random, parameterSet, conflictDetectors),
                 //new UniformCrossover(random, parameterSet, conflictDetectors),
-                //new InterpolationCrossover(random, parameterSet, conflictDetectors),
+                new InterpolationCrossover(random, parameterSet, conflictDetectors),
                 //new UniformInterpolationCrossover(random, parameterSet, conflictDetectors)
             };
 
@@ -41,7 +41,8 @@ namespace Pea.Chromosome
                 new SwapThreeBlocksMutation(random, parameterSet, conflictDetectors),
                 new UniformParallelMutation(random, parameterSet, conflictDetectors),
                 new UniformBlockParallelMutation(random, parameterSet, conflictDetectors),
-                new AllBlockParallelMutation(random, parameterSet, conflictDetectors)
+                new AllBlockParallelMutation(random, parameterSet, conflictDetectors),
+                new OneBlockRegenerationMutation(random, parameterSet, conflictDetectors)
             };
         }
 

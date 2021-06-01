@@ -21,7 +21,7 @@ namespace Pea.Fitness
 
         public IFitness GetFitness()
         {
-             return new MultiObjectiveFitness(_numberOfObjectives);
+             return new MultiObjectiveFitness(new double[_numberOfObjectives]);
         }
 
         public IFitnessComparer GetFitnessComparer()

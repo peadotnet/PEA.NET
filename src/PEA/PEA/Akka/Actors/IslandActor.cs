@@ -96,6 +96,8 @@ namespace Pea.Akka.Actors
                     break;
                 }
             }
+
+            Engine.Reduction.Reduct(Engine.Algorithm.Population.Entities);
             if (!stop.MustStop) Self.Tell(Continue.Instance);
         }
 
@@ -109,7 +111,7 @@ namespace Pea.Akka.Actors
 
             if (Evaluator == null)
             {
-                evaluatedEntities = new List<IEntity>();
+                evaluatedEntities = new List<IEntity>(entityList.Count);
                 for(int e = 0; e< entityList.Count; e++)
                 {
                     var entityWithKey = new Dictionary<MultiKey, IEntity> { { IslandKey, entityList[e] } };

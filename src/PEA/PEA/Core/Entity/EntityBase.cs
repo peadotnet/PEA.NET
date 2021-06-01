@@ -7,10 +7,15 @@ namespace Pea.Core.Entity
     {
         public int IndexOfList { get; set; }
         public MultiKey OriginIslandKey { get; set; }
-        public IDictionary<string, IChromosome> Chromosomes { get; set; } = new Dictionary<string, IChromosome>();
+        public IDictionary<string, IChromosome> Chromosomes { get; set; }
         public IFitness Fitness { get; private set; }
-        public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>();
-        public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>(2);
+        public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>(1);
+
+        public EntityBase(int chromosomesCount)
+		{
+            Chromosomes = new Dictionary<string, IChromosome>(chromosomesCount);
+        }
 
         public virtual IEntity Clone(bool cloneChromosomes)
         {

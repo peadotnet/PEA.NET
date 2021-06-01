@@ -32,7 +32,7 @@ namespace Pea.Core.Entity
         {
             if (parents.Count < 2) throw new ArgumentException(nameof(parents));
 
-            var offsprings = new List<IEntity>();
+            var offsprings = new List<IEntity>(count);
 
             while (offsprings.Count < count)
             {
@@ -48,7 +48,7 @@ namespace Pea.Core.Entity
 
                 foreach (var chromosomeName in parents[0].Chromosomes.Keys)
                 {
-                    IList<IChromosome> crossoveredChromosomes = new List<IChromosome>();
+                    IList<IChromosome> crossoveredChromosomes = new List<IChromosome>(parent0.Chromosomes.Count);
                     while (crossoveredChromosomes.Count == 0)
                     {
                         var provider = CrossoverProviders[chromosomeName];

@@ -10,9 +10,11 @@ namespace Pea.Algorithm.Implementation
 
         public override void InitPopulation()
         {
-            Population = new Population.Population();
-
             var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
+            var minNumberOfEntities = System.Convert.ToInt32(Engine.Parameters.GetValue(ParameterNames.SelectionRate) * maxNumberOfEntities);
+
+            Population = new Population.Population(minNumberOfEntities, maxNumberOfEntities + 2);
+
             for (int i = 0; i < maxNumberOfEntities; i++)
             {
                 var entity = CreateEntity();

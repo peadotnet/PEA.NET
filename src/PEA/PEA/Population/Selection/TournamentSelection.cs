@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Core;
+using Pea.Population;
 
 namespace Pea.Selection
 {
@@ -75,8 +76,15 @@ namespace Pea.Selection
                 var comparisonResult = FitnessComparer.Compare(best.Fitness, next.Fitness);
                 if (comparisonResult > 0)
                 {
+                    next.Fitness.TournamentWinner++;
+                    best.Fitness.TournamentLoser++;
                     best = next;
                 }
+                else
+				{
+                    best.Fitness.TournamentWinner++;
+                    next.Fitness.TournamentLoser++;
+				}
             }
 
             return best;

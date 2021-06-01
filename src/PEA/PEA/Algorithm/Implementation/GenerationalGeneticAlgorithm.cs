@@ -13,9 +13,12 @@ namespace Pea.Algorithm.Implementation
 
 		public override void InitPopulation()
 		{
-			Population = new Population.Population();
 
 			var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
+			var minNumberOfEntitis = Convert.ToInt32(Engine.Parameters.GetValue(ParameterNames.SelectionRate) * maxNumberOfEntities);
+
+			Population = new Population.Population(minNumberOfEntitis, maxNumberOfEntities);
+
 			for (int i = 0; i < maxNumberOfEntities; i++)
 			{
 				var entity = CreateEntity();
@@ -32,7 +35,7 @@ namespace Pea.Algorithm.Implementation
 			var selectionRate = Engine.Parameters.GetValue(ParameterNames.SelectionRate);
 			var minEntityCount = Convert.ToInt32(selectionRate * populationSize);
 
-			var nextGeneration = new List<IEntity>();
+			var nextGeneration = new List<IEntity>(populationSize);
 			var parents = SelectParents(Population.Entities, minEntityCount);
 			var offspring = Crossover(parents, populationSize);
 			var mutated = Mutate(offspring);

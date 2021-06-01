@@ -6,6 +6,8 @@ namespace Pea.Core
     {
         IEntity Entity { get; set; }
         bool IsValid { get; set; }
+        int TournamentWinner { get; set; }
+        int TournamentLoser { get; set; }
         bool IsEquivalent(IFitness other);
         bool IsLethal();
     }
@@ -13,5 +15,6 @@ namespace Pea.Core
     public interface IFitness<TF> : IFitness
     {
         IReadOnlyList<TF> Value { get; }
+        double ConstraintViolation { get; }
     }
 }

@@ -18,7 +18,7 @@ namespace Pea.Configuration.ProblemModels
                 .WithAlgorithm<Algorithm.SteadyState>()
                 .SetParameter(Algorithm.ParameterNames.PopulationSize, TripsCount / 10)
                 .SetParameter(Chromosome.ParameterNames.MutationProbability, 0.7)
-                .SetParameter(Selection.ParameterNames.TournamentSize, 2)
+                .SetParameter(Population.ParameterNames.TournamentSize, 2)
                 .SetParameter("ProblemSize", TripsCount)
                 .SetParameter(Core.Island.ParameterNames.IslandsCount, 1);// Math.Floor(Math.Sqrt(TripsCount)));
 

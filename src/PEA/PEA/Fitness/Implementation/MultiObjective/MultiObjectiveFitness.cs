@@ -8,11 +8,22 @@ namespace Pea.Fitness.Implementation.MultiObjective
     {
         public IEntity Entity { get; set; }
         public IReadOnlyList<double> Value { get; }
+        public double ConstraintViolation { get; }
         public bool IsValid { get; set; }
 
-        public MultiObjectiveFitness(params double[] values)
+        public int TournamentWinner { get; set; } = 0;
+        public int TournamentLoser { get; set; } = 0;
+
+        public int DominationCount { get; set; }
+        public IList<int> DominatedEnities { get; set; }
+
+        public int Rank { get; set; }
+        public double CrowdingDistance { get; set; }
+
+        public MultiObjectiveFitness(double[] values, double constraintViolation = 0)
         {
             Value = ImmutableArray.Create<double>(values);
+            ConstraintViolation = constraintViolation;
         }
 
         public bool IsEquivalent(IFitness other)

@@ -17,12 +17,31 @@ namespace Pea.Fitness.Implementation.MultiObjective
         /// <returns>1 if y dominates x, -1 if x dominates y, 0 otherwise</returns>
         public int Compare(IFitness<double> x, IFitness<double> y)
         {
-            if (Dominates(x, y)) return 1;
+            if (ConstraintsAreViolated(x, y)) return CompareConstraintViolations(x, y);
+
+			if (Dominates(x, y)) return 1;
             if (Dominates(y, x)) return -1;
             return 0;
         }
 
-        public bool MergeToBests(IList<IEntity> bests, IEntity entity)
+        private bool ConstraintsAreViolated(IFitness<double> x, IFitness<double> y)
+		{
+            return x.ConstraintViolation > 0 || y.ConstraintViolation > 0;
+        }
+
+		public int CompareConstraintViolations(IFitness<double> x, IFitness<double> y)
+		{
+            if (x.ConstraintViolation > 0 && y.ConstraintViolation > 0)
+            {
+                var comparison = x.ConstraintViolation.CompareTo(y.ConstraintViolation);
+                return comparison;
+            }
+
+			if (x.ConstraintViolation > 0) return 1;
+            return -1;
+		}
+
+		public bool MergeToBests(IList<IEntity> bests, IEntity entity)
         {
             bool hasToBeAdded = true;
 
@@ -74,6 +93,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
         public bool Dominates(IFitness<double> x, IFitness<double> y)
         {
             var dominates = false;
+
             for (int i = 0; i < x.Value.Count; i++)
             {
                 var diff = x.Value[i] - y.Value[i];

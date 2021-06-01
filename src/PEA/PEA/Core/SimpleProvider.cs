@@ -20,13 +20,13 @@ namespace Pea.Core
 
 		public IEnumerator<T> GetEnumerator()
 		{
-            var enumerable = new List<T>() { Item };
+            var enumerable = new List<T>(1) { Item };
             return enumerable.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-            var enumerable = new List<T>() { Item };
+            var enumerable = new List<T>(1) { Item };
             return enumerable.GetEnumerator();
         }
     }

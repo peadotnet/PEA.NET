@@ -15,7 +15,8 @@ namespace Pea.Population.Replacement
         {
             //TODO: FitnessComparer.SelectWorst, SelectBest
 
-            var inserted = new List<IEntity>();
+            var populationSize = Parameters.GetInt(Pea.Algorithm.ParameterNames.PopulationSize);
+            var inserted = new List<IEntity>(offspring.Count);
 
             if (offspring.Count == 0) return inserted;
 
@@ -25,9 +26,17 @@ namespace Pea.Population.Replacement
 
             if (!entityToAdd.Fitness.IsLethal())
             {
-                RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>() { entityToRemove });
-                AddEntitiesToPopulation(targetPopulation, new List<IEntity>() { entityToAdd });
+                AddEntitiesToPopulation(targetPopulation, new List<IEntity>(1) { entityToAdd });
                 inserted.Add(entityToAdd);
+
+                if (sourcePopulation.Count > populationSize)
+                {
+                    RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>(1) { entityToRemove });
+                }
+                else
+				{
+                    bool reducted = true;
+				}
             }
 
             return inserted;

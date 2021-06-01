@@ -16,9 +16,9 @@ namespace Pea.Algorithm
 
 		public IEnumerable<PeaSettingsNamedValue> GetParameters()
 		{
-			return new List<PeaSettingsNamedValue>()
+			return new List<PeaSettingsNamedValue>(3)
 			{
-				new PeaSettingsNamedValue(Selection.ParameterNames.TournamentSize, 4),
+				new PeaSettingsNamedValue(Population.ParameterNames.TournamentSize, 4),
 				new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 8),
 				new PeaSettingsNamedValue(ParameterNames.SelectionRate, 0.2)
 			};
@@ -26,7 +26,7 @@ namespace Pea.Algorithm
 
 		public IList<Type> GetReinsertions()
 		{
-			return new List<Type>()
+			return new List<Type>(1)
 			{
 				typeof(ReinsertAll)
 			};
@@ -34,7 +34,7 @@ namespace Pea.Algorithm
 
 		public IList<Type> GetSelections()
 		{
-			return new List<Type>()
+			return new List<Type>(1)
 			{
 				typeof(Selection.TournamentSelection)
 			};

@@ -26,7 +26,7 @@ namespace Pea.Core.Entity
 
         public IList<IEntity> Mutate(IList<IEntity> entities)
         {
-            var result = new List<IEntity>();
+            var result = new List<IEntity>(entities.Count);
             for (int i=0; i< entities.Count; i++)
             { 
                 var mutated = MutateEntity(entities[i]);

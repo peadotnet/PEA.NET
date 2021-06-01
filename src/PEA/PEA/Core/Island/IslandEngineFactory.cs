@@ -47,8 +47,9 @@ namespace Pea.Core.Island
 			engine.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
 			engine.Replacements = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
 			engine.MigrationStrategy = migrationStrategy;
+            engine.Reduction = new Population.Reduction.CleanOutTournamentLosers(random, parameterSet);
 
-			engine.Parameters.SetValueRange(algorithm.GetParameters());
+            engine.Parameters.SetValueRange(algorithm.GetParameters());
 
 			engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
 			engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);

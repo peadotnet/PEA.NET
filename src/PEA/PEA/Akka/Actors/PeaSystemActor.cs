@@ -12,7 +12,7 @@ namespace Pea.Akka.Actors
     public class PeaSystemActor : ReceiveActor
     {
         public int ArchipelagosCount = 0;
-        public List<IActorRef> Archipelagos { get; } = new List<IActorRef>();
+        public List<IActorRef> Archipelagos;
         private int _receivedAcknowledgementsCount = 0;
         private IActorRef _starter;
 
@@ -113,6 +113,8 @@ namespace Pea.Akka.Actors
             int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
 
             ResultsWaitForCount = archipelagosCount * islandsCount;
+
+            Archipelagos = new List<IActorRef>(archipelagosCount);
 
             for (int a = 0; a < archipelagosCount; a++)
             {

@@ -39,7 +39,7 @@ namespace Pea.Core
 
         public IEnumerable<PeaSettingsNamedValue> GetAllValues()
         {
-            var parameters = new List<PeaSettingsNamedValue>();
+            var parameters = new List<PeaSettingsNamedValue>(Parameters.Count);
 
             foreach (var parameter in Parameters)
             {
