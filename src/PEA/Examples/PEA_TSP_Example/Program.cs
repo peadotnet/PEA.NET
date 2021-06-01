@@ -25,7 +25,7 @@ namespace PEA_TSP_Example
 
             optimizer.Settings.WithEntityType<TSPEntity>().WithEvaluation<TSPEvaluation>();
 
-            var fitnessLimit = new MultiObjectiveFitness(-7545);
+            var fitnessLimit = new MultiObjectiveFitness(new double[] { -7545 });
             optimizer.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)
                 .Or().TimeoutElapsed(300000);
 

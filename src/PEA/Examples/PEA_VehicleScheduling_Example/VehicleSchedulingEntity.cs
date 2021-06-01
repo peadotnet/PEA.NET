@@ -9,7 +9,11 @@ namespace PEA_VehicleScheduling_Example
         public double TotalDeadMileage = 0;
         public int TotalActiveTime = 0;
 
-        public override IEntity Clone(bool cloneChromosomes)
+		public VehicleSchedulingEntity() : base(2)
+		{
+		}
+
+		public override IEntity Clone(bool cloneChromosomes)
         {
             var clone = base.Clone(cloneChromosomes) as VehicleSchedulingEntity;
             clone.OriginIslandKey = this.OriginIslandKey;

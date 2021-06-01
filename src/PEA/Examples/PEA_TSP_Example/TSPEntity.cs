@@ -9,7 +9,11 @@ namespace PEA_TSP_Example
     {
         public List<SpatialPoint> Phenotype = new List<SpatialPoint>();
 
-        public double TotalDistance { get; set; }
+		public TSPEntity() : base(1)
+		{
+		}
+
+		public double TotalDistance { get; set; }
 
         public override IEntity Clone(bool cloneChromosomes)
         {

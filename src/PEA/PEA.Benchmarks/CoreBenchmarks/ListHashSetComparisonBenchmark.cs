@@ -12,7 +12,7 @@ namespace PEA.Benchmarks.CoreBenchmarks
 		{
 			public double SomeValue { get; }
 
-			public TestEntity(double someValue)
+			public TestEntity(double someValue) : base(1)
 			{
 				SomeValue = someValue;
 			}
