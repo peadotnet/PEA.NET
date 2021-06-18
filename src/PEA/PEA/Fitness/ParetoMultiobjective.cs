@@ -8,7 +8,7 @@ namespace Pea.Fitness
         public IEntity Entity { get; internal set; }
 
         private int _numberOfObjectives { get; }
-        private static readonly NonDominatedParetoComparer FitnessComparer = new NonDominatedParetoComparer();
+        private static readonly IFitnessComparer FitnessComparer = new ParetoComparerWithConstraintViolationReduction();
 
         public ParetoMultiobjective() : this(1)
         {

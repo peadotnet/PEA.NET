@@ -72,6 +72,8 @@ namespace Pea.Core.Island
             bool anyMerged = false;
             for(int e = 0; e < entities.Count; e++)
             {
+                if (entities[e].Fitness.IsLethal()) continue;
+
                 bool merged = FitnessComparer.MergeToBests(Algorithm.Population.Bests, entities[e]);
                 if (merged)
                 {

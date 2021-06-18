@@ -21,7 +21,8 @@ namespace Pea.Algorithm
                 new PeaSettingsNamedValue(Population.ParameterNames.TournamentSize, 4),
                 new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 2),
                 new PeaSettingsNamedValue(ParameterNames.SubCycleRunCount, 10000),
-                new PeaSettingsNamedValue(Population.ParameterNames.ReductionRate, 0.9)
+                new PeaSettingsNamedValue(Population.ParameterNames.ReductionRate, 0.9),
+                new PeaSettingsNamedValue(Algorithm.ParameterNames.SelectionRate, 0.9)
             };
         }
 

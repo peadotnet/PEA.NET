@@ -8,6 +8,7 @@ using Algorithm = Pea.Algorithm;
 using Island = Pea.Core.Island;
 using Chromosome = Pea.Chromosome;
 using Pea;
+using Pea.Core.Island;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -30,6 +31,8 @@ namespace PEA_VehicleScheduling_Example
                 .WithEvaluation<VSEvaluation>();    //TODO: WithCreator
 
             optimizer.Settings.StopWhen().TimeoutElapsed(120 * 1000);
+
+            optimizer.SetParameter(ParameterNames.IslandsCount, 10);
 
 
 

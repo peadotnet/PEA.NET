@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Algorithm\Implementation\NsgaII\" />
+    <Folder Include="Algorithm\Implementation\Nsga2\" />
     <Folder Include="Chromosome\Implementation\MultiSectionPermutation\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
     <Folder Include="Util\Types\" />

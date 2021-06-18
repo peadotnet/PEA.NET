@@ -22,12 +22,14 @@ namespace PEA_TSP_Example
 
             var optimizer = Optimizer.Create();
             optimizer.Settings.AddSubProblem("TSP", new TravelingSalesmanProblem(tspData.Count));
-
             optimizer.Settings.WithEntityType<TSPEntity>().WithEvaluation<TSPEvaluation>();
 
             var fitnessLimit = new MultiObjectiveFitness(new double[] { -7545 });
             optimizer.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)
                 .Or().TimeoutElapsed(300000);
+
+            optimizer.SetParameter(Pea.Core.Island.ParameterNames.IslandsCount, 10);
+
 
             Stopwatch sw = Stopwatch.StartNew();
 

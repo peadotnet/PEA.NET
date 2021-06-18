@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Pea.Core;
 
 namespace Pea.Fitness.Implementation.MultiObjective
 {
-    public class NonDominatedParetoComparer : IFitnessComparer<double>
+	public class ParetoComparerWithUnpreferringConstraintViolation : IFitnessComparer<double>
     {
         public int Compare(object x, object y)
         {
@@ -17,16 +16,13 @@ namespace Pea.Fitness.Implementation.MultiObjective
         /// <returns>1 if y dominates x, -1 if x dominates y, 0 otherwise</returns>
         public int Compare(IFitness<double> x, IFitness<double> y)
         {
-            if (ConstraintsAreViolated(x, y)) return CompareConstraintViolations(x, y);
+            if (x.ConstraintViolation > 0 && y.ConstraintViolation <= 0) return 1;
+            if (x.ConstraintViolation <= 0 && y.ConstraintViolation > 0) return -1;
 
 			if (Dominates(x, y)) return 1;
             if (Dominates(y, x)) return -1;
-            return 0;
-        }
 
-        private bool ConstraintsAreViolated(IFitness<double> x, IFitness<double> y)
-		{
-            return x.ConstraintViolation > 0 || y.ConstraintViolation > 0;
+            return 0;
         }
 
 		public int CompareConstraintViolations(IFitness<double> x, IFitness<double> y)
@@ -44,11 +40,6 @@ namespace Pea.Fitness.Implementation.MultiObjective
 		public bool MergeToBests(IList<IEntity> bests, IEntity entity)
         {
             bool hasToBeAdded = true;
-
-            if (entity.Fitness == null)
-            {
-                int error = 1;
-            }
 
             for (int i = bests.Count-1; i >= 0; i--)
             {
