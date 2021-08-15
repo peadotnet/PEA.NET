@@ -1,6 +1,6 @@
 ﻿namespace Pea.Configuration
 {
-    public interface IProblemModel
+    public interface IScenario
     {
         SubProblemBuilder Apply(string key, SubProblemBuilder subProblemBuilder);
     }

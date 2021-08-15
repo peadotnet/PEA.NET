@@ -55,7 +55,7 @@ namespace Pea.Akka
                 if (response is CreatedSuccessfully)
                 {
                     inbox.Send(SystemActor, new InitEvaluator(initData));
-                    result = (PeaResult)inbox.Receive(TimeSpan.FromMinutes(10));
+                    result = (PeaResult)inbox.Receive(TimeSpan.FromMinutes(30));
                 }
             }
             catch (Exception e)

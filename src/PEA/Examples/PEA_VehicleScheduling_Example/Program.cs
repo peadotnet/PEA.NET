@@ -24,7 +24,7 @@ namespace PEA_VehicleScheduling_Example
             var initData = new VSInitData(tripList, distances);
 
             var optimizer = Optimizer.Create();
-            optimizer.Settings.AddSubProblem("VehicleScheduling", new VehicleSchedulingProblem(tripList.Count))
+            optimizer.Settings.AddSubProblem("VehicleScheduling", new VehicleScheduling(tripList.Count))
                 .AddConflictDetector<VSConflictDetector>();
 
             optimizer.Settings.WithEntityType<VehicleSchedulingEntity>()

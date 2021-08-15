@@ -21,7 +21,7 @@ namespace PEA_TSP_Example
             var initData = new TSPInitData(tspData);
 
             var optimizer = Optimizer.Create();
-            optimizer.Settings.AddSubProblem("TSP", new TravelingSalesmanProblem(tspData.Count));
+            optimizer.Settings.AddSubProblem("TSP", new TravelingSalesman(tspData.Count));
             optimizer.Settings.WithEntityType<TSPEntity>().WithEvaluation<TSPEvaluation>();
 
             var fitnessLimit = new MultiObjectiveFitness(new double[] { -7545 });

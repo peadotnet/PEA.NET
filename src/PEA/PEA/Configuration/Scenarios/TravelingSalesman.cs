@@ -2,11 +2,11 @@
 
 namespace Pea.Configuration.ProblemModels
 {
-    public class TravelingSalesmanProblem : IProblemModel
+    public class TravelingSalesman : IScenario
     {
         public int Size { get; }
 
-        public TravelingSalesmanProblem(int size)
+        public TravelingSalesman(int size)
         {
             Size = size;
         }

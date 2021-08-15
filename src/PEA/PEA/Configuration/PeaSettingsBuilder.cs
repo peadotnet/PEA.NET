@@ -19,7 +19,7 @@ namespace Pea.Configuration
             return problemBuilder;
         }
 
-        public SubProblemBuilder AddSubProblem(string key, IProblemModel problemModel)
+        public SubProblemBuilder AddSubProblem(string key, IScenario problemModel)
         {
             var problemBuilder = problemModel.Apply(key, new SubProblemBuilder());
             SubProblems.Add(problemBuilder);

@@ -2,11 +2,11 @@
 
 namespace Pea.Configuration.ProblemModels
 {
-    public class VehicleSchedulingProblem : IProblemModel
+    public class VehicleScheduling : IScenario
     {
         public int TripsCount { get; set; }
 
-        public VehicleSchedulingProblem(int tripsCount)
+        public VehicleScheduling(int tripsCount)
         {
             TripsCount = tripsCount;
         }

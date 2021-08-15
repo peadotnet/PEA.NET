@@ -1,11 +1,9 @@
 ﻿using Pea.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Pea.Chromosome.Implementation.DoubleVector
 {
-    public class DoubleVectorOperatorBase
+	public class DoubleVectorOperatorBase
     {
         public IList<IConflictDetector> ConflictDetectors;
 

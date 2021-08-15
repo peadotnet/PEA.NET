@@ -124,6 +124,7 @@
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetMutationTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetOperatorBaseTests.cs" />
     <Compile Include="ChromosomeTests\SortedSubsetTests\SortedSubsetTestData.cs" />
+    <Compile Include="ChromosomeTests\StructTests\FieldLevelOperationTests.cs" />
     <Compile Include="Configuration\ConfigurationSerializationTests.cs" />
     <Compile Include="Configuration\PeaSettingsBuilderTests.cs" />
     <Compile Include="Configuration\ProblemModelTests.cs" />
