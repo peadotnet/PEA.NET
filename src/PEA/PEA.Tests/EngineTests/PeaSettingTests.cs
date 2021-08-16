@@ -6,19 +6,21 @@ namespace Pea.Tests.EngineTests
 {
     public class PeaSettingTests
     {
-        public class testEvaluation : IEvaluation
+        public class TestEvaluation : EvaluationBase
         {
-            public void Init(IEvaluationInitData initData)
+            public TestEvaluation(ParameterSet parameterSet) : base(parameterSet) { }
+
+            public override void Init(IEvaluationInitData initData)
             {
                 throw new System.NotImplementedException();
             }
 
-            public IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+            public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
             {
                 throw new System.NotImplementedException();
             }
 
-            public IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+            public override IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
             {
                 throw new System.NotImplementedException();
             }
@@ -27,7 +29,7 @@ namespace Pea.Tests.EngineTests
             {
                 throw new System.NotImplementedException();
             }
-        }
+		}
 
         [Fact]
         public void PeaSettings_CreateEngine_ShouldGetProperties()

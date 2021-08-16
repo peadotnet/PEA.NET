@@ -14,7 +14,7 @@ namespace Pea.Akka.Actors
 
         private string ActorPathName;
 
-        private IEvaluation Evaluation { get; }
+        private EvaluationBase Evaluation { get; }
 
         private ParameterSet Parameters { get; }
 
@@ -28,7 +28,7 @@ namespace Pea.Akka.Actors
             //Calculator = (IEvaluation)Activator.CreateInstance(settings.Fitness);
             //Calculator.Init(initData);
 
-            Evaluation = (IEvaluation)TypeLoader.CreateInstance(evaluatorType);
+            Evaluation = (EvaluationBase)TypeLoader.CreateInstance(evaluatorType, parameters);
             Parameters = parameters;
 
             Receive<InitEvaluator>(m => Init(m.InitData));

@@ -22,7 +22,7 @@ namespace Pea.Core.Island
         public IEntityMutation EntityMutation { get; set; }
         public IProvider<IReplacement> Replacements { get; set; }
         public IStopCriteria StopCriteria { get; set; }
-        public IEvaluation Evaluation { get; set; }
+        public EvaluationBase Evaluation { get; set; }
         public IMigrationStrategy MigrationStrategy { get; set; }
         public LaunchTravelersDelegate LaunchTravelers { get; set; }
 

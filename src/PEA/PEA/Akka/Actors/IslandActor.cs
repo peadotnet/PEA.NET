@@ -19,7 +19,7 @@ namespace Pea.Akka.Actors
 
         private IActorRef Evaluator { get; }
 
-        private IEvaluation LocalEvaluator { get; }
+        private EvaluationBase LocalEvaluator { get; }
 
         private IActorRef Starter { get; set; }
 
@@ -37,7 +37,7 @@ namespace Pea.Akka.Actors
             }
             else
 			{
-                LocalEvaluator = (IEvaluation)TypeLoader.CreateInstance(settings.Evaluation);
+                LocalEvaluator = (EvaluationBase)TypeLoader.CreateInstance(settings.Evaluation, Engine.Parameters);
             }
 
             Receive<InitEvaluator>(m => InitEvaluator(m));

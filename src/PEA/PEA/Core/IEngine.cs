@@ -21,7 +21,7 @@ namespace Pea.Core
         IProvider<IReplacement> Replacements { get; }
         IProvider<ISelection> Selections { get; }
         IReduction Reduction { get; set; }
-        IEvaluation Evaluation { get; set; }
+        EvaluationBase Evaluation { get; set; }
         ParameterSet Parameters { get; }
 
         void Init(IEvaluationInitData initData);

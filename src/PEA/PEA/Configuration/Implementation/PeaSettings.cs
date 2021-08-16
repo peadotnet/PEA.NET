@@ -37,7 +37,8 @@ namespace Pea.Configuration.Implementation
                 Fitness = this.Fitness,
                 Evaluation = this.Evaluation,
                 Random = this.Random,
-                StopCriteria = this.StopCriteria
+                StopCriteria = this.StopCriteria,
+                ParameterSet = this.ParameterSet
             };
 
             foreach (var subProblem in SubProblemList)

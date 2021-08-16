@@ -1,5 +1,6 @@
 ﻿using Pea.Configuration.Implementation;
 using Pea.Core;
+using System.Collections.Generic;
 
 namespace Pea.Configuration
 {
@@ -14,7 +15,7 @@ namespace Pea.Configuration
 
         public EncodingBuilder WithEncoding<CT>(string key) => new EncodingBuilder(SubProblem, key, typeof(CT));
 
-        public SubProblemBuilder WithDecoder<DT>() where DT: IEvaluation
+        public SubProblemBuilder WithDecoder<DT>() where DT: EvaluationBase
         {
             SubProblem.Decoder = typeof(DT);
             return this;
@@ -44,6 +45,11 @@ namespace Pea.Configuration
             return this;
         }
 
-        public SubProblem Build() => SubProblem;
+        public SubProblem Build()// (List<PeaSettingsNamedValue> globalParameters)
+        {
+            //globalParameters.AddRange(SubProblem.ParameterSet);
+            //SubProblem.ParameterSet = globalParameters;
+            return SubProblem;
+        }
     }
 }

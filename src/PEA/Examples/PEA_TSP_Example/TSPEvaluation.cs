@@ -6,7 +6,7 @@ using Pea.Fitness.Implementation.MultiObjective;
 
 namespace PEA_TSP_Example
 {
-    public class TSPEvaluation : IEvaluation
+    public class TSPEvaluation : EvaluationBase
     {
         public static readonly MultiKey Key = new MultiKey("TSP");
 
@@ -15,12 +15,14 @@ namespace PEA_TSP_Example
 
         List<SpatialPoint> TSPPoints;
 
-        public void Init(IEvaluationInitData initData)
+        public TSPEvaluation(ParameterSet parameterSet) : base(parameterSet) { }
+
+        public override void Init(IEvaluationInitData initData)
         {
             TSPPoints = ((TSPInitData) initData).TSPPoints;
         }
 
-        public IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
         {
             double totalDistance = 0.0;
             var entity = entities[Key] as TSPEntity;
@@ -55,7 +57,7 @@ namespace PEA_TSP_Example
             return Math.Sqrt(latitudeDifference * latitudeDifference + longitudeDifference * longitudeDifference);
         }
 
-        public IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
         {
             return new List<IEntity>() { entities[Key] } ;
         }

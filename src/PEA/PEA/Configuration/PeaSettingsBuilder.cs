@@ -38,7 +38,7 @@ namespace Pea.Configuration
             return this;
         }
 
-        public PeaSettingsBuilder WithEvaluation<TE>() where TE : IEvaluation
+        public PeaSettingsBuilder WithEvaluation<TE>() where TE : EvaluationBase
         {
             Settings.Evaluation = typeof(TE);
             return this;

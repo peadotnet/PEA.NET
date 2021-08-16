@@ -23,6 +23,7 @@ namespace PEA_TSP_Example
             var optimizer = Optimizer.Create();
             optimizer.Settings.AddSubProblem("TSP", new TravelingSalesman(tspData.Count));
             optimizer.Settings.WithEntityType<TSPEntity>().WithEvaluation<TSPEvaluation>();
+            optimizer.SetParameter("TestParameter", 42.0);
 
             var fitnessLimit = new MultiObjectiveFitness(new double[] { -7545 });
             optimizer.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)

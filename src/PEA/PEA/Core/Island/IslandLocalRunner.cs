@@ -7,7 +7,7 @@ namespace Pea.Core.Island
 {
 	public class IslandLocalRunner
 	{
-		IEvaluation Evaluator;
+		EvaluationBase Evaluator;
 		MultiKey Key;
 
 		event NewEntitiesMergedToBestDelegate NewEntitiesMergedToBest;
@@ -25,7 +25,7 @@ namespace Pea.Core.Island
 
 			AddCallbackEvents(islandEngine, settings.NewEntityMergedToBest);
 
-			Evaluator = (IEvaluation)TypeLoader.CreateInstance(settings.Evaluation);
+			Evaluator = (EvaluationBase)TypeLoader.CreateInstance(settings.Evaluation, settings.ParameterSet);
 			Evaluator.Init(initData);
 
 			islandEngine.Algorithm.SetEvaluationCallback(Evaluate);

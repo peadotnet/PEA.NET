@@ -7,7 +7,7 @@ using Pea.Util;
 
 namespace PEA_VehicleScheduling_Example
 {
-    public class VSEvaluation : IEvaluation
+    public class VSEvaluation : EvaluationBase
     {
         public static readonly MultiKey Key = new MultiKey("VehicleScheduling");
 
@@ -19,7 +19,9 @@ namespace PEA_VehicleScheduling_Example
 
         //TODO: abstract constructor with conflictdetector
 
-        public void Init(IEvaluationInitData initData)
+        public VSEvaluation(ParameterSet parameterSet) : base(parameterSet) { }
+
+        public override void Init(IEvaluationInitData initData)
         {
             InitData = (VSInitData)initData;
             InitData.Build();
@@ -27,7 +29,7 @@ namespace PEA_VehicleScheduling_Example
             ConflictDetector.Init(initData);
         }
 
-        public IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
         {
             EntityCount++;
             SortedSubsetChromosomeValidator.EntityCount = EntityCount;
@@ -104,7 +106,7 @@ namespace PEA_VehicleScheduling_Example
             return totalLength/(double)longSectionsCount;
         }
 
-        public IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
         {
             return new List<IEntity>() { entities[Key] };
         }
