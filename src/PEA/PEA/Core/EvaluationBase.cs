@@ -5,11 +5,11 @@ namespace Pea.Core
 {
 	public abstract class EvaluationBase
 	{
-		ParameterSet ParameterSet { get; set; }
+		public ParameterSet Parameters { get; set; }
 
-		public EvaluationBase(ParameterSet parameterSet)
+		public EvaluationBase(ParameterSet parameters)
 		{
-			ParameterSet = parameterSet;
+			Parameters = parameters;
 		}
 
 		public abstract void Init(IEvaluationInitData initData);
