@@ -10,28 +10,36 @@ namespace Pea.Algorithm.Implementation
 
         public override void InitPopulation()
         {
+            var fitnessLength = Engine.Parameters.GetInt(ParameterNames.FitnessLength);
             var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
             var minNumberOfEntities = System.Convert.ToInt32(Engine.Parameters.GetValue(ParameterNames.SelectionRate) * maxNumberOfEntities);
 
-            Population = new Population.Population(minNumberOfEntities, maxNumberOfEntities + 2);
-
+            IEntityList initialEntities = new EntityList(maxNumberOfEntities);
             for (int i = 0; i < maxNumberOfEntities; i++)
             {
                 var entity = CreateEntity();
-                Population.Add(entity);
+                initialEntities.Add(entity);
             }
 
-            Evaluate(Population.Entities);
-            MergeToBests(Population.Entities);
+            initialEntities = Evaluate(initialEntities);
+
+            Population = new Population.Population(fitnessLength, minNumberOfEntities, maxNumberOfEntities);
+
+            for (int i = 0; i < maxNumberOfEntities; i++)
+            {
+                Population.Add(initialEntities[i]);
+            }
+
+            MergeToBests(Population);
         }
 
         public override void RunOnce()
         {
-            var parents = SelectParents(Population.Entities, 2);
+            var parents = SelectParents(Population, 2);
             var offspring = Crossover(parents, 2);
             var mutated = Mutate(offspring);
             var evaluated = Evaluate(mutated);
-            var inserted = Reinsert(Population.Entities, evaluated, parents, Population.Entities);
+            var inserted = Reinsert(Population, evaluated, parents, Population);
             MergeToBests(inserted);
         }
     }

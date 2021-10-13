@@ -14,7 +14,7 @@ namespace Pea.Akka.Actors
     {
         public IStash Stash { get; set; }
 
-        public IList<IEntity> EntityList { get; private set; }
+        public IEntityList EntityList { get; private set; }
 
         public MultiKey IslandKey { get; }
 
@@ -51,7 +51,7 @@ namespace Pea.Akka.Actors
         {
 
             Receive<InitEvaluator>(m => InitEvaluator(m));
-            Receive<IList<IEntity>>(l => StartProcessing(l));
+            Receive<IEntityList>(l => StartProcessing(l));
         }
 
         public void InitEvaluator(InitEvaluator initMessage)
@@ -81,7 +81,7 @@ namespace Pea.Akka.Actors
             Receive<IEntity>(e => Collect(e));
         }
 
-        private void StartProcessing(IList<IEntity> entityList)
+        private void StartProcessing(IEntityList entityList)
         {
             RequestSender = Sender;
             EntityList = entityList;
@@ -89,7 +89,6 @@ namespace Pea.Akka.Actors
             for (int i=0; i < entityList.Count; i++)
             {
                 var entity = entityList[i];
-                entity.IndexOfList = i;
                 EvaluationRouter.Tell(entity);
                 EntityProcessingCount++;
             }
@@ -97,10 +96,9 @@ namespace Pea.Akka.Actors
             Become(Processing);
         }
 
-        private void Collect(IEntity entity)
+        public void Collect(IEntity entity)
         {
-            var index = entity.IndexOfList;
-            EntityList[index] = entity;
+            EntityList.Replace(entity);
             EntityProcessingCount--;
             if (EntityProcessingCount == 0)
             {

@@ -12,13 +12,15 @@ namespace Pea.Selection
         {
         }
 
-        public override IList<IEntity> Select(IList<IEntity> entities, int count)
+        public override IEntityList Select(IEntityList entities, int count)
 		{
             if (count == 1)
             {
                 var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
                 var selected = SelectOne(entities, tournamentSize);
-                return new List<IEntity>(1) { selected };
+                var entityList = new EntityList(1);
+                entityList.Add(selected);
+                return entityList;
             }
             //else if (count < 20)
             //{
@@ -30,7 +32,7 @@ namespace Pea.Selection
             //}
 		}
 
-        IList<IEntity> SelectWithList(IList<IEntity> entities, int count)
+        IEntityList SelectWithList(IEntityList entities, int count)
         {
             List<IEntity> result = new List<IEntity>(count);
             var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
@@ -44,10 +46,10 @@ namespace Pea.Selection
                 //}
                 result.Add(selected);
             }
-            return new List<IEntity>(result);
+            return new EntityList(result);
         }
 
-        IList<IEntity> SelectWithHashSet(IList<IEntity> entities, int count)
+        IEntityList SelectWithHashSet(IEntityList entities, int count)
         {
             HashSet<IEntity> result = new HashSet<IEntity>();
             var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
@@ -61,10 +63,10 @@ namespace Pea.Selection
                 }
                 result.Add(selected);
             }
-            return new List<IEntity>(result);
+            return new EntityList(result);
         }
 
-        private IEntity SelectOne(IList<IEntity> entities, int tournamentSize)
+        private IEntity SelectOne(IEntityList entities, int tournamentSize)
         {
             var index = Random.GetInt(0, entities.Count);
             var best = entities[index];

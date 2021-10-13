@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Pea.Population;
+using System;
 using System.Collections.Generic;
 
 namespace Pea.Core.Entity
 {
-    public class EntityBase : IEntity
+    public class EntityBase : IEntity, IPopulationEntity
     {
-        public int IndexOfList { get; set; }
         public MultiKey OriginIslandKey { get; set; }
         public IDictionary<string, IChromosome> Chromosomes { get; set; }
         public IFitness Fitness { get; private set; }
         public Dictionary<string, string> LastCrossOvers { get; set; } = new Dictionary<string, string>(2);
         public Dictionary<string, string> LastMutations { get; set; } = new Dictionary<string, string>(1);
+        public int IndexInList { get; set; }
+        public int IndexInPopulation { get; set; }
 
         public EntityBase(int chromosomesCount)
 		{
@@ -20,7 +22,7 @@ namespace Pea.Core.Entity
         public virtual IEntity Clone(bool cloneChromosomes)
         {
             var clone = (EntityBase)Activator.CreateInstance(this.GetType());
-            clone.IndexOfList = this.IndexOfList;
+            clone.IndexInList = this.IndexInList;
             clone.OriginIslandKey = this.OriginIslandKey;
 
             if (cloneChromosomes)
@@ -36,7 +38,6 @@ namespace Pea.Core.Entity
 
         public void SetFitness(IFitness fitness)
 		{
-            if (fitness.Entity != null) throw new AlgorithmException("The Fitness object is already assigned to another Entity. This would lead to shared state error.");
             fitness.Entity = this;
             Fitness = fitness;
 		}

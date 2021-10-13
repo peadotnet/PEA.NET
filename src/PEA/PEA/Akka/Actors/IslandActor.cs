@@ -84,7 +84,7 @@ namespace Pea.Akka.Actors
         public void RunOneStep()
         {
             StopDecision stop = null;
-            var algorithmCycleCount = Engine.Parameters.GetInt(Pea.Algorithm.ParameterNames.SubCycleRunCount) + 1;
+            var algorithmCycleCount = Engine.Parameters.GetInt(Algorithm.ParameterNames.SubCycleRunCount) + 1;
             for (int i = 0; i < algorithmCycleCount; i++)
             {
                 stop = Engine.RunOnce();
@@ -97,21 +97,19 @@ namespace Pea.Akka.Actors
                 }
             }
 
-            Engine.Reduction.Reduct(Engine.Algorithm.Population.Entities);
+            Engine.Reduct();
             if (!stop.MustStop) Self.Tell(Continue.Instance);
         }
 
-        public IList<IEntity> Evaluate(IList<IEntity> entityList)
+        public IEntityList Evaluate(IEntityList entityList) 
         {
             if (entityList.Count == 0) return entityList;
 
-            IList<IEntity> evaluatedEntities;
-
-            //TODO: Evaluate entities locally
+            IEntityList evaluatedEntities;
 
             if (Evaluator == null)
             {
-                evaluatedEntities = new List<IEntity>(entityList.Count);
+                evaluatedEntities = new EntityList(entityList.Count);
                 for(int e = 0; e< entityList.Count; e++)
                 {
                     var entityWithKey = new Dictionary<MultiKey, IEntity> { { IslandKey, entityList[e] } };
@@ -121,12 +119,12 @@ namespace Pea.Akka.Actors
             }
             else
             {
-                evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IList<IEntity>;
+                evaluatedEntities = Evaluator.Ask(entityList).GetAwaiter().GetResult() as IEntityList;
             }
             return evaluatedEntities;
         }
 
-        public void LaunchTravelers(IList<IEntity> entityList, TravelerTypes travelerType)
+        public void LaunchTravelers(IEntityList entityList, TravelerTypes travelerType)
         {
             //for (int e = 0; e < entityList.Count;e++)
             //{

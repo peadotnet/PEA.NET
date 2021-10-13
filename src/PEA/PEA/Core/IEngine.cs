@@ -5,7 +5,7 @@ namespace Pea.Core
 {
     public delegate void NewEntitiesMergedToBestDelegate(IList<IEntity> bests);
 
-    public delegate void LaunchTravelersDelegate(IList<IEntity> entityList, TravelerTypes travelerType);
+    public delegate void LaunchTravelersDelegate(IEntityList entityList, TravelerTypes travelerType);
 
     public interface IEngine
     {
@@ -26,7 +26,8 @@ namespace Pea.Core
 
         void Init(IEvaluationInitData initData);
         StopDecision RunOnce();
-        void MergeToBests(IList<IEntity> entities);
-        void TravelersArrived(IList<IEntity> travelers);
+        void MergeToBests(IEntityList entities);
+        void Reduct();
+        void TravelersArrived(IEntityList travelers);
     }
 }

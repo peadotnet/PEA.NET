@@ -21,6 +21,8 @@ namespace PEA_TSP_Example
             var initData = new TSPInitData(tspData);
 
             var optimizer = Optimizer.Create();
+
+            optimizer.Settings.WithSeed(Environment.TickCount);
             optimizer.Settings.AddSubProblem("TSP", new TravelingSalesman(tspData.Count));
             optimizer.Settings.WithEntityType<TSPEntity>().WithEvaluation<TSPEvaluation>();
             optimizer.SetParameter("TestParameter", 42.0);
@@ -30,7 +32,6 @@ namespace PEA_TSP_Example
                 .Or().TimeoutElapsed(300000);
 
             optimizer.SetParameter(Pea.Core.Island.ParameterNames.IslandsCount, 10);
-
 
             Stopwatch sw = Stopwatch.StartNew();
 

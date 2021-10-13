@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Pea.Core
+﻿namespace Pea.Core
 {
-    public interface IEntityMutation
+	public interface IEntityMutation
     {
-        IList<IEntity> Mutate(IList<IEntity> entities);
+        IEntityList Mutate(IEntityList entities);
     }
 }

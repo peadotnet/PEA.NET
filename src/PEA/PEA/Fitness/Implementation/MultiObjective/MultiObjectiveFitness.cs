@@ -4,26 +4,28 @@ using System.Collections.Immutable;
 
 namespace Pea.Fitness.Implementation.MultiObjective
 {
-    public class MultiObjectiveFitness : IFitness<double>
+    public class MultiObjectiveFitness : IFitness
     {
         public IEntity Entity { get; set; }
         public IReadOnlyList<double> Value { get; }
         public double ConstraintViolation { get; }
         public bool IsValid { get; set; }
+        public int TournamentWinner { get; set; }
+        public int TournamentLoser { get; set; }
 
-        public int TournamentWinner { get; set; } = 0;
-        public int TournamentLoser { get; set; } = 0;
-
+        #region Fields used in NSGA algorithm
         public int DominationCount { get; set; }
         public IList<int> DominatedEnities { get; set; }
-
         public int Rank { get; set; }
         public double CrowdingDistance { get; set; }
+        #endregion
 
         public MultiObjectiveFitness(double[] values, double constraintViolation = 0)
         {
             Value = ImmutableArray.Create<double>(values);
             ConstraintViolation = constraintViolation;
+            TournamentLoser = 0;
+            TournamentWinner = 0;
         }
 
         public bool IsEquivalent(IFitness other)

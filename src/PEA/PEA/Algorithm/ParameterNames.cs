@@ -2,6 +2,7 @@
 {
     public static class ParameterNames
     {
+        public const string FitnessLength = "FitnessLength";
         public const string PopulationSize = "PopulationSize";
         public const string SelectionRate = "SelectionRate";
 

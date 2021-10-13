@@ -1,7 +1,4 @@
 ﻿using Pea.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Pea.Population.Replacement
 {
@@ -11,7 +8,7 @@ namespace Pea.Population.Replacement
 		{
 		}
 
-		public override IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+		public override IEntityList Replace(IPopulation targetPopulation, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation)
 		{
 			AddEntitiesToPopulation(targetPopulation, offspring);
 			return offspring;

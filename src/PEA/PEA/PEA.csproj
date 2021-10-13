@@ -46,6 +46,7 @@
     <Folder Include="Algorithm\Implementation\Nsga2\" />
     <Folder Include="Chromosome\Implementation\MultiSectionPermutation\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
+    <Folder Include="Population\Implementation\" />
     <Folder Include="Util\Types\" />
   </ItemGroup>
 

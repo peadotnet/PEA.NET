@@ -67,11 +67,11 @@ namespace Pea.Core.Island
 		}
 
 
-		public IList<IEntity> Evaluate(IList<IEntity> entityList)
+		public IEntityList Evaluate(IEntityList entityList)
 		{
 			if (entityList.Count == 0) return entityList;
 
-			IList<IEntity> evaluatedEntities = new List<IEntity>(entityList.Count);
+			var evaluatedEntities = new EntityList(entityList.Count);
 
 			for (int i=0; i< entityList.Count; i++)
 			{

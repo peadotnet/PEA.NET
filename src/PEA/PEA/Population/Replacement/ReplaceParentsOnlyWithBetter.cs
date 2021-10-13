@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 
 namespace Pea.Population.Replacement
 {
@@ -11,9 +10,9 @@ namespace Pea.Population.Replacement
 
 		}
 
-		public override IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+		public override IEntityList Replace(IPopulation targetPopulation, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation)
 		{
-			var inserted = new List<IEntity>(1);
+			var inserted = new EntityList(1);
 			var populationSize = Parameters.GetValue(Algorithm.ParameterNames.PopulationSize);
 			//TODO: FitnessComparer.SelectWorst, SelectBest
 
@@ -24,14 +23,13 @@ namespace Pea.Population.Replacement
 
 			if (FitnessComparer.Dominates(entityToRemove.Fitness, entityToAdd.Fitness))
 			{
-				AddEntitiesToPopulation(targetPopulation, new List<IEntity>(1) { entityToAdd });
+				targetPopulation.Add(entityToAdd);
 				inserted.Add(entityToAdd);
 
 				if (sourcePopulation.Count > populationSize)
 				{
-					RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>(1) { entityToRemove });
+					sourcePopulation.Remove(entityToRemove);
 				}
-
 			}
 
 			return inserted;

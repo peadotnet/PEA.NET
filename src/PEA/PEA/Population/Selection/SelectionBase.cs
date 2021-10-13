@@ -18,6 +18,6 @@ namespace Pea.Selection
             ParameterSet = parameterSet;
         }
 
-        public abstract IList<IEntity> Select(IList<IEntity> entities, int count);
+        public abstract IEntityList Select(IEntityList entities, int count);
     }
 }

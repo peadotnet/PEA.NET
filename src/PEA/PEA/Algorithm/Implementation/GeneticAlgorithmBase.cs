@@ -30,38 +30,38 @@ namespace Pea.Algorithm.Implementation
             return entity;
         }
 
-        protected IList<IEntity> Evaluate(IList<IEntity> entities)
+        protected IEntityList Evaluate(IEntityList population)
         {
-            if (entities.Count == 0) return entities;
+            if (population.Count == 0) return population;
 
-            return _evaluate(entities);
+            return _evaluate(population);
         }
 
-        protected void MergeToBests(IList<IEntity> entities)
+        protected void MergeToBests(IEntityList entities)
         {
             Engine.MergeToBests(entities);
         }
 
-        protected IList<IEntity> SelectParents(IList<IEntity> entities, int count)
+        protected IEntityList SelectParents(IEntityList entities, int count)
         {
             var selector = Engine.Selections.GetOne();
             var parents = selector.Select(entities, count);
             return parents;
         }
 
-        protected IList<IEntity> Crossover(IList<IEntity> parents, int count)
+        protected IEntityList Crossover(IEntityList parents, int count)
         {
             var children = Engine.EntityCrossover.Cross(parents, count);
             return children;
         }
 
-        protected IList<IEntity> Mutate(IList<IEntity> children)
+        protected IEntityList Mutate(IEntityList children)
         {
             children = Engine.EntityMutation.Mutate(children);
             return children;
         }
 
-        protected IList<IEntity> Reinsert(IList<IEntity> targetPopulation, IList<IEntity> offsprings, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+        protected IEntityList Reinsert(IPopulation targetPopulation, IEntityList offsprings, IEntityList parents, IPopulation sourcePopulation)
         {
             var replacement = Engine.Replacements.GetOne();
             return replacement.Replace(targetPopulation, offsprings, parents, sourcePopulation);

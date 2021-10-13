@@ -18,10 +18,10 @@ namespace Pea.Migration.Implementation
             Parameters = parameters;
         }
 
-        public abstract IList<IEntity> SelectForTraveling(IList<IEntity> population);
+        public abstract IEntityList SelectForTraveling(IPopulation population);
 
-        public abstract bool TravelerReceptionDecision(IList<IEntity> population);
+        public abstract bool TravelerReceptionDecision(IPopulation population);
 
-        public abstract IList<IEntity> InsertMigrants(IList<IEntity> population, IList<IEntity> travelers);
+        public abstract IEntityList InsertMigrants(IPopulation population, IEntityList travelers);
     }
 }

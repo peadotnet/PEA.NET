@@ -4,6 +4,6 @@ namespace Pea.Core
 {
 	public interface IReduction
 	{
-		IList<IEntity> Reduct(IList<IEntity> entities);
+		IPopulation Reduct(IPopulation population);
 	}
 }

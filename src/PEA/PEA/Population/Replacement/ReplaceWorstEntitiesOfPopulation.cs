@@ -9,9 +9,9 @@ namespace Pea.Population.Replacement
         {
         }
 
-        public override IList<IEntity> Replace(IList<IEntity> population, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+        public override IEntityList Replace(IPopulation population, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation)
         {
-            var inserted = new List<IEntity>(offspring.Count);
+            var inserted = new EntityList(offspring.Count);
             int tournamentSize = Parameters.GetInt(ParameterNames.TournamentSize);
 
             for (int i = 0; i < offspring.Count; i++)
@@ -25,7 +25,7 @@ namespace Pea.Population.Replacement
             return inserted;
         }
 
-        private int SelectOne(IList<IEntity> entities, int size)
+        private int SelectOne(IEntityList entities, int size)
         {
             var index = Random.GetInt(0, entities.Count);
             var worst = index;

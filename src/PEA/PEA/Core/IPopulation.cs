@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Pea.Util.Statistics;
+using System.Collections.Generic;
 
 namespace Pea.Core
 {
-    public interface IPopulation
+    public interface IPopulation : IEntityList
     {
         IList<IEntity> Bests { get; }
         int MaxNumberOfEntities { get; set; }
         int MinNumberOfEntities { get; set; }
-        IList<IEntity> Entities { get; set; }
-        void Add(IEntity entity);
+        IStatisticsArray FitnessStatistics { get; }
+        void Sort(IComparer<IEntity> comparer);
+        IPopulation CloneEmpty();
     }
 }

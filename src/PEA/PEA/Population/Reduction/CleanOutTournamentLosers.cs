@@ -16,20 +16,19 @@ namespace Pea.Population.Reduction
 			ParameterSet = parameterSet;
 		}
 
-		public IList<IEntity> Reduct(IList<IEntity> entities)
+		public IPopulation Reduct(IPopulation population)
 		{
-			var count = entities.Count;
+			var count = population.Count;
 			var reductionRate = ParameterSet.GetValue(ParameterNames.ReductionRate);
-			int resultCount = Convert.ToInt32(entities.Count * reductionRate);
+			int resultCount = Convert.ToInt32(population.Count * reductionRate);
 
-			var sorter = new QuickSorter<IEntity>();
-			sorter.Sort(entities, new TournamentLoserComparer(), 0, entities.Count - 1);
+			population.Sort(new TournamentLoserComparer());
 
 			for (int c = count-1; c > resultCount; c--)
 			{
-				entities.RemoveAt(c);
+				population.RemoveAt(c);
 			}
-			return entities;
+			return population;
 		}
 	}
 }

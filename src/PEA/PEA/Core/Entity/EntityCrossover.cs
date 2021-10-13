@@ -28,11 +28,11 @@ namespace Pea.Core.Entity
             }
         }
 
-        public IList<IEntity> Cross(IList<IEntity> parents, int count)
+        public IEntityList Cross(IEntityList parents, int count)
         {
             if (parents.Count < 2) throw new ArgumentException(nameof(parents));
 
-            var offsprings = new List<IEntity>(count);
+            var offsprings = new EntityList(count);
 
             while (offsprings.Count < count)
             {

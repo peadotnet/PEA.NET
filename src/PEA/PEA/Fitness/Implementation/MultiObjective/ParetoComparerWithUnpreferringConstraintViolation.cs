@@ -3,18 +3,18 @@ using Pea.Core;
 
 namespace Pea.Fitness.Implementation.MultiObjective
 {
-	public class ParetoComparerWithUnpreferringConstraintViolation : IFitnessComparer<double>
+	public class ParetoComparerWithUnpreferringConstraintViolation : IFitnessComparer
     {
         public int Compare(object x, object y)
         {
-            return Compare(x as IFitness<double>, y as IFitness<double>);
+            return Compare(x as IFitness, y as IFitness);
         }
 
         /// <summary>
         /// Compare two multiobjective fitness value nondominated pareto way
         /// </summary>
         /// <returns>1 if y dominates x, -1 if x dominates y, 0 otherwise</returns>
-        public int Compare(IFitness<double> x, IFitness<double> y)
+        public int Compare(IFitness x, IFitness y)
         {
             if (x.ConstraintViolation > 0 && y.ConstraintViolation <= 0) return 1;
             if (x.ConstraintViolation <= 0 && y.ConstraintViolation > 0) return -1;
@@ -25,7 +25,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return 0;
         }
 
-		public int CompareConstraintViolations(IFitness<double> x, IFitness<double> y)
+		public int CompareConstraintViolations(IFitness x, IFitness y)
 		{
             if (x.ConstraintViolation > 0 && y.ConstraintViolation > 0)
             {
@@ -74,14 +74,14 @@ namespace Pea.Fitness.Implementation.MultiObjective
         /// <returns>True if the second (y) dominates the first (x), false otherwise</returns>
         public bool Dominates(object x, object y)
         {
-            return Dominates(x as IFitness<double>, y as IFitness<double>);
+            return Dominates(x as IFitness, y as IFitness);
         }
 
         /// <summary>
         /// Indicates whether the multiobjective fitness y dominates x
         /// </summary>
         /// <returns>True if y dominates x, false otherwise</returns>
-        public bool Dominates(IFitness<double> x, IFitness<double> y)
+        public bool Dominates(IFitness x, IFitness y)
         {
             var dominates = false;
 

@@ -11,12 +11,12 @@ namespace Pea.Population.Replacement
 
         }
 
-        public override IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+        public override IEntityList Replace(IPopulation targetPopulation, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation)
         {
             //TODO: FitnessComparer.SelectWorst, SelectBest
 
-            var populationSize = Parameters.GetInt(Pea.Algorithm.ParameterNames.PopulationSize);
-            var inserted = new List<IEntity>(offspring.Count);
+            var populationSize = Parameters.GetInt(Algorithm.ParameterNames.PopulationSize);
+            var inserted = new EntityList(offspring.Count);
 
             if (offspring.Count == 0) return inserted;
 
@@ -26,17 +26,13 @@ namespace Pea.Population.Replacement
 
             if (!entityToAdd.Fitness.IsLethal())
             {
-                AddEntitiesToPopulation(targetPopulation, new List<IEntity>(1) { entityToAdd });
+                targetPopulation.Add(entityToAdd);
                 inserted.Add(entityToAdd);
 
                 if (sourcePopulation.Count > populationSize)
                 {
-                    RemoveEntitiesFromPopulation(sourcePopulation, new List<IEntity>(1) { entityToRemove });
+                    sourcePopulation.Remove(entityToRemove);
                 }
-                else
-				{
-                    bool reducted = true;
-				}
             }
 
             return inserted;

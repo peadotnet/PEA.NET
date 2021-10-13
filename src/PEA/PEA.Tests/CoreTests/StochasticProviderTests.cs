@@ -7,7 +7,7 @@ namespace Pea.Tests.CoreTests
     public class StochasticProviderTests
     {
         [Fact]
-        public void GivenEmptyProbabilityDistribution_WhenChooseOne_ThenShouldDefault()
+        public void EmptyProbabilityDistribution_ChooseOne_ShouldDefault()
         {
             var distribution = new StochasticProvider<string>(new PredeterminedRandom(20));
 
@@ -17,7 +17,7 @@ namespace Pea.Tests.CoreTests
         }
 
         [Fact]
-        public void GivenNonEmptyProbabilityDistribution_WhenChooseOne_ThenShouldReturnOne()
+        public void NonEmptyProbabilityDistribution_ChooseOne_ShouldReturnOne()
         {
             var random = new PredeterminedRandom(80, 30);
             var distribution = new StochasticProvider<string>(random)

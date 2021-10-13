@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 
 namespace Pea.Population.Replacement
 {
-    public abstract class ReplacementBase : IReplacement
+	public abstract class ReplacementBase : IReplacement
     {
         public IRandom Random { get; }
         public IFitnessComparer FitnessComparer { get; }
@@ -16,18 +15,15 @@ namespace Pea.Population.Replacement
             Parameters = parameters;
         }
 
-        public virtual void RemoveEntitiesFromPopulation(IList<IEntity> population, IList<IEntity> entities)
+        public virtual void RemoveEntitiesFromPopulation(IPopulation population, IEntityList entities)
         {
-            for (int i = population.Count - 1; i >= 0; i--)
-            {
-                if (entities.Contains(population[i]))
-                {
-                    population.RemoveAt(i);
-                }
-            }
+            for(int i=0; i < entities.Count; i++)
+			{
+                population.Remove(entities[i]);
+			}
         }
 
-        public virtual void AddEntitiesToPopulation(IList<IEntity> population, IList<IEntity> entities)
+        public virtual void AddEntitiesToPopulation(IPopulation population, IEntityList entities) 
         {
             for(int i=0; i< entities.Count; i++)
             {
@@ -35,6 +31,6 @@ namespace Pea.Population.Replacement
             }
         }
 
-        public abstract IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
+        public abstract IEntityList Replace(IPopulation targetPopulation, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation);
     }
 }

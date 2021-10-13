@@ -15,19 +15,22 @@ namespace Pea.Util
         {
         }
 
-        public double Deviation
+        public override double Deviation
         {
             get
             {
-                if (!_deviation.HasValue) _deviation = Math.Sqrt(GetVarianceUnbiased());
+                if (!_deviation.HasValue)
+                {
+                    _deviation = Math.Sqrt(GetVarianceUnbiased());
+                }
                 return _deviation.Value;
             }
         }
 
         public void Add(double x)
         {
-            ++Count;
-            double nextMean = Mean + (x -Mean) / Count;
+            Count++;
+            double nextMean = Mean + (x - Mean) / Count;
             SumOfSquareDifferences += (x - Mean) * (x - nextMean);
             Mean = nextMean;
             _deviation = null;
@@ -49,9 +52,10 @@ namespace Pea.Util
             else
             {
                 double mMOld = (Count * Mean - x) / (Count - 1);
-                SumOfSquareDifferences -= (x - Mean) * (x - mMOld);
+                var squareDifference = (x - Mean) * (x - mMOld);
+                SumOfSquareDifferences -= squareDifference;
                 Mean = mMOld;
-                --Count;
+                Count--;
                 _deviation = null;
             }
         }
@@ -63,7 +67,7 @@ namespace Pea.Util
 
         public double GetVarianceUnbiased()
         {
-            return Count > 1 ? SumOfSquareDifferences / (Count - 1) : 0.0;
+            return Count > 1 ? Math.Abs(SumOfSquareDifferences / (Count - 1)) : 0.0;
         }
     }
 }

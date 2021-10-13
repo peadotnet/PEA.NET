@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.Configuration;
 using Pea.ActorModel.Messages;
@@ -11,7 +10,7 @@ using Pea.Core;
 
 namespace Pea.Akka
 {
-    public class AkkaSystemProvider
+	public class AkkaSystemProvider
     {
         public ActorSystem System { get; }
         public IActorRef SystemActor { get; }

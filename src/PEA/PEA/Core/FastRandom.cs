@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Pea.Core
+﻿namespace Pea.Core
 {
-    /// <summary>
-    /// IRandom implementation using FastRandom has pseudo-number generator.
-    /// <see href="http://www.codeproject.com/Articles/9187/A-fast-equivalent-for-System-Random"/>
-    /// </summary>
-    public class FastRandom : RandomBase, IRandom
+	/// <summary>
+	/// IRandom implementation using FastRandom has pseudo-number generator.
+	/// <see href="http://www.codeproject.com/Articles/9187/A-fast-equivalent-for-System-Random"/>
+	/// </summary>
+	public class FastRandom : RandomBase, IRandom
     {
         private readonly SharpNeatLib.Maths.FastRandom _random;
 

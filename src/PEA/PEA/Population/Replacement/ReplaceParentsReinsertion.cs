@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 
 namespace Pea.Population.Replacement
 {
-    public class ReplaceParentsReinsertion : ReplacementBase
+	public class ReplaceParentsReinsertion : ReplacementBase
     {
         public ReplaceParentsReinsertion(IRandom random, IFitnessComparer fitnessComparer, ParameterSet parameters)
-        : base(random, fitnessComparer, parameters)
+            : base(random, fitnessComparer, parameters)
         {
         }
 
-        public override IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation)
+        public override IEntityList Replace(IPopulation targetPopulation, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation)
         {
             RemoveEntitiesFromPopulation(sourcePopulation, parents);
             AddEntitiesToPopulation(targetPopulation, offspring);

@@ -51,7 +51,7 @@ namespace Pea.Akka.Actors
             }
         }
 
-        public void MergeToBests(IList<IEntity> entities)
+        public void MergeToBests(IEntityList entities)
         {
             if (NewEntitiesMergedToBest == null) return;
 

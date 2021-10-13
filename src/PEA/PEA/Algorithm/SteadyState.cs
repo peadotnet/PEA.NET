@@ -22,7 +22,7 @@ namespace Pea.Algorithm
                 new PeaSettingsNamedValue(Core.Island.ParameterNames.EvaluatorsCount, 2),
                 new PeaSettingsNamedValue(ParameterNames.SubCycleRunCount, 10000),
                 new PeaSettingsNamedValue(Population.ParameterNames.ReductionRate, 0.9),
-                new PeaSettingsNamedValue(Algorithm.ParameterNames.SelectionRate, 0.9)
+                new PeaSettingsNamedValue(ParameterNames.SelectionRate, 0.95)
             };
         }
 
@@ -30,8 +30,8 @@ namespace Pea.Algorithm
         {
             return new List<Type>(1)
             {
-				//typeof(ReplaceParentsOnlyWithBetter),
-				typeof(ReplaceWorstParentWithBestChildrenReinsertion)
+				typeof(ReplaceParentsOnlyWithBetter),
+				//typeof(ReplaceWorstParentWithBestChildrenReinsertion)
 			};
         }
 

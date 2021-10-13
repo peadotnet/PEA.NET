@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Pea.Core
+﻿namespace Pea.Core
 {
-    public interface IReplacement
+	public interface IReplacement
     {
-        IList<IEntity> Replace(IList<IEntity> targetPopulation, IList<IEntity> offspring, IList<IEntity> parents, IList<IEntity> sourcePopulation);
+        IEntityList Replace(IPopulation targetPopulation, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation);
     }
 }

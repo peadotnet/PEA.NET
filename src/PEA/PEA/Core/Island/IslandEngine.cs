@@ -66,9 +66,18 @@ namespace Pea.Core.Island
             return StopCriteria.MakeDecision(this, Algorithm.Population);
         }
 
-        public void MergeToBests(IList<IEntity> entities)
+        public void Reduct()
+		{
+            Debug.WriteLine("Reduction of population...");
+            Reduction.Reduct(Algorithm.Population);
+            var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
+            var stat = Algorithm.Population.FitnessStatistics.StatisticVariables[0];
+            Debug.WriteLine($"{timeString} Mean: {stat.Mean}, Deviation: {stat.Deviation}");
+        }
+
+        public void MergeToBests(IEntityList entities)
         {
-            IList<IEntity> travelers = new List<IEntity>(entities.Count);
+            IEntityList travelers = new EntityList(entities.Count);
             bool anyMerged = false;
             for(int e = 0; e < entities.Count; e++)
             {
@@ -80,6 +89,8 @@ namespace Pea.Core.Island
                     travelers.Add(entities[e]);
                     var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
                     Debug.WriteLine(timeString + " " + entities[e].ToString());
+                    var stat = Algorithm.Population.FitnessStatistics.StatisticVariables[0];
+                    Debug.WriteLine($"{timeString} Mean: {stat.Mean}, Deviation: {stat.Deviation}");
                     anyMerged = true;
                 }
             }
@@ -95,7 +106,7 @@ namespace Pea.Core.Island
             }
         }
 
-        public void TravelersArrived(IList<IEntity> travelers)
+        public void TravelersArrived(IEntityList travelers)
         {
             //TODO: Migration replacement
             //foreach (var traveler in travelers)
@@ -103,9 +114,9 @@ namespace Pea.Core.Island
             //    FitnessComparer.MergeToBests(Algorithm.Population.Bests, traveler);
             //}
 
-            if (MigrationStrategy.TravelerReceptionDecision(Algorithm.Population.Entities))
+            if (MigrationStrategy.TravelerReceptionDecision(Algorithm.Population))
             {
-                MigrationStrategy.InsertMigrants(Algorithm.Population.Entities, travelers);
+                MigrationStrategy.InsertMigrants(Algorithm.Population, travelers);
             }
         }
     }
