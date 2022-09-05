@@ -28,7 +28,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 
             while (true)
             {
-                double weight = Random.GetDouble(0, 1);
+                double weight = Random.GetDouble(-1, 1);
 
                 child0 = MergeGenes(parent0.Genes, parent1.Genes, weight);
                 child1 = MergeGenes(parent1.Genes, parent0.Genes, weight);

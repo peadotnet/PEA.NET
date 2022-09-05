@@ -25,7 +25,7 @@ namespace Pea.Chromosome.Implementation.DoubleVector
             bool child1Conflicted = false;
 
             int position = Random.GetInt(0, length);
-            double weight = Random.GetDouble(0, 1);
+            double weight = Random.GetDouble(-1, 1);
 
             child0 = MergeGenes(parent0.Genes, parent1.Genes, position, weight, ref child0Conflicted);
             child1 = MergeGenes(parent1.Genes, parent0.Genes, position, weight, ref child1Conflicted);

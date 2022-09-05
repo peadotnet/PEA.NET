@@ -42,7 +42,8 @@ namespace Pea.Chromosome
                 new UniformParallelMutation(random, parameterSet, conflictDetectors),
                 new UniformBlockParallelMutation(random, parameterSet, conflictDetectors),
                 new AllBlockParallelMutation(random, parameterSet, conflictDetectors),
-                new OneBlockRegenerationMutation(random, parameterSet, conflictDetectors)
+                new OneBlockRegenerationMutation(random, parameterSet, conflictDetectors),
+                new TwoBlockInterpolationMutation(random, parameterSet, conflictDetectors)
             };
         }
 
