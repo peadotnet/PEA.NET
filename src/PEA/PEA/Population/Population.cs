@@ -40,33 +40,14 @@ namespace Pea.Population
 
         public void Add(IEntity entity)
         {
-            if (entity.Fitness.Value[0] < -10000)
-			{
-                badCounter++;
-			}
             Entities.Add((IPopulationEntity)entity);
             FitnessStatistics.Add(entity.Fitness?.Value);
         }
 
 		public void Remove(IEntity entity)
 		{
-            if (entity.Fitness.Value[0] < -10000)
-            {
-                badCounter--;
-            }
-            if (badCounter == 0)
-            {
-                double sum = 0;
-                for(int i=0; i< Entities.Count; i++)
-				{
-                    sum += Entities[i].Fitness.Value[0];
-				}
-                sum /= Entities.Count;
-            }
-
             FitnessStatistics.Remove(entity.Fitness.Value);
             Entities.RemoveAt(((IPopulationEntity)entity).IndexInPopulation); 
-
 		}
 
         public void RemoveAt(int index)

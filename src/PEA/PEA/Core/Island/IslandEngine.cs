@@ -90,7 +90,7 @@ namespace Pea.Core.Island
                     var timeString = DateTime.Now.ToString("HH:mm:ss.ffff");
                     Debug.WriteLine(timeString + " " + entities[e].ToString());
                     var stat = Algorithm.Population.FitnessStatistics.StatisticVariables[0];
-                    Debug.WriteLine($"{timeString} Mean: {stat.Mean}, Deviation: {stat.Deviation}");
+                    //Debug.WriteLine($"{timeString} Mean: {stat.Mean}, Deviation: {stat.Deviation}");
                     anyMerged = true;
                 }
             }

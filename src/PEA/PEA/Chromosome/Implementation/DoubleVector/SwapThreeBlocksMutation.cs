@@ -19,9 +19,9 @@ namespace Pea.Chromosome.Implementation.DoubleVector
             int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);
             if (length / blockSize < 3) return genes;
 
-            var blockPosition1 = Random.GetInt(1, length / blockSize);
-            var blockPosition2 = Random.GetIntWithTabu(1, length / blockSize, blockPosition1);
-            var blockPosition3 = Random.GetIntWithTabu(1, length / blockSize, blockPosition1, blockPosition2);
+            var blockPosition1 = Random.GetInt(0, length / blockSize);
+            var blockPosition2 = Random.GetIntWithTabu(0, length / blockSize, blockPosition1);
+            var blockPosition3 = Random.GetIntWithTabu(0, length / blockSize, blockPosition1, blockPosition2);
 
             var position1 = blockPosition1 * blockSize;
             var position2 = blockPosition2 * blockSize;

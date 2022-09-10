@@ -25,7 +25,7 @@ namespace Pea.Core.Island
 
 			AddCallbackEvents(islandEngine, settings.NewEntityMergedToBest);
 
-			Evaluator = (EvaluationBase)TypeLoader.CreateInstance(settings.Evaluation, settings.ParameterSet);
+			Evaluator = (EvaluationBase)TypeLoader.CreateInstance(settings.Evaluation, islandEngine.Parameters);
 			Evaluator.Init(initData);
 
 			islandEngine.Algorithm.SetEvaluationCallback(Evaluate);
