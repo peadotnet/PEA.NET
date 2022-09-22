@@ -1,7 +1,5 @@
 ﻿using Pea.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Pea.Chromosome.Implementation.DoubleVector
 {
@@ -18,6 +16,8 @@ namespace Pea.Chromosome.Implementation.DoubleVector
 
             int blockSize = ParameterSet.GetInt(ParameterNames.BlockSize);
             int blocksCount = length / blockSize;
+
+            if (blocksCount < 2) return null;
 
             var block1 = Random.GetInt(0, blocksCount);
             var block2 = Random.GetIntWithTabu(0, blocksCount, block1);
