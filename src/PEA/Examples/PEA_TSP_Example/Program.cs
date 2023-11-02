@@ -49,7 +49,7 @@ namespace PEA_TSP_Example
             var speed = entities / elapsed;
             Console.WriteLine($"Elapsed: {elapsed} Entities: {entities} ({speed} ent./ms)");
 
-            Console.ReadLine();
+//            Console.ReadLine();
 
         }
 
