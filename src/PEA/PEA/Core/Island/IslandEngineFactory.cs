@@ -55,7 +55,7 @@ namespace Pea.Core.Island
 
 			engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
 			engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
-			engine.StopCriteria = settings.StopCriteria;
+			engine.Algorithm.StopCriteria = settings.StopCriteria;
 
 			return engine;
 		}

@@ -29,9 +29,9 @@ namespace PEA_TSP_Example
 
             var fitnessLimit = new MultiObjectiveFitness(new double[] { -7545 });
             optimizer.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)
-                .Or().TimeoutElapsed(300000);
+                .Or().CountdownFinished(60 * 1000 * 45);       //.TimeoutElapsed(300000);
 
-            optimizer.SetParameter(Pea.Core.Island.ParameterNames.IslandsCount, 10);
+            optimizer.SetParameter(Pea.Core.Island.ParameterNames.IslandsCount, 1);
 
             Stopwatch sw = Stopwatch.StartNew();
 

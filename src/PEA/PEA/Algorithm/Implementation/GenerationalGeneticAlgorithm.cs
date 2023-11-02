@@ -29,7 +29,7 @@ namespace Pea.Algorithm.Implementation
 			MergeToBests(Population);
 		}
 
-		public override void RunOnce()
+		public override StopDecision RunOnce()
 		{
 			var populationSize = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
 			var selectionRate = Engine.Parameters.GetValue(ParameterNames.SelectionRate);
@@ -43,6 +43,7 @@ namespace Pea.Algorithm.Implementation
 			//TODO: Niching ?
 			var inserted = Reinsert(nextGeneration, evaluated, parents, Population);
 			MergeToBests(inserted);
+			return StopCriteria.MakeDecision(Engine, Population);
 		}
 	}
 }

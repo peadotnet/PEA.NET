@@ -6,8 +6,9 @@
     {
         IEngine Engine { get; }
         IPopulation Population { get; set; }
+        IStopCriteria StopCriteria { get; set; }
         void SetEvaluationCallback(EvaluationDelegate evaluationCallback);
         void InitPopulation();
-        void RunOnce();
+        StopDecision RunOnce();
     }
 }

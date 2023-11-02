@@ -7,9 +7,11 @@ namespace Pea.Algorithm.Implementation
     {
         public IEngine Engine { get; }
         public IPopulation Population { get; set; }
+        public IStopCriteria StopCriteria { get; set; }
+
 
         public abstract void InitPopulation();
-        public abstract void RunOnce();
+        public abstract StopDecision RunOnce();
 
         private EvaluationDelegate _evaluate;
 

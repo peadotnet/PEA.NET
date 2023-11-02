@@ -81,6 +81,12 @@ namespace Pea.StopCriteria
             return this;
         }
 
+        public StopCriteriaBuilder CountdownFinished(int countdownInitValue)
+        {
+            var criteria = new CountdownFinishedStopCriteria(countdownInitValue);
+            return When(criteria);
+        }
+
         public StopCriteriaBuilder TimeoutElapsed(int timeoutMilliseconds)
         {
             var criteria = new TimeOutStopCriteria(timeoutMilliseconds);

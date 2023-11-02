@@ -21,7 +21,6 @@ namespace Pea.Core.Island
         public IEntityCrossover EntityCrossover { get; set; }
         public IEntityMutation EntityMutation { get; set; }
         public IProvider<IReplacement> Replacements { get; set; }
-        public IStopCriteria StopCriteria { get; set; }
         public EvaluationBase Evaluation { get; set; }
         public IMigrationStrategy MigrationStrategy { get; set; }
         public LaunchTravelersDelegate LaunchTravelers { get; set; }
@@ -62,8 +61,7 @@ namespace Pea.Core.Island
 
         public StopDecision RunOnce()
         {
-            Algorithm.RunOnce();
-            return StopCriteria.MakeDecision(this, Algorithm.Population);
+            return Algorithm.RunOnce();
         }
 
         public void Reduct()

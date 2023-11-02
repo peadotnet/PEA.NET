@@ -36,8 +36,7 @@ namespace Pea.Core.Island
 			StopDecision stopDecision;
 			while (true)
 			{
-				islandEngine.Algorithm.RunOnce();
-				stopDecision = islandEngine.StopCriteria.MakeDecision(islandEngine, islandEngine.Algorithm.Population);
+                stopDecision = islandEngine.Algorithm.RunOnce();
 				if (stopDecision.MustStop)
 				{
 					Debug.WriteLine(stopDecision.Reasons[0]);

@@ -33,7 +33,7 @@ namespace Pea.Algorithm.Implementation
             MergeToBests(Population);
         }
 
-        public override void RunOnce()
+        public override StopDecision RunOnce()
         {
             var parents = SelectParents(Population, 2);
             var offspring = Crossover(parents, 2);
@@ -41,6 +41,8 @@ namespace Pea.Algorithm.Implementation
             var evaluated = Evaluate(mutated);
             var inserted = Reinsert(Population, evaluated, parents, Population);
             MergeToBests(inserted);
+            return StopCriteria.MakeDecision(this.Engine, this.Population);
+
         }
     }
 }
