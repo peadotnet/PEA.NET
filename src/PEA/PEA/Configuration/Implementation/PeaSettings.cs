@@ -24,8 +24,8 @@ namespace Pea.Configuration.Implementation
 
         public PeaSettings()
         {
-            ParameterSet.Add(new PeaSettingsNamedValue(ParameterNames.ArchipelagosCount, 1));
-            ParameterSet.Add(new PeaSettingsNamedValue(ParameterNames.IslandsCount, 1));
+            ParameterSet.Add(new PeaSettingsNamedValue(Core.Island.ParameterNames.ArchipelagosCount, 1));
+            ParameterSet.Add(new PeaSettingsNamedValue(Core.Island.ParameterNames.IslandsCount, 1));
         }
 
         public PeaSettings GetIslandSettings(MultiKey key)

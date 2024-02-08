@@ -35,7 +35,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var chromosomes = SortedSubsetTestData.CreateChromosomes();
             var random = new PredeterminedRandom(5); //Crossover gene value
             var parameterSet = new ParameterSet();
-            parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 0);
+            parameterSet.SetValue(Chromosome.ParameterNames.FailedCrossoverRetryCount, 0);
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
@@ -58,7 +58,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             var chromosomes = SortedSubsetTestData.CreateChromosomes();
             var random = new PredeterminedRandom(5); //Crossover gene value
             var parameterSet = new ParameterSet();
-            parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 0);
+            parameterSet.SetValue(Chromosome.ParameterNames.FailedCrossoverRetryCount, 0);
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, false, true, false, false, false) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
@@ -79,7 +79,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var random = new PredeterminedRandom(5); //Crossover gene value
             var parameterSet = new ParameterSet();
-            parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 0);
+            parameterSet.SetValue(Chromosome.ParameterNames.FailedCrossoverRetryCount, 0);
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, true, true) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 
@@ -95,7 +95,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 
             var random = new PredeterminedRandom(5, 7); //Crossover gene value before and after conflicts
             var parameterSet = new ParameterSet();
-            parameterSet.SetValue(ParameterNames.FailedCrossoverRetryCount, 1);
+            parameterSet.SetValue(Chromosome.ParameterNames.FailedCrossoverRetryCount, 1);
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { new PredeterminedConflictDetector(false, true, true, false, false, false, false, false, false, false) };
             var crossover = new OnePointCrossover(random, parameterSet, conflictDetectors);
 

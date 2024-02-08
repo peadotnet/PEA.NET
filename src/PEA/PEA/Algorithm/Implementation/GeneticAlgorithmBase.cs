@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Threading.Tasks;
+using System.Threading;
 using Pea.Core;
 
 namespace Pea.Algorithm.Implementation
@@ -10,7 +12,49 @@ namespace Pea.Algorithm.Implementation
         public IStopCriteria StopCriteria { get; set; }
 
 
-        public abstract void InitPopulation();
+        public virtual void InitPopulation()
+        {
+            var fitnessLength = Engine.Parameters.GetInt(ParameterNames.FitnessLength);
+            var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
+            var minNumberOfEntities = Convert.ToInt32(Engine.Parameters.GetValue(ParameterNames.SelectionRate) * maxNumberOfEntities);
+
+            Population = new Population.Population(fitnessLength, minNumberOfEntities, maxNumberOfEntities);
+
+            int timeOut = Engine.Parameters.GetInt(Core.ParameterNames.PopulationInitTimeout);
+            var cancellationSource = new CancellationTokenSource(timeOut);
+            var ct = cancellationSource.Token;
+
+            try
+            {
+                var task = new Task(() =>
+                {
+
+                    for (int i = 0; i < maxNumberOfEntities; i++)
+                    {
+                        var entity = CreateEntity();
+                        if (entity != null) Population.Add(entity);
+
+                        if (ct.IsCancellationRequested) ct.ThrowIfCancellationRequested();
+                    }
+
+                });
+
+                task.RunSynchronously();
+            }
+            catch (OperationCanceledException e)
+            {
+                System.Diagnostics.Debug.WriteLine($"{nameof(OperationCanceledException)} thrown with message: {e.Message}");
+            }
+            finally
+            {
+                cancellationSource.Dispose();
+            }
+
+            Evaluate(Population);
+            MergeToBests(Population);
+        }
+
+
         public abstract StopDecision RunOnce();
 
         private EvaluationDelegate _evaluate;

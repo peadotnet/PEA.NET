@@ -14,7 +14,7 @@ namespace Pea
 
         private Optimizer()
         {
-
+            SetParameter(Core.ParameterNames.PopulationInitTimeout, 60000);
         }
 
         public static Optimizer Create()
@@ -83,7 +83,7 @@ namespace Pea
         {
             var settings = Settings.Build();
 
-            var islandsCount = settings.ParameterSet.FindLast(p => p.Name == ParameterNames.IslandsCount).Value; //TODO: clarify this
+            var islandsCount = settings.ParameterSet.FindLast(p => p.Name == Core.Island.ParameterNames.IslandsCount).Value; //TODO: clarify this
             PeaResult result = null;
 			if (islandsCount < 2)
 			{

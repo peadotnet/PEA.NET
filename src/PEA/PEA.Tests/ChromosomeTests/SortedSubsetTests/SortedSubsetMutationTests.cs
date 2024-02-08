@@ -29,8 +29,8 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         {
             var random = new PredeterminedRandom(0.5, 3, 1); //possibility, conflictIndex, targetSection
             var parameterSet = new ParameterSet();
-            parameterSet.SetValue(ParameterNames.ConflictReducingProbability, 0.6);
-            parameterSet.SetValue(ParameterNames.FailedMutationRetryCount, 0);
+            parameterSet.SetValue(Chromosome.ParameterNames.ConflictReducingProbability, 0.6);
+            parameterSet.SetValue(Chromosome.ParameterNames.FailedMutationRetryCount, 0);
             var chromosome = SortedSubsetTestData.CreateChromosome();
             chromosome.ConflictList.Add(new GenePosition(0, 1));
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
@@ -48,8 +48,8 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         {
             var random = new PredeterminedRandom(0.7, 1, 2, 1, 2); //possibility, sourceSection, sourcePosition, wrongTargetSection, goodTargetSection
             var parameterSet = new ParameterSet();
-            parameterSet.SetValue(ParameterNames.ConflictReducingProbability, 0.6);
-            parameterSet.SetValue(ParameterNames.FailedMutationRetryCount, 0);
+            parameterSet.SetValue(Chromosome.ParameterNames.ConflictReducingProbability, 0.6);
+            parameterSet.SetValue(Chromosome.ParameterNames.FailedMutationRetryCount, 0);
             var chromosome = SortedSubsetTestData.CreateChromosome();
             chromosome.ConflictList.Add(new GenePosition(0, 1));
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };
@@ -67,7 +67,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
         {
             var random = new PredeterminedRandom(1, 2, 1, 2); //possibility, sourceSection, sourcePosition, wrongTargetSection, goodTargetSection
             var parameterSet = new ParameterSet();
-            parameterSet.SetValue(ParameterNames.FailedMutationRetryCount, 0);
+            parameterSet.SetValue(Chromosome.ParameterNames.FailedMutationRetryCount, 0);
 
             var chromosome = SortedSubsetTestData.CreateChromosome();
             var conflictDetectors = new List<INeighborhoodConflictDetector>() { AllRightConflictDetector.Instance };

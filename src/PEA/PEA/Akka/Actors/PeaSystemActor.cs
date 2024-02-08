@@ -109,8 +109,8 @@ namespace Pea.Akka.Actors
             _starter = Sender;
 
             var parameterSet = new ParameterSet(settings.ParameterSet);
-            int archipelagosCount = parameterSet.GetInt(ParameterNames.ArchipelagosCount);
-            int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
+            int archipelagosCount = parameterSet.GetInt(Core.Island.ParameterNames.ArchipelagosCount);
+            int islandsCount = parameterSet.GetInt(Core.Island.ParameterNames.IslandsCount);
 
             ResultsWaitForCount = archipelagosCount * islandsCount;
 

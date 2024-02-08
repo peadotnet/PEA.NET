@@ -36,7 +36,7 @@ namespace Pea.Akka.Actors
             Parameters = parameters;
 
             var props = EvaluationWorkerActor.CreateProps(IslandKey, EvaluatorType, Parameters);
-            var evaluatorsCount = Parameters.GetInt(ParameterNames.EvaluatorsCount);
+            var evaluatorsCount = Parameters.GetInt(Core.Island.ParameterNames.EvaluatorsCount);
             EvaluationWorkers = CreateWorkers(props, evaluatorsCount);
 
             var paths = EvaluationWorkers.Select(w => w.Path.ToString());

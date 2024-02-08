@@ -50,7 +50,7 @@ namespace Pea.Akka.Actors
             //    string key = subProblem.Encoding.Key;
             //var parameterSet = new ParameterSet(subProblem.ParameterSet);
 
-            int islandsCount = parameterSet.GetInt(ParameterNames.IslandsCount);
+            int islandsCount = parameterSet.GetInt(Core.Island.ParameterNames.IslandsCount);
             Islands = new List<IActorRef>(islandsCount);
             for (int i = 0; i < islandsCount; i++)
                 {

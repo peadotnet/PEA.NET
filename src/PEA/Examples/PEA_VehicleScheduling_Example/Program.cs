@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Pea.Configuration.ProblemModels;
 using Pea.Core;
-using Pea.StopCriteria;
-using Algorithm = Pea.Algorithm;
 using Island = Pea.Core.Island;
-using Chromosome = Pea.Chromosome;
 using Pea;
-using Pea.Core.Island;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -32,7 +28,7 @@ namespace PEA_VehicleScheduling_Example
 
             optimizer.Settings.StopWhen().TimeoutElapsed(120 * 1000);
 
-            optimizer.SetParameter(ParameterNames.IslandsCount, 10);
+            optimizer.SetParameter(Island.ParameterNames.IslandsCount, 10);
 
 
 

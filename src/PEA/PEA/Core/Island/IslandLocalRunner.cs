@@ -23,14 +23,20 @@ namespace Pea.Core.Island
 
 			var islandEngine = IslandEngineFactory.Create(Key, settings, settings.Seed);
 
-			AddCallbackEvents(islandEngine, settings.NewEntityMergedToBest);
+            AddCallbackEvents(islandEngine, settings.NewEntityMergedToBest);
+            if (launchTravelers != null) islandEngine.LaunchTravelers += launchTravelers;
 
-			Evaluator = (EvaluationBase)TypeLoader.CreateInstance(settings.Evaluation, islandEngine.Parameters);
+            Evaluator = (EvaluationBase)TypeLoader.CreateInstance(settings.Evaluation, islandEngine.Parameters);
 			Evaluator.Init(initData);
 
 			islandEngine.Algorithm.SetEvaluationCallback(Evaluate);
 			islandEngine.Init(initData);
-			if (launchTravelers != null) islandEngine.LaunchTravelers += launchTravelers;
+
+			if (islandEngine.Algorithm.Population.Count == 0)
+			{
+				var reasons = new List<string>() { "Initialization of population timed out." };
+				return new PeaResult(reasons, islandEngine.Algorithm.Population.Bests);
+			}
 
 			var c = 0;
 			StopDecision stopDecision;

@@ -16,7 +16,7 @@ namespace Pea.Selection
 		{
             if (count == 1)
             {
-                var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
+                var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
                 var selected = SelectOne(entities, tournamentSize);
                 var entityList = new EntityList(1);
                 entityList.Add(selected);
@@ -35,7 +35,7 @@ namespace Pea.Selection
         IEntityList SelectWithList(IEntityList entities, int count)
         {
             List<IEntity> result = new List<IEntity>(count);
-            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
+            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
 
             for (int i = 0; i < count; i++)
             {
@@ -52,7 +52,7 @@ namespace Pea.Selection
         IEntityList SelectWithHashSet(IEntityList entities, int count)
         {
             HashSet<IEntity> result = new HashSet<IEntity>();
-            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
+            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
 
             for(int i=0; i< count; i++)
             {

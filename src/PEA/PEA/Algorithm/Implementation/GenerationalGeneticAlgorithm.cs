@@ -1,7 +1,10 @@
-﻿using Pea.Core;
+﻿using Akka.Event;
+using Pea.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Pea.Algorithm.Implementation
 {
@@ -9,24 +12,6 @@ namespace Pea.Algorithm.Implementation
 	{
 		public GenerationalGeneticAlgorithm(IEngine engine) : base(engine)
 		{
-		}
-
-		public override void InitPopulation()
-		{
-			var fitnessLength = Engine.Parameters.GetInt(ParameterNames.FitnessLength);
-			var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
-			var minNumberOfEntities = Convert.ToInt32(Engine.Parameters.GetValue(ParameterNames.SelectionRate) * maxNumberOfEntities);
-
-			Population = new Population.Population(fitnessLength, minNumberOfEntities, maxNumberOfEntities);
-
-			for (int i = 0; i < maxNumberOfEntities; i++)
-			{
-				var entity = CreateEntity();
-				Population.Add(entity);
-			}
-
-			Evaluate(Population);
-			MergeToBests(Population);
 		}
 
 		public override StopDecision RunOnce()

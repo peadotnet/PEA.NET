@@ -72,7 +72,7 @@ namespace Pea.Tests.ChromosomeTests.StructTests
 			};
 
 			var random = new PredeterminedRandom(new double[] { 1, 1 });
-			var parameterSet = new ParameterSet(new List<PeaSettingsNamedValue>() { new PeaSettingsNamedValue(ParameterNames.MutationIntensity, change) });
+			var parameterSet = new ParameterSet(new List<PeaSettingsNamedValue>() { new PeaSettingsNamedValue(Chromosome.ParameterNames.MutationIntensity, change) });
 			var fieldOperator = new DoubleFieldOperator<TestStruct>("DoubleField", random, parameterSet);
 
 			fieldOperator.Mutate(testStruct);
