@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Pea.Core;
 
-namespace Pea.Akka.Messages
+namespace Pea.Core
 {
     public class PeaResult
     {

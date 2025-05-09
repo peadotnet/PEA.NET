@@ -2,16 +2,16 @@
 
 namespace Pea.StopCriteria.Implementation
 {
-    public class CountdownFinishedStopCriteria : IStopCriteria
+    public class IterationsRechedStopCriteria : IStopCriteria
     {
         public int Counter { get; set; }
 
-        public CountdownFinishedStopCriteria()
+        public IterationsRechedStopCriteria()
         {
             Counter = 60 * 1000 * 100;
         }
 
-        public CountdownFinishedStopCriteria(int counter) 
+        public IterationsRechedStopCriteria(int counter) 
         {
             Counter = counter;
         }

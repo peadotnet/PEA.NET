@@ -27,6 +27,19 @@ namespace Pea.Core
 			Entities = entityList;
 		}
 
+		public void AddRange(IList<IEntity> entities)
+		{
+			for (int i = 0; i < entities.Count; i++)
+			{
+				Entities.Add(entities[i]);
+			}
+		}
+
+		public void AddRange(EntityList entities)
+		{
+			AddRange(entities.Entities);
+		}
+
 		public void Add(IEntity entity)
 		{
 			Entities.Add(entity);

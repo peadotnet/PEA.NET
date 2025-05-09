@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Pea.Core;
+using System;
 using System.Threading;
-using Pea.Core;
+using System.Threading.Tasks;
 
 namespace Pea.Algorithm.Implementation
 {
@@ -12,11 +12,13 @@ namespace Pea.Algorithm.Implementation
         public IStopCriteria StopCriteria { get; set; }
 
 
-        public virtual void InitPopulation()
+        public virtual void InitPopulation(EntityList? entityList = null)
         {
             var fitnessLength = Engine.Parameters.GetInt(ParameterNames.FitnessLength);
             var maxNumberOfEntities = Engine.Parameters.GetInt(ParameterNames.PopulationSize);
             var minNumberOfEntities = Convert.ToInt32(Engine.Parameters.GetValue(ParameterNames.SelectionRate) * maxNumberOfEntities);
+
+            if (entityList == null) entityList = new EntityList(maxNumberOfEntities);
 
             Population = new Population.Population(fitnessLength, minNumberOfEntities, maxNumberOfEntities);
 
@@ -28,15 +30,14 @@ namespace Pea.Algorithm.Implementation
             {
                 var task = new Task(() =>
                 {
-
-                    for (int i = 0; i < maxNumberOfEntities; i++)
+                    while (entityList.Count < maxNumberOfEntities)
                     {
                         var entity = CreateEntity();
-                        if (entity != null) Population.Add(entity);
+
+                        if (entity != null) entityList.Add(entity);
 
                         if (ct.IsCancellationRequested) ct.ThrowIfCancellationRequested();
                     }
-
                 });
 
                 task.RunSynchronously();
@@ -50,7 +51,8 @@ namespace Pea.Algorithm.Implementation
                 cancellationSource.Dispose();
             }
 
-            Evaluate(Population);
+            Evaluate(entityList);
+            Population.AddRange(entityList);
             MergeToBests(Population);
         }
 

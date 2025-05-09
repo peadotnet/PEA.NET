@@ -5,7 +5,7 @@
 		void Init(IEvaluationInitData initData);
 	}
 
-	public interface IConflictDetector<T1, T2> : IConflictDetector
+	public interface IConflictDetector<in T1, in T2> : IConflictDetector
 	{
 		bool ConflictDetected(T1 first, T2 second);
 	}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Pea.Core;
 using Pea.Core.Entity;
+using Pea.Core.Events;
 using Pea.Core.Island;
 using Pea.Fitness;
 
@@ -18,9 +19,12 @@ namespace Pea.Configuration.Implementation
         public Type Evaluation { get; set; }
         public Type Random { get; set; } = typeof(FastRandom);
         public int Seed { get; set; } = 0;
+
         public List<NewEntitiesMergedToBestDelegate> NewEntityMergedToBest { get; set; } = new List<NewEntitiesMergedToBestDelegate>();
 
         public IStopCriteria StopCriteria { get; set; }
+
+        public IRestartStategy RestartStategy { get; set; }
 
         public PeaSettings()
         {
@@ -38,6 +42,7 @@ namespace Pea.Configuration.Implementation
                 Evaluation = this.Evaluation,
                 Random = this.Random,
                 StopCriteria = this.StopCriteria,
+                RestartStategy = this.RestartStategy,
                 ParameterSet = this.ParameterSet
             };
 

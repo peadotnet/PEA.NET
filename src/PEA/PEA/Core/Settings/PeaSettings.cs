@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Configuration.Implementation;
+using Pea.Core.Events;
 using Pea.Core.Settings;
 
 namespace Pea.Core
 {
-    [Obsolete("This class is obsolete. Use Pea.Config.Implementation.PeaSettings instead.")]
+    [Obsolete("This class is obsolete. Use Pea.Configuration.Implementation.PeaSettings instead.")]
     public class PeaSettings_old
     {
         public Type Random { get; set; }
@@ -28,6 +29,8 @@ namespace Pea.Core
             new List<PeaSettingsTypeProbability>();
 
         public IStopCriteria StopCriteria { get; set; }
+
+        public IRestartStategy RestartStategy { get; set; }
 
         public Type ConflictDetector { get; set; }
         public Type Fitness { get; set; }

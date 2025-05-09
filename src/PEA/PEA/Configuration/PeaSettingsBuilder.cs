@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Core.Events;
 using Pea.StopCriteria;
 
 namespace Pea.Configuration
@@ -30,6 +31,12 @@ namespace Pea.Configuration
         {
             StopCriteria = StopCriteriaBuilder.StopWhen();
             return StopCriteria;
+        }
+
+        public PeaSettingsBuilder WithRestartStrategy(IRestartStategy restartStategy)
+        {
+            Settings.RestartStategy = restartStategy;
+            return this;
         }
 
         public PeaSettingsBuilder SetParameter(string parameterKey, double parameterValue)

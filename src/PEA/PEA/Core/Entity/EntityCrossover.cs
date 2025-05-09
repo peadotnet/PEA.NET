@@ -44,6 +44,8 @@ namespace Pea.Core.Entity
                 IEntity offspring0 = parent0.Clone(false);
                 IEntity offspring1 = parent1.Clone(false);
 
+                double crossoverProbability = parents[0].Chromosomes.Keys.Count * 1.5;
+
                 bool offspring1Failed = false;
 
                 foreach (var chromosomeName in parents[0].Chromosomes.Keys)
@@ -51,6 +53,9 @@ namespace Pea.Core.Entity
                     IList<IChromosome> crossoveredChromosomes = new List<IChromosome>(parent0.Chromosomes.Count);
                     while (crossoveredChromosomes.Count == 0)
                     {
+                        var crossoverDecision = _random.GetDouble(0, crossoverProbability);
+                        if (crossoverDecision > 1) continue;
+
                         var provider = CrossoverProviders[chromosomeName];
                         var crossover = provider.GetOne();
 

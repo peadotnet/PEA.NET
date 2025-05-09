@@ -21,6 +21,17 @@ namespace Pea.Util
             }
         }
 
+        public void CopyTo(MeanAndDeviation other)
+        {
+            other.Mean = Mean;
+            other._deviation = _deviation;
+        }
+
+        public virtual MeanAndDeviation Clone()
+        {
+            return new MeanAndDeviation(Mean, Deviation);
+        }
+
         public class ComparerByMean : IComparer<RunningVariance>
         {
             private ComparerByMean() { }

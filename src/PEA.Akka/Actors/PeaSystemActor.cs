@@ -5,6 +5,7 @@ using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Core.Events;
 using Pea.Core.Island;
 
 namespace Pea.Akka.Actors
@@ -60,7 +61,13 @@ namespace Pea.Akka.Actors
             {
                 anyMerged |= FitnessComparer.MergeToBests(Bests, entities[e]);
             }
-            if (anyMerged) NewEntitiesMergedToBest(Bests);
+
+            if (anyMerged) NewEntitiesMergedToBest(
+                new NewEntitiesMergedToBestEventArgs()
+                { 
+                   BestEntities = Bests,
+                   FitnessStatistics = null // Algorithm.Population.FitnessStatistics
+                });
         }
 
         public void MergeToResults(IList<IEntity> entities)
@@ -71,10 +78,10 @@ namespace Pea.Akka.Actors
             }
         }
 
-        private void NewEntitiesMergetToBestCallback(IList<IEntity> bests)
-        {
-            if (NewEntitiesMergedToBest != null) NewEntitiesMergedToBest(bests);
-        }
+        //private void NewEntitiesMergetToBestCallback(IList<IEntity> bests)
+        //{
+        //    if (NewEntitiesMergedToBest != null) NewEntitiesMergedToBest(bests);
+        //}
 
         private void CollectResults(PeaResult result)
         {

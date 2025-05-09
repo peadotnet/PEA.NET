@@ -5,6 +5,7 @@ using Pea.Configuration.ProblemModels;
 using Pea.Core;
 using Island = Pea.Core.Island;
 using Pea;
+using System.Threading.Tasks;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -28,7 +29,7 @@ namespace PEA_VehicleScheduling_Example
 
             optimizer.Settings.StopWhen().TimeoutElapsed(120 * 1000);
 
-            optimizer.SetParameter(Island.ParameterNames.IslandsCount, 10);
+            optimizer.SetParameter(Island.ParameterNames.IslandsCount, 1);
 
 
 
@@ -57,7 +58,7 @@ namespace PEA_VehicleScheduling_Example
             Stopwatch sw = Stopwatch.StartNew();
 
 
-            var result = optimizer.Run(initData);
+            var result = optimizer.Run(initData).GetAwaiter().GetResult();
             //var result = AsyncUtil.RunSync(() => system.Start(initData));
 
             foreach (var reason in result.StopReasons)

@@ -56,8 +56,9 @@ namespace Pea.Core.Island
 			engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
 			engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
 			engine.Algorithm.StopCriteria = settings.StopCriteria;
+            //engine.RestartStategy = settings.RestartStategy;
 
-			return engine;
+            return engine;
 		}
 
 		private static IDictionary<string, IChromosomeFactory> CreateChromosomeFactories(IEngine engine, PeaSettings settings, IDictionary<string, IList<IConflictDetector>> conflictDetectors, IRandom random)

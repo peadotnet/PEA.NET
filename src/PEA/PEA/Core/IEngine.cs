@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
+using Pea.Core.Events;
 using Pea.Migration;
 
 namespace Pea.Core
 {
-    public delegate void NewEntitiesMergedToBestDelegate(IList<IEntity> bests);
-
     public delegate void LaunchTravelersDelegate(IEntityList entityList, TravelerTypes travelerType);
 
     public interface IEngine
     {
+        int Iteration { get; set; }
+        
         LaunchTravelersDelegate LaunchTravelers { get; set; }
-        NewEntitiesMergedToBestDelegate NewEntityMergedToBest { get; set; }
+
+        event NewEntitiesMergedToBestDelegate NewEntityMergedToBest;
 
         IRandom Random { get; set; }
         IAlgorithm Algorithm { get; set; }
@@ -29,5 +31,7 @@ namespace Pea.Core
         void MergeToBests(IEntityList entities);
         void Reduct();
         void TravelersArrived(IEntityList travelers);
+
+        IEvolutionStateReportData GetCurrentState();
     }
 }

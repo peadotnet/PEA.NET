@@ -9,7 +9,7 @@ namespace Pea.Tests.AlgorithmTests
     public class AlgorithmBaseTests
     {
         [Fact]
-        public void SlowCreator_InitPopulation_ShouldReturnEmpty()
+        public async Task SlowCreator_InitPopulation_ShouldReturnEmpty()
         {
             var optimizer = Optimizer.Create();
             optimizer.Settings.AddSubProblem("POS", new SlowScenario());
@@ -20,7 +20,7 @@ namespace Pea.Tests.AlgorithmTests
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var result = optimizer.Run(new TestInitData());
+            var result = await optimizer.Run(new TestInitData());
             stopWatch.Stop();
 
             stopWatch.ElapsedMilliseconds.Should().BeLessThan(11000);

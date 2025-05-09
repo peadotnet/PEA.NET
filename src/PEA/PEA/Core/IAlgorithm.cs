@@ -8,7 +8,7 @@
         IPopulation Population { get; set; }
         IStopCriteria StopCriteria { get; set; }
         void SetEvaluationCallback(EvaluationDelegate evaluationCallback);
-        void InitPopulation();
+        void InitPopulation(EntityList? entityList = null);
         StopDecision RunOnce();
     }
 }

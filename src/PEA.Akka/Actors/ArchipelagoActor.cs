@@ -5,7 +5,6 @@ using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
 using Pea.Configuration.Implementation;
 using Pea.Core;
-using Pea.Core.Island;
 
 namespace Pea.Akka.Actors
 {

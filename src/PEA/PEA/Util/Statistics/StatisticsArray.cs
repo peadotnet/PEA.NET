@@ -7,7 +7,19 @@ namespace Pea.Util.Statistics
 		public int Length { get; }
 		public RunningVariance[] StatisticVariables { get; }
 
-		public StatisticsArray(int length)
+        public RunningVariance this[int index]
+		{
+			get 
+			{ 
+				return StatisticVariables[index]; 
+			}
+			set
+			{
+				StatisticVariables[index] = value;
+			}
+		}
+
+        public StatisticsArray(int length)
 		{
 			Length = length;
 			StatisticVariables = new RunningVariance[length];
@@ -19,11 +31,18 @@ namespace Pea.Util.Statistics
 
 		public void Add(IReadOnlyList<double> values)
 		{
-			if (values == null) throw new System.NullReferenceException(nameof(values));
+			if (values == null) return; // throw new System.NullReferenceException(nameof(values));
 
 			for (int i = 0; i < StatisticVariables.Length; i++)
 			{
-				StatisticVariables[i].Add(values[i]);
+				if (double.IsNormal(values[i]))
+				{
+					StatisticVariables[i].Add(values[i]);
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 
@@ -33,8 +52,33 @@ namespace Pea.Util.Statistics
 
 			for (int i = 0; i < StatisticVariables.Length; i++)
 			{
-				StatisticVariables[i].Remove(values[i]);
+                if (double.IsNormal(values[i]))
+                {
+                    StatisticVariables[i].Remove(values[i]);
+
+                }
+				else
+				{
+					break;
+				}
+            }
+		}
+
+        public StatisticsArray Clone()
+		{
+			var clone = new StatisticsArray(Length);
+			CopyTo(this, clone);
+			return clone;
+		}
+
+
+		public static void CopyTo(IStatisticsArray source, IStatisticsArray target)
+		{
+			for (int i = 0; i < source.Length; i++)
+			{
+				source[i].CopyTo(target[i]);
 			}
 		}
+
 	}
 }

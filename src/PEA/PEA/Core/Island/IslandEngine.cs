@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Pea.Core.Events;
 using Pea.Migration;
+using Pea.Restart;
 
 namespace Pea.Core.Island
 {
@@ -23,21 +25,28 @@ namespace Pea.Core.Island
         public IProvider<IReplacement> Replacements { get; set; }
         public EvaluationBase Evaluation { get; set; }
         public IMigrationStrategy MigrationStrategy { get; set; }
-        public LaunchTravelersDelegate LaunchTravelers { get; set; }
 
-        public NewEntitiesMergedToBestDelegate NewEntityMergedToBest { get; set; }
+        public IRestartStategy RestartStategy { get; set; }// = new UnchangedMeanRestartStrategy();
+        public LaunchTravelersDelegate LaunchTravelers { get; set; }
+        public int Iteration { get; set; } = 0;
+
+        private bool _initialization = false;
+
+        public event NewEntitiesMergedToBestDelegate NewEntityMergedToBest;
 
         public IslandEngine()
         {
              
         }
 
-		public void Init(IEvaluationInitData initData)
+        public void Init(IEvaluationInitData initData)
         {
+            _initialization = true;
             initData.Build();
             InitConflictDetectors(initData);
             InitEntityCreators(initData);
             Algorithm.InitPopulation();
+            _initialization = false;
         }
 
 		private void InitEntityCreators(IEvaluationInitData initData)
@@ -61,6 +70,16 @@ namespace Pea.Core.Island
 
         public StopDecision RunOnce()
         {
+            Iteration++;
+
+            if (RestartStategy != null && RestartStategy.ShouldRestart(Iteration, Algorithm.Population))
+            {
+                _initialization = true;
+                var remainingEntities = RestartStategy.GetRemainingEntities(Algorithm.Population);
+                Algorithm.InitPopulation(remainingEntities);
+                _initialization = false;
+            }
+
             return Algorithm.RunOnce();
         }
 
@@ -93,9 +112,15 @@ namespace Pea.Core.Island
                 }
             }
 
-            if (anyMerged && NewEntityMergedToBest != null)
+            if (!_initialization && anyMerged && NewEntityMergedToBest != null)
             {
-                NewEntityMergedToBest(Algorithm.Population.Bests);
+                NewEntityMergedToBest(
+                    new NewEntitiesMergedToBestEventArgs()
+                    {
+                        Iteration = Iteration,
+                        BestEntities = Algorithm.Population.Bests,
+                        FitnessStatistics = Algorithm.Population.FitnessStatistics
+                    });
             }
 
             if (LaunchTravelers != null && travelers.Count > 0)
@@ -116,6 +141,16 @@ namespace Pea.Core.Island
             {
                 MigrationStrategy.InsertMigrants(Algorithm.Population, travelers);
             }
+        }
+
+        public IEvolutionStateReportData GetCurrentState()
+        {
+            return new NewEntitiesMergedToBestEventArgs()
+            {
+                Iteration = Iteration,
+                BestEntities = Algorithm.Population.Bests,
+                FitnessStatistics = Algorithm.Population.FitnessStatistics
+            };
         }
     }
 }

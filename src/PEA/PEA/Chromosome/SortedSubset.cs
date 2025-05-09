@@ -66,7 +66,7 @@ namespace Pea.Chromosome
                 new PeaSettingsNamedValue(ParameterNames.ConflictReducingProbability, 0.5),
                 new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 10),
                 new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 20),
-                new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
+                new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.1),
                 new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 0.1)
             };
         }

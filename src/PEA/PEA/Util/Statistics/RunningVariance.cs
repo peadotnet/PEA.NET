@@ -27,6 +27,14 @@ namespace Pea.Util
             }
         }
 
+        public override MeanAndDeviation Clone()
+        {
+            var clone = new RunningVariance(Mean, Deviation);
+            clone.Count = Count;
+            clone.SumOfSquareDifferences = SumOfSquareDifferences;
+            return clone;
+        }
+
         public void Add(double x)
         {
             Count++;

@@ -32,8 +32,9 @@ namespace Pea.Chromosome
 			_mutations = new List<IMutation>()
 			{
 				new DoNothingMutation(random, parameterSet, conflictDetectors),
-				new OneGeneMutation(random, parameterSet, conflictDetectors)
-			};
+				new OneGeneMutation(random, parameterSet, conflictDetectors),
+				new OneBlockMutation(random, parameterSet, conflictDetectors)
+            };
 		}
 
 		public IChromosomeFactory<BitVectorChromosome> AddCreators(IEnumerable<IChromosomeCreator<BitVectorChromosome>> creators)
@@ -82,7 +83,7 @@ namespace Pea.Chromosome
 				//new PeaSettingsNamedValue(ParameterNames.ConflictReducingProbability, 0.5),
 				new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
 				new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
-				new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
+				new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.1),
 				new PeaSettingsNamedValue(ParameterNames.BlockSize, 2)
 			};
 

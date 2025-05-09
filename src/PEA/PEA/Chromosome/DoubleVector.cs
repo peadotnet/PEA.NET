@@ -93,7 +93,7 @@ namespace Pea.Chromosome
                 new PeaSettingsNamedValue(ParameterNames.ConflictReducingProbability, 0.5),
                 new PeaSettingsNamedValue(ParameterNames.FailedCrossoverRetryCount, 1),
                 new PeaSettingsNamedValue(ParameterNames.FailedMutationRetryCount, 2),
-                new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.5),
+                new PeaSettingsNamedValue(ParameterNames.MutationProbability, 0.1),
                 new PeaSettingsNamedValue(ParameterNames.MutationIntensity, 3000),
                 new PeaSettingsNamedValue(ParameterNames.BlockSize, 2)
             };

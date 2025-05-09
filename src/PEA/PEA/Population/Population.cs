@@ -38,6 +38,14 @@ namespace Pea.Population
             FitnessStatistics = new StatisticsArray(fitnessLength);
         }
 
+        public void AddRange(EntityList entityList)
+        {
+            for(int i = 0; i < entityList.Count; i++)
+            {
+                Add(entityList[i]);
+            }
+        }
+
         public void Add(IEntity entity)
         {
             Entities.Add((IPopulationEntity)entity);
@@ -74,6 +82,5 @@ namespace Pea.Population
         {
             return Entities.GetEnumerator();
         }
-
-	}
+    }
 }
