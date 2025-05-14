@@ -26,8 +26,10 @@ namespace Pea
 
         public static Optimizer Create()
         {
-            if (_instance == null) _instance = new Optimizer();
-            return _instance;
+            //if (_instance == null) _instance = new Optimizer();
+            //return _instance;
+
+            return new Optimizer();
         }
 
         public Optimizer SetParameter(string parameterKey, double parameterValue)

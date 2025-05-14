@@ -56,7 +56,7 @@ namespace Pea.Core.Island
 			engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
 			engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
 			engine.Algorithm.StopCriteria = settings.StopCriteria;
-            //engine.RestartStategy = settings.RestartStategy;
+            engine.RestartStategy = settings.RestartStategy;
 
             return engine;
 		}
@@ -95,13 +95,16 @@ namespace Pea.Core.Island
             foreach (var subProblem in subProblemList)
             {
                 string key = subProblem.Encoding.Key;
-                var detectors = new List<IConflictDetector>();
-                foreach (var detectorType in subProblem.ConflictDetectors)
+                if (!result.ContainsKey(key))
                 {
-                    var detectorInstance = (IConflictDetector)Activator.CreateInstance(detectorType);
-                    detectors.Add(detectorInstance);
+                    var detectors = new List<IConflictDetector>();
+                    foreach (var detectorType in subProblem.ConflictDetectors)
+                    {
+                        var detectorInstance = (IConflictDetector)Activator.CreateInstance(detectorType);
+                        detectors.Add(detectorInstance);
+                    }
+                    result.Add(key, detectors);
                 }
-                result.Add(key, detectors);
             }
             return result;
         }
