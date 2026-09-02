@@ -17,46 +17,46 @@ namespace Pea.Core.Island
 
         public static IslandEngine Create(MultiKey islandKey, PeaSettings settings, int seed)
 		{
-			if (seed == 0) seed = islandKey.GetHashCode() + Environment.TickCount;
+            var parameterSet = CreateParameters(settings);
 
+            if (seed == 0) seed = islandKey.GetHashCode() + Environment.TickCount;
 			var random = (IRandom)Activator.CreateInstance(settings.Random, seed);
-			var parameterSet = CreateParameters(settings);
 
 			var fitness = (IFitnessFactory)Activator.CreateInstance(settings.Fitness);
 			var fitnessComparer = fitness.GetFitnessComparer();
 
-			var engine = new IslandEngine()
-			{
-				Random = random,
-				Settings = settings,
-				Parameters = parameterSet
-			};
+			var engine = new IslandEngine(random, settings, parameterSet);
 
-			var algorithm = CreateAlgorithm(engine, settings);
-			var conflictDetectors = CreateConflictDetectors(settings.SubProblemList);
+            var algorithm = CreateAlgorithm(engine, settings);
+            var algParameters = algorithm.GetParameters();
+            parameterSet.SetValueRange(algParameters, ParameterSource.AlgorithmDefault);
+
+            var conflictDetectors = CreateConflictDetectors(settings.SubProblemList);
 
 			var chromosomeFactories = CreateChromosomeFactories(engine, settings, conflictDetectors, random);
 			var defaultCreator = new EntityCreator(settings.EntityType, chromosomeFactories, random);
-			engine.EntityCreators = CreateEntityCreators(settings.SubProblemList, defaultCreator, random);
 
 			IMigrationStrategy migrationStrategy = CreateMigrationStrategy(engine, random, fitnessComparer, parameterSet, settings);
 
-			engine.Algorithm = algorithm.GetAlgorithm(engine);
-			engine.FitnessComparer = fitnessComparer;
+            var entityCreators = CreateEntityCreators(settings.SubProblemList, defaultCreator, random);
+
+            //TODO: Abstract factory...
+            engine.Algorithm = algorithm.GetAlgorithm(parameterSet, entityCreators, engine.MergeToBests);
+            engine.Algorithm.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
+            engine.Algorithm.Replacements = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
+            engine.Algorithm.EntityMutation = new EntityMutation(chromosomeFactories, random);
+            engine.Algorithm.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
+
+            engine.Algorithm.FitnessComparer = fitnessComparer;
 			engine.ConflictDetectors = conflictDetectors;
-			engine.Selections = CreateSelections(algorithm, settings, parameterSet, random, fitnessComparer);
-			engine.Replacements = CreateReinsertions(algorithm, settings, parameterSet, random, fitnessComparer);
 			engine.MigrationStrategy = migrationStrategy;
 
 			engine.Reduction = new Population.Reduction.CleanOutTournamentLosers(random, parameterSet);
 			//engine.Reduction = new Population.Reduction.DoNothingReduction();
 
-			engine.Parameters.SetValueRange(algorithm.GetParameters());
 
-			engine.EntityMutation = new EntityMutation(chromosomeFactories, random);
-			engine.EntityCrossover = new EntityCrossover(chromosomeFactories, random);
 			engine.Algorithm.StopCriteria = settings.StopCriteria;
-            engine.RestartStategy = settings.RestartStategy;
+            engine.RestartStrategy = settings.RestartStrategy;
 
             return engine;
 		}
@@ -67,7 +67,7 @@ namespace Pea.Core.Island
 
             foreach (var subProblem in settings.SubProblemList)
             {
-                var parameterSet = new ParameterSet(subProblem.ParameterSet);
+                var parameterSet = new ParameterSet(subProblem.ParameterSet, ParameterSource.SubproblemDefault);
                 var factoryInstance = Activator.CreateInstance(subProblem.Encoding.ChromosomeType, random,
                     parameterSet, conflictDetectors[subProblem.Encoding.Key]) as IChromosomeFactory;
 
@@ -81,10 +81,11 @@ namespace Pea.Core.Island
 
         private static ParameterSet CreateParameters(PeaSettings settings)
         {
-            var parameterSet = new ParameterSet(settings.ParameterSet);
+            var parameterSet = new ParameterSet(settings.ParameterSet, ParameterSource.UserSetting);
+
 			foreach (var subProblem in settings.SubProblemList)
             {
-                parameterSet.SetValueRange(subProblem.ParameterSet);
+                parameterSet.SetValueRange(subProblem.ParameterSet, ParameterSource.UserSetting);
             }
             return parameterSet;
         }
@@ -146,7 +147,7 @@ namespace Pea.Core.Island
             var selection = new TournamentSelection(random, fitnessComparer, parameters);
             var replacement = new ReplaceWorstEntitiesOfPopulation(random, fitnessComparer, parameters);
             var strategy = new Migration.Implementation.MigrationStrategy(random, selection, replacement, engine.Parameters);
-            strategy.Parameters.SetValue(Migration.ParameterNames.MigrationReceptionRate, 0.01);
+            strategy.Parameters.SetValue(Migration.ParameterNames.MigrationReceptionRate, 0.01, ParameterSource.EngineDefault);
             return strategy;
         }
 

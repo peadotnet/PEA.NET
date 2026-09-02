@@ -6,7 +6,7 @@ namespace Pea.Core
 {
     public interface IAlgorithmFactory
     {
-        IAlgorithm GetAlgorithm(IEngine engine);
+        IAlgorithm GetAlgorithm(ParameterSet parameters, IProvider<IEntityCreator> entityCreators, Action<IEntityList> mergeToBests);
         IList<Type> GetSelections();
         IList<Type> GetReinsertions();
         IEnumerable<PeaSettingsNamedValue> GetParameters();

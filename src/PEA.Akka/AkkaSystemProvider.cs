@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Akka.Actor;
+﻿using Akka.Actor;
 using Akka.Configuration;
-using Pea.ActorModel.Messages;
 using Pea.Akka.Actors;
 using Pea.Akka.Messages;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using PEA.Akka.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace Pea.Akka
 {

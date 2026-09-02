@@ -87,10 +87,6 @@ namespace Pea.Core.Island
 			return evaluatedEntities;
 		}
 
-		public void SetBestMergedDelegate(LaunchTravelersDelegate mergedDelegate)
-		{
-		}
-
 		public IEvolutionStateReportData GetCurrentState()
 		{
 			return Engine?.GetCurrentState();

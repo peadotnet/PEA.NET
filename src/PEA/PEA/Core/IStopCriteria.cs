@@ -6,6 +6,6 @@ namespace Pea.Core
 {
     public interface IStopCriteria
     {
-        StopDecision MakeDecision(IEngine engine, IPopulation population);
+        StopDecision MakeDecision(IPopulation population, IFitnessComparer fitnessComparer);
     }
 }

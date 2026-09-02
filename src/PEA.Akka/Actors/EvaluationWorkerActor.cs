@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Akka.Actor;
-using Pea.ActorModel.Messages;
 using Pea.Core;
+using PEA.Akka.Messages;
 
 namespace Pea.Akka.Actors
 {

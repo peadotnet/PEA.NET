@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Algorithm.Implementation;
+﻿using Pea.Algorithm.Implementation;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Core.Entity;
 using Pea.Population.Replacement;
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace Pea.Algorithm
 {
     public class SteadyState : IAlgorithmFactory
     {
-        public IAlgorithm GetAlgorithm(IEngine engine)
+        public IAlgorithm GetAlgorithm(ParameterSet parameters, IProvider<IEntityCreator> entityCreators, Action<IEntityList> mergeToBests)
         {
-            return new SteadyStateAlgorithm(engine);
+            return new SteadyStateAlgorithm(parameters, entityCreators, mergeToBests);
         }
 
         public IEnumerable<PeaSettingsNamedValue> GetParameters()

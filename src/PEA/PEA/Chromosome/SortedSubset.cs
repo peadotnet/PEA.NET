@@ -17,7 +17,7 @@ namespace Pea.Chromosome
         {
             var size = parameterSet.GetInt("ProblemSize");
 
-            parameterSet.SetValueRange(GetParameters());
+            parameterSet.SetValueRange(GetParameters(), ParameterSource.ChromosomeOperationDefault);
 
             ConflictDetectors = conflictDetectors;
 
@@ -88,7 +88,7 @@ namespace Pea.Chromosome
 
         public override IEngine Apply(IEngine engine)
         {
-            engine.Parameters.SetValueRange(GetParameters());
+            engine.Parameters.SetValueRange(GetParameters(), ParameterSource.ChromosomeOperationDefault);
             return engine;
         }
     }

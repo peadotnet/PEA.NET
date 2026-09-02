@@ -11,7 +11,8 @@ namespace Pea.Configuration
         protected PeaSettings Settings = new PeaSettings();
         protected List<SubProblemBuilder> SubProblems = new List<SubProblemBuilder>();
         protected StopCriteriaBuilder StopCriteria;
-        protected MigrationStrategyBuilder MigrationStrategy;
+
+        protected MigrationStrategyBuilder MigrationStrategyBuilder;
 
         public SubProblemBuilder AddSubProblem()
         {
@@ -33,9 +34,9 @@ namespace Pea.Configuration
             return StopCriteria;
         }
 
-        public PeaSettingsBuilder WithRestartStrategy(IRestartStategy restartStategy)
+        public PeaSettingsBuilder WithRestartStrategy(IRestartStrategy restartStrategy)
         {
-            Settings.RestartStategy = restartStategy;
+            Settings.RestartStrategy = restartStrategy;
             return this;
         }
 
@@ -59,8 +60,8 @@ namespace Pea.Configuration
 
         public MigrationStrategyBuilder WithMigrationStrategy<TM>() where TM : IMigrationStrategy
         {
-            MigrationStrategy = new MigrationStrategyBuilder(typeof(TM));
-            return MigrationStrategy;
+            MigrationStrategyBuilder = new MigrationStrategyBuilder(typeof(TM));
+            return MigrationStrategyBuilder;
         }
 
         public PeaSettingsBuilder WithRandom<TR>() where TR : IRandom

@@ -24,7 +24,7 @@ namespace Pea.Configuration.Implementation
 
         public IStopCriteria StopCriteria { get; set; }
 
-        public IRestartStategy RestartStategy { get; set; }
+        public IRestartStrategy RestartStrategy { get; set; }
 
         public PeaSettings()
         {
@@ -42,7 +42,7 @@ namespace Pea.Configuration.Implementation
                 Evaluation = this.Evaluation,
                 Random = this.Random,
                 StopCriteria = this.StopCriteria,
-                RestartStategy = this.RestartStategy,
+                RestartStrategy = this.RestartStrategy,
                 ParameterSet = this.ParameterSet
             };
 

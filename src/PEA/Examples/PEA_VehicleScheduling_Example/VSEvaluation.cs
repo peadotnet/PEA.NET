@@ -32,7 +32,6 @@ namespace PEA_VehicleScheduling_Example
         public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
         {
             EntityCount++;
-            SortedSubsetChromosomeValidator.EntityCount = EntityCount;
 
             var entity = entities[Key] as VehicleSchedulingEntity;
             var chromosome = entity.Chromosomes[Key[0]] as SortedSubsetChromosome;

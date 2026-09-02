@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Akka.Actor;
-using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
 using Pea.Core;
 using Pea.Core.Island;
 using Pea.Migration;
+using PEA.Akka.Messages;
 using ParameterNames = Pea.Core.Island.ParameterNames;
 
 namespace Pea.Akka.Actors

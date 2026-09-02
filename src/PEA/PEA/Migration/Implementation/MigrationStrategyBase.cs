@@ -5,10 +5,10 @@ namespace Pea.Migration.Implementation
 {
     public abstract class MigrationStrategyBase : IMigrationStrategy
     {
-        public IRandom Random { get; }
-        public ParameterSet Parameters { get; }
-        public ISelection Selection { get; }
-        public IReplacement Reinsertion { get; }
+        public IRandom Random { get; protected set; }
+        public ParameterSet Parameters { get; protected set; }
+        public ISelection Selection { get; protected set; }
+        public IReplacement Reinsertion { get; protected set; }
  
         protected MigrationStrategyBase(IRandom random, ISelection selection, IReplacement reinsertion, ParameterSet parameters)
         {

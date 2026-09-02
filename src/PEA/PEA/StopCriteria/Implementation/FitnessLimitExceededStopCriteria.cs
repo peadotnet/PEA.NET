@@ -11,11 +11,11 @@ namespace Pea.StopCriteria.Implementation
             FitnessLimit = fitnessLimit;
         }
 
-        public StopDecision MakeDecision(IEngine engine, IPopulation population)
+        public StopDecision MakeDecision(IPopulation population, IFitnessComparer fitnessComparer)
         {
             foreach (var bestEntity in population.Bests)
             {
-                var exceed = engine.FitnessComparer.Compare(FitnessLimit, bestEntity.Fitness);
+                var exceed = fitnessComparer.Compare(FitnessLimit, bestEntity.Fitness);
 
                 if (exceed == 1)
                 {

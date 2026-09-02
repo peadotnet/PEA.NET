@@ -1,6 +1,6 @@
 ﻿namespace Pea.Core
 {
-    public interface IRestartStategy
+    public interface IRestartStrategy
     {
         bool ShouldRestart(int iteration, IPopulation population);
 

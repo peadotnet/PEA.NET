@@ -4,7 +4,7 @@ using System;
 
 namespace Pea.Restart
 {
-    public class UnchangedMeanRestartStrategy : IRestartStategy
+    public class UnchangedMeanRestartStrategy : IRestartStrategy
     {
         public double Tolerance { get; set; }  = 100;
         public int IterationWindow { get; set; }  = 1000;

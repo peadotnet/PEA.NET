@@ -1,32 +1,45 @@
-﻿using System;
+﻿using Pea.Configuration.Implementation;
+using System;
 using System.Collections.Generic;
-using Pea.Configuration.Implementation;
+using System.Security.Cryptography;
 
 namespace Pea.Core
 {
     public class ParameterSet : IParameterSet
     {
-        private Dictionary<string, double> Parameters { get; } = new Dictionary<string, double>();
+        private class ParameterValueWithSource
+        {
+            public double Value { get; set; }
+            public ParameterSource Source { get; set; }
+
+            public ParameterValueWithSource(double value,  ParameterSource source)
+            {  
+                Value = value; 
+                Source = source; 
+            }
+        }
+
+        private Dictionary<string, ParameterValueWithSource> Parameters { get; } = new Dictionary<string, ParameterValueWithSource>();
 
         public ParameterSet() { }
 
-        public ParameterSet(ParameterSet parameters) : this()
+        public ParameterSet(ParameterSet parameters, ParameterSource source) : this()
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             foreach (var parameter in parameters.Parameters)
             {
-                SetValue(parameter.Key, parameter.Value);
+                SetValue(parameter.Key, parameter.Value.Value, parameter.Value.Source);
             }
         }
 
-        public ParameterSet(IEnumerable<PeaSettingsNamedValue> parameters) : this()
+        public ParameterSet(IEnumerable<PeaSettingsNamedValue> parameters, ParameterSource source) : this()
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             foreach (var parameter in parameters)
             {
-                SetValue(parameter.Name, parameter.Value);
+                SetValue(parameter.Name, parameter.Value, source);
             }
         }
 
@@ -34,7 +47,7 @@ namespace Pea.Core
         {
             if (!Parameters.ContainsKey(parameterKey)) throw new ArgumentException(nameof(parameterKey));
 
-            return Parameters[parameterKey];
+            return Parameters[parameterKey].Value;
         }
 
         public IEnumerable<PeaSettingsNamedValue> GetAllValues()
@@ -43,7 +56,7 @@ namespace Pea.Core
 
             foreach (var parameter in Parameters)
             {
-                parameters.Add(new PeaSettingsNamedValue(parameter.Key, parameter.Value));
+                parameters.Add(new PeaSettingsNamedValue(parameter.Key, parameter.Value.Value));
             }
 
             return parameters;
@@ -53,18 +66,14 @@ namespace Pea.Core
         {
             if (!Parameters.ContainsKey(parameterKey)) throw new ArgumentException(nameof(parameterKey) + $": {parameterKey}");
 
-            return Convert.ToInt32(Parameters[parameterKey]);
+            return Convert.ToInt32(Parameters[parameterKey].Value);
         }
 
-        public void SetValue(string parameterKey, double newValue)
+        public void SetValue(string key, double newValue, ParameterSource source)
         {
-            if (!Parameters.ContainsKey(parameterKey))
+            if (!Parameters.TryGetValue(key, out var existing) || source >= existing.Source)
             {
-                Parameters.Add(parameterKey, newValue);
-            }
-            else
-            {
-                Parameters[parameterKey] = newValue;
+                Parameters[key] = new ParameterValueWithSource(newValue, source);
             }
         }
 
@@ -78,21 +87,24 @@ namespace Pea.Core
         //    }
         //}
 
-        public void SetValueRange(IEnumerable<PeaSettingsNamedValue> parameters)
+        public void SetValueRange(IEnumerable<PeaSettingsNamedValue> parameters, ParameterSource source)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             foreach (var parameter in parameters)
             {
-                SetValue(parameter.Name, parameter.Value);
+                SetValue(parameter.Name, parameter.Value, source);
             }
         }
 
-        public void SetValueRange(IParameterSet parameters)
+        public void SetValueRange(ParameterSet parameters)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            SetValueRange(parameters.GetAllValues());
+            foreach(var parameter in parameters.Parameters)
+            {
+                SetValue(parameter.Key, parameter.Value.Value, parameter.Value.Source);
+            }
         }
     }
 }

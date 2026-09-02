@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\PEA.Akka\PEA.Akka.csproj" />
     <ProjectReference Include="..\PEA\PEA.csproj" />
   </ItemGroup>
 

@@ -16,9 +16,6 @@ namespace PEA_TSP_Example
 {
 	class Program : IExternalApp<TSPInitData>
     {
-
-        private static TSPEvaluation Evaluation;
-
         static async Task Main(string[] args)
         {
             var tspData = LoadCsv("Berlin52.csv");
@@ -44,7 +41,7 @@ namespace PEA_TSP_Example
             Console.WriteLine($"Best distance: {best.TotalDistance}");
             Console.WriteLine($"Elapsed: {elapsed} Entities: {entities} ({speed} ent./ms)");
 
-//            Console.ReadLine();
+            Console.ReadLine();
 
         }
 

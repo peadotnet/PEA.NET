@@ -1,13 +1,20 @@
 ﻿using Pea.Configuration;
 using Pea.Core;
 using Pea.Core.Island;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pea
 {
     public class Optimizer
     {
-        private static Optimizer _instance = null;
+        private static readonly ConcurrentDictionary<Guid, Optimizer> _instances = new ConcurrentDictionary<Guid, Optimizer>();
+
+        public Guid Id { get; } = Guid.NewGuid();
+
         IslandLocalRunner _localRunner = null;
 
         public PeaSettingsBuilder Settings { get; set; } = new PeaSettingsBuilder();
@@ -21,15 +28,32 @@ namespace Pea
 
         public static void Reset()
         {
-            _instance = null;
+            _instances.Clear();
+        }
+
+        public static List<Guid> GetOptimizerIds()
+        {
+            return new List<Guid>(_instances.Keys);
+        }
+
+        public static Optimizer GetOptimizer(Guid id)
+        {
+            if (_instances.ContainsKey(id)) return null;
+
+            return _instances[id];
+        }
+
+
+        public static void DeleteOptimizer(Guid id)
+        {
+            _instances.TryRemove(id, out Optimizer removed);
         }
 
         public static Optimizer Create()
         {
-            //if (_instance == null) _instance = new Optimizer();
-            //return _instance;
-
-            return new Optimizer();
+            var optimizer = new Optimizer();
+            _instances.TryAdd(optimizer.Id, optimizer);
+            return optimizer;
         }
 
         public Optimizer SetParameter(string parameterKey, double parameterValue)
@@ -38,11 +62,11 @@ namespace Pea
             return this;
         }
 
-        public async Task<PeaResult> Run(IEvaluationInitData initData) //async Task<PeaResult>
+        public async Task<PeaResult> Run(IEvaluationInitData initData) //TODO: Decision based on package
         {
             var settings = Settings.Build();
 
-            var islandsCount = settings.ParameterSet.FindLast(p => p.Name == Core.Island.ParameterNames.IslandsCount).Value; //TODO: clarify this
+            var islandsCount = settings.ParameterSet.FindLast(p => p.Name == Core.Island.ParameterNames.IslandsCount)?.Value ?? 1; //TODO: clarify this
             PeaResult result = null;
             if (islandsCount < 2)
             {

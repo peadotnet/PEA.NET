@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Akka.Actor;
-using Pea.ActorModel.Messages;
 using Pea.Akka.Messages;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using PEA.Akka.Messages;
 
 namespace Pea.Akka.Actors
 {
@@ -15,7 +15,6 @@ namespace Pea.Akka.Actors
         private PeaSettings Settings;
         List<IActorRef> Islands;
         private int ReceivedAcknowledgementsCount = 0;
-        private IActorRef _starter;
 
         public ArchipelagoActor(PeaSettings settings)
         {

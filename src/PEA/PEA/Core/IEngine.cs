@@ -14,14 +14,8 @@ namespace Pea.Core
 
         event NewEntitiesMergedToBestDelegate NewEntityMergedToBest;
 
-        IRandom Random { get; set; }
         IAlgorithm Algorithm { get; set; }
-        IProvider<IEntityCreator> EntityCreators { get; }
-        IEntityCrossover EntityCrossover { get; }
-        IEntityMutation EntityMutation { get; }
-        IFitnessComparer FitnessComparer { get; }
-        IProvider<IReplacement> Replacements { get; }
-        IProvider<ISelection> Selections { get; }
+        IRandom Random { get; }
         IReduction Reduction { get; set; }
         EvaluationBase Evaluation { get; set; }
         ParameterSet Parameters { get; }

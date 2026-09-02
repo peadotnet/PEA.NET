@@ -4,9 +4,18 @@
 
     public interface IAlgorithm
     {
-        IEngine Engine { get; }
-        IPopulation Population { get; set; }
+        IPopulation Population { get; }
         IStopCriteria StopCriteria { get; set; }
+
+
+        IProvider<IEntityCreator> EntityCreators { get; }
+        IProvider<ISelection> Selections { get; set; }
+        IEntityCrossover EntityCrossover { get; set; }
+        IEntityMutation EntityMutation { get; set; }
+        IFitnessComparer FitnessComparer { get; set; }
+        IProvider<IReplacement> Replacements { get; set; }
+
+
         void SetEvaluationCallback(EvaluationDelegate evaluationCallback);
         void InitPopulation(EntityList? entityList = null);
         StopDecision RunOnce();

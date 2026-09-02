@@ -9,7 +9,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>Pea</RootNamespace>
+	  <Nullable>enable</Nullable>
+	  <RootNamespace>Pea</RootNamespace>
     <PackageId>PEA.NET</PackageId>
     <Authors>Zoltán Bácskai</Authors>
     <Product>PEA.NET</Product>
@@ -25,8 +26,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Akka\**" />
     <Compile Remove="Chromosome\Implementation\PositionValuePair\**" />
+    <EmbeddedResource Remove="Akka\**" />
     <EmbeddedResource Remove="Chromosome\Implementation\PositionValuePair\**" />
+    <None Remove="Akka\**" />
     <None Remove="Chromosome\Implementation\PositionValuePair\**" />
     <None Include="..\..\..\documentation\icons\logo.png">
       <Pack>True</Pack>
@@ -43,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Akka\" />
     <Folder Include="Algorithm\Implementation\Nsga2\" />
     <Folder Include="Chromosome\Implementation\MultiSectionPermutation\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />

@@ -16,7 +16,7 @@ namespace Pea.StopCriteria.Implementation
             Counter = counter;
         }
 
-        public StopDecision MakeDecision(IEngine engine, IPopulation population)
+        public StopDecision MakeDecision(IPopulation population, IFitnessComparer fitnessComparer)
         {
             Counter--;
             if (Counter < 1) return new StopDecision(true, "Countdown is finished.");

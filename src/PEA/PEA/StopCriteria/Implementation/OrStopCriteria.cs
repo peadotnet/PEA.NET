@@ -13,10 +13,10 @@ namespace Pea.StopCriteria.Implementation
             Criteria2 = criteria2;
         }
 
-        public StopDecision MakeDecision(IEngine engine, IPopulation population)
+        public StopDecision MakeDecision(IPopulation population, IFitnessComparer fitnessComparer)
         {
-            var decision1 = Criteria1.MakeDecision(engine, population);
-            var decision2 = Criteria2.MakeDecision(engine, population);
+            var decision1 = Criteria1.MakeDecision(population, fitnessComparer);
+            var decision2 = Criteria2.MakeDecision(population, fitnessComparer);
 
             var decision = new StopDecision(decision1.MustStop || decision2.MustStop);
             decision.Reasons.AddRange(decision1.Reasons);

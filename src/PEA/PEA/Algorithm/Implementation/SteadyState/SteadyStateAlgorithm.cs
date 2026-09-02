@@ -1,11 +1,11 @@
 ﻿using Pea.Core;
-using System.Threading;
+using System;
 
 namespace Pea.Algorithm.Implementation
 {
     public class SteadyStateAlgorithm : GeneticAlgorithmBase
     {
-        public SteadyStateAlgorithm(IEngine engine) : base(engine)
+        public SteadyStateAlgorithm(ParameterSet parameters, IProvider<IEntityCreator> entityCreators, Action<IEntityList> mergeToBests) : base(parameters, entityCreators, mergeToBests)
         {
         }
 
@@ -17,8 +17,7 @@ namespace Pea.Algorithm.Implementation
             var evaluated = Evaluate(mutated);
             var inserted = Reinsert(Population, evaluated, parents, Population);
             MergeToBests(inserted);
-            return StopCriteria.MakeDecision(this.Engine, this.Population);
-
+            return StopCriteria.MakeDecision(Population, FitnessComparer);
         }
     }
 }

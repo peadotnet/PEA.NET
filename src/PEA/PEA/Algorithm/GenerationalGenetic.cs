@@ -9,9 +9,9 @@ namespace Pea.Algorithm
 {
 	public class GenerationalGenetic : IAlgorithmFactory
 	{
-		public IAlgorithm GetAlgorithm(IEngine engine)
+		public IAlgorithm GetAlgorithm(ParameterSet parameters, IProvider<IEntityCreator> entityCreators, Action<IEntityList> mergeToBests)
 		{
-			return new GenerationalGeneticAlgorithm(engine);
+			return new GenerationalGeneticAlgorithm(parameters, entityCreators, mergeToBests);
 		}
 
 		public IEnumerable<PeaSettingsNamedValue> GetParameters()

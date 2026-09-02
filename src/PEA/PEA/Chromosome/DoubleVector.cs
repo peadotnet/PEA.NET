@@ -18,7 +18,7 @@ namespace Pea.Chromosome
                 //new PermutationRandomCreator(size, random, conflictDetectors)
             };
 
-            parameterSet.SetValueRange(GetParameters());
+            parameterSet.SetValueRange(GetParameters(), ParameterSource.ChromosomeOperationDefault);
 
             _crossovers = new List<ICrossover>()
             {
@@ -67,7 +67,7 @@ namespace Pea.Chromosome
 
         public IEngine Apply(IEngine engine)
         {
-            engine.Parameters.SetValueRange(GetParameters());
+            engine.Parameters.SetValueRange(GetParameters(), ParameterSource.ChromosomeOperationDefault);
             return engine;
         }
 

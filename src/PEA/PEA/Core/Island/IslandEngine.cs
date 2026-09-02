@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Pea.Configuration.Implementation;
 using Pea.Core.Events;
 using Pea.Migration;
-using Pea.Restart;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Pea.Core.Island
 {
@@ -11,22 +11,17 @@ namespace Pea.Core.Island
     {
         public IAlgorithm Algorithm { get; set; }
 
-        public IRandom Random { get; set; }
+        public IRandom Random { get; }
 
-        public Configuration.Implementation.PeaSettings Settings { get; set; }
-        public ParameterSet Parameters { get; set; }
+        public Configuration.Implementation.PeaSettings Settings { get; }
+        public ParameterSet Parameters { get; }
+
         public IDictionary<string, IList<IConflictDetector>> ConflictDetectors { get; set; }
-        public IProvider<IEntityCreator> EntityCreators { get; set; }
-        public IProvider<ISelection> Selections { get; set; }
         public IReduction Reduction { get; set; }
-        public IFitnessComparer FitnessComparer { get; set; }
-        public IEntityCrossover EntityCrossover { get; set; }
-        public IEntityMutation EntityMutation { get; set; }
-        public IProvider<IReplacement> Replacements { get; set; }
         public EvaluationBase Evaluation { get; set; }
         public IMigrationStrategy MigrationStrategy { get; set; }
 
-        public IRestartStategy RestartStategy { get; set; }// = new UnchangedMeanRestartStrategy();
+        public IRestartStrategy RestartStrategy { get; set; }// = new UnchangedMeanRestartStrategy();
         public LaunchTravelersDelegate LaunchTravelers { get; set; }
         public int Iteration { get; set; } = 0;
 
@@ -34,9 +29,11 @@ namespace Pea.Core.Island
 
         public event NewEntitiesMergedToBestDelegate NewEntityMergedToBest;
 
-        public IslandEngine()
+        public IslandEngine(IRandom random, PeaSettings settings, ParameterSet parameters)
         {
-             
+            Random = random;
+            Settings = settings;
+            Parameters = parameters;
         }
 
         public void Init(IEvaluationInitData initData)
@@ -44,14 +41,17 @@ namespace Pea.Core.Island
             _initialization = true;
             initData.Build();
             InitConflictDetectors(initData);
+            
+            //TODO: Implement this in AlgorithmFactory
             InitEntityCreators(initData);
             Algorithm.InitPopulation();
             _initialization = false;
         }
 
+        //TODO: Implement this in AlgorithmFactory
 		private void InitEntityCreators(IEvaluationInitData initData)
 		{
-			foreach (var creator in EntityCreators)
+			foreach (var creator in Algorithm.EntityCreators)
 			{
                 creator.Init(initData);
 			}
@@ -72,10 +72,10 @@ namespace Pea.Core.Island
         {
             Iteration++;
 
-            if (RestartStategy != null && RestartStategy.ShouldRestart(Iteration, Algorithm.Population))
+            if (RestartStrategy != null && RestartStrategy.ShouldRestart(Iteration, Algorithm.Population))
             {
                 _initialization = true;
-                var remainingEntities = RestartStategy.GetRemainingEntities(Algorithm.Population);
+                var remainingEntities = RestartStrategy.GetRemainingEntities(Algorithm.Population);
                 Algorithm.InitPopulation(remainingEntities);
                 _initialization = false;
             }
@@ -100,7 +100,7 @@ namespace Pea.Core.Island
             {
                 if (entities[e].Fitness.IsLethal()) continue;
 
-                bool merged = FitnessComparer.MergeToBests(Algorithm.Population.Bests, entities[e]);
+                bool merged = Algorithm.FitnessComparer.MergeToBests(Algorithm.Population.Bests, entities[e]);
                 if (merged)
                 {
                     travelers.Add(entities[e]);

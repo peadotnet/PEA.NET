@@ -4,21 +4,8 @@ namespace Pea.Migration.Implementation
 {
 	public class MigrationStrategy : MigrationStrategyBase
     {
-        public IRandom Random { get; }
-
-        public ISelection Selection { get; }
-
-        public IReplacement Reinsertion { get; }
-
-        public ParameterSet Parameters { get; }
-
         public MigrationStrategy(IRandom random, ISelection selection, IReplacement reinsertion, ParameterSet parameters) : base(random, selection, reinsertion, parameters)
-        {
-            Random = random;
-            Selection = selection;
-            Reinsertion = reinsertion;
-            Parameters = parameters;
-        }
+        { }
 
         public override IEntityList SelectForTraveling(IPopulation population)
         {

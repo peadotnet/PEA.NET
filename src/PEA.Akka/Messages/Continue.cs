@@ -1,4 +1,4 @@
-﻿namespace Pea.ActorModel.Messages
+﻿namespace PEA.Akka.Messages
 {
     public class Continue
     {

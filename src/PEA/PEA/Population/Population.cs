@@ -14,7 +14,6 @@ namespace Pea.Population
         public int Count => Entities.Count;
         public IStatisticsArray FitnessStatistics { get; }
 
-        int badCounter = 0;
 
         public IEntity this[int index]
 		{
