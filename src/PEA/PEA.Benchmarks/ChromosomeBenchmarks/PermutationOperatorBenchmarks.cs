@@ -8,6 +8,8 @@ using System.Linq;
 namespace PEA.Benchmarks.ChromosomeBenchmarks
 {
     [MinColumn, MaxColumn]
+    [MemoryDiagnoser]
+    [JsonExporterAttribute.Full]
     [HtmlExporter, RPlotExporter]
     public class PermutationOperatorBenchmarks
     {

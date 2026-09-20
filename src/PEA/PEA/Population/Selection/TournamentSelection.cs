@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Core;
+using Pea.Core.Entity;
 using Pea.Population;
 
 namespace Pea.Selection
@@ -34,7 +35,7 @@ namespace Pea.Selection
 
         IEntityList SelectWithList(IEntityList entities, int count)
         {
-            List<IEntity> result = new List<IEntity>(count);
+            List<EntityBase> result = new List<EntityBase>(count);
             var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
 
             for (int i = 0; i < count; i++)
@@ -51,7 +52,7 @@ namespace Pea.Selection
 
         IEntityList SelectWithHashSet(IEntityList entities, int count)
         {
-            HashSet<IEntity> result = new HashSet<IEntity>();
+            HashSet<EntityBase> result = new HashSet<EntityBase>();
             var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
 
             for(int i=0; i< count; i++)
@@ -66,7 +67,7 @@ namespace Pea.Selection
             return new EntityList(result);
         }
 
-        private IEntity SelectOne(IEntityList entities, int tournamentSize)
+        private EntityBase SelectOne(IEntityList entities, int tournamentSize)
         {
             var index = Random.GetInt(0, entities.Count);
             var best = entities[index];

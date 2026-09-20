@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
+using Pea.Core.Entity;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Pea.Tests.EngineTests
@@ -15,17 +16,17 @@ namespace Pea.Tests.EngineTests
                 throw new System.NotImplementedException();
             }
 
-            public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+            public override EntityBase Decode(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
             {
                 throw new System.NotImplementedException();
             }
 
-            public override IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+            public override List<EntityBase> Combine(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
             {
                 throw new System.NotImplementedException();
             }
 
-            public IEntity AssessFitness(IEntity entity)
+            public EntityBase AssessFitness(EntityBase entity)
             {
                 throw new System.NotImplementedException();
             }

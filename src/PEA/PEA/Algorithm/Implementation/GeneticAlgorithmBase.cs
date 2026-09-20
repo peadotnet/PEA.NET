@@ -1,5 +1,6 @@
 ﻿using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace Pea.Algorithm.Implementation
 
             if (entityList == null) entityList = new EntityList(maxNumberOfEntities);
 
-            Population = new Population.Population(fitnessLength, minNumberOfEntities, maxNumberOfEntities);
+            Population = new Population.FlatPopulation(fitnessLength, minNumberOfEntities, maxNumberOfEntities);
 
             int timeOut = Parameters.GetInt(Core.ParameterNames.PopulationInitTimeout);
             var cancellationSource = new CancellationTokenSource(timeOut);
@@ -86,7 +87,7 @@ namespace Pea.Algorithm.Implementation
         }
 
 
-        protected IEntity CreateEntity()
+        protected EntityBase CreateEntity()
         {
             var creator = EntityCreators.GetOne();
             var entity = creator.CreateEntity();

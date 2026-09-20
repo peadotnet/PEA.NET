@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Pea.Configuration;
 using Pea.Core;
+using Pea.Core.Entity;
 using System.Diagnostics;
 using Xunit;
 
@@ -47,7 +48,7 @@ namespace Pea.Tests.AlgorithmTests
             {
             }
 
-            public IEntity CreateEntity()
+            public EntityBase CreateEntity()
             {
                 Thread.Sleep(1000);
                 return null;

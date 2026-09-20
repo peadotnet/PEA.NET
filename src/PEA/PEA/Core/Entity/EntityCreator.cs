@@ -35,11 +35,11 @@ namespace Pea.Core.Entity
 
         }
 
-        public virtual IEntity CreateEntity()
+        public virtual EntityBase CreateEntity()
         {
             //TODO: set islandKey
 
-            IEntity entity = (IEntity)Activator.CreateInstance(EntityType);
+            EntityBase entity = (EntityBase)Activator.CreateInstance(EntityType);
             foreach (var key in CreatorProviders.Keys)
             {
                 var provider = CreatorProviders[key];

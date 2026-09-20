@@ -1,4 +1,5 @@
 ﻿using Pea.Configuration.Implementation;
+using Pea.Core.Entity;
 using Pea.Core.Events;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -79,7 +80,7 @@ namespace Pea.Core.Island
 
 			for (int i = 0; i < entityList.Count; i++)
 			{
-				var entityWithKey = new Dictionary<MultiKey, IEntity> { { Key, entityList[i] } };
+				var entityWithKey = new Dictionary<MultiKey, EntityBase> { { Key, entityList[i] } };
 				var decodedEntity = Evaluator.Decode(Key, entityWithKey);
 				if (decodedEntity != null) evaluatedEntities.Add(decodedEntity);
 			}

@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Core.Entity;
 
 namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
 {
@@ -14,7 +15,7 @@ namespace Pea.Tests.ChromosomeTests.SortedSubsetTests
             return (parity == 1);
         }
 
-		public bool ConflictDetected(IEntity entity, int first, int second)
+		public bool ConflictDetected(EntityBase entity, int first, int second)
 		{
             return ConflictDetected(first, second);
         }

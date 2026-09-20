@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Core.Entity;
 
 namespace Pea.Tests.AlgorithmTests
 {
@@ -8,12 +9,12 @@ namespace Pea.Tests.AlgorithmTests
         {
         }
 
-        public override IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override IList<EntityBase> Combine(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
         {
-            return new List<IEntity>();
+            return new List<EntityBase>();
         }
 
-        public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override EntityBase Decode(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
         {
             return new TestEntity(1);
         }

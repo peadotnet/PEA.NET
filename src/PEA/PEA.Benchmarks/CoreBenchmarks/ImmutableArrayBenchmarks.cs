@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 namespace PEA.Benchmarks.CoreBenchmarks
 {
 	[MinColumn, MaxColumn]
+	[MemoryDiagnoser]
+	[JsonExporterAttribute.Full]
 	//[HtmlExporter, RPlotExporter]
 	public class ImmutableArrayBenchmarks
 	{

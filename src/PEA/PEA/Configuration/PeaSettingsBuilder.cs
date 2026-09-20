@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Core.Entity;
 using Pea.Core.Events;
 using Pea.StopCriteria;
 
@@ -52,7 +53,7 @@ namespace Pea.Configuration
             return this;
         }
 
-        public PeaSettingsBuilder WithEntityType<NE>() where NE : IEntity
+        public PeaSettingsBuilder WithEntityType<NE>() where NE : EntityBase
         {
             Settings.EntityType = typeof(NE);
             return this;

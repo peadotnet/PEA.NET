@@ -13,7 +13,7 @@ namespace PEA_VehicleScheduling_Example
 		{
 		}
 
-		public override IEntity Clone(bool cloneChromosomes)
+		public override EntityBase Clone(bool cloneChromosomes)
         {
             var clone = base.Clone(cloneChromosomes) as VehicleSchedulingEntity;
             clone.OriginIslandKey = this.OriginIslandKey;

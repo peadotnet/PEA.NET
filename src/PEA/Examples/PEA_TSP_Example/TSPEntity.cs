@@ -15,7 +15,7 @@ namespace PEA_TSP_Example
 
 		public double TotalDistance { get; set; }
 
-        public override IEntity Clone(bool cloneChromosomes)
+        public override EntityBase Clone(bool cloneChromosomes)
         {
             var clone = base.Clone(cloneChromosomes) as TSPEntity;
             clone.OriginIslandKey = this.OriginIslandKey;

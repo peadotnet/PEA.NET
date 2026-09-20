@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Core.Entity;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
@@ -6,7 +7,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
 {
     public class MultiObjectiveFitness : IFitness
     {
-        public IEntity Entity { get; set; }
+        public EntityBase Entity { get; set; }
         public IReadOnlyList<double> Value { get; }
         public double ConstraintViolation { get; }
         public bool IsValid { get; set; }

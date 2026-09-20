@@ -2,6 +2,7 @@
 using System.Linq;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
+using Pea.Core.Entity;
 
 namespace PEA_TSP_Example
 {
@@ -20,7 +21,7 @@ namespace PEA_TSP_Example
             Count = ((TSPInitData) initData).TSPPoints.Count;
         }
 
-        public IEntity CreateEntity()
+        public EntityBase CreateEntity()
         {
             var entity = new TSPEntity();
             var genes = ShuffleRange(0, Count);

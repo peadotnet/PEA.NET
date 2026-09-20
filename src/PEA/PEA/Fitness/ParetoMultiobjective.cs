@@ -1,11 +1,12 @@
 ﻿using Pea.Core;
+using Pea.Core.Entity;
 using Pea.Fitness.Implementation.MultiObjective;
 
 namespace Pea.Fitness
 {
     public class ParetoMultiobjective : IFitnessFactory
     {
-        public IEntity Entity { get; internal set; }
+        public EntityBase Entity { get; internal set; }
 
         private int _numberOfObjectives { get; }
         private static readonly IFitnessComparer FitnessComparer = new ParetoComparerWithConstraintViolationReduction();

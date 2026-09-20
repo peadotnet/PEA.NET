@@ -1,4 +1,5 @@
-﻿using Pea.Util.Statistics;
+﻿using Pea.Core.Entity;
+using Pea.Util.Statistics;
 using System.Collections.Generic;
 
 namespace Pea.Core
@@ -6,7 +7,7 @@ namespace Pea.Core
     public interface IEvolutionStateReportData
     {
         int Iteration { get; set; }
-        IList<IEntity> BestEntities { get; set; }
+        IList<EntityBase> BestEntities { get; set; }
         IStatisticsArray FitnessStatistics { get; set; }
     }
 }

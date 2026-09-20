@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
+using Pea.Core.Entity;
 using Pea.Fitness.Implementation.MultiObjective;
 
 namespace PEA_TSP_Example
@@ -22,7 +23,7 @@ namespace PEA_TSP_Example
             TSPPoints = ((TSPInitData) initData).TSPPoints;
         }
 
-        public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override EntityBase Decode(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
         {
             double totalDistance = 0.0;
             var entity = entities[Key] as TSPEntity;
@@ -57,9 +58,9 @@ namespace PEA_TSP_Example
             return Math.Sqrt(latitudeDifference * latitudeDifference + longitudeDifference * longitudeDifference);
         }
 
-        public override IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override IList<EntityBase> Combine(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
         {
-            return new List<IEntity>() { entities[Key] } ;
+            return new List<EntityBase>() { entities[Key] } ;
         }
     }
 }

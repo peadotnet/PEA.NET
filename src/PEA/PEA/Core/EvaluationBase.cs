@@ -1,4 +1,5 @@
 ﻿using Pea.Configuration.Implementation;
+using Pea.Core.Entity;
 using System.Collections.Generic;
 
 namespace Pea.Core
@@ -14,8 +15,8 @@ namespace Pea.Core
 
 		public abstract void Init(IEvaluationInitData initData);
 
-		public abstract IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities);
+		public abstract EntityBase Decode(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities);
 
-		public abstract IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities);
+		public abstract IList<EntityBase> Combine(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities);
 	}
 }

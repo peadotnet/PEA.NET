@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Chromosome.Implementation.SortedSubset;
+﻿using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
+using Pea.Core.Entity;
 using Pea.Fitness.Implementation.MultiObjective;
 using Pea.Util;
+using System;
+using System.Collections.Generic;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -29,7 +30,7 @@ namespace PEA_VehicleScheduling_Example
             ConflictDetector.Init(initData);
         }
 
-        public override IEntity Decode(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override EntityBase Decode(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
         {
             EntityCount++;
 
@@ -105,9 +106,9 @@ namespace PEA_VehicleScheduling_Example
             return totalLength/(double)longSectionsCount;
         }
 
-        public override IList<IEntity> Combine(MultiKey islandKey, Dictionary<MultiKey, IEntity> entities)
+        public override IList<EntityBase> Combine(MultiKey islandKey, Dictionary<MultiKey, EntityBase> entities)
         {
-            return new List<IEntity>() { entities[Key] };
+            return new List<EntityBase>() { entities[Key] };
         }
     }
 }

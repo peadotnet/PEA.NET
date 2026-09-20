@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Pea.Core.Entity;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Pea.Core
@@ -17,6 +18,6 @@ namespace Pea.Core
         /// <returns>True if the second (y) dominates the first (x), false otherwise</returns>
         bool Dominates(IFitness x, IFitness y);
 
-        bool MergeToBests(IList<IEntity> bests, IEntity entity);
+        bool MergeToBests(IList<EntityBase> bests, EntityBase entity);
     }
 }

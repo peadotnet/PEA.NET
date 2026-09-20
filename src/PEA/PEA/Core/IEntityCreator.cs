@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Pea.Core.Entity;
+using System.Collections;
 
 namespace Pea.Core
 {
     public interface IEntityCreator
     {
         void Init(IEvaluationInitData initData);
-        IEntity CreateEntity();
+        EntityBase CreateEntity();
     }
 }

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Pea.Core;
+using Pea.Core.Entity;
+using System.Collections.Generic;
 using System.IO;
-using Pea.Core;
 
 namespace PEA_VehicleScheduling_Example
 {
     public class ResultWriter
     {
-        public static void WriteResults(string fileName, IList<IEntity> entities)
+        public static void WriteResults(string fileName, IList<EntityBase> entities)
         {
             var trips = new List<Trip>();
 

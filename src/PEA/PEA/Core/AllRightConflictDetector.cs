@@ -1,4 +1,6 @@
-﻿namespace Pea.Core
+﻿using Pea.Core.Entity;
+
+namespace Pea.Core
 {
     public class AllRightConflictDetector : INeighborhoodConflictDetector
     {
@@ -15,7 +17,7 @@
             return false;
         }
 
-		public bool ConflictDetected(IEntity entity, int first, int second)
+		public bool ConflictDetected(EntityBase entity, int first, int second)
 		{
             return false;
 		}

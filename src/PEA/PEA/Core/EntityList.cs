@@ -1,37 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using Pea.Core.Entity;
+using System.Collections.Generic;
 
 namespace Pea.Core
 {
 	public class EntityList : IEntityList
 	{
-		private IList<IEntity> Entities { get; set; }
+		private IList<EntityBase> Entities { get; set; }
 		public int Count => Entities.Count;
-		public IEntity this[int index]
+		public EntityBase this[int index]
 		{
 			get
 			{
-				Entities[index].IndexInList = index;
 				return Entities[index];
 			}
 		}
 
 		public EntityList(int count)
 		{
-			Entities = new List<IEntity>(count);
+			Entities = new List<EntityBase>(count);
 		}
 
-		public EntityList(ICollection<IEntity> entities)
+		public EntityList(ICollection<EntityBase> entities)
 		{
-			var entityList = new List<IEntity>(entities.Count);
+			var entityList = new List<EntityBase>(entities.Count);
 			entityList.AddRange(entities);
-			Entities = entityList;
+            for (int i = 0; i < entityList.Count; i++)
+			{
+				entityList[i].IndexInList = i;
+			}
+
+            Entities = entityList;
 		}
 
-		public void AddRange(IList<IEntity> entities)
+		public void AddRange(IList<EntityBase> entities)
 		{
 			for (int i = 0; i < entities.Count; i++)
 			{
-				Entities.Add(entities[i]);
+				Add(entities[i]);
 			}
 		}
 
@@ -40,30 +45,45 @@ namespace Pea.Core
 			AddRange(entities.Entities);
 		}
 
-		public void Add(IEntity entity)
+		public void Add(EntityBase entity)
 		{
+			entity.IndexInList = Entities.Count;
 			Entities.Add(entity);
 		}
 
-		public void Remove(IEntity entity)
+		public void Remove(EntityBase entity)
 		{
-			Entities.Remove(entity);
+			var lastIndex = Entities.Count - 1;
+			var lastEntity = Entities[lastIndex];
+			lastEntity.IndexInList = entity.IndexInList;
+			Entities[entity.IndexInList] = lastEntity;
+			Entities.RemoveAt(lastIndex);
 		}
 
 		public void RemoveAt(int index)
 		{
-			Entities.RemoveAt(index);
+			var lastIndex = Entities.Count - 1;
+			var lastEntity = Entities[lastIndex];
+            lastEntity.IndexInList = index;
+            Entities[index] = lastEntity;
+			Entities.RemoveAt(lastIndex);
 		}
 
-		public IEnumerator<IEntity> GetEnumerator()
+		public IEnumerator<EntityBase> GetEnumerator()
 		{
 			return Entities.GetEnumerator();
 		}
 
-		public void Replace(IEntity entity)
+		public void Replace(EntityBase entity)
 		{
 			var index = entity.IndexInList;
 			Entities[index] = entity;
 		}
-	}
+
+        public void Replace(int indexToReplace, EntityBase newEntity)
+        {
+            newEntity.IndexInList = indexToReplace;
+            Entities[indexToReplace] = newEntity;
+        }
+    }
 }

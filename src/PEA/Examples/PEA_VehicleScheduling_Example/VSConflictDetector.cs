@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Core.Entity;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -35,7 +36,7 @@ namespace PEA_VehicleScheduling_Example
             return false;
         }
 
-		public bool ConflictDetected(IEntity entity, int first, int second)
+		public bool ConflictDetected(EntityBase entity, int first, int second)
 		{
             return ConflictDetected(first, second);
 		}

@@ -35,7 +35,7 @@ namespace Pea.Core.Entity
             return result;
         }
 
-        public IEntity MutateEntity(IEntity entity)
+        public EntityBase MutateEntity(EntityBase entity)
         {
             var mutatedEntity = entity.Clone(true);
             mutatedEntity.LastCrossOvers = entity.LastCrossOvers;

@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Core.Entity;
 
 namespace Pea.Tests.ChromosomeTests
 {
@@ -24,7 +25,7 @@ namespace Pea.Tests.ChromosomeTests
             return result;
         }
 
-		public bool ConflictDetected(IEntity entity, int first, int second)
+		public bool ConflictDetected(EntityBase entity, int first, int second)
 		{
             return ConflictDetected(first, second);
 		}

@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Core.Entity;
 
 namespace Pea.Population.Replacement
 {
@@ -29,6 +30,11 @@ namespace Pea.Population.Replacement
             {
                 population.Add(entities[i]);
             }
+        }
+
+        public virtual void ReplaceEntityWith(IPopulation population, EntityBase entityToReplace, EntityBase newEntity)
+        {
+
         }
 
         public abstract IEntityList Replace(IPopulation targetPopulation, IEntityList offspring, IEntityList parents, IPopulation sourcePopulation);

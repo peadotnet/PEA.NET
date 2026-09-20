@@ -1,12 +1,15 @@
-﻿namespace Pea.Core
+﻿using Pea.Core.Entity;
+
+namespace Pea.Core
 {
 	public interface IEntityList
 	{
 		int Count { get; }
-		IEntity this[int index] { get; }
-		void Add(IEntity entity);
-		void Remove(IEntity entity);
+		EntityBase this[int index] { get; }
+		void Add(EntityBase entity);
+		void Remove(EntityBase entity);
 		void RemoveAt(int index);
-		void Replace(IEntity entity);
-	}
+		void Replace(EntityBase entity);
+		void Replace(int indexToReplace, EntityBase newEntity);
+    }
 }

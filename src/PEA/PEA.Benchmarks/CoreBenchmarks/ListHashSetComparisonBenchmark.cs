@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 namespace PEA.Benchmarks.CoreBenchmarks
 {
+	[MemoryDiagnoser]
+	[JsonExporterAttribute.Full]
 	public class ListHashSetComparisonBenchmark
 	{
 		public class TestEntity : EntityBase
@@ -22,7 +24,7 @@ namespace PEA.Benchmarks.CoreBenchmarks
 		[Params(20, 22, 25)]
 		public int Count { get; set; }
 
-		List<IEntity> Entities = new List<IEntity>();
+		List<EntityBase> Entities = new List<EntityBase>();
 
 		public Random random = new Random(DateTime.Now.Millisecond);
 
@@ -38,28 +40,28 @@ namespace PEA.Benchmarks.CoreBenchmarks
 		}
 
 		[Benchmark]
-		public List<IEntity> SelectWithHashSet()
+		public List<EntityBase> SelectWithHashSet()
 		{
-			var result = new HashSet<IEntity>();
+			var result = new HashSet<EntityBase>();
 			for (int i = 0; i < Count; i++)
 			{
-				IEntity entity = SelectOne();
+				EntityBase entity = SelectOne();
 				while (!result.Add(entity))
 				{
 					entity = SelectOne();
 				}
 			}
 
-			return new List<IEntity>(result);
+			return new List<EntityBase>(result);
 		}
 
 		[Benchmark]
-		public List<IEntity> SelectWithList()
+		public List<EntityBase> SelectWithList()
 		{
-			var result = new List<IEntity>(Count);
+			var result = new List<EntityBase>(Count);
 			for (int i=0; i< Count; i++)
 			{
-				IEntity entity = SelectOne();
+				EntityBase entity = SelectOne();
 				while (result.Contains(entity))
 				{
 					entity = SelectOne();
@@ -70,7 +72,7 @@ namespace PEA.Benchmarks.CoreBenchmarks
 			return result;
 		}
 
-		private IEntity SelectOne()
+		private EntityBase SelectOne()
 		{
 			var index = random.Next(0, 1000);
 			var entity = Entities[index];

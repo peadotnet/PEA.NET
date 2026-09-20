@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 
 namespace Pea.Population.Replacement
 {
@@ -16,9 +15,8 @@ namespace Pea.Population.Replacement
 
             for (int i = 0; i < offspring.Count; i++)
             {
-                var entityForRemove = SelectOne(population, tournamentSize);
-                population.RemoveAt(entityForRemove);
-                population.Add(offspring[i]);
+                var indexForRemove = SelectOne(population, tournamentSize);
+                population.Replace(indexForRemove, offspring[i]);
                 inserted.Add(offspring[i]);
             }
 

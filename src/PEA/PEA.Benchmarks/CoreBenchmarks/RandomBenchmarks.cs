@@ -4,6 +4,8 @@ using Pea.Core;
 
 namespace PEA.Benchmarks.CoreBenchmarks
 {
+    [MemoryDiagnoser]
+    [JsonExporterAttribute.Full]
     public class RandomBenchmarks
     {
         private const int N = 10000;

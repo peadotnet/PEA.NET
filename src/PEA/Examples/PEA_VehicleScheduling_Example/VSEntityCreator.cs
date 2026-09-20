@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Pea.Chromosome.Implementation.SortedSubset;
+using Pea.Core;
+using Pea.Core.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pea.Chromosome.Implementation.SortedSubset;
-using Pea.Core;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -26,7 +27,7 @@ namespace PEA_VehicleScheduling_Example
             ConflictDetector.Init(initData);
         }
 
-        public IEntity CreateEntity()
+        public EntityBase CreateEntity()
         {
             IRandom random = new FastRandom(DateTime.Now.Millisecond);
 

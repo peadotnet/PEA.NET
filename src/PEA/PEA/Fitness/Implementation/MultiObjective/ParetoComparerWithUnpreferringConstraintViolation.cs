@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pea.Core;
+using Pea.Core.Entity;
 
 namespace Pea.Fitness.Implementation.MultiObjective
 {
@@ -37,7 +38,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return -1;
 		}
 
-		public bool MergeToBests(IList<IEntity> bests, IEntity entity)
+		public bool MergeToBests(IList<EntityBase> bests, EntityBase entity)
         {
             bool hasToBeAdded = true;
 

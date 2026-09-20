@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Pea;
 using Pea.Configuration.ProblemModels;
 using Pea.Core;
-using Island = Pea.Core.Island;
-using Pea;
+using Pea.Core.Entity;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Island = Pea.Core.Island;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -103,12 +104,12 @@ namespace PEA_VehicleScheduling_Example
 
         }
 
-        private static IList<IEntity> Evaluate(IList<IEntity> entitylist)
+        private static IList<EntityBase> Evaluate(IList<EntityBase> entitylist)
         {
-            var result = new List<IEntity>();
+            var result = new List<EntityBase>();
             foreach (var entity in entitylist)
             {
-                var entityWithKey = new Dictionary<MultiKey, IEntity>();
+                var entityWithKey = new Dictionary<MultiKey, EntityBase>();
                 entityWithKey.Add(VSEvaluation.Key, entity);
                 var decodedEntity = Evaluation.Decode(VSEvaluation.Key, entityWithKey);
                 if (decodedEntity != null) result.Add(decodedEntity);

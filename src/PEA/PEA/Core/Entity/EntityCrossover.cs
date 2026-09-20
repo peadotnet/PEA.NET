@@ -41,8 +41,8 @@ namespace Pea.Core.Entity
 
                 var parent0 = parents[p0];
                 var parent1 = parents[p1];
-                IEntity offspring0 = parent0.Clone(false);
-                IEntity offspring1 = parent1.Clone(false);
+                EntityBase offspring0 = parent0.Clone(false);
+                EntityBase offspring1 = parent1.Clone(false);
 
                 double crossoverProbability = parents[0].Chromosomes.Keys.Count * 1.5;
 
