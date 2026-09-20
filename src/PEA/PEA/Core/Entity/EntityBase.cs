@@ -24,8 +24,6 @@ namespace Pea.Core.Entity
             var clone = (EntityBase)Activator.CreateInstance(this.GetType());
             clone.IndexInList = this.IndexInList;
             clone.IndexInPopulation = this.IndexInPopulation;
-            clone.LastCrossOvers = this.LastCrossOvers;
-            clone.LastMutations = this.LastMutations;
             clone.OriginIslandKey = this.OriginIslandKey;
 
             if (cloneChromosomes)
