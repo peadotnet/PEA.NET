@@ -2,6 +2,6 @@
 {
 	public interface IEntityMutation
     {
-        IEntityList Mutate(IEntityList entities);
+        void Mutate(IEntityList entities);
     }
 }

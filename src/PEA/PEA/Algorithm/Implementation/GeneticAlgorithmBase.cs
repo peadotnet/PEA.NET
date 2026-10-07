@@ -121,7 +121,7 @@ namespace Pea.Algorithm.Implementation
 
         protected IEntityList Mutate(IEntityList children)
         {
-            children = EntityMutation.Mutate(children);
+            EntityMutation.Mutate(children);
             return children;
         }
 
