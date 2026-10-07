@@ -1,16 +1,15 @@
 ﻿using Pea.Core.Entity;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Pea.Core
 {
-    public interface IFitnessComparer : IComparer, IComparer<IFitness>
+    public interface IFitnessComparer
     {
         /// <summary>
-        /// Indicates whether the multiobjective fitness y dominates x
+        /// Compare two fitness value nondominated pareto way
         /// </summary>
-        /// <returns>True if the second (y) dominates the first (x), false otherwise</returns>
-        bool Dominates(object x, object y);
+        /// <returns>1 if y is strictly better than x, -1 if x strictly better than y, 0 otherwise (equal or non-dominated)</returns>
+        int Compare(IFitness x, IFitness y);
 
         /// <summary>
         /// Indicates whether the multiobjective fitness y dominates x

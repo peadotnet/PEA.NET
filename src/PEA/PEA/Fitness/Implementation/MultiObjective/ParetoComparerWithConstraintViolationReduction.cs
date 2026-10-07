@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 using Pea.Core.Entity;
+using System.Collections.Generic;
 
 namespace Pea.Fitness.Implementation.MultiObjective
 {
     public class ParetoComparerWithConstraintViolationReduction : IFitnessComparer
     {
-        public int Compare(object x, object y)
-        {
-            return Compare(x as IFitness, y as IFitness);
-        }
-
-        /// <summary>
-        /// Compare two multiobjective fitness value nondominated pareto way
-        /// </summary>
-        /// <returns>1 if y dominates x, -1 if x dominates y, 0 otherwise</returns>
+        /// <inheritdoc/>
         public int Compare(IFitness x, IFitness y)
         {
             if (ConstraintsAreViolated(x, y)) return CompareConstraintViolations(x, y);
@@ -30,7 +21,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return x.ConstraintViolation > 0 || y.ConstraintViolation > 0;
         }
 
-        public int CompareConstraintViolations(IFitness x, IFitness y)
+        private int CompareConstraintViolations(IFitness x, IFitness y)
         {
             if (x.ConstraintViolation > 0 && y.ConstraintViolation > 0)
             {
@@ -42,6 +33,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return -1;
         }
 
+        /// <inheritdoc/>
         public bool MergeToBests(IList<EntityBase> bests, EntityBase entity)
         {
             bool hasToBeAdded = true;
@@ -73,19 +65,7 @@ namespace Pea.Fitness.Implementation.MultiObjective
             return hasToBeAdded;
         }
 
-        /// <summary>
-        /// Indicates whether the multiobjective fitness y dominates x
-        /// </summary>
-        /// <returns>True if the second (y) dominates the first (x), false otherwise</returns>
-        public bool Dominates(object x, object y)
-        {
-            return Dominates(x as IFitness, y as IFitness);
-        }
-
-        /// <summary>
-        /// Indicates whether the multiobjective fitness y dominates x
-        /// </summary>
-        /// <returns>True if y dominates x, false otherwise</returns>
+        /// <inheritdoc/>
         public bool Dominates(IFitness x, IFitness y)
         {
             var dominates = false;
