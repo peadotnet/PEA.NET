@@ -67,22 +67,15 @@ jobs:
           grep -q "Best distance: 7849.395176892104" tsp-output.txt
           grep -q "Entities: 9006240 " tsp-output.txt
 
-  windows-only-projects:
-    name: Build projects outside PEA.sln
+  observer-app:
+    name: Build PEA.ObserverApp (outside PEA.sln)
     runs-on: windows-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
+          dotnet-version: 9.0.x
 
       - name: Build PEA.ObserverApp
         run: dotnet build src/PEA/PEA.ObserverApp/PEA.ObserverApp.csproj -c Release
-
-      - name: Build PEA.Akka
-        if: always()
-        run: dotnet build src/PEA.Akka/PEA.Akka.csproj -c Release
