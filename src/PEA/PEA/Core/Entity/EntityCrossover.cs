@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Pea.Core.Entity
 {
     public class EntityCrossover : IEntityCrossover
     {
+        private readonly string[] _chromosomeNames;
+
         public Dictionary<string, IProvider<ICrossover>> CrossoverProviders { get; } = new Dictionary<string, IProvider<ICrossover>>();
         IRandom _random;
 
@@ -26,6 +27,8 @@ namespace Pea.Core.Entity
 
                 CrossoverProviders.Add(key, crossoverProvider);
             }
+
+            _chromosomeNames = CrossoverProviders.Keys.ToArray();
         }
 
         public IEntityList Cross(IEntityList parents, int count)
@@ -48,8 +51,10 @@ namespace Pea.Core.Entity
 
                 bool offspring1Failed = false;
 
-                foreach (var chromosomeName in parents[0].Chromosomes.Keys)
+                for (int c = 0; c < _chromosomeNames.Length; c++)
                 {
+                    var chromosomeName = _chromosomeNames[c];
+
                     IList<IChromosome> crossoveredChromosomes = new List<IChromosome>(parent0.Chromosomes.Count);
                     while (crossoveredChromosomes.Count == 0)
                     {
@@ -59,29 +64,28 @@ namespace Pea.Core.Entity
                         var provider = CrossoverProviders[chromosomeName];
                         var crossover = provider.GetOne();
 
-                        try
-                        {
-                            crossoveredChromosomes = crossover.Cross(parent0.Chromosomes[chromosomeName], parent1.Chromosomes[chromosomeName]);
-                            if (crossoveredChromosomes.Count > 0)
-                            {
-                                var crossoverName = crossover.GetType().Name;
-                                offspring0.Chromosomes.Add(chromosomeName, crossoveredChromosomes[0]);
-                                offspring0.LastCrossOvers.Add(chromosomeName, crossoverName);
+                        var parentChromosome0 = parent0.Chromosomes[chromosomeName];
+                        var parentChromosome1 = parent1.Chromosomes[chromosomeName];
 
-                                if (crossoveredChromosomes.Count > 1)
-                                {
-                                    if (!offspring1Failed) offspring1.Chromosomes.Add(chromosomeName, crossoveredChromosomes[1]);
-                                    offspring1.LastCrossOvers.Add(chromosomeName, crossoverName);
-                                }
-                                else
-                                {
-                                    offspring1Failed = true;
-                                }
-                            }
-                        }
-                        catch (Exception e)
+                        crossoveredChromosomes = crossover.Cross(parentChromosome0, parentChromosome1);
+
+                        if (crossoveredChromosomes.Count > 0)
                         {
-                            Trace.WriteLine(e);
+                            AssertThatChromosomesAreNewInstances(crossoveredChromosomes, parentChromosome0, parentChromosome1, crossover);
+
+                            var crossoverName = crossover.GetType().Name;
+                            offspring0.Chromosomes.Add(chromosomeName, crossoveredChromosomes[0]);
+                            offspring0.LastCrossOvers.Add(chromosomeName, crossoverName);
+
+                            if (crossoveredChromosomes.Count > 1)
+                            {
+                                if (!offspring1Failed) offspring1.Chromosomes.Add(chromosomeName, crossoveredChromosomes[1]);
+                                offspring1.LastCrossOvers.Add(chromosomeName, crossoverName);
+                            }
+                            else
+                            {
+                                offspring1Failed = true;
+                            }
                         }
                     }
                 }
@@ -90,6 +94,16 @@ namespace Pea.Core.Entity
             }
 
             return offsprings;
+        }
+
+        internal static void AssertThatChromosomesAreNewInstances(IList<IChromosome> children, IChromosome parent0, IChromosome parent1, ICrossover crossover)
+        {
+            for (int i = 0; i < children.Count; i++)
+            {
+                if (ReferenceEquals(children[i], parent0) || ReferenceEquals(children[i], parent1))
+                    throw new InvalidOperationException(
+                        $"{crossover.GetType().Name} returned a parent chromosome instance; crossovers must return new instances.");
+            }
         }
     }
 }

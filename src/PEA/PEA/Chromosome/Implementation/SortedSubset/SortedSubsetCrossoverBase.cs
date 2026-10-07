@@ -11,6 +11,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
         {
         }
 
+        /// <inheritdoc />
         public abstract IList<IChromosome> Cross(IChromosome iparent0, IChromosome iparent1);
 
         public static int[] GetParentSection(SortedSubsetChromosome chromosome, int sectionIndex)

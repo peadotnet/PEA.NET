@@ -9,6 +9,7 @@ namespace Pea.Chromosome.Implementation.Permutation
         {
         }
 
+        /// <inheritdoc />
         public abstract IList<IChromosome> Cross(IChromosome iparent0, IChromosome iparent1);
 
         //public IList<IChromosome> Cross(IList<IChromosome> parents)

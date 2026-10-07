@@ -5,6 +5,8 @@ namespace Pea.Core.Entity
 {
     public class EntityMutation : IEntityMutation
     {
+        private readonly string[] _chromosomeNames;
+
         public Dictionary<string, IProvider<IMutation>> MutationProviders { get; } = new Dictionary<string, IProvider<IMutation>>();
 
         public EntityMutation(IDictionary<string, IChromosomeFactory> chromosomeFactories, IRandom random)
@@ -22,41 +24,38 @@ namespace Pea.Core.Entity
 
                 MutationProviders.Add(key, mutationProvider);
             }
+
+            _chromosomeNames = MutationProviders.Keys.ToArray();
         }
 
-        public IEntityList Mutate(IEntityList entities)
+        void IEntityMutation.Mutate(IEntityList entities)
         {
-            var result = new EntityList(entities.Count);
             for (int i=0; i< entities.Count; i++)
             { 
-                var mutated = MutateEntity(entities[i]);
-                result.Add(mutated);
+                MutateEntity(entities[i]);
             }
-            return result;
         }
 
-        public EntityBase MutateEntity(EntityBase entity)
+        internal void MutateEntity(EntityBase entity)
         {
-            var mutatedEntity = entity.Clone(true);
-            mutatedEntity.LastCrossOvers = entity.LastCrossOvers;
-
-            foreach (var chromosome in entity.Chromosomes)
+            for (int i = 0; i < _chromosomeNames.Length; i++)
             {
+                var key = _chromosomeNames[i];
+                var chromosome = entity.Chromosomes[key];
                 IChromosome mutatedChromosome = null;
                 IMutation mutation = null;
 
-                var provider = MutationProviders[chromosome.Key];
+                var provider = MutationProviders[key];
 
                 while (mutatedChromosome == null)
                 {
                     mutation = provider.GetOne();
-                    mutatedChromosome = mutation.Mutate(chromosome.Value);
+                    mutatedChromosome = mutation.Mutate(chromosome);
                 }
-                mutatedEntity.Chromosomes[chromosome.Key] = mutatedChromosome;
-                mutatedEntity.LastMutations.Add(chromosome.Key, mutation.GetType().Name);
-            }
 
-            return mutatedEntity;
+                entity.Chromosomes[key] = mutatedChromosome;
+                entity.LastMutations[key] = mutation.GetType().Name;
+            }
         }
     }
 }

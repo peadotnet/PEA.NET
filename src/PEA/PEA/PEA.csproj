@@ -26,6 +26,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+	  <_Parameter1>PEA.Tests</_Parameter1>
+	</AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Akka\**" />
     <Compile Remove="Chromosome\Implementation\PositionValuePair\**" />
     <EmbeddedResource Remove="Akka\**" />
@@ -50,6 +55,7 @@
     <Folder Include="Algorithm\Implementation\Nsga2\" />
     <Folder Include="Chromosome\Implementation\MultiSectionPermutation\" />
     <Folder Include="Chromosome\Implementation\IntegerVector\" />
+    <Folder Include="Archive\" />
     <Folder Include="Population\Implementation\" />
     <Folder Include="Util\Types\" />
   </ItemGroup>

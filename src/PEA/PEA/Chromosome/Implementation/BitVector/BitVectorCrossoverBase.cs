@@ -10,6 +10,7 @@ namespace Pea.Chromosome.Implementation.BitVector
 		{
 		}
 
-		public abstract IList<IChromosome> Cross(IChromosome parents0, IChromosome paren1);
+        /// <inheritdoc />
+        public abstract IList<IChromosome> Cross(IChromosome parents0, IChromosome paren1);
 	}
 }
