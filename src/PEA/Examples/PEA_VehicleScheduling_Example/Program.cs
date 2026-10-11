@@ -1,11 +1,10 @@
 ﻿using Pea;
-using Pea.Configuration.ProblemModels;
+using Pea.Configuration.Scenarios;
 using Pea.Core;
 using Pea.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Island = Pea.Core.Island;
 
 namespace PEA_VehicleScheduling_Example

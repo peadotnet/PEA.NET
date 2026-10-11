@@ -1,7 +1,7 @@
 ﻿using System;
 using Pea.Core;
 
-namespace Pea.Configuration
+namespace Pea.Configuration.Implementation
 {
     public class PeaSettingsNamedType
     {

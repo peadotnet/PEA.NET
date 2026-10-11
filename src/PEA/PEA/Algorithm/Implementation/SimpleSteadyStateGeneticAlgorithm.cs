@@ -3,9 +3,9 @@ using System;
 
 namespace Pea.Algorithm.Implementation
 {
-    public class SteadyStateAlgorithm : GeneticAlgorithmBase
+    public class SimpleSteadyStateGeneticAlgorithm : GeneticAlgorithmBase
     {
-        public SteadyStateAlgorithm(ParameterSet parameters, IProvider<IEntityCreator> entityCreators, Action<IEntityList> mergeToBests) : base(parameters, entityCreators, mergeToBests)
+        public SimpleSteadyStateGeneticAlgorithm(ParameterSet parameters, IProvider<IEntityCreator> entityCreators, Action<IEntityList> mergeToBests) : base(parameters, entityCreators, mergeToBests)
         {
         }
 

@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
-using Pea.Util;
-using System;
+using Pea.Util.Statistics;
 using Xunit;
 
 namespace Pea.Tests.StatisticsTests

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Pea.Configuration.ProblemModels
+﻿namespace Pea.Configuration.Scenarios
 {
     public class VehicleScheduling : IScenario
     {

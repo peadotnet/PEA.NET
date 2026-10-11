@@ -2,6 +2,7 @@
 using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Population.Replacement;
+using Pea.Population.Selection;
 using System;
 using System.Collections.Generic;
 
@@ -36,7 +37,7 @@ namespace Pea.Algorithm
 		{
 			return new List<Type>(1)
 			{
-				typeof(Selection.TournamentSelection)
+				typeof(TournamentSelection)
 			};
 		}
 	}

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 using Pea.Core.Entity;
-using Pea.Population;
+using System;
+using System.Collections.Generic;
 
-namespace Pea.Selection
+namespace Pea.Population.Selection
 {
     public class TournamentSelection : SelectionBase
     {
@@ -17,7 +16,7 @@ namespace Pea.Selection
 		{
             if (count == 1)
             {
-                var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
+                var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
                 var selected = SelectOne(entities, tournamentSize);
                 var entityList = new EntityList(1);
                 entityList.Add(selected);
@@ -36,7 +35,7 @@ namespace Pea.Selection
         IEntityList SelectWithList(IEntityList entities, int count)
         {
             List<EntityBase> result = new List<EntityBase>(count);
-            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
+            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
 
             for (int i = 0; i < count; i++)
             {
@@ -53,7 +52,7 @@ namespace Pea.Selection
         IEntityList SelectWithHashSet(IEntityList entities, int count)
         {
             HashSet<EntityBase> result = new HashSet<EntityBase>();
-            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(Population.ParameterNames.TournamentSize));
+            var tournamentSize = Convert.ToInt32(ParameterSet.GetValue(ParameterNames.TournamentSize));
 
             for(int i=0; i< count; i++)
             {

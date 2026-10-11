@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 
-namespace Pea.Selection
+namespace Pea.Population.Selection
 {
     public abstract class SelectionBase : ISelection
     {

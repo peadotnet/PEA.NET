@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Pea;
+using Pea.Configuration.Scenarios;
+using Pea.Core;
+using Pea.Fitness.Implementation.MultiObjective;
+using Pea.Restart;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Pea;
-using Pea.Configuration.ProblemModels;
-using Pea.Core;
-using Pea.Fitness.Implementation.MultiObjective;
-using Pea.Restart;
 
 namespace PEA_TSP_Example
 {

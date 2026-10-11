@@ -1,14 +1,4 @@
-﻿using FluentAssertions;
-using Pea.Algorithm;
-using Pea.Configuration;
-using Pea.Configuration.Implementation;
-using Pea.Core;
-using Pea.Population.Replacement;
-using Pea.Selection;
-using Xunit;
-using PeaSettings = Pea.Configuration.Implementation.PeaSettings;
-
-namespace Pea.Tests.Configuration
+﻿namespace Pea.Tests.Configuration
 {
     //TODO: Reinsert this test class into separate Pea.Akka project's tests.
     //public class ConfigurationSerializationTests

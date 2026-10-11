@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Configuration.Implementation;
+﻿using Pea.Configuration.Implementation;
 using Pea.Core.Entity;
 using Pea.Population.Replacement;
-using Pea.Selection;
+using Pea.Population.Selection;
+using System;
+using System.Collections.Generic;
 
 namespace Pea.Core.Island
 {
