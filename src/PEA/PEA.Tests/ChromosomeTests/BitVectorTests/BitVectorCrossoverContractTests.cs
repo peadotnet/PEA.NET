@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Pea.Chromosome.Implementation.BitVector;
 using Pea.Core;
+using Pea.Rnd;
 using Xunit;
 using ChromosomeParameterNames = Pea.Chromosome.ParameterNames;
 

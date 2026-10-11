@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
+using Pea.Rnd;
 using Xunit;
 
 namespace Pea.Tests.ChromosomeTests.PermutationTests

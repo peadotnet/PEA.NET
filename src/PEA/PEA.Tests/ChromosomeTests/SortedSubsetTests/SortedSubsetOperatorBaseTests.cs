@@ -4,6 +4,7 @@ using FluentAssertions;
 using NSubstitute;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
+using Pea.Rnd;
 using Xunit;
 
 namespace Pea.Tests.ChromosomeTests.SortedSubsetTests

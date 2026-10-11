@@ -2,6 +2,7 @@
 using Pea.Chromosome;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
+using Pea.Rnd;
 using System.Collections.Generic;
 using Xunit;
 

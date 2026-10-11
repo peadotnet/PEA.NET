@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pea.Rnd;
+using System;
 using System.Collections.Generic;
 
 namespace Pea.Core.Entity

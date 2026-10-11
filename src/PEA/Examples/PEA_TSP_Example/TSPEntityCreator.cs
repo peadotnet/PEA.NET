@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using Pea.Chromosome.Implementation.Permutation;
+﻿using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
 using Pea.Core.Entity;
+using Pea.Rnd;
+using System.Linq;
 
 namespace PEA_TSP_Example
 {

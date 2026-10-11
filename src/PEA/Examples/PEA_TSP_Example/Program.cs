@@ -3,6 +3,7 @@ using Pea.Configuration.Scenarios;
 using Pea.Core;
 using Pea.Fitness.Implementation.MultiObjective;
 using Pea.Restart;
+using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

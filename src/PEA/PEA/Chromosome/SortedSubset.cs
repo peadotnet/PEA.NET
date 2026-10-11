@@ -2,6 +2,7 @@
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Rnd;
 
 namespace Pea.Chromosome
 {
