@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Pea.Core
+namespace Pea.Rnd
 {
     public class PredeterminedRandom : RandomBase, IRandom
     {

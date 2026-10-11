@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Rnd;
 
 namespace Pea.Chromosome.Implementation.StructVector.FieldLevelOperations
 {

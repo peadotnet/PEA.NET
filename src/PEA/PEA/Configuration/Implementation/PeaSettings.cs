@@ -2,6 +2,7 @@
 using Pea.Core.Entity;
 using Pea.Core.Events;
 using Pea.Fitness;
+using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 

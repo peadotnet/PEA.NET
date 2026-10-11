@@ -4,6 +4,7 @@ using FluentAssertions;
 using NSubstitute;
 using Pea.Core;
 using Pea.Core.Entity;
+using Pea.Rnd;
 using Xunit;
 
 namespace Pea.Tests.CoreTests

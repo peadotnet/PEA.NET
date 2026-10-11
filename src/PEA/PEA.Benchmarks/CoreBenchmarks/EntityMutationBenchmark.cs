@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
+using Pea;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Core.Entity;
+using Pea.Rnd;
 
 namespace PEA.Benchmarks.CoreBenchmarks
 {

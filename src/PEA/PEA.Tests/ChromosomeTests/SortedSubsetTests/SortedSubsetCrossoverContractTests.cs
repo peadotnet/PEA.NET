@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
+using Pea.Rnd;
 using Xunit;
 using ChromosomeParameterNames = Pea.Chromosome.ParameterNames;
 

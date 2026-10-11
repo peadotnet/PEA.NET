@@ -1,6 +1,8 @@
 ﻿using System;
 using BenchmarkDotNet.Attributes;
+using Pea;
 using Pea.Core;
+using Pea.Rnd;
 
 namespace PEA.Benchmarks.CoreBenchmarks
 {

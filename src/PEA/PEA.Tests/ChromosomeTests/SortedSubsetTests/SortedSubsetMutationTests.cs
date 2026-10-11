@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using Pea.Chromosome;
+﻿using FluentAssertions;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
+using Pea.Rnd;
 using Xunit;
 
 namespace Pea.Tests.ChromosomeTests.SortedSubsetTests

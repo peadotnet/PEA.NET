@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Pea.Core;
+using Pea.Rnd;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {

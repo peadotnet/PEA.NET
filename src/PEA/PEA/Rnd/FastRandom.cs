@@ -1,4 +1,6 @@
-﻿namespace Pea.Core
+﻿using Pea.Util;
+
+namespace Pea.Rnd
 {
 	/// <summary>
 	/// IRandom implementation using FastRandom has pseudo-number generator.
@@ -6,11 +8,11 @@
 	/// </summary>
 	public class FastRandom : RandomBase, IRandom
     {
-        private readonly SharpNeatLib.Maths.FastRandom _random;
+        private readonly XorShift128Random _random;
 
         public FastRandom(int seed) : base(seed)
         {
-            _random = new SharpNeatLib.Maths.FastRandom(seed);
+            _random = new XorShift128Random(seed);
         }
 
         public override double GetDouble(double minValue, double upperBound)

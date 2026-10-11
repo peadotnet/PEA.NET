@@ -1,6 +1,7 @@
 ﻿using Pea.Chromosome.Implementation.BitVector;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Rnd;
 using System.Collections.Generic;
 
 namespace Pea.Chromosome

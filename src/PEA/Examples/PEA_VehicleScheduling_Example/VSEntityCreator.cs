@@ -1,6 +1,7 @@
 ﻿using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
 using Pea.Core.Entity;
+using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 using System.Linq;

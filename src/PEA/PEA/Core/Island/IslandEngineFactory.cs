@@ -2,6 +2,7 @@
 using Pea.Core.Entity;
 using Pea.Population.Replacement;
 using Pea.Population.Selection;
+using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 

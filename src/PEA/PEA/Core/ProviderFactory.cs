@@ -1,4 +1,6 @@
-﻿namespace Pea.Core
+﻿using Pea.Rnd;
+
+namespace Pea.Core
 {
     public static class ProviderFactory
     {

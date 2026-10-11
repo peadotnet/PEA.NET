@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pea.Core
+namespace Pea.Rnd
 {
     public class SystemRandom : RandomBase, IRandom
     {

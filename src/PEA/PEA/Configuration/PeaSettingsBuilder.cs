@@ -3,6 +3,7 @@ using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Core.Entity;
 using Pea.Core.Events;
+using Pea.Rnd;
 using Pea.StopCriteria;
 
 namespace Pea.Configuration
