@@ -22,9 +22,9 @@ namespace Pea.Configuration
             return problemBuilder;
         }
 
-        public SubProblemBuilder AddSubProblem(string key, IScenario problemModel)
+        public SubProblemBuilder AddSubProblem(string key, IScenario scenario)
         {
-            var problemBuilder = problemModel.Apply(key, new SubProblemBuilder());
+            var problemBuilder = scenario.Apply(key, new SubProblemBuilder());
             SubProblems.Add(problemBuilder);
             return problemBuilder;
         }

@@ -3,6 +3,7 @@ using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Core.Entity;
 using Pea.Population.Replacement;
+using Pea.Population.Selection;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -13,7 +14,7 @@ namespace Pea.Algorithm
     {
         public IAlgorithm GetAlgorithm(ParameterSet parameters, IProvider<IEntityCreator> entityCreators, Action<IEntityList> mergeToBests)
         {
-            return new SteadyStateAlgorithm(parameters, entityCreators, mergeToBests);
+            return new SimpleSteadyStateGeneticAlgorithm(parameters, entityCreators, mergeToBests);
         }
 
         public IEnumerable<PeaSettingsNamedValue> GetParameters()
@@ -41,7 +42,7 @@ namespace Pea.Algorithm
         {
             return new List<Type>(1)
             {
-                typeof(Selection.TournamentSelection)
+                typeof(TournamentSelection)
             };
         }
 

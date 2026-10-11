@@ -1,11 +1,11 @@
 ﻿using Pea.Configuration;
-using Pea.Configuration.ProblemModels;
+using Pea.Configuration.Scenarios;
 using Pea.Core;
 using Xunit;
 
 namespace Pea.Tests.Configuration
 {
-    public class ProblemModelTests
+    public class ScenarioTests
     {
         [Fact]
         public void TravelingSalesmanProblem_Apply_ShouldCreateSettings()

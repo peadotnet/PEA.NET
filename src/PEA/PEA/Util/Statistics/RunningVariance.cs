@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pea.Util
+namespace Pea.Util.Statistics
 {
     public class RunningVariance : MeanAndDeviation
     {

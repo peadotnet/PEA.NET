@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Pea.Core;
+﻿using Pea.Core;
 using Pea.Core.Entity;
 using Pea.Core.Events;
-using Pea.Core.Island;
 using Pea.Fitness;
+using System;
+using System.Collections.Generic;
 
 namespace Pea.Configuration.Implementation
 {

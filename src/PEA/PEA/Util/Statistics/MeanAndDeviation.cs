@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pea.Util
+namespace Pea.Util.Statistics
 {
     public class MeanAndDeviation
     {
