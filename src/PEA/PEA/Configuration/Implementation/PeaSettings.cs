@@ -1,6 +1,6 @@
 ﻿using Pea.Core;
-using Pea.Core.Entity;
 using Pea.Core.Events;
+using Pea.Entity;
 using Pea.Fitness;
 using Pea.Rnd;
 using System;

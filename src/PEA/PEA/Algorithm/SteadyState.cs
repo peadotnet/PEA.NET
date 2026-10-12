@@ -1,12 +1,11 @@
 ﻿using Pea.Algorithm.Implementation;
 using Pea.Configuration.Implementation;
 using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Population.Replacement;
 using Pea.Population.Selection;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace Pea.Algorithm
 {

@@ -1,6 +1,6 @@
 ﻿using Pea.Configuration.Implementation;
-using Pea.Core.Entity;
 using Pea.Core.Events;
+using Pea.Entity;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;

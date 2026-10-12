@@ -1,5 +1,5 @@
 ﻿using Pea.Configuration.Implementation;
-using Pea.Core.Entity;
+using Pea.Entity;
 using System.Collections.Generic;
 
 namespace Pea.Core

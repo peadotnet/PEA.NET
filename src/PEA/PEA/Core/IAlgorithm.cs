@@ -1,4 +1,6 @@
-﻿namespace Pea.Core
+﻿using Pea.Entity;
+
+namespace Pea.Core
 {
 	public delegate IEntityList EvaluationDelegate(IEntityList entityList);
 

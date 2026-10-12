@@ -1,5 +1,5 @@
 ﻿using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Rnd;
 
 namespace Pea.Population.Replacement

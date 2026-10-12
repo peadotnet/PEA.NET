@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Entity;
 using System;
 
 namespace Pea.Algorithm.Implementation

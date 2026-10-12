@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Fitness.Implementation.MultiObjective;
 
 namespace PEA_TSP_Example

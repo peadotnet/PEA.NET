@@ -1,7 +1,7 @@
-﻿using Pea.Core.Entity;
+﻿using Pea.Core;
 using System.Collections;
 
-namespace Pea.Core
+namespace Pea.Entity
 {
     public interface IEntityCreator
     {

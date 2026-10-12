@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Pea.Configuration.Implementation;
 using Pea.Core;
-using Pea.Core.Entity;
 using Pea.Core.Events;
+using Pea.Entity;
 using Pea.Rnd;
 using Pea.StopCriteria;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Configuration.Implementation;
+using Pea.Entity;
 
 namespace Pea.Core
 {

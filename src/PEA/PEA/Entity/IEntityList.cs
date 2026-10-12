@@ -1,6 +1,4 @@
-﻿using Pea.Core.Entity;
-
-namespace Pea.Core
+﻿namespace Pea.Entity
 {
 	public interface IEntityList
 	{

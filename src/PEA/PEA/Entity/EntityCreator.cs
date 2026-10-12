@@ -1,8 +1,9 @@
-﻿using Pea.Rnd;
+﻿using Pea.Core;
+using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 
-namespace Pea.Core.Entity
+namespace Pea.Entity
 {
     public class EntityCreator : IEntityCreator
     {

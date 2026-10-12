@@ -1,9 +1,10 @@
-﻿using Pea.Rnd;
+﻿using Pea.Core;
+using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pea.Core.Entity
+namespace Pea.Entity
 {
     public class EntityCrossover : IEntityCrossover
     {

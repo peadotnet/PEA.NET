@@ -1,6 +1,6 @@
 ﻿using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Fitness.Implementation.MultiObjective;
 using Pea.Util;
 using System;

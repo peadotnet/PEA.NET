@@ -1,6 +1,6 @@
 ﻿using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Rnd;
 using System.Linq;
 

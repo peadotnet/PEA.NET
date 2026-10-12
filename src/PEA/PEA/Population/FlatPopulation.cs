@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Util;
 using Pea.Util.Statistics;
 
