@@ -40,9 +40,6 @@ namespace PEA_TSP_Example
             var best = result.BestSolutions[0] as TSPEntity;
             Console.WriteLine($"Best distance: {best.TotalDistance}");
             Console.WriteLine($"Elapsed: {elapsed} Entities: {entities} ({speed} ent./ms)");
-
-            Console.ReadLine();
-
         }
 
         public async Task<PeaResult> StartAsync(TSPInitData initData)
