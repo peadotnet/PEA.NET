@@ -1,8 +1,9 @@
-﻿using Pea.Population;
+﻿using Pea.Core;
+using Pea.Population;
 using System;
 using System.Collections.Generic;
 
-namespace Pea.Core.Entity
+namespace Pea.Entity
 {
     public class EntityBase
     {
@@ -21,16 +22,16 @@ namespace Pea.Core.Entity
 
         public virtual EntityBase Clone(bool cloneChromosomes)
         {
-            var clone = (EntityBase)Activator.CreateInstance(this.GetType());
-            clone.IndexInList = this.IndexInList;
-            clone.IndexInPopulation = this.IndexInPopulation;
-            clone.OriginIslandKey = this.OriginIslandKey;
+            var clone = (EntityBase)Activator.CreateInstance(GetType());
+            clone.IndexInList = IndexInList;
+            clone.IndexInPopulation = IndexInPopulation;
+            clone.OriginIslandKey = OriginIslandKey;
 
             if (cloneChromosomes)
             {
                 foreach (var key in Chromosomes.Keys)
                 {
-                    clone.Chromosomes.Add(key, this.Chromosomes[key].DeepClone());
+                    clone.Chromosomes.Add(key, Chromosomes[key].DeepClone());
                 }
             }
 

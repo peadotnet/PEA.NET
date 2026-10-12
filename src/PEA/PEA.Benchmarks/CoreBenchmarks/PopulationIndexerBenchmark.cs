@@ -1,6 +1,5 @@
 using BenchmarkDotNet.Attributes;
-using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Population;
 
 namespace PEA.Benchmarks.CoreBenchmarks

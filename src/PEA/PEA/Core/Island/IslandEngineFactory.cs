@@ -1,5 +1,5 @@
 ﻿using Pea.Configuration.Implementation;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Population.Replacement;
 using Pea.Population.Selection;
 using Pea.Rnd;

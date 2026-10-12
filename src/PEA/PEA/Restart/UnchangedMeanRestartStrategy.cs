@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Entity;
 using Pea.Util.Statistics;
 using System;
 

@@ -1,4 +1,4 @@
-﻿using Pea.Core.Entity;
+﻿using Pea.Entity;
 using Pea.Util.Statistics;
 using System.Collections.Generic;
 

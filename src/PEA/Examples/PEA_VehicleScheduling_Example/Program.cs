@@ -1,7 +1,7 @@
 ﻿using Pea;
 using Pea.Configuration.Scenarios;
 using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

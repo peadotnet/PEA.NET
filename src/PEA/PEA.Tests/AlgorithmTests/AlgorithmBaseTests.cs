@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Pea.Configuration;
 using Pea.Core;
-using Pea.Core.Entity;
+using Pea.Entity;
 using Pea.Rnd;
 using System.Diagnostics;
 using Xunit;

@@ -1,4 +1,4 @@
-﻿using Pea.Core.Entity;
+﻿using Pea.Entity;
 
 namespace Pea.Core
 {

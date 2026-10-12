@@ -1,7 +1,6 @@
-﻿using Pea.Core.Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Entity
 {
 	public class EntityList : IEntityList
 	{
