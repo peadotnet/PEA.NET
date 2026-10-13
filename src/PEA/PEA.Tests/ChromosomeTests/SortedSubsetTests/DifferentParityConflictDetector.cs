@@ -1,4 +1,5 @@
-﻿using Pea.Core;
+﻿using Pea.Chromosome;
+using Pea.Core;
 using Pea.Entity;
 
 namespace Pea.Tests.ChromosomeTests.SortedSubsetTests

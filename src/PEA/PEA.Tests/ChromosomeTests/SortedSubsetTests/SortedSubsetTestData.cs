@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Pea.Chromosome;
 using Pea.Chromosome.Implementation.SortedSubset;
-using Pea.Core;
 
 namespace Pea.Tests.ChromosomeTests
 {

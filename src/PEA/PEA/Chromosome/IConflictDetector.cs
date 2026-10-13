@@ -1,4 +1,6 @@
-﻿namespace Pea.Core
+﻿using Pea.Core;
+
+namespace Pea.Chromosome
 {
 	public interface IConflictDetector
 	{

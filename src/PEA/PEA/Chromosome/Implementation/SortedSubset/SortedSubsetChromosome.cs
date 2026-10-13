@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pea.Core;
 
 namespace Pea.Chromosome.Implementation.SortedSubset
 {
@@ -42,7 +41,7 @@ namespace Pea.Chromosome.Implementation.SortedSubset
 
         public SortedSubsetChromosome DeepClone()
         {
-            var clone = new SortedSubsetChromosome(this.Sections);
+            var clone = new SortedSubsetChromosome(Sections);
             return clone;
         }
 

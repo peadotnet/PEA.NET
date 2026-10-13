@@ -1,4 +1,5 @@
-﻿using Pea.Configuration.Implementation;
+﻿using Pea.Chromosome;
+using Pea.Configuration.Implementation;
 using Pea.Core.Events;
 using Pea.Entity;
 using Pea.Migration;

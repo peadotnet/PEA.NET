@@ -1,6 +1,6 @@
 ﻿using System;
+using Pea.Chromosome;
 using Pea.Configuration.Implementation;
-using Pea.Core;
 
 namespace Pea.Configuration
 {

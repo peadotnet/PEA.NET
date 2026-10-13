@@ -1,6 +1,7 @@
-﻿using Pea.Entity;
+﻿using Pea.Core;
+using Pea.Entity;
 
-namespace Pea.Core
+namespace Pea.Chromosome
 {
     public class AllRightConflictDetector : INeighborhoodConflictDetector
     {
