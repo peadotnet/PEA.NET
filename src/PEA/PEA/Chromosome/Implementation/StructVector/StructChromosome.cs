@@ -1,5 +1,4 @@
-﻿using Pea.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Pea.Chromosome.Implementation.StructVector
 {

@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using Pea.Chromosome;
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Core;
 using Pea.Rnd;

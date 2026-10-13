@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Pea.Chromosome;
 using Pea.Chromosome.Implementation.Permutation;
-using Pea.Core;
 
 namespace Pea.Tests.ChromosomeTests.PermutationTests
 {

@@ -1,4 +1,5 @@
-﻿using Pea.Chromosome.Implementation.SortedSubset;
+﻿using Pea.Chromosome;
+using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
 using Pea.Entity;
 using Pea.Fitness.Implementation.MultiObjective;

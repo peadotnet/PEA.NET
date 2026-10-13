@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FluentAssertions;
+using Pea.Chromosome;
 using Pea.Chromosome.Implementation.DoubleVector;
 using Pea.Core;
 using Pea.Rnd;

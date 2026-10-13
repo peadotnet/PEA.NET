@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
-using Pea.Core;
+using Pea.Chromosome;
 using Pea.Entity;
 using Pea.Rnd;
 using Xunit;

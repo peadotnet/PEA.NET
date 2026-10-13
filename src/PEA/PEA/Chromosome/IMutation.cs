@@ -1,4 +1,4 @@
-﻿namespace Pea.Core
+﻿namespace Pea.Chromosome
 {
     public interface IMutation: IGeneticOperator
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Pea.Chromosome.Implementation.SortedSubset;
 using Xunit;
 

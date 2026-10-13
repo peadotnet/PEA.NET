@@ -1,6 +1,6 @@
-﻿using Pea.Configuration;
+﻿using Pea.Chromosome;
+using Pea.Configuration;
 using Pea.Configuration.Scenarios;
-using Pea.Core;
 using Xunit;
 
 namespace Pea.Tests.Configuration
