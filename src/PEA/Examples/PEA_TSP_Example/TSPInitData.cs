@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Pea.Core;
+using Pea.Evaluation;
 
 namespace PEA_TSP_Example
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pea.Core;
+using Pea.Evaluation;
 
 namespace PEA_VehicleScheduling_Example
 {

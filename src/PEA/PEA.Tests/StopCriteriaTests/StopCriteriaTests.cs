@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NSubstitute;
-using Pea.Core;
+using Pea.Fitness;
 using Pea.StopCriteria;
 using Pea.StopCriteria.Implementation;
 using Xunit;

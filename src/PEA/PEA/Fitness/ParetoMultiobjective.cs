@@ -1,5 +1,4 @@
-﻿using Pea.Core;
-using Pea.Entity;
+﻿using Pea.Entity;
 using Pea.Fitness.Implementation.MultiObjective;
 
 namespace Pea.Fitness

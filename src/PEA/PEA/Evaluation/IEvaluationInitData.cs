@@ -1,4 +1,4 @@
-﻿namespace Pea.Core
+﻿namespace Pea.Evaluation
 {
     public interface IEvaluationInitData
     {

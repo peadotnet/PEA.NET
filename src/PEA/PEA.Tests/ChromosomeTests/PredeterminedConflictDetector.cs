@@ -1,6 +1,6 @@
 ﻿using Pea.Chromosome;
-using Pea.Core;
 using Pea.Entity;
+using Pea.Evaluation;
 
 namespace Pea.Tests.ChromosomeTests
 {

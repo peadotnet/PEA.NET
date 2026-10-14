@@ -1,6 +1,7 @@
 ﻿using Pea.Chromosome;
 using Pea.Configuration.Implementation;
 using Pea.Entity;
+using Pea.Fitness;
 using Pea.Population.Replacement;
 using Pea.Population.Selection;
 using Pea.Rnd;

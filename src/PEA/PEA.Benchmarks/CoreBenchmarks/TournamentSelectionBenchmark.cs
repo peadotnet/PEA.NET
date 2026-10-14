@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
-using Pea.Core;
 using Pea.Entity;
+using Pea.Fitness;
 using Pea.Fitness.Implementation.MultiObjective;
 
 namespace PEA.Benchmarks.CoreBenchmarks

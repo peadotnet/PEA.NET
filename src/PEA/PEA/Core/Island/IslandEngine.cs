@@ -2,6 +2,7 @@
 using Pea.Configuration.Implementation;
 using Pea.Core.Events;
 using Pea.Entity;
+using Pea.Evaluation;
 using Pea.Migration;
 using Pea.Rnd;
 using System;

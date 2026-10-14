@@ -1,6 +1,7 @@
 ﻿using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Entity;
+using Pea.Fitness;
 using System;
 using System.Collections.Generic;
 using System.Threading;
