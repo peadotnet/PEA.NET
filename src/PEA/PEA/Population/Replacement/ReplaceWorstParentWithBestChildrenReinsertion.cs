@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pea.Core;
 using Pea.Entity;
+using Pea.Fitness;
 using Pea.Rnd;
 
 namespace Pea.Population.Replacement

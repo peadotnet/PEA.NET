@@ -2,6 +2,7 @@
 using Pea.Chromosome.Implementation.SortedSubset;
 using Pea.Core;
 using Pea.Entity;
+using Pea.Evaluation;
 using Pea.Fitness.Implementation.MultiObjective;
 using Pea.Util;
 using System;

@@ -1,4 +1,4 @@
-﻿namespace Pea.Core
+﻿namespace Pea.Fitness
 {
     public interface IFitnessFactory
     {

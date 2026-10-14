@@ -1,4 +1,5 @@
 ﻿using Pea.Core;
+using Pea.Fitness;
 using Pea.StopCriteria.Implementation;
 using System;
 

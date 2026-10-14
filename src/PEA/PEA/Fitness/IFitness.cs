@@ -1,7 +1,7 @@
 ﻿using Pea.Entity;
 using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Fitness
 {
 	public interface IFitness
     {

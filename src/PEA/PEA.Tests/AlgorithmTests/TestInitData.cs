@@ -1,4 +1,4 @@
-﻿using Pea.Core;
+﻿using Pea.Evaluation;
 
 namespace Pea.Tests.AlgorithmTests
 {

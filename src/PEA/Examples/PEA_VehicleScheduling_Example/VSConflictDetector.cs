@@ -1,6 +1,6 @@
 ﻿using Pea.Chromosome;
-using Pea.Core;
 using Pea.Entity;
+using Pea.Evaluation;
 
 namespace PEA_VehicleScheduling_Example
 {

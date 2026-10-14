@@ -1,8 +1,9 @@
 ﻿using Pea.Configuration.Implementation;
+using Pea.Core;
 using Pea.Entity;
 using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Evaluation
 {
 	public abstract class EvaluationBase
 	{
