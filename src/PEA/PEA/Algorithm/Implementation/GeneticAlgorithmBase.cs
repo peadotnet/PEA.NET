@@ -2,6 +2,7 @@
 using Pea.Core;
 using Pea.Entity;
 using Pea.Fitness;
+using Pea.Population;
 using System;
 using System.Collections.Generic;
 using System.Threading;

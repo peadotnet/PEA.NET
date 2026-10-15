@@ -1,6 +1,6 @@
 ﻿using System;
 using Pea.Configuration.Implementation;
-using Pea.Core;
+using Pea.Population;
 
 namespace Pea.Configuration
 {

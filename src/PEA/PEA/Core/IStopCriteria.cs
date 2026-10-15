@@ -1,4 +1,5 @@
 ﻿using Pea.Fitness;
+using Pea.Population;
 using System;
 using System.Collections.Generic;
 using System.Text;

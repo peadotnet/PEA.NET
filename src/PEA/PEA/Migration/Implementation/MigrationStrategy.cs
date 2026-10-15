@@ -1,5 +1,6 @@
 ﻿using Pea.Core;
 using Pea.Entity;
+using Pea.Population;
 using Pea.Rnd;
 
 namespace Pea.Migration.Implementation

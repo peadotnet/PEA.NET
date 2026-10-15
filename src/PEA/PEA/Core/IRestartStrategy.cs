@@ -1,4 +1,5 @@
 ﻿using Pea.Entity;
+using Pea.Population;
 
 namespace Pea.Core
 {

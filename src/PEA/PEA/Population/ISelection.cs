@@ -1,6 +1,6 @@
 ﻿using Pea.Entity;
 
-namespace Pea.Core
+namespace Pea.Population
 {
 	public interface ISelection
     {
