@@ -2,6 +2,7 @@
 using Pea.Chromosome.Implementation.Permutation;
 using Pea.Configuration.Implementation;
 using Pea.Core;
+using Pea.Engine;
 using Pea.Rnd;
 
 namespace Pea.Chromosome

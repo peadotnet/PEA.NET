@@ -1,6 +1,7 @@
 ﻿using Pea.Algorithm;
 using Pea.Chromosome;
 using Pea.Configuration.Implementation;
+using Pea.Core;
 using Pea.Entity;
 using Pea.Fitness;
 using Pea.Population;
@@ -10,7 +11,7 @@ using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 
-namespace Pea.Core.Island
+namespace Pea.Engine
 {
     public static class IslandEngineFactory
     {
@@ -143,7 +144,7 @@ namespace Pea.Core.Island
         private static IAlgorithmFactory CreateAlgorithm(IEngine engine, PeaSettings settings)
         {
             //TODO: choose first matching algorithm type from chromosomeFactories, or apply settings
-            return new Algorithm.SteadyState();
+            return new SteadyState();
         }
 
         private static IMigrationStrategy CreateMigrationStrategy(IslandEngine engine, IRandom random, IFitnessComparer fitnessComparer, ParameterSet parameters, PeaSettings settings)

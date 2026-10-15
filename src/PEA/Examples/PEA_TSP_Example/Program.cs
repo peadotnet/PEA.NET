@@ -56,7 +56,7 @@ namespace PEA_TSP_Example
             optimizer.Settings.StopWhen().FitnessLimitExceeded(fitnessLimit)
                 .Or().IterationsReached(100 * 1000 * 45);       //.TimeoutElapsed(300000);
 
-            optimizer.SetParameter(Pea.Core.Island.ParameterNames.IslandsCount, 1);
+            optimizer.SetParameter(Pea.Engine.ParameterNames.IslandsCount, 1);
 
 
             var result = await optimizer.Run(initData);

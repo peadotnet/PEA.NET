@@ -1,4 +1,6 @@
-﻿namespace Pea.Configuration.Scenarios
+﻿using Pea.Algorithm;
+
+namespace Pea.Configuration.Scenarios
 {
     public class TravelingSalesman : IScenario
     {
@@ -13,12 +15,12 @@
         {
             return subProblemBuilder
                 .WithEncoding<Chromosome.Permutation>(key)
-                .WithAlgorithm<Algorithm.SteadyState>()
-                .SetParameter(Algorithm.ParameterNames.PopulationSize, Size * 10) //*2
+                .WithAlgorithm<SteadyState>()
+                .SetParameter(ParameterNames.PopulationSize, Size * 10) //*2
                 .SetParameter(Chromosome.ParameterNames.MutationProbability, 0.1)
-                .SetParameter(Algorithm.ParameterNames.FitnessLength, 1)
+                .SetParameter(ParameterNames.FitnessLength, 1)
                 .SetParameter(Population.ParameterNames.TournamentSize, 2)
-                .SetParameter(Core.Island.ParameterNames.IslandsCount, 1)
+                .SetParameter(Engine.ParameterNames.IslandsCount, 1)
                 //.SetParameter(Core.Island.ParameterNames.IslandsCount, Math.Floor(Math.Sqrt(Size)))
                 .SetParameter("ProblemSize", Size);
         }

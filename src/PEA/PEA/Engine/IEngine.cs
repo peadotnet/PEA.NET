@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Pea.Algorithm;
-using Pea.Core.Events;
+using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
 using Pea.Migration;
 using Pea.Population;
 using Pea.Rnd;
 
-namespace Pea.Core
+namespace Pea.Engine
 {
     public delegate void LaunchTravelersDelegate(IEntityList entityList, TravelerTypes travelerType);
 

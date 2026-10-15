@@ -1,4 +1,7 @@
-﻿namespace Pea.Configuration.Scenarios
+﻿using Pea.Algorithm;
+
+
+namespace Pea.Configuration.Scenarios
 {
     public class VehicleScheduling : IScenario
     {
@@ -13,12 +16,12 @@
         {
             return subProblemBuilder
                 .WithEncoding<Chromosome.SortedSubset>(key)
-                .WithAlgorithm<Algorithm.SteadyState>()
-                .SetParameter(Algorithm.ParameterNames.PopulationSize, TripsCount / 10)
+                .WithAlgorithm<SteadyState>()
+                .SetParameter(ParameterNames.PopulationSize, TripsCount / 10)
                 .SetParameter(Chromosome.ParameterNames.MutationProbability, 0.1)
                 .SetParameter(Population.ParameterNames.TournamentSize, 2)
                 .SetParameter("ProblemSize", TripsCount)
-                .SetParameter(Core.Island.ParameterNames.IslandsCount, 1);// Math.Floor(Math.Sqrt(TripsCount)));
+                .SetParameter(Engine.ParameterNames.IslandsCount, 1);// Math.Floor(Math.Sqrt(TripsCount)));
 
 
                 //.WithConflictDetector<VSConflictDetector>()

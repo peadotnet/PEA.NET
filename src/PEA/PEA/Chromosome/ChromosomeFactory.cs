@@ -1,4 +1,4 @@
-﻿using Pea.Core;
+﻿using Pea.Engine;
 
 namespace Pea.Chromosome
 {

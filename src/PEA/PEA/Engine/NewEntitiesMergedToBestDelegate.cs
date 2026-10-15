@@ -3,7 +3,7 @@ using Pea.Util.Statistics;
 using System;
 using System.Collections.Generic;
 
-namespace Pea.Core.Events
+namespace Pea.Engine
 {
     public delegate void NewEntitiesMergedToBestDelegate(NewEntitiesMergedToBestEventArgs e);
 

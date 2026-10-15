@@ -1,4 +1,4 @@
-﻿namespace Pea.Core
+﻿namespace Pea.Engine
 {
     public interface IEngineModifier
     {
