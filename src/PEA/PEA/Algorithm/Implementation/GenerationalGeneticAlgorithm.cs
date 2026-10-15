@@ -21,7 +21,6 @@ namespace Pea.Algorithm.Implementation
 			var offspring = Crossover(parents, populationSize);
 			var mutated = Mutate(offspring);
 			var evaluated = Evaluate(mutated);
-			//TODO: Niching ?
 			var inserted = Reinsert(nextGeneration, evaluated, parents, Population);
 			MergeToBests(inserted);
 			return StopCriteria.MakeDecision(Population, FitnessComparer);

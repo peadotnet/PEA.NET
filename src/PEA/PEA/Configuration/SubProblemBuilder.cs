@@ -24,12 +24,6 @@ namespace Pea.Configuration
             return this;
         }
 
-        public SubProblemBuilder WithNiching<NT>() where NT: INiching
-        {
-            SubProblem.Niching = typeof(NT);
-            return this;
-        }
-
         public SubProblemBuilder AddConflictDetector<CDT>() where CDT: IConflictDetector
         {
             SubProblem.ConflictDetectors.Add(typeof(CDT));
