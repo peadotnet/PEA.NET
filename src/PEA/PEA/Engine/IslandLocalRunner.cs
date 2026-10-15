@@ -1,12 +1,12 @@
 ﻿using Pea.Configuration.Implementation;
-using Pea.Core.Events;
+using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Pea.Core.Island
+namespace Pea.Engine
 {
 	public class IslandLocalRunner
 	{

@@ -1,7 +1,7 @@
 ﻿using Pea.Algorithm;
 using Pea.Chromosome;
 using Pea.Configuration.Implementation;
-using Pea.Core.Events;
+using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
 using Pea.Migration;
@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Pea.Core.Island
+namespace Pea.Engine
 {
     public class IslandEngine : IEngine
     {
@@ -19,7 +19,7 @@ namespace Pea.Core.Island
 
         public IRandom Random { get; }
 
-        public Configuration.Implementation.PeaSettings Settings { get; }
+        public PeaSettings Settings { get; }
         public ParameterSet Parameters { get; }
 
         public IDictionary<string, IList<IConflictDetector>> ConflictDetectors { get; set; }

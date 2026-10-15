@@ -1,6 +1,6 @@
 ﻿using Pea.Configuration;
 using Pea.Core;
-using Pea.Core.Island;
+using Pea.Engine;
 using Pea.Evaluation;
 using System;
 using System.Collections.Concurrent;
@@ -67,7 +67,7 @@ namespace Pea
         {
             var settings = Settings.Build();
 
-            var islandsCount = settings.ParameterSet.FindLast(p => p.Name == Core.Island.ParameterNames.IslandsCount)?.Value ?? 1; //TODO: clarify this
+            var islandsCount = settings.ParameterSet.FindLast(p => p.Name == Engine.ParameterNames.IslandsCount)?.Value ?? 1; //TODO: clarify this
             PeaResult result = null;
             if (islandsCount < 2)
             {

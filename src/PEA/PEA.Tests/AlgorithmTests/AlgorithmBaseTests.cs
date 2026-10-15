@@ -19,7 +19,7 @@ namespace Pea.Tests.AlgorithmTests
             optimizer.Settings.WithEntityType<TestEntity>().WithEvaluation<TestEvaluation>();
             optimizer.Settings.StopWhen().TimeoutElapsed(20000);                
             optimizer.SetParameter(ParameterNames.PopulationInitTimeout, 10000);
-            optimizer.SetParameter(Core.Island.ParameterNames.IslandsCount, 1);
+            optimizer.SetParameter(Engine.ParameterNames.IslandsCount, 1);
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -40,7 +40,7 @@ namespace Pea.Tests.AlgorithmTests
                     .WithAlgorithm<Algorithm.SteadyState>()
                     .AddEntityCreator<SlowCreator>()
                     .SetParameter(Algorithm.ParameterNames.FitnessLength, 1)
-                    .SetParameter(Pea.Algorithm.ParameterNames.PopulationSize, 100);
+                    .SetParameter(Algorithm.ParameterNames.PopulationSize, 100);
             }
         }
 

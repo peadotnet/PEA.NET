@@ -1,4 +1,4 @@
-﻿namespace Pea.Core.Island
+﻿namespace Pea.Engine
 {
     public static class ParameterNames
     {

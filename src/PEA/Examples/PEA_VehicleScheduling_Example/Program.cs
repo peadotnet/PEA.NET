@@ -5,7 +5,6 @@ using Pea.Entity;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Island = Pea.Core.Island;
 
 namespace PEA_VehicleScheduling_Example
 {
@@ -29,7 +28,7 @@ namespace PEA_VehicleScheduling_Example
 
             optimizer.Settings.StopWhen().TimeoutElapsed(120 * 1000);
 
-            optimizer.SetParameter(Island.ParameterNames.IslandsCount, 1);
+            optimizer.SetParameter(Pea.Engine.ParameterNames.IslandsCount, 1);
 
 
 

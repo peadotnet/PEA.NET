@@ -1,5 +1,5 @@
 ﻿using Pea.Core;
-using Pea.Core.Events;
+using Pea.Engine;
 using Pea.Entity;
 using Pea.Fitness;
 using Pea.Rnd;
@@ -28,8 +28,8 @@ namespace Pea.Configuration.Implementation
 
         public PeaSettings()
         {
-            ParameterSet.Add(new PeaSettingsNamedValue(Core.Island.ParameterNames.ArchipelagosCount, 1));
-            ParameterSet.Add(new PeaSettingsNamedValue(Core.Island.ParameterNames.IslandsCount, 1));
+            ParameterSet.Add(new PeaSettingsNamedValue(Engine.ParameterNames.ArchipelagosCount, 1));
+            ParameterSet.Add(new PeaSettingsNamedValue(Engine.ParameterNames.IslandsCount, 1));
         }
 
         public PeaSettings GetIslandSettings(MultiKey key)
