@@ -15,7 +15,5 @@ namespace Pea.Configuration.Implementation
         public List<Type> EntityCreators { get; set; } = new List<Type>();
 
         public Type Decoder { get; set; }
-
-        public Type Niching { get; set; }
     }
 }
