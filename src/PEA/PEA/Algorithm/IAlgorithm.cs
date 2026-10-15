@@ -1,7 +1,9 @@
-﻿using Pea.Entity;
+﻿using Pea.Core;
+using Pea.Entity;
 using Pea.Fitness;
+using Pea.Population;
 
-namespace Pea.Core
+namespace Pea.Algorithm
 {
 	public delegate IEntityList EvaluationDelegate(IEntityList entityList);
 

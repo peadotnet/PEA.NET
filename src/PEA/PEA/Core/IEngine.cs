@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using Pea.Algorithm;
 using Pea.Core.Events;
 using Pea.Entity;
 using Pea.Evaluation;
 using Pea.Migration;
+using Pea.Population;
 using Pea.Rnd;
 
 namespace Pea.Core

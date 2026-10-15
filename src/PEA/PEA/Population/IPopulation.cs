@@ -2,7 +2,7 @@
 using Pea.Util.Statistics;
 using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Population
 {
     public interface IPopulation : IEntityList
     {

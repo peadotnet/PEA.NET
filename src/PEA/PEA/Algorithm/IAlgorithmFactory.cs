@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Configuration.Implementation;
+using Pea.Core;
 using Pea.Entity;
 
-namespace Pea.Core
+namespace Pea.Algorithm
 {
     public interface IAlgorithmFactory
     {

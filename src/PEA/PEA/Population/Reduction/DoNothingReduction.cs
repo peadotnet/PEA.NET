@@ -1,6 +1,4 @@
-﻿using Pea.Core;
-
-namespace Pea.Population.Reduction
+﻿namespace Pea.Population.Reduction
 {
 	public class DoNothingReduction : IReduction
 	{

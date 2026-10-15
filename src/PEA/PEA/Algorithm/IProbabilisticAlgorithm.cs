@@ -1,4 +1,4 @@
-﻿namespace Pea.Core
+﻿namespace Pea.Algorithm
 {
     public interface IProbabilisticAlgorithm : IAlgorithm
     {
