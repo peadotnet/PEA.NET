@@ -1,5 +1,4 @@
-﻿using Pea.Core;
-using Pea.Rnd;
+﻿using Pea.Rnd;
 using System;
 using System.Collections.Generic;
 using System.Text;

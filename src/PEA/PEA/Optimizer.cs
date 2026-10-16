@@ -1,5 +1,4 @@
 ﻿using Pea.Configuration;
-using Pea.Core;
 using Pea.Engine;
 using Pea.Evaluation;
 using System;
@@ -24,7 +23,7 @@ namespace Pea
 
         private Optimizer()
         {
-            SetParameter(Core.ParameterNames.PopulationInitTimeout, 60000);
+            SetParameter(Algorithm.ParameterNames.PopulationInitTimeout, 60000);
         }
 
         public static void Reset()

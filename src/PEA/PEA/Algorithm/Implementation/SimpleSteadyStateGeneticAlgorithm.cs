@@ -1,5 +1,5 @@
-﻿using Pea.Core;
-using Pea.Entity;
+﻿using Pea.Entity;
+using Pea.Rnd;
 using Pea.StopCriteria;
 using System;
 

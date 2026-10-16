@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pea;
 using Pea.Chromosome.Implementation.Permutation;
-using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
 using Pea.Fitness.Implementation.MultiObjective;

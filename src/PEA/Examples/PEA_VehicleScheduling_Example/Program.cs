@@ -1,6 +1,5 @@
 ﻿using Pea;
 using Pea.Configuration.Scenarios;
-using Pea.Core;
 using Pea.Entity;
 using System;
 using System.Collections.Generic;
@@ -58,7 +57,6 @@ namespace PEA_VehicleScheduling_Example
 
 
             var result = optimizer.Run(initData).GetAwaiter().GetResult();
-            //var result = AsyncUtil.RunSync(() => system.Start(initData));
 
             foreach (var reason in result.StopReasons)
             {

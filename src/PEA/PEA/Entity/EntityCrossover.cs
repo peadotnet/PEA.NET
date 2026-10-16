@@ -1,5 +1,4 @@
 ﻿using Pea.Chromosome;
-using Pea.Core;
 using Pea.Rnd;
 using System;
 using System.Collections.Generic;

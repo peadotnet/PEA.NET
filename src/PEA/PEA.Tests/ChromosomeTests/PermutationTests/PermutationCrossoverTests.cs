@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Pea.Chromosome.Implementation.Permutation;
-using Pea.Core;
 using Pea.Rnd;
 using Xunit;
 

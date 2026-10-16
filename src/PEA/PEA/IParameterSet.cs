@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pea.Configuration.Implementation;
 
-namespace Pea.Core
+namespace Pea
 {
     public enum ParameterSource
     {

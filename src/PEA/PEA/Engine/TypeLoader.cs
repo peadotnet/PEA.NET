@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Pea.Core
+namespace Pea.Engine
 {
     public static class TypeLoader
     {

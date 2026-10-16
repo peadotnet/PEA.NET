@@ -8,5 +8,7 @@
 
         public const string ReinsertionRate = "ReinsertionRate";
         public const string SubCycleRunCount = "SubCycleRunCount";
+
+        public const string PopulationInitTimeout = "PopulationInitTimeout";
     }
 }

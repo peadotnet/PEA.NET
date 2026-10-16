@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Pea.Core;
 using Pea.Rnd;
 
 namespace Pea.Chromosome.Implementation.SortedSubset

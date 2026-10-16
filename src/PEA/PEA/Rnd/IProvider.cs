@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Rnd
 {
     public interface IProvider<T> : IEnumerable<T>
     {

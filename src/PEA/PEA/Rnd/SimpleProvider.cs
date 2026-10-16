@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Rnd
 {
     public class SimpleProvider<T> : IProvider<T>
     {

@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Pea.Configuration;
-using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
 using Pea.Rnd;
@@ -18,7 +17,7 @@ namespace Pea.Tests.AlgorithmTests
             optimizer.Settings.AddSubProblem("POS", new SlowScenario());
             optimizer.Settings.WithEntityType<TestEntity>().WithEvaluation<TestEvaluation>();
             optimizer.Settings.StopWhen().TimeoutElapsed(20000);                
-            optimizer.SetParameter(ParameterNames.PopulationInitTimeout, 10000);
+            optimizer.SetParameter(Algorithm.ParameterNames.PopulationInitTimeout, 10000);
             optimizer.SetParameter(Engine.ParameterNames.IslandsCount, 1);
 
             var stopWatch = new Stopwatch();

@@ -1,7 +1,6 @@
 ﻿using Pea.Algorithm;
 using Pea.Chromosome;
 using Pea.Configuration.Implementation;
-using Pea.Core;
 using Pea.Entity;
 using Pea.Fitness;
 using Pea.Migration;

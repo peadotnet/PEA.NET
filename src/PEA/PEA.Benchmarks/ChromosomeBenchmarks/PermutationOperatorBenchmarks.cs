@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
+using Pea;
 using Pea.Chromosome;
 using Pea.Chromosome.Implementation.Permutation;
-using Pea.Core;
 using Pea.Rnd;
 using System;
 using System.Collections.Generic;

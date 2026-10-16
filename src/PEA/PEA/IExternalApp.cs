@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Pea.Core
+namespace Pea
 {
     public interface IExternalApp
     { 

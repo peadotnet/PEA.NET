@@ -1,8 +1,8 @@
 ﻿using Pea.Configuration.Implementation;
-using Pea.Core;
 using Pea.Entity;
 using Pea.Fitness;
 using Pea.Population;
+using Pea.Rnd;
 using Pea.StopCriteria;
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace Pea.Algorithm.Implementation
 
             Population = new Population.FlatPopulation(fitnessLength, minNumberOfEntities, maxNumberOfEntities);
 
-            int timeOut = Parameters.GetInt(Core.ParameterNames.PopulationInitTimeout);
+            int timeOut = Parameters.GetInt(ParameterNames.PopulationInitTimeout);
             var cancellationSource = new CancellationTokenSource(timeOut);
             var ct = cancellationSource.Token;
 

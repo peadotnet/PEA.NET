@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Pea.Algorithm;
-using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
 using Pea.Migration;
