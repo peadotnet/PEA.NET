@@ -2,6 +2,7 @@
 using Pea.Entity;
 using Pea.Fitness;
 using Pea.Population;
+using Pea.StopCriteria;
 
 namespace Pea.Algorithm
 {

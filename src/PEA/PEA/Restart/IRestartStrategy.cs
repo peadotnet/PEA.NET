@@ -1,7 +1,7 @@
 ﻿using Pea.Entity;
 using Pea.Population;
 
-namespace Pea.Core
+namespace Pea.Restart
 {
     public interface IRestartStrategy
     {

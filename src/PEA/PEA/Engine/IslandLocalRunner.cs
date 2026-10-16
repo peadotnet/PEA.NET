@@ -2,6 +2,7 @@
 using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
+using Pea.StopCriteria;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;

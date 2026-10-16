@@ -6,6 +6,7 @@ using Pea.Evaluation;
 using Pea.Migration;
 using Pea.Population;
 using Pea.Rnd;
+using Pea.StopCriteria;
 
 namespace Pea.Engine
 {

@@ -1,5 +1,4 @@
-﻿using Pea.Core;
-using Pea.Fitness;
+﻿using Pea.Fitness;
 using Pea.Population;
 
 namespace Pea.StopCriteria.Implementation
