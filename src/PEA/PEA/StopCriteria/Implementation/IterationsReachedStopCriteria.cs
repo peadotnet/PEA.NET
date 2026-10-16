@@ -3,16 +3,16 @@ using Pea.Population;
 
 namespace Pea.StopCriteria.Implementation
 {
-    public class IterationsRechedStopCriteria : IStopCriteria
+    public class IterationsReachedStopCriteria : IStopCriteria
     {
         public int Counter { get; set; }
 
-        public IterationsRechedStopCriteria()
+        public IterationsReachedStopCriteria()
         {
             Counter = 60 * 1000 * 100;
         }
 
-        public IterationsRechedStopCriteria(int counter) 
+        public IterationsReachedStopCriteria(int counter) 
         {
             Counter = counter;
         }
