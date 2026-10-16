@@ -3,7 +3,7 @@ using Pea.Population;
 using Pea.Util.Statistics;
 using System;
 
-namespace Pea.Restart
+namespace Pea.Restart.Implementation
 {
     public class UnchangedMeanRestartStrategy : IRestartStrategy
     {
@@ -40,7 +40,7 @@ namespace Pea.Restart
 
             if (LastVariances != null)
             {
-                if ((iteration - LastChangedIteration) < IterationWindow)
+                if (iteration - LastChangedIteration < IterationWindow)
                 {
                     return false;
                 }

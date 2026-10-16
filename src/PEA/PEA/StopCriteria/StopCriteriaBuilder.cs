@@ -83,7 +83,7 @@ namespace Pea.StopCriteria
 
         public StopCriteriaBuilder IterationsReached(int countdownInitValue)
         {
-            var criteria = new IterationsRechedStopCriteria(countdownInitValue);
+            var criteria = new IterationsReachedStopCriteria(countdownInitValue);
             return When(criteria);
         }
           
