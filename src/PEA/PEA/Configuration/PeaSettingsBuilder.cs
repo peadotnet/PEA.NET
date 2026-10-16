@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Pea.Configuration.Implementation;
-using Pea.Core;
 using Pea.Engine;
 using Pea.Entity;
 using Pea.Evaluation;
+using Pea.Migration;
+using Pea.Restart;
 using Pea.Rnd;
 using Pea.StopCriteria;
 

@@ -2,7 +2,9 @@
 using Pea.Engine;
 using Pea.Entity;
 using Pea.Fitness;
+using Pea.Restart;
 using Pea.Rnd;
+using Pea.StopCriteria;
 using System;
 using System.Collections.Generic;
 

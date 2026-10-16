@@ -3,6 +3,7 @@ using Pea.Core;
 using Pea.Entity;
 using Pea.Fitness;
 using Pea.Population;
+using Pea.StopCriteria;
 using System;
 using System.Collections.Generic;
 using System.Threading;

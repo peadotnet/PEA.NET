@@ -1,5 +1,4 @@
-﻿using Pea.Core;
-using Pea.Fitness;
+﻿using Pea.Fitness;
 using Pea.Population;
 using System.Diagnostics;
 

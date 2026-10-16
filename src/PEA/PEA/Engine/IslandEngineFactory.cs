@@ -4,6 +4,7 @@ using Pea.Configuration.Implementation;
 using Pea.Core;
 using Pea.Entity;
 using Pea.Fitness;
+using Pea.Migration;
 using Pea.Population;
 using Pea.Population.Replacement;
 using Pea.Population.Selection;

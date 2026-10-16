@@ -1,10 +1,7 @@
 ﻿using Pea.Fitness;
 using Pea.Population;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Pea.Core
+namespace Pea.StopCriteria
 {
     public interface IStopCriteria
     {

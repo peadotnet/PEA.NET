@@ -1,5 +1,6 @@
 ﻿using Pea.Core;
 using Pea.Entity;
+using Pea.StopCriteria;
 using System;
 
 namespace Pea.Algorithm.Implementation
