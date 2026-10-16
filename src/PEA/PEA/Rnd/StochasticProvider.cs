@@ -1,10 +1,9 @@
-﻿using Pea.Rnd;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pea.Core
+namespace Pea.Rnd
 {
     public class StochasticProvider<T> : IProvider<T>
     {
@@ -20,7 +19,7 @@ namespace Pea.Core
 
         public T GetOne()
         {
-            if (!_intervals.Any()) return default(T);
+            if (!_intervals.Any()) return default;
 
             var rnd = _random.GetDouble(0, _max);
             foreach (var interval in _intervals)                  //.Keys)

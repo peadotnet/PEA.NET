@@ -1,7 +1,7 @@
-﻿using Pea.Core;
-using Pea.Entity;
+﻿using Pea.Entity;
 using Pea.Fitness;
 using Pea.Population;
+using Pea.Rnd;
 using Pea.StopCriteria;
 
 namespace Pea.Algorithm

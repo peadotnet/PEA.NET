@@ -1,9 +1,7 @@
 ﻿using Pea.Chromosome;
 using Pea.Configuration.Implementation;
-using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
-using System.Collections.Generic;
 
 namespace Pea.Configuration
 {

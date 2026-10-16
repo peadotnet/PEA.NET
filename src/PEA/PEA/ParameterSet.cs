@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace Pea.Core
+namespace Pea
 {
     public class ParameterSet : IParameterSet
     {

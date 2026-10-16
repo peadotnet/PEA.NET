@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Pea.Entity;
+using System.Collections.Generic;
 using System.Globalization;
-using Pea.Core;
-using Pea.Entity;
 
 namespace PEA_TSP_Example
 {

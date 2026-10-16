@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Chromosome.Implementation.Permutation
 { 
     public class PositionValuePair<TP> where TP: IComparable
     {

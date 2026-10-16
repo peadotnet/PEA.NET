@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pea.Configuration.Implementation;
-using Pea.Core;
 using Pea.Entity;
+using Pea.Rnd;
 
 namespace Pea.Algorithm
 {

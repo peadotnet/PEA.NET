@@ -2,7 +2,6 @@
 using Pea.Chromosome;
 using Pea.Chromosome.Implementation.StructVector.FieldLevelOperations;
 using Pea.Configuration.Implementation;
-using Pea.Core;
 using Pea.Rnd;
 using System.Collections.Generic;
 using Xunit;

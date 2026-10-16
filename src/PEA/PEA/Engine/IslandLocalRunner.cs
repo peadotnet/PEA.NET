@@ -1,5 +1,4 @@
 ﻿using Pea.Configuration.Implementation;
-using Pea.Core;
 using Pea.Entity;
 using Pea.Evaluation;
 using Pea.StopCriteria;

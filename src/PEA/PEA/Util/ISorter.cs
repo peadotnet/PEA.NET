@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pea.Core
+namespace Pea.Util
 {
     public interface ISorter<T>
     {

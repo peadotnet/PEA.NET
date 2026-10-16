@@ -1,5 +1,4 @@
-﻿using Pea.Core;
-using Pea.Entity;
+﻿using Pea.Entity;
 
 namespace PEA_VehicleScheduling_Example
 {

@@ -1,6 +1,5 @@
 ﻿using Pea;
 using Pea.Configuration.Scenarios;
-using Pea.Core;
 using Pea.Fitness.Implementation.MultiObjective;
 using Pea.Restart.Implementation;
 using Pea.Rnd;
@@ -58,9 +57,7 @@ namespace PEA_TSP_Example
 
             optimizer.SetParameter(Pea.Engine.ParameterNames.IslandsCount, 1);
 
-
             var result = await optimizer.Run(initData);
-            //var result = AsyncUtil.RunSync(() => system.Start(initData));
 
             return result;
         }

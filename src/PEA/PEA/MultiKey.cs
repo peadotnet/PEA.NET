@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pea.Core
+namespace Pea
 {
     public struct MultiKey : IEquatable<MultiKey>
     {
@@ -10,7 +10,7 @@ namespace Pea.Core
 
         public int Count => Keys.Length;
 
-        public string this[int i] => this.Keys[i];
+        public string this[int i] => Keys[i];
 
         public MultiKey(params string[] keys)
         {
@@ -29,7 +29,7 @@ namespace Pea.Core
 
         public bool Equals(MultiKey other)
         {
-            if (other.Count != this.Count) return false;
+            if (other.Count != Count) return false;
 
             for (int i = 0; i < Keys.Length; i++)
             {
