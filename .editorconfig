@@ -1,0 +1,12 @@
+root = true
+
+# Code-style fixers that kept rewriting unrelated lines during refactorings.
+# Indentation, line endings and charset are deliberately not set yet: the code base mixes them
+# and enforcing them now would reformat whole files. The full analyzer setup comes with 2.0.
+[*.cs]
+dotnet_diagnostic.IDE0003.severity = none
+dotnet_diagnostic.IDE0009.severity = none
+dotnet_diagnostic.IDE0004.severity = none
+dotnet_diagnostic.IDE0034.severity = none
+dotnet_diagnostic.IDE0047.severity = none
+dotnet_diagnostic.IDE0048.severity = none
