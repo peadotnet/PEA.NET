@@ -5,7 +5,7 @@
 .DESCRIPTION
     Runs the same checks as CI plus the repository conventions:
       1. Clean Release build of src/PEA/PEA.sln
-      2. Unit tests (PEA.Tests)
+      2. Unit tests (PEA.Tests) in Release, and in Debug so that Debug.Assert checks run too
       3. PEA.ObserverApp build (outside the solution, Windows only)
       4. TSP reference run (bit-identical best distance and entity count)
       5. Folder == namespace for every file of the PEA library
@@ -66,11 +66,14 @@ function Test-Build {
     return $false
 }
 
-function Test-UnitTests {
-    $run = Invoke-Native 'dotnet' @('test', $testProject, '-c', 'Release', '--no-build', '-nologo')
-    $summary = ($run.Output | Where-Object { $_ -match '(Passed|Failed)!' } | Select-Object -Last 1)
-    if ($run.ExitCode -eq 0) { Add-Result 'Unit tests' 'PASS' "$summary".Trim() }
-    else { Add-Result 'Unit tests' 'FAIL' "$summary".Trim() }
+function Test-UnitTests([string] $configuration) {
+    $arguments = @('test', $testProject, '-c', $configuration, '-nologo')
+    if ($configuration -eq 'Release') { $arguments += '--no-build' }
+    $run = Invoke-Native 'dotnet' $arguments
+    $summary = "$($run.Output | Where-Object { $_ -match '(Passed|Failed)!' } | Select-Object -Last 1)".Trim()
+    if (-not $summary) { $summary = Get-ErrorSummary $run.Output }
+    $status = if ($run.ExitCode -eq 0) { 'PASS' } else { 'FAIL' }
+    Add-Result "Unit tests ($configuration)" $status $summary
 }
 
 function Test-ObserverApp {
@@ -157,9 +160,10 @@ Write-Host "PEA.NET verification (base: $Base$(if ($MoveOnly) { ', move-only' })
 if (-not $Quick) {
     $built = Test-Build
     if ($built) {
-        Test-UnitTests
+        Test-UnitTests 'Release'
         if (-not $SkipTsp) { Test-TspReference } else { Add-Result 'TSP reference run' 'SKIP' '-SkipTsp' }
     }
+    Test-UnitTests 'Debug'
     Test-ObserverApp
 }
 Test-FolderNamespace

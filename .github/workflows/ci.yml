@@ -38,6 +38,12 @@ jobs:
           --logger "trx;LogFileName=test-results.trx"
           --results-directory test-results
 
+      - name: Test (Debug, runs the Debug.Assert checks)
+        run: >
+          dotnet test src/PEA/PEA.Tests/PEA.Tests.csproj -c Debug
+          --logger "trx;LogFileName=test-results-debug.trx"
+          --results-directory test-results
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
